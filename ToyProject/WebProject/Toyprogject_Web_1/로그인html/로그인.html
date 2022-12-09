@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <title>로그인 / 회원가입</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+       <div class="divider-custom divider-light">
+        <div class="divider-custom-line"></div>
+        <div class="divider-custom-icon">
+          <i class="fas fa-star"></i>
+        </div>
+        <div class="divider-custom-line"></div>
+      </div>
+
+    
+      <p class="masthead-subheading font-weight-light mb-0"></p>
+      
+      <div class="text-center mt-4">
+        <a class="btn btn-xl btn-outline-light" link rel="import" href="../index.html">
+          <i class="fas fa-download mr-2"></i>       
+		 ←뒤로가기
+		 
+		 
+        </a>
+      </div>
+    </div>  
+		<div class="wrap">
+            <div class="form-wrap">
+                <div class="button-wrap">
+                    <div id="btn"></div>
+                    <button type="button" class="togglebtn" onclick="login()">로그인</button>
+                    <button type="button" class="togglebtn" onclick="register()">회원가입</button>
+                </div>
+                <div class="social-icons">
+                    <img src="img/fb.png" alt="facebook">
+                    <img src="img/tw.png" alt="twitter">
+                    <img src="img/gl.png" alt="google">
+                </div>
+                <form id="login" action="" class="input-group">
+                    <input type="text" class="input-field" placeholder="사용자이름 또는 이메일 입력" required>
+                    <input type="password" class="input-field" placeholder="비밀번호 입력" required>
+                    <input type="checkbox" class="checkbox"><span>비밀번호 저장</span>
+                    <button class="submit">로그인</button>
+                </form>
+                <form id="register" action="" class="input-group">
+                    <input type="text" class="input-field" placeholder="사용자이름 또는 이메일 입력" required>
+                    <input type="email" class="input-field" placeholder="이메일 입력" required>
+                    <input type="password" class="input-field" placeholder="비밀번호 입력" required>
+                    <input type="checkbox" class="checkbox"><span>이용약관 확인여부</span>
+                    <button class="submit">가입하기</button>
+                </form>
+            </div>
+        </div>
+        <script>
+            var x = document.getElementById("login");
+            var y = document.getElementById("register");
+            var z = document.getElementById("btn");
+            
+            
+            function login(){
+                x.style.left = "50px";
+                y.style.left = "450px";
+                z.style.left = "0";
+            }
+
+            function register(){
+                x.style.left = "-400px";
+                y.style.left = "50px";
+                z.style.left = "110px";
+            }
+        </script>
+    </body>
+</html>
