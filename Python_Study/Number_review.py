@@ -38,3 +38,18 @@ print(format_a)
 print(format_b)
 print(format_c)
 
+#정수를 특정 칸에 출력하기
+
+output_a= "{:d}".format(52)
+
+#특정 칸에 출력하기
+
+output_b="{:5d}".format(52) #5칸
+
+#빈칸을 0으로 채우기
+
+output_c="{:05d}".format(52)
+
+print(output_a)
+print(output_b)
+print(output_c) #이해한 부분 괄호안의 숫자 포함 :d앞의 숫자 칸 0을 쓸 경우 빈칸을 0으로 채워 구분 편함!
