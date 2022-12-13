@@ -53,3 +53,30 @@ output_c="{:05d}".format(52)
 print(output_a)
 print(output_b)
 print(output_c) #이해한 부분 괄호안의 숫자 포함 :d앞의 숫자 칸 0을 쓸 경우 빈칸을 0으로 채워 구분 편함!
+
+#float 자료형 기본
+
+float_output_a="{:f}".format(52.273)
+float_output_b="{:15f}".format(52.273)
+
+print(float_output_a)
+print(float_output_b)
+
+#대소문자 바꾸기
+
+upper_a ="hello"
+print(upper_a.upper()) #같은 방식으로 lower은 소문자!
+
+#공백제거
+strip_a="""
+    안녕하세요
+문자열의 함수를 알아봅시다
+"""
+print(strip_a)
+print()
+print(strip_a.strip()) # rstrip,lstrip도 존재한다
+
+# 문자열 구성확인
+
+print("TrainA10".isalnum())
+
