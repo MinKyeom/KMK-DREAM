@@ -56,6 +56,28 @@ if last_number ==0 \
 else:
     print("홀수 입니다.") # 원래는 or로 마지막 자리 숫자를 1 3 5 7 9로 써야한다!
 
+# if만 써서 하는 경우는 비효율적이라 만약 흑백처럼 두 가지로 구분되면 if or else
+# 조건이 다양하면 elif를 쓴다
+
+#계절 구하기
+
+import datetime
+
+now=datetime.datetime.now()
+month=now.month
+
+if 3<=month<=5:
+    print("현재는 봄 입니다.")
+
+elif 6<=month<=8:
+    print("현재는 여름 입니다.")
+
+elif 9<=month<=11:
+    print("현재는 가을 입니다.")
+
+else:
+    print("겨울 입니다.") #해당 조건이 없다면 그냥 코드는 진행된다 오류는 안나온다 참고!
+
 
 
 
