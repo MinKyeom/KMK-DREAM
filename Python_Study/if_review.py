@@ -32,29 +32,29 @@ print(now.year,"년")
 print("{}년 {}월 {}일 {}시 {}분 {}초".format(now.year, now.month,now.day,now.hour,now.minute,now.second))
 
 # 끝자리로 짝수 홀수 구분
-number =input("정수 입력>")
+# number =input("정수 입력>")
 
 # 마지막 자리 숫자를 추출
 
-last_character =number[-1]
+# last_character =number[-1]
 
 # 숫자로 변환하기
 
-last_number=int(last_character)
+# last_number=int(last_character)
 
 # 짝수 확인
 
-if last_number ==0 \
-    or last_number==2\
-    or last_number==4\
-    or last_number==6\
-    or last_number==8:
-    print("짝수 입니다.")
+# if last_number ==0 \
+#    or last_number==2\
+#    or last_number==4\
+#    or last_number==6\
+#    or last_number==8:
+#    print("짝수 입니다.")
 
 # 홀수 확인
 # 파이썬에서 줄이 너무 길어질 때는 \기호를 입력하고 줄바꿈해서 코드를 입력한다!
-else:
-    print("홀수 입니다.") # 원래는 or로 마지막 자리 숫자를 1 3 5 7 9로 써야한다!
+#else:
+#    print("홀수 입니다.") # 원래는 or로 마지막 자리 숫자를 1 3 5 7 9로 써야한다!
 
 # if만 써서 하는 경우는 비효율적이라 만약 흑백처럼 두 가지로 구분되면 if or else
 # 조건이 다양하면 elif를 쓴다
@@ -97,8 +97,26 @@ if"":
 else:
     print("빈 문자열은 False로 변환됩니다.")
 
+# pass 키워드를 사용한 미구현 부분 입력
 
+# number = input("정수 입력>")
+# number =int(number)
 
+# if number> 0:
+#    pass # 아직 미구현 상태의미!
+# else:
+#    pass
+
+ # raise NotlmplementError
+    #number2 = input("정수 입력>")
+    #number2 = int(number2)
+
+    #if number2> 0:
+        #raise NotImplementedError # 미구현 상태이나 입력시 오류 출력
+    #else:
+        #raise NotImplementedError
+ 
+ 
 
 
 
