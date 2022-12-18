@@ -9,4 +9,8 @@ print(list_a[0])
 
 print(list_a[3][0])
 
+#리스트 연산자 연결 반복 len
 
+list_1=[1,2,3]
+
+list_2=[]
