@@ -14,5 +14,8 @@ print(list_a[3][0])
 list_1=[1,2,3]
 
 list_2=[4,5,6]
+
+print("#리스트 ")
+print("list_a=",list_a)
 #
 
