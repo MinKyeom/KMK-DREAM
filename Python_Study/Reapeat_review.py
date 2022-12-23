@@ -18,5 +18,8 @@ list_2=[4,5,6]
 print("#리스트 ")
 print("list_1=",list_1)
 print("list_2=",list_2)
-#
 
+print()
+
+#기본 연산자
+print("#리스트 기본 연산자")
