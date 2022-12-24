@@ -23,3 +23,4 @@ print()
 
 #기본 연산자
 print("#리스트 기본 연산자")
+print("list")
