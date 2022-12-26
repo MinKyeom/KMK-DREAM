@@ -23,4 +23,5 @@ print()
 
 #기본 연산자
 print("#리스트 기본 연산자")
-print("list_1 + lost_2=",list_1,list_2)
+print("list_1 + lost_2=",list_1+list_2)
+print("list_1*3=",list_1*3)
