@@ -25,3 +25,10 @@ print()
 print("#리스트 기본 연산자")
 print("list_1 + lost_2=",list_1+list_2)
 print("list_1*3=",list_1*3)
+
+print()
+
+#함수
+
+print("#길이 구하기")
+print("len(list_1)=",len(list_1))
