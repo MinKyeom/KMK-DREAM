@@ -32,3 +32,9 @@ print()
 
 print("#길이 구하기")
 print("len(list_1)=",len(list_1))
+
+#리스트에 요소 추가하기
+
+list_3=[1,2,3]
+
+print("리스트 뒤에 요소 추가하기")
