@@ -38,3 +38,7 @@ print("len(list_1)=",len(list_1))
 list_3=[1,2,3]
 
 print("리스트 뒤에 요소 추가하기")
+list_3.append(4)
+list_3.append(5)
+
+print(list_3)
