@@ -42,3 +42,9 @@ list_3.append(4)
 list_3.append(5)
 
 print(list_3)
+print()
+
+# 리스트 중간에 요소 추가하기
+print("# 리스트 중간에 요소 추가하기")
+list_3.insert(0,10)
+print(list_3)
