@@ -48,3 +48,9 @@ print()
 print("# 리스트 중간에 요소 추가하기")
 list_3.insert(0,10)
 print(list_3)
+
+# 한번에  여러 개를 추가
+list_4=[1,2,3]
+print(list_4)
+list_4.extend([4,5,6])
+print(list_4)
