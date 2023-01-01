@@ -54,3 +54,4 @@ list_4=[1,2,3]
 print(list_4)
 list_4.extend([4,5,6])
 print(list_4)
+print(list_1+list_2)
