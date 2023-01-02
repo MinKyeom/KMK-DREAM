@@ -55,3 +55,10 @@ print(list_4)
 list_4.extend([4,5,6])
 print(list_4)
 print(list_1+list_2)
+
+#extend 활용
+list_5=[1,2,3]
+list_6=[4,5,6]
+print(list_5)
+list_5.extend(list_6) # print(list_5.extend(list_6)은 참고로 인식을 못했다.
+print(list_5)
