@@ -62,3 +62,13 @@ list_6=[4,5,6]
 print(list_5)
 list_5.extend(list_6) # print(list_5.extend(list_6)은 참고로 인식을 못했다.
 print(list_5)
+
+#인데스로 제거하기:del,pop
+
+#리스트 연결 연산자와 요소 추가의 차이
+list_7=[0,1,2,3,4,5]
+print("# 리스트의 요소 하나 제거하기")
+print(list_7)
+# 제거 방법[1]
+del list_7[1]
+print(list_7)
