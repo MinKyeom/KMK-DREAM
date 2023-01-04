@@ -71,4 +71,8 @@ print("# 리스트의 요소 하나 제거하기")
 print(list_7)
 # 제거 방법[1]
 del list_7[1]
-print(list_7)
+print("del list_7[1]",list_7)
+
+#제거 방법[2]
+list_7.pop(2)
+print("pop(2)",list_7)
