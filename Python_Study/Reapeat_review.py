@@ -82,3 +82,9 @@ list_8=[0,1,2,3,4,5,6,7,8,9]
 del list_8[3:6]
 print(list_8)
 
+#범위 한쪽을 지우기
+list_9=[1,2,3,4,5,6,7,8,9]
+print("지우기전 ",list_9)
+del list_9[:3]
+print("지운 후",list_9)
+
