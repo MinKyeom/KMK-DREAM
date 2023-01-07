@@ -88,3 +88,7 @@ print("지우기전 ",list_9)
 del list_9[:3]
 print("지운 후",list_9)
 
+list_10=[1,2,3,4,5,6,7,8,9]
+print("지우기 전")
+del list_10[3:]
+print("지운 후",list_10)
