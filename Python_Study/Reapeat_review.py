@@ -98,3 +98,10 @@ list_11=[0,1,2,3,4,5,6,7,8,9]
 print("지우기 전",list_11)
 list_11.remove(2)
 print("지운 후 ",list_11)
+
+#모두 제거하기
+list_12=[1,2,3,4,5,6,7]
+print("지우기 전",list_12)
+list_12.clear()
+print("지운 후 ",list_12)
+
