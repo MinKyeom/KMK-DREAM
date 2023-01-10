@@ -105,3 +105,8 @@ print("지우기 전",list_12)
 list_12.clear()
 print("지운 후 ",list_12)
 
+# 리스트 내부에 있는지 확인하기
+
+list_13=[1,2,3,4,5,6,7]
+print(2 in list_13)
+print(11 in list_13)
