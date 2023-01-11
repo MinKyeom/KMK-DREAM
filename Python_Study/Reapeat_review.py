@@ -110,3 +110,5 @@ print("지운 후 ",list_12)
 list_13=[1,2,3,4,5,6,7]
 print(2 in list_13)
 print(11 in list_13)
+
+print(2 not in list_13)
