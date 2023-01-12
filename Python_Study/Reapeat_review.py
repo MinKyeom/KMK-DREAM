@@ -112,3 +112,5 @@ print(2 in list_13)
 print(11 in list_13)
 
 print(2 not in list_13)
+
+
