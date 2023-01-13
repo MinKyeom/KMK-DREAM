@@ -21,3 +21,8 @@ print()
 #값 변경하기
 dictionary["name"]="8D 망고"
 print("name",dictionary["name"])
+
+#값 추가하기
+dictionary["price"]=5000
+print(dictionary)
+
