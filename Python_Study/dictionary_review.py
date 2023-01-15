@@ -26,3 +26,9 @@ print("name",dictionary["name"])
 dictionary["price"]=5000
 print(dictionary)
 
+#값 제거하기
+
+del dictionary["ingredient"]
+
+print(dictionary)
+
