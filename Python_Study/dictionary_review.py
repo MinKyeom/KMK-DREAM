@@ -32,3 +32,12 @@ del dictionary["ingredient"]
 
 print(dictionary)
 
+#딕션너리에 요소 추가하기
+dictionary_1={}
+#요소 추가하기 전
+print("요소 추가하기 전:",dictionary_1)
+#요소 추가하기
+dictionary_1["name"]="새로운 이름"
+
+#출력하기
+print("요소 추가 이후 ",dictionary_1)
