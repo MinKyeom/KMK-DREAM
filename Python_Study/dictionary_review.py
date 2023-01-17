@@ -39,5 +39,13 @@ print("요소 추가하기 전:",dictionary_1)
 #요소 추가하기
 dictionary_1["name"]="새로운 이름"
 
-#출력하기
-print("요소 추가 이후 ",dictionary_1)
+print("요소 추가 이후:",dictionary_1)
+
+#딕션너리 요소 제거하기
+
+dictionary_2={"name":"7D 망고","type":"당절임"}
+print("요소 제거이전",dictionary_2)
+
+del dictionary_2["name"]
+
+print("제거 이후:",dictionary_2)
