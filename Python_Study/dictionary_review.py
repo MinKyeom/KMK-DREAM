@@ -49,3 +49,12 @@ print("요소 제거이전",dictionary_2)
 del dictionary_2["name"]
 
 print("제거 이후:",dictionary_2)
+
+dictionary_3={"name":["melon","lemon"],"type":"fruit"}
+
+key=input("원하는 키 값:")
+
+if key in dictionary_3:
+        print(dictionary_3[key])
+else:
+        print("존재x")
