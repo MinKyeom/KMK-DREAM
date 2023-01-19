@@ -50,11 +50,23 @@ del dictionary_2["name"]
 
 print("제거 이후:",dictionary_2)
 
-dictionary_3={"name":["melon","lemon"],"type":"fruit"}
+#dictionary_3={"name":["melon","lemon"],"type":"fruit"}
 
-key=input("원하는 키 값:")
+#key=input("원하는 키 값:")
 
-if key in dictionary_3:
-        print(dictionary_3[key])
-else:
-        print("존재x")
+#if key in dictionary_3:
+#        print(dictionary_3[key])
+#else:
+#        print("존재x")
+
+# get 함수
+
+dictionary_4={
+        "name":"7D 건조 망고","type":"당절임",
+        "ingredient": ["망고","설탕"]
+}
+
+value =dictionary_4.get("존재하지 않는 키")
+print("값",value)
+if value ==None:
+        print("존재하지 않는 키에 접근하였습니다.")
