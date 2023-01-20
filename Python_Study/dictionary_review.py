@@ -70,3 +70,12 @@ value =dictionary_4.get("존재하지 않는 키")
 print("값",value)
 if value ==None:
         print("존재하지 않는 키에 접근하였습니다.")
+
+#for 반복문 +딕션너리
+dictionary_5={
+        "name":"7D 망고",
+        "type" :"당절임",
+        "ingredient" :["망고","설탕"]
+}
+for key in dictionary_5:
+        print(key,":",dictionary_5[key])
