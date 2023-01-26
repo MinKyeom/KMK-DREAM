@@ -23,3 +23,10 @@ print()
 
 for i in range(5,10):
     print(str(i)+"=반복 변수")
+
+#array와 함께
+
+array=[273,32,103,57,52]
+
+for d in array:
+    print(d)
