@@ -30,3 +30,14 @@ array=[273,32,103,57,52]
 
 for d in array:
     print(d)
+
+
+#반대로 반복하기
+
+for i in range(4,0 - 1,-1):
+    print("현재 반복 변수: {}".format(i))
+
+#반대로 반복하기2
+
+for j in reversed(range(5)):
+    print("현재 반복 변수2: {}".format(j))
