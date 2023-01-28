@@ -41,3 +41,12 @@ for i in range(4,0 - 1,-1):
 
 for j in reversed(range(5)):
     print("현재 반복 변수2: {}".format(j))
+
+#while 반복문
+i=0
+while i<10:
+    print("{}번째 반복 입니다!.".format(i))
+    i+=1
+
+
+
