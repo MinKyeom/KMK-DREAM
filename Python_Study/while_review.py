@@ -48,5 +48,12 @@ while i<10:
     print("{}번째 반복 입니다!.".format(i))
     i+=1
 
+#while을 활용하여 해당하는 값 제거
+list_test=[1,2,1,2]
+print("지우기 전",list_test)
+value=2
+while value in list_test:
+    list_test.remove(value)
 
+print("지운 이후",list_test)
 
