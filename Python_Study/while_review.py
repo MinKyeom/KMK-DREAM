@@ -57,3 +57,12 @@ while value in list_test:
 
 print("지운 이후",list_test)
 
+#while 시간
+
+import time
+print(time.time())
+number = 0
+
+
+
+
