@@ -61,8 +61,17 @@ print("지운 이후",list_test)
 
 import time
 print(time.time())
-number = 0
 
+#while break/continue
+i=0
+#True true 대소문자 구분잘해주기 소문자로 했을때 오류났음
+while True:
+    print("{}번째 반복문입니다.".format(i))
+    i=i+1
+    input_text= input(">종료하시겠습니까?(y):")
+    if input_text in ["y","Y"]:
+        print("종료")
+        break
 
 
 
