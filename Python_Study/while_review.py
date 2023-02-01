@@ -59,19 +59,27 @@ print("지운 이후",list_test)
 
 #while 시간
 
-import time
-print(time.time())
+#import time
+#print(time.time())
 
 #while break/continue
-i=0
+#i=0
 #True true 대소문자 구분잘해주기 소문자로 했을때 오류났음
-while True:
-    print("{}번째 반복문입니다.".format(i))
-    i=i+1
-    input_text= input(">종료하시겠습니까?(y):")
-    if input_text in ["y","Y"]:
-        print("종료")
-        break
+#while True:
+#    print("{}번째 반복문입니다.".format(i))
+#    i=i+1
+#    input_text= input(">종료하시겠습니까?(y):")
+#    if input_text in ["y","Y"]:
+#        print("종료")
+#        break
 
+#continue
+
+d=[5,10,15,20,25]
+
+for c in d:
+    if c < 10:
+     continue
+    print(c) #어떤 문법에 해당되는지에 따라 줄 위치 잘확인하기
 
 
