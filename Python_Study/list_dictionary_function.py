@@ -34,3 +34,17 @@ print("반복문 추가")
 for i,value in enumerate(a):
     print("{}번째 요소는 {} 입니다".format(i,value))
 
+#dictionary items() 반복문 조합
+
+dictionary={
+    "key1":"a",
+    "key2":"b",
+    "key3":"c"
+}
+
+print(dictionary.items())
+
+for key,element in dictionary.items():
+    print("dictionary[{}]={}".format(key,element))
+
+
