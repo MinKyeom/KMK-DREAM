@@ -47,4 +47,17 @@ print(dictionary.items())
 for key,element in dictionary.items():
     print("dictionary[{}]={}".format(key,element))
 
+#list 내포
+array=[]
+for e in range(0,20,2):
+    array.append(e*e)
+print(array)#for문에 안걸리게 하는거 주의하기!
+
+array_2=[f*f for f in range(0,20,2)]
+
+print(array_2)
+
+array_3=["사과","자두","초콜릿","바나나","체리"]
+output=[fruit for fruit in array_3 if fruit !="초콜릿"]
+print(output)
 
