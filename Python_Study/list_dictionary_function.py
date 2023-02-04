@@ -61,3 +61,23 @@ array_3=["사과","자두","초콜릿","바나나","체리"]
 output=[fruit for fruit in array_3 if fruit !="초콜릿"]
 print(output)
 
+
+#괄호로 문자열 연결하기
+
+test=(
+    "이렇게 입력해도 "
+    "하나의 문자열로 연결되어"
+    "생성 됩니다."
+)
+
+#출력합니다.
+print("test: ",test)
+
+# 쉼표로 연결하기
+
+test_2=(
+    "이렇게 입력하면",
+    "하나의 문자열로 연결되지",
+    "않습니다."
+)
+print("test_2:",test_2)
