@@ -81,3 +81,13 @@ test_2=(
     "않습니다."
 )
 print("test_2:",test_2)
+
+#여러 줄 문자열과 if 구문을 조합 했을 때의 문제해결
+
+n= int(input("정수 입력:"))
+
+if n%2 ==0:
+    print(("{}은(는) 짝수 입니다").format(n))
+
+else:
+    print(("{}은 짝수가 아닙니다.").format(n))
