@@ -84,10 +84,41 @@ print("test_2:",test_2)
 
 #여러 줄 문자열과 if 구문을 조합 했을 때의 문제해결
 
-n= int(input("정수 입력:"))
+#n= int(input("정수 입력:"))
 
-if n%2 ==0:
-    print(("{}은(는) 짝수 입니다").format(n))
+#if n%2 ==0:
+#    print(("{}은(는) 짝수 입니다").format(n))
 
-else:
-    print(("{}은 짝수가 아닙니다.").format(n))
+#else:
+#    print(("{}은 짝수가 아닙니다.").format(n))
+
+
+# 문자열의 join() 함수
+
+print("::".join(["1","2","3","4","5","6"])) # 문자열이라는 사실!!
+
+#여러 줄 문자열과 if 구문을 조합했을 떄의 문제 해결
+#n_2=int(input("정수 입력:"))
+#if n_2%2 ==0:
+#    print("\n".join([
+#        "입력한 문자열은 {} 입니다.",
+#        "{}는(은) 짝수입니다."
+#    ]).format(n_2,n_2))
+#else:
+#    print("\n".join([
+#        "입력한 문자열은 {}입니다.",
+#        "{}는(은) 홀수 입니다."
+#    ]).format(n_2,n_2))
+
+#reversed() 함수와 이터레이터
+
+n_3=[1,2,3,4,5,6]
+r_n=reversed(n_3)
+print(r_n)
+print(next(r_n))
+print(next(r_n))
+print(next(r_n))
+print(next(r_n))
+print(next(r_n))
+
+
