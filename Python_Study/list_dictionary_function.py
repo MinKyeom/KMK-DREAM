@@ -121,4 +121,24 @@ print(next(r_n))
 print(next(r_n))
 print(next(r_n))
 
+#가변 매개변수 함수
+def print_s_times(n,*values):
+    for i in range(n):
+        for value in values:
+            print(value)
+        print()
+
+print_s_times(3,"안녕하세요","즐거운","파이썬")
+
+# 기본 매개변수
+
+def print_r_times(value,n=2):
+    for i in range(n):
+        print(value)
+print_r_times("안녕하세요")
+
+#print_s_times(3,"안녕하세요","즐거운","파이썬") # 함수를 한 번 작성해놓으면 리턴 값은 언제든 다시 불러오는거 가능
+
+
+
 
