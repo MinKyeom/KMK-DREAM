@@ -23,6 +23,8 @@ def print_s_times(n,*values):
 
 print_s_times(3,"안녕하세요","즐거운","파이썬")
 
+
+
 # 기본 매개변수
 
 def print_r_times(value,n=2):
@@ -94,3 +96,15 @@ print(sum_all(0,10))
 
 
 #기본 매개변수와 키워드 매개변수를 활용해 범위의 정수를 더하는 함수
+
+def sum_all2(s=0,e=100,step=1):
+    output=0
+    for i in range(s,e+1,step):
+        output+=i
+    return output
+
+
+print(sum_all2(0,100,10))
+print(sum_all2(e=100))
+print(sum_all2(e=100,step=2))
+
