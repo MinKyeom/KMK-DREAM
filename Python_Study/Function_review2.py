@@ -21,3 +21,21 @@ def factorial_1(n):
 
 print(factorial_1(1))
 print(factorial_1(2))
+print()
+print()
+
+#재귀 함수로 구현한 피보나치 수열
+
+def fibonacci(n):
+
+    if n==1:
+        return 1
+    if n==2:
+        return 2
+
+    else:
+        return fibonacci(n-1) +fibonacci(n-2)
+
+print(fibonacci(1))
+print(fibonacci(2))
+print(fibonacci(3))
