@@ -39,3 +39,29 @@ def fibonacci(n):
 print(fibonacci(1))
 print(fibonacci(2))
 print(fibonacci(3))
+
+print()
+print()
+
+#재귀 함수로 구현한 피보나치 수열(2)
+
+a=0
+
+def fibo(n):
+    print("fibo{}".format(n))
+    global a
+    a +=1
+
+    if n==1:
+        return 1
+
+    if n==2:
+        return 1
+
+    else:
+        return fibo(n-1)+fibo(n-2)
+fibo(10)
+
+print("---")
+print("덧셈 횟수는{}".format(a))
+
