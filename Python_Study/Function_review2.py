@@ -65,3 +65,20 @@ fibo(10)
 print("---")
 print("덧셈 횟수는{}".format(a))
 
+
+#메모화
+
+dic={
+    1:1,
+    2:1
+}
+
+def fibo_2(n):
+    if n in dic:
+        return dic[n]
+    else:
+        output=fibo(n-1)+fibo(n-2)
+        dic[n]=output
+        return output
+print(fibo(10))
+
