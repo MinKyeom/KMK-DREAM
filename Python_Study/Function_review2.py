@@ -47,20 +47,20 @@ print()
 
 a=0
 
-def fibo(n):
-    print("fibo{}".format(n))
-    global a
-    a +=1
+#def fibo(n):
+#    print("fibo{}".format(n))
+#    global a
+#    a +=1
+#
+#    if n==1:
+#        return 1
 
-    if n==1:
-        return 1
+#    if n==2:
+#        return 1
 
-    if n==2:
-        return 1
-
-    else:
-        return fibo(n-1)+fibo(n-2)
-fibo(10)
+#    else:
+#        return fibo(n-1)+fibo(n-2)
+#fibo(10)
 
 print("---")
 print("덧셈 횟수는{}".format(a))
@@ -72,13 +72,32 @@ dic={
     1:1,
     2:1
 }
-
 def fibo_2(n):
     if n in dic:
         return dic[n]
     else:
-        output=fibo(n-1)+fibo(n-2)
+        output=fibo_2(n-1)+fibo_2(n-2)
         dic[n]=output
-        return output
-print(fibo(10))
+
+        return dic[n]
+print(fibo_2(3))
+
+#조기리턴
+dic_2={
+    1:1,
+    2:2
+}
+def fibo_3(n):
+    if n in dic_2:
+        return dic_2[n]
+
+    output=fibo_3(n-1)+fibo_3(n-2)
+    dic_2[n]=output
+    return dic_2[n],output
+
+print()
+print()
+print(fibo_3(1))
+
+
 
