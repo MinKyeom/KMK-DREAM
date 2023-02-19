@@ -17,3 +17,21 @@ print(d)
 tuple_test2=10,20,30,40
 print(tuple_test2)
 print(type(tuple_test2))
+print()
+print()
+#변수의 값을 교환하는 튜플
+
+e,f=10,20
+
+print("e:",e)
+print("f:",f)
+
+print("교환 후")
+
+e,f=f,e
+
+print("e:",e)
+print("f:",f)
+
+
+
