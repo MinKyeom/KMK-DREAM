@@ -52,4 +52,21 @@ def print_hello():
 
 call_10_times(print_hello)
 
+#map() filter()
 
+def power(item):
+    return item*item
+def under_3(item):
+    return item<3
+
+list_a=[1,2,3,4,5]
+
+output_a=map(power,list_a)
+print()
+print(output_a)
+print(list(output_a))
+print()
+
+output_b=filter(under_3,list_a)
+print(output_b)
+print(list(output_b))
