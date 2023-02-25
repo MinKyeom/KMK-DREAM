@@ -199,10 +199,36 @@ def sum_all(start,end):
     return output
 print(sum_all(0,10))
 
-
 #기본 매개변수와 키워드 매개변수를 활용해 범위의 정수를 더하는 함수
 
 
+#list의 sort(),sorted()로 정렬하기
+
+list_sort_review=[4,2,3,5,1]
+print("sort를 하기 전 ",list_sort_review)
+print("sort를 한 후 ",sorted(list_sort_review))
+print(list_sort_review)#리스트 자체는 불변
+list_sort_review.sort()
+print("sorted가 아닌 sort 실행",list_sort_review)
+
+#reverse정렬
+list_reverse_review=[1,10,5,7,6]
+print("reverse 실행 전",list_reverse_review)
+list_reverse_review.reverse()
+print("reverse 실행 후",list_reverse_review)
+
+#reversed 활용
+list_reversed=[1,2,3,4,5]
+print("list를 새롭게 씌우기전 ",reversed(list_reversed))
+print("list를 새롭게 씌우고 난 후 ",list(reversed(list_reversed)))
+"""
+list_think=[5,1,3,2,4]
+print(sorted(list_think))
+list_think.sort()
+print(list_think)
+list_think.reverse()
+print(list_think)
+"""
 
 
 

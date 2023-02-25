@@ -1,9 +1,14 @@
-#baekjun 11000번
+# baekjun 11000번
 
-"""의문 담고 있는포인트
+"""
+의문 담고 있는포인트
 
 1. 의문포인트 n과 Si,Ti범위는 고려하지 않아도 되는가? 여부
-2. 수업 진행 시간에 대한 고려 포인트 """
+2. 수업 진행 시간에 대한 고려 포인트
+"""
+
+
+"""
 
 import heapq
 n=int(input())
@@ -24,5 +29,7 @@ for i in range(1,n):
         heapq.headppush(lecture_queue,lecture_list[i][1])
 
 print(len(lecture_queue))
+
+"""
 
 
