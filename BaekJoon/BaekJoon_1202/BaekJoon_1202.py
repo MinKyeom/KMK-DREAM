@@ -33,7 +33,7 @@ for z in range(K):
 
 """
  풀이1
- import sys
+import sys
 import heapq
 
 N, K = map(int, sys.stdin.readline().split())

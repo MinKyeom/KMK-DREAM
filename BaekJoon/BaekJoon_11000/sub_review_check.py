@@ -18,6 +18,8 @@ for i in range(1, n):
     else:
         heapq.heappop(heap)
         heapq.heappush(heap, arr[i][1])
-print(len(heap))"""
+print(len(heap))
+
+"""
 
 
