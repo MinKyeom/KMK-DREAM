@@ -43,7 +43,13 @@ b=["사과","딸기","메론"]
 
 for x in zip(a,b):
     print(x)
-    
+ 
+for x,y in zip(a,b):
+    print("x:",x)
+    print("y:",y)
+    print("x,y:",x,y)
+# x는 a를 받고 y는 b를 받는다!     
+   
 print()
 
 # 비슷한 표현
@@ -52,4 +58,16 @@ for y in range(3):
     new=(a[y],b[y])
     print(new) #양측의 데이터를 하나씩 짝지어준다
       
+"""
+
+# max ,max의 이해
+"""
+a=max(1,2)
+
+print("max(1,2)의 값인 a:",a)
+
+b=min(1,2)
+
+print("min(1,2)의 값인 b:",b)
+
 """

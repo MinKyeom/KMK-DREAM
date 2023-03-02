@@ -26,17 +26,18 @@ for e in list(combinations(no_virus,3)):
     for f in no_virus:
         for g in range(3):
             spot[no_virus[g][0]][no_virus[g][1]]=1  # 수 많은 0인 빈 칸들중 세 개를 뽑아 벽으로 만듬
-            for h in range(N):
-                for i in range(M):
-                    if spot[h][i]==0:
-                        if h - 1 >= 0 and spot[h - 1][c] == 2:
+        for h in range(N):
+            for i in range(M):
+                if spot[h][i]==0:
+                    if h - 1 >= 0 and spot[h - 1][c] == 2:
                             spot[h][i] = 2
-                        elif i - 1 >= 0 and spot[h][i - 1] == 2:
+                    elif i - 1 >= 0 and spot[h][i - 1] == 2:
                             spot[b][c] = 2
-                        elif i + 1 <= M - 1 and spot[h][i + 1] == 2:
+                    elif i + 1 <= M - 1 and spot[h][i + 1] == 2:
                             spot[b][c] = 2
-                        elif h + 1 <= N - 1 and spot[h + 1][i] == 2:
+                    elif h + 1 <= N - 1 and spot[h + 1][i] == 2:
                             spot[b][c] = 2
+
 
 
 

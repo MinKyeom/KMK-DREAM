@@ -33,9 +33,9 @@ import heapq
 import sys
 input = sys.stdin.readline
 
-N, K = map(int, input().split())
+N, K = map(int, input().split()) #N 멀티탭 개수, K 총 사용횟수 
 
-multitap = list(map(int, input().split()))
+multitap = list(map(int, input().split())) #멀티탭 입력 순서 기입
 
 plugs = []
 count = 0
@@ -76,6 +76,7 @@ for i in range(K):
   count += 1 # 뽑았으므로 1 증가
 
 print(count)
+
 """
 
 
