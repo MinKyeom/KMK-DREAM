@@ -28,19 +28,6 @@ def ripe_spread(x,y):
                     box[new_x][new_y]=1
                     ripen_T.append((new_x,new_y))
 
-
-# 익은 과일의 개수를 찾는 함수
-# def find_ripe():
-#     find_1=0
-#     for x in range(M):
-#         for y in range(N):
-#             if box[x][y]==1:
-#                 find_1+=1
-
-# 빈상자 찾기
-
-
-
 non_box=[] #빈상자
 
 #첫 날에 익은 토마토 찾기 및 처음 빈상자 위치 찾기
@@ -51,20 +38,8 @@ for c in range(N):
         elif box[c][d]==-1:
             non_box.append((c,d)) # 빈 상자 찾기
 
-
-# for e in range(len(ripen_T)):
-#     ripe_spread(ripen_T[e][0],ripen_T[e][1])
-# print("함수 실행 후",ripen_T)
-
-
-
-
 num_t=[] #익은 토마토
 t=len(num_t)
-
-# non_box_conunt= len(non_box)
-
-#full_ripen=(M*N)-non_box_conunt #상자안의 과일이 모두 익었을 경우 1의 합
 
 entire_element= int(M*N) # 전체 원소의 개수
 
@@ -80,9 +55,6 @@ while num <= entire_element: #전체원소만큼 일단
         #print(ripen_T)
         day+=1
 
-        # if num_t<len(ripen_T): #익히는걸 실행 전후로 개수 비교
-        #     num_t=len(ripen_T) #익은 토마토의 개수 갱신
-        #     day+=1
     num +=1
 
 day= day-1
@@ -94,13 +66,4 @@ if len(non_box)+len(ripen_T)==M*N:
 
 else:
     print(-1)
-
-# for g in range(N):
-#     for h in range(M):
-#         if box[g][h] ==0:
-#             non_box.append((g,h))
-# if len(non_box)==0:
-#     print(day)
-# else:
-#     print(-1)
 
