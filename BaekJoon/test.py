@@ -36,11 +36,30 @@
 #     print(y)
 #     print()
 
-list_ma=[250,200,130,150,100,60]
+# list_ma=[250,200,130,150,100,60]
+#
+# count=0
+#
+# for x in list_ma:
+#     count += x
+#
+# print(count)
+list=[]
 
-count=0
+def fuction(x,y):
+   new_x=x+1
+   new_y=y+1
+   x=new_x
+   y=new_y
+   print(x,y)
 
-for x in list_ma:
-    count += x
+a=[(1,2),(3,2)]
 
-print(count)
+for c,d in a:
+    fuction(c,d)
+
+print(a)
+    #print(c,d) # 1 2 # 3 2 출력
+
+# for c,d in a:
+#     fuction(c,d)

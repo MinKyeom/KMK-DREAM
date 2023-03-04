@@ -11,6 +11,7 @@ dx=[-1,0,1,0]
 dy=[0,-1,0,1]
 
 horse=[]
+horse_arrive_list=[]
 
 horse[0]=map[0][0]
 
@@ -20,6 +21,7 @@ def horse_move(x,y):
         if 0<=x+a<=R-1 and 0<=y+b<=C-1:
             c=map[x+a][y+b]
             if c not in horse:
-                horse.append(c)
+                horse_arrive_list.append(c)
+
 
 
