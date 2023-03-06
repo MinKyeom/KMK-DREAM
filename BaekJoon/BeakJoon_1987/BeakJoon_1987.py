@@ -24,6 +24,7 @@
 #                 horse_arrive_list.append(c)
 
 #연습 및 사고 과정 따라가기
+"""
 import sys
 R,C =map(int,sys.stdin.readline().split())
 board = [list(sys.stdin.readline().strip()) for _ in range(R)]
@@ -34,12 +35,26 @@ answer =1
 def BFS(x,y):
     global answer
     q =set([(x,y,board[x][y])])  #set은 집합과 비슷한 개념!
-    while q:
-        x,y,ans =q.pop()
+    print("처음 시작할 때 q",q)
+    print("while문 시작")
+    print()
+    while q: #q가 참일때까지 반복
+        x,y,ans =q.pop() # 처음 넣은 q값을 제거하여 무한루프를 제거!
+
+        # 예시
+        # a=set()
+        # print(bool(a)) #false 출력
+        #
+        # a=set([1])
+        # print(bool(a)) #true 출력
+        # 공집할일때는 거짓으로 출력
+        print()
+        print(q)
+        print("이거 넣어서 while 시작할 때 구분")
         for i in range(4):
             nx = x+dx[i]
             ny = y+dy[i]
-            print(nx,ny)
+            print(nx,ny) #들어간 방향 체크
             if((0<=nx<R) and (0<=ny<C)) and (board[nx][ny] not in ans):
                 q.add((nx,ny,ans + board[nx][ny])) #set의 add는 원소 추가!
                 answer= max(answer,len(ans)+1)
@@ -47,4 +62,26 @@ def BFS(x,y):
                 print(answer)
 BFS(0,0)
 print(answer)
+"""
 
+R,C =map(int,input().split())
+horse_map=[]
+for a in range(R):
+    horse_map.append(list(map(int,input().split())))
+
+dx = [-1, 0, 1, 0]
+dy = [0, -1, 0, 1]
+def BFS(x, y):
+    global answer
+    q = set([(x, y, horse_map[x][y])])
+    while q:
+        x, y, ans = q.pop()
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if ((0 <= nx < R) and (0 <= ny < C)) and (horse_map[nx][ny] not in ans):
+                q.add((nx,ny,ans + horse_map[nx][ny]))
+                answer = max(answer, len(ans)+1)
+
+BFS(0, 0)
+print(answer)

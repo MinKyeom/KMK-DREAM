@@ -74,43 +74,52 @@
 #
 # print(count)
 
-
-# def test(x,y):
-#     x +=1
-#     y +=1
-#     print(x,y)
-#     return x,y
-
-x,y=1,2
+x=2
+y=3
 
 def test(x,y):
-    global new_x,new_y
-    new_x =x+1
-    new_y =y+1
-    print(x,y)
-    return new_x,new_y
+    x +=1
+    y +=1
+    return x,y # 3,4
+#경우의 수
+# x,y=test(x,y) #x,y 변경 x' y'
+
+#경우의 수 2
+x=test(x,y) # x에 (x,y)가 전달된다! 둘다 받고 싶다면 위의 경우의 수처럼
+
+print(x,y) #
 
 
-def test_2(c,d):
-    global c,d
-    c =c+1
-    d =d+1
-    return c,d
-
-print(x)
-print()
-print(y)
-print("------")
-print()
-print("---함수 실행 전---")
-print("실험")
-test(x,y)
-print("---함수 실행 후---")
-print(new_x)
-print()
-print(new_y)
-print("--------")
-v=1
-w=1
-test_2(3,4)
+# x,y=1,2
+#
+# def test(x,y):
+#     global new_x,new_y
+#     new_x =x+1
+#     new_y =y+1
+#     print(x,y)
+#     return new_x,new_y
+#
+#
+# def test_2(c,d):
+#     global c,d
+#     c =c+1
+#     d =d+1
+#     return c,d
+#
+# print(x)
+# print()
+# print(y)
+# print("------")
+# print()
+# print("---함수 실행 전---")
+# print("실험")
+# test(x,y)
+# print("---함수 실행 후---")
+# print(new_x)
+# print()
+# print(new_y)
+# print("--------")
+# v=1
+# w=1
+# test_2(3,4)
 
