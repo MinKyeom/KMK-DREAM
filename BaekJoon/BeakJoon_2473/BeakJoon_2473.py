@@ -1,3 +1,5 @@
+#풀이1
+"""
 from itertools import combinations
 
 N=int(input())
@@ -19,5 +21,9 @@ result_sub=[sum[0][0],sum[0][1],sum[0][2]]
 result=sorted(result_sub)
 
 print(result)
-
+"""
 #답은 나오나 시간에러
+
+# 풀이2
+#2470과 같은 고민 이게 과연 최적의 해가 맞는지 여부 think
+

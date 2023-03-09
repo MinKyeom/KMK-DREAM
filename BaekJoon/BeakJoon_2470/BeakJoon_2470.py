@@ -21,13 +21,12 @@ for x,y in a:
         elif Liquid_sum[0][2]<Liquid_sum[1][2]:
             del Liquid_sum[1]
 
-
 if Liquid_sum[0][0]>=Liquid_sum[0][1]:
     print(Liquid_sum[0][1],Liquid_sum[0][0])
 elif Liquid_sum[0][0]<Liquid_sum[0][1]:
     print(Liquid_sum[0][0],Liquid_sum[0][1])
-"""
 
+"""
 #2번째 풀이
 """
 from sys import stdin
@@ -164,7 +163,7 @@ print(liquid[l],liquid[r])
 
 
 
-"""
+
 #6번째 풀이
 N=int(input())
 liquid=list(map(int,input().split()))
@@ -178,8 +177,8 @@ result=liquid[left]+liquid[right]
 
 t=1
 
-l=left
-r=right
+# l=left
+# r=right
 
 while t<N-1:
         for x in range(N)[t:N]:
@@ -192,8 +191,13 @@ while t<N-1:
                        break
         t+=1
         left+=1
-
+        
 print(liquid[l],liquid[r])
-"""
+
 
 #최적일 수 밖에 없는 이유는 무엇일까?
+
+# 모든 경우를 바탕으로 하는게 아니니까 최적의 해는 불가능한것이 아닐까?
+
+
+#해결 포인트: 정렬된 상태가 뭘 해줄 수 있는가? + 0번째 행렬은 더이상 왼쪽으로 갈 수 없다라는 포인트
