@@ -3,12 +3,21 @@
 #
 # a=set([1])
 # print(bool(a))
-#공집할일때는 거짓으로 출력
+# 공집할일때는 거짓으로 출력
 
-a=list(input())
+# a=list(input())
+#
+# print(a)
+#
+# b=list(map(int,input().split()))
+#
+# print(b)
+count=0
 
-print(a)
+a=[22,22,24,25,14,30]
 
-b=list(map(int,input().split()))
+for x in a:
+    count+=x
 
-print(b)
+
+print(count)
