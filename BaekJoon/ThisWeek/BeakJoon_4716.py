@@ -1,3 +1,5 @@
+# 핵심 think: 거리가 적은걸 많이+ 두 a,b 거리가 큰 거를 우선으로
+
 # N,A,B=int(input().split())
 # ballmap=[]
 #
@@ -17,15 +19,15 @@
 #
 #         elif c==2:
 #             distance_b.append(ballmap[b][c])
-
-#sol
-
-while True:
-    n,a,b=map(int,input().split())
-    if n == a== b==0:
-        break
-
-    arr =sorted([[map(int,input().split())]for _ in range(n)], key=lambda x:-abs(x[1]-x[2]))
-
-    ans=0
-    for k,x,y in arr:
+#
+# #sol
+#
+# while True:
+#     n,a,b=map(int,input().split())
+#     if n == a== b==0:
+#         break
+#
+#     arr =sorted([[map(int,input().split())]for _ in range(n)], key=lambda x:-abs(x[1]-x[2]))
+#
+#     ans=0
+#     for k,x,y in arr:
