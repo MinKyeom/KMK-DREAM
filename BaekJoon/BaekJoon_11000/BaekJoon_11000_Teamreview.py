@@ -39,11 +39,69 @@ print(len(lecture_queue))
 """
 
 """
+def assign_lecture_room(input_lines: Optional[Iterator[str]] = None) -> str:
+"""
+# ❔ get Minimum the number of lecture rooms that make all lecture available ; https://www.acmicpc.net/problem/11000
+#     Time Complexity (Worst-case): O(n(log n))
+#         - O(n(log n)) from Tim sort
+#         - O(n-1) from loop  *  ( O(1) comparison  +  O(log n) from Hip (pop | push) at least )
+#     Space Complexity (Worst-case): O(n) from Tim sort
+#     Definition
+#         - n: the number of lectures.
+#     Implementation
+#         - It uses sort for input data in order to compare <end time> of lecture in order.
+#         - Used data structure: Heap (Python heapq library uses min heap)
+#             if it uses simple list, it must compare all <end time> as many as lecture rooms. so inefficient.
+"""
+    import heapq
+    import sys
+    from typing import NamedTuple
 
-for 
+    if input_lines:
+        input_ = lambda: next(input_lines)
+    else:
+        input_ = sys.stdin.readline
 
-while
+    class Period(NamedTuple):
+        start: int
+        end: int
 
+    # Title: input
+    # condition: (1 ≤ N ≤ 200,000)
+    n: int = int(input_())
+    # condition: (0 ≤ lecture.start < lecture.end ≤ 10^9)
+    lecture_period_list: list[Period] = [
+        Period(*map(int, input_().split())) for _ in range(n)
+    ]
+    lecture_end_time_heapq: list[int] = []
+    minimum_total_lecture_room: int = 0
+
+    # Title: solve
+    lecture_period_list.sort()
+    heapq.heappush(lecture_end_time_heapq, lecture_period_list[0].end)
+    for i in range(1, n):
+        if lecture_end_time_heapq[0] <= lecture_period_list[i].start:
+            heapq.heapreplace(lecture_end_time_heapq, lecture_period_list[i].end)
+        else:
+            heapq.heappush(lecture_end_time_heapq, lecture_period_list[i].end)
+    minimum_total_lecture_room = len(lecture_end_time_heapq)
+
+    # Title: output
+    print(minimum_total_lecture_room)
+    return str(minimum_total_lecture_room)
+
+
+def test_assign_lecture_room() -> None:
+    test_case = unittest.TestCase()
+    for input_lines, output_lines in [
+        [["3", "1 3", "2 4", "3 5"], ["2"]],
+        [["8", "1 8", "9 16", "3 7", "8 10", "10 14", "5 6", "6 11", "11 12"], ["3"]],
+    ]:
+        start_time = time.time()
+        test_case.assertEqual(
+            assign_lecture_room(iter(input_lines)), "\n".join(output_lines)
+        )
+        print(f"elapsed time: {time.time() - start_time}")
 """
 
 
