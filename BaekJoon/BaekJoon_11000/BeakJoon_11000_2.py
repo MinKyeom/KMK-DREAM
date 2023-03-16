@@ -54,10 +54,28 @@ print(len(lecture_list))
 import heapq
 import sys
 
-n=int
+n=int(input())
+lecture=[]
+
+for x in range(n):
+    lecture.append(list(map(int,sys.stdin.readline().split())))
+
+lecture.sort() #nlog(n)
+lecture_list=[]
+heapq.heappush(lecture_list,lecture[0][1]) #log(n)
+
+for y in range(1,n):
+    if lecture[y][0]<lecture_list[0]:
+        heapq.heappush(lecture_list,lecture[y][1])
+
+    else:
+        heapq.heappop(lecture_list)
+        heapq.heappush(lecture_list,lecture[y][1])
+#(n-1)log(n)
+print(len(lecture_list))
 
 
-
-
+# 시간복잡도 계산시 유의사항
+#입력 받는 부분 제외!
 
 

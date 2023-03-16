@@ -1,7 +1,13 @@
-# a=[(1,3),(2,4),(1,5),(1,7)]
-#
-# a.sort()
-# #[0][x] 일단 [0]을 순서대로 나열 후 [x]를 그 다음 순서대로 나열!
-# print(a)
+import heapq
+a=[1,5,3,2,4]
+a.sort()
+print(a)
+count=0
 
+count+=a[0]
+print(count)
+heapq.heappop(a)
+print(a)
+count+=a[0]
+print(count)
 

@@ -1,6 +1,6 @@
 
 
-내 풀이 오답
+#내 풀이 오답
 
 N,K=map(int,input().split())
 list_use=list(input().split())

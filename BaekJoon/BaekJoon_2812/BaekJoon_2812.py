@@ -22,7 +22,8 @@ for y in range(k-2):
     heapq.heapify(list)
     del list[0]
 
-print(list)"""
+print(list)
+"""
 
 #위의 풀이 의논해보기
 
@@ -40,7 +41,6 @@ print(list)
 for y in range(k-2):
     heapq.heapify(list)
     del list[0]
-
 
 print(list)"""
 
