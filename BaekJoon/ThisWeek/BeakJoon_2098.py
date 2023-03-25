@@ -3,14 +3,14 @@ import sys
 N = int(sys.stdin.readline())
 W = [list(map(int, sys.stdin.readline().split())) for _ in range(N)]
 
-dp = [[0] * (1 << N - 1) for _ in range(N)]
+dp = [[0] * (1 << N - 1) for _ in range(N)] #
 
 
 def solution(i, route):
     if dp[i][route] != 0:
         return dp[i][route]
 
-    if route == (1 << (N - 1)) - 1:
+    if route == (1 << (N - 1)) - 1: #1의 비트를 (n-1)만큼 왼쪽으로 밀어낸다.
         if W[i][0]:
             return W[i][0]
         else:
