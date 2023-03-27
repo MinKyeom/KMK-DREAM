@@ -1,5 +1,3 @@
-a=input()
-
-print(a[0])
-print(a[1])
+a=[1,3,5]
+print(a[-1])
 
