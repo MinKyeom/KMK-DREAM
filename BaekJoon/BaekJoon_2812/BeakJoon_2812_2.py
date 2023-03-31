@@ -9,5 +9,5 @@ for i in range(n):
         stack.pop()
         count-=1
     stack.append(num[i])
-print("".join(stack[:n-k])) # 안뻬지는 숫자가 존재한다.
+print("".join(stack[:n-k])) #안뻬지는 숫자가 존재한다.
 
