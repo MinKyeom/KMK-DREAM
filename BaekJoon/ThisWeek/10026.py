@@ -1,2 +1,7 @@
+import sys
 n=int(input())
-print(n)
+pic=[]
+for a in range(n):
+    pic.append(list(map(str,sys.stdin.readline())))
+
+
