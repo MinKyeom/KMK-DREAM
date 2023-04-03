@@ -19,5 +19,19 @@ for element in array:
     for a in "안녕하세요":
         print("-",a)
 
+#2차원 행렬 for문
+
+#방법1
+n=int(input())
+list_1=[]
+for x in range(n):
+    list_1.append(list(map(int,input().split()))) #list를 씌운 상태로 넣어야한다!
+
+print(list_1)
+
+list_2=[list(map(int,input().split())) for _ in range(n)]
+
+print(list_2)
+
 
 

@@ -1,3 +1,5 @@
-a=[1,3,5]
-print(a[-1])
+n=int(input())
 
+list=[list(map(int,input().split())) for _ in range(n)]
+
+print(list)
