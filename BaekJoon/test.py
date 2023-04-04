@@ -1,5 +1,9 @@
-n=int(input())
+import heapq
+list=[(1,2),(3,4),(5,6)]
+list_2=[]
+for x in list:
+    heapq.heappush(list_2,x)
+print(list_2)
+print(list_2[0][1])
 
-list=[list(map(int,input().split())) for _ in range(n)]
-
-print(list)
+print(heapq.heappop(list_2))
