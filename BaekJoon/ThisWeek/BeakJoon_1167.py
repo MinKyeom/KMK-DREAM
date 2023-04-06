@@ -4,6 +4,7 @@ tree=list(map(int,sys.stdin.readline().split()) for _ in range(v))
 
 M=[ [0]*v for _ in range(v)]
 
+#바이너리 서치, 일직선이라는 조건의 필요성 부재 
 """
 import sys
 sys.setrecursionlimit(10 ** 9)
