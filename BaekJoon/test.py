@@ -1,7 +1,13 @@
-a=input()
-print("a는?",type(a))
+import heapq
+a=[(1,2),(3,4),(5,6)]
+b=[]
+c=heapq.heappop(a)[1]
+print(c)
+print(a)
 
-b=int(input())
-print("b는?",type(b))
+if not b:
+    print("확인")
+else:
+    print("확인불가")
 
 
