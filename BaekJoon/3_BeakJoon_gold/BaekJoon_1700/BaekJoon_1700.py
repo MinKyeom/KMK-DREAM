@@ -13,6 +13,7 @@ for x in list_use:
         if len(list_con)>=N:
             if x in list_con:
                 continue
+
             else:
                 list_con.pop()      # 이걸로 빼는 안되는 부분 예상 뒤에 다른 부분을 고려하는 포인트가 필요하다!
                 list_con.append(x)
@@ -22,7 +23,7 @@ for x in list_use:
                 continue
             else:
                 list_con.append(x)
-print(count)
+print(count) 
 
 
 import heapq
