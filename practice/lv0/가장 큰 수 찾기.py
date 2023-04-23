@@ -5,7 +5,6 @@ def solution(array):
     answer.append(x)
     y = array.index(max(array))
     answer.append(y)
-
     return answer
 
 # 다른 사람 풀이
