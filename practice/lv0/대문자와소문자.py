@@ -11,8 +11,22 @@ def solution(my_string):
             a[x] = my_string.lower()[x]
     answer = "".join(a)
     return answer
+# 풀이 2
 
-#다른 사람 풀이
+def solution(my_string):
+    x=list(my_string)
+    for a in range(len(x)):
+        if x[a]==x[a].upper():
+            x[a]=x[a].lower()
+        else:x[a]=x[a].upper()
+    answer = "".join(x)
+    return answer
+
+#다른 사람 풀이, 팀원 풀이
 
 def solution(my_string):
     return my_string.swapcase()
+
+
+
+# 임시 변수 개념 잘알아두기

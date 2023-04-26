@@ -13,6 +13,17 @@ def solution(s):
     answer="".join(a)
     return answer
 
+# 내 풀이 2
+def solution(s):
+    x=list(s)
+    result=[]
+    for a in x:
+        if s.count(a)==1:
+            result.append(a)
+    y=result.sort()
+    answer ="".join(result)
+    return answer
+
 
 # 다른 사람 풀이
 def solution(s):
