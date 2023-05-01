@@ -18,9 +18,11 @@ def solution(numbers, k):
             count+=1
             x+=2
         print(a)
+# 나머지와 수의 배치 개념 곰곰히 생각해보기!
 
 
 # 다른 사람 풀이
 
 def solution(numbers, k):
     return numbers[2 * (k - 1) % len(numbers)]
+
