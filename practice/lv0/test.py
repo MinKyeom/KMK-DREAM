@@ -20,15 +20,34 @@
 # print(a[0:2])
 
 
-a=[[1,2]]
-b=[]
-b.append(a)
-print(b,"시작")
-a.clear()
-a=[[1,2]]
-b.append(a)
-print(b)
-a.clear()
-a.append(1)
-b.append(a)
-print(b)
+# a=[[1,2]]
+# b=[]
+# b.append(a)
+#
+# print(b,"시작")
+#
+# a.clear()
+# a=[[1,2]]
+#
+# b.append(a)
+#
+# print(b)
+#
+# a=[]
+# b.append(a)
+#
+# print(b)
+
+# a=[1,2,3,4,5]
+# a=[]
+# print(a)
+
+
+a=4567899
+print(set(list(str(a))))
+b=set(list(str(a)))
+c={"이"}
+print(len(b|c))
+
+
+
