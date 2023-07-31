@@ -1,5 +1,5 @@
 # 내 풀이
-def solution(x, y, n):
+def solution(x, y, n): # 시간초과 발생
     from collections import deque
     check = deque([x])
     count = 0
@@ -37,4 +37,38 @@ def solution(x, y, n):
 
                 if len(check) == 0:
                     return -1
+# 내 풀이2
+# 개선 후 통과
+def solution(x, y, n):
+    from collections import deque
+    check = deque([y])
+    result = 0
+
+    if x == y:
+        return 0
+
+    while True:
+        newcheck = []
+        result += 1
+
+        for k in list(check):
+            a = k - n
+            b = k / 2
+            c = k / 3
+            if a == x or b == x or c == x:
+                print(a, b, c)
+                return result
+
+            else:
+                if a >= x:
+                    newcheck.append(a)
+                if b >= x and int(b) == b:
+                    newcheck.append(int(b))
+                if c >= x and int(c) == c:
+                    newcheck.append(int(c))
+
+        if len(newcheck) == 0:
+            return -1
+
+        check = newcheck
 
