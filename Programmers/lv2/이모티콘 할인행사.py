@@ -74,7 +74,7 @@ def solution(users, emoticons):
 
     return answer
 
-# 풀이 과정 이해과정 아직 미완료# !! 
+# 풀이 과정 이해과정 아직 미완료# !!
 """
 완전 탐색
 전체 경우의 수를 봐야하는 문제이다
