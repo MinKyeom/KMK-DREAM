@@ -7,4 +7,6 @@ def solution(n, k, enemy):
 
     while k > 0:
 
+    answer=0
+    
     return answer
