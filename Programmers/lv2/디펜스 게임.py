@@ -10,6 +10,28 @@ def solution(n, k, enemy):
     answer=0
     
     return answer
+# 내 풀이
+def solution(n, k, enemy):
+    import heapq
+    result = 0
+    heap = []
+
+    check = 0
+
+    for x in enemy:
+        heapq.heappush(heap, -x)
+        check += x
+
+        if check > n:
+            if k == 0:
+                break
+            y = heapq.heappop(heap)
+            k -= 1
+            n += (-y)
+
+        result += 1
+
+    return result
 
 # 다른 사람 풀이
 
