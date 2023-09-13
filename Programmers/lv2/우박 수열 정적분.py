@@ -58,3 +58,35 @@ def solution(k, ranges):
         elif area[b-1]-area[a] < 0: answer.append(-1)
         else: answer.append(area[b-1]-area[a])
     return answer
+
+# 다른 사람 풀이
+from itertools import accumulate
+
+def collas(k):
+    coord = []
+    while k != 1:
+        coord.append(k)
+        if k % 2:
+            k = k * 3 + 1
+        else:
+            k //= 2
+    coord.append(k)
+    return coord
+
+def solution(k, ranges):
+    coord = collas(k)
+    area = []
+    for i in range(len(coord) - 1):
+        area.append((coord[i] + coord[i+1])/2)
+    area = [0] + list(accumulate(area))
+    n = len(area) - 1
+    result = []
+    for i, j in ranges:
+        k = n + j
+        if i > k:
+            result.append(-1)
+        elif i == k:
+            result.append(0)
+        else:
+            result.append(area[k] - area[i])
+    return result
