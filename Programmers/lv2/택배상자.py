@@ -50,6 +50,23 @@ def solution(order):
 
     return result
 
+# 내 풀이
+def solution(order):
+    from collections import deque
+    sub = []
+    count = 1
+    result = 0
+
+    while count <= len(order):
+        sub.append(count)
+        while sub and sub[-1] == order[result]:
+            result += 1
+            sub.pop()
+
+        count += 1
+    print(count)
+    return result
+
 # 다른 사람 풀이
 # 1 ~ n 까지의 택배를 재 배열
 # 기존 컨베이어 : queue -> 작은 수부터 빼낼 수 있음
