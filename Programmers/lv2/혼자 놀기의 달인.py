@@ -44,3 +44,28 @@ def solution(cards):
     answer.sort(key=len)
 
     return len(answer[-1]) * len(answer[-2])
+
+# 다른 사람 풀이
+def solution(cards):
+    temp_group = []
+    temp_all_nums = []
+
+    for x in cards:
+        if x in temp_all_nums:
+            continue
+        temp_box = [x]
+        temp_value = x
+        while True:
+            temp_value = cards[temp_value-1]
+            if temp_value in temp_box:
+                break
+            temp_box.append(temp_value)
+        temp_all_nums += temp_box
+        temp_group.append(temp_box)    
+
+    points = sorted(list(map(len, temp_group)), reverse = True)
+    if len(temp_group[0]) == len(cards):
+        return 0
+    point = points[0] * points[1]
+
+    return point
