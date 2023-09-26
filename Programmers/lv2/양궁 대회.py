@@ -39,6 +39,49 @@ def solution(queue1, queue2):
 
     return -1
 
+# 내 풀이(갱신중)
+# 핵심 idea: 일단 화살이 많이 남아있을시 이길 수 있는 상황에서 화살을 쏜 후
+# 최종 상황에 추가 할 지 말지는 나중에 결정!
+
+def solution(n, info):
+    apeach = sum([10 - i for i in range(10) if info[i]])
+    # info[i]는 info 0이외의 값
+
+    score = [(10 - i) * 2 if info[i] else 10 - i for i in range(10)]
+
+    queue = [[0]]
+    # 쏜다 안쏜다의 기준에서 10점을 안쏘는 경우 추가!
+
+    result = []
+    # 최종 결과를 담을 리스트
+
+    if n >= info[0] + 1:
+        queue.append([info[0] + 1])
+
+    while queue:
+        recent = queue.pop(0)
+
+        if sum(recent) == n or len(recent) == 10:
+            new = sum([score[i] for i in range(len(recent)) if recent[i]])
+            old = sum([score[i] for i in range(len(result)) if result[i]])
+
+            if new > apeach and new >= old:
+                result = recent
+
+        elif sum(recent) + info[len(recent)] + 1 <= n:
+            queue.append(recent + [info[len(recent)] + 1])
+            queue.append(recent + [0])
+
+        else:
+            queue.append(recent + [0])
+
+    if not result:
+        return [-1]
+
+    return result + [0] * (10 - len(result)) + [n - sum(result)]
+
+    return result
+
 # 다른 사람 풀이
 def solution(n, info):
     # 어피치의 총 점수 계산
@@ -104,3 +147,4 @@ def solution(n, info):
                 max_gap = gap
                 answer = info2
     return answer
+
