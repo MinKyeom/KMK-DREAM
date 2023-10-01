@@ -144,3 +144,35 @@ def solution(fees, records):
         fee = fees[1] + math.ceil((extra_t) / fees[2]) * (fees[3])
         fee_list.append(fee)
     return fee_list
+
+# 다른 풀이
+import math
+def str2int(date):
+    return int(date[:2]) * 60 + int(date[3:5])
+
+def solution(fees, records):
+    max_time = 24*60 - 1
+    time_dic = {}
+    io_dic = {}
+    for r in records:
+        car_num = r[6:11]
+        if r[-3:] == ' IN':
+            io_dic[car_num] = str2int(r[:5])
+        else:
+            if time_dic.get(car_num) == None:
+                time_dic[car_num] = str2int(r[:5]) - io_dic[car_num]
+            else:
+                time_dic[car_num] += str2int(r[:5]) - io_dic[car_num]
+            del io_dic[car_num]
+
+    for k,v in io_dic.items():
+        if time_dic.get(k) == None:
+            time_dic[k] = (max_time - v)
+        else:
+            time_dic[k] += (max_time - v)
+    car_list = sorted([k for k in time_dic.keys()])
+
+    answer = [fees[1] + math.ceil((time_dic[car] - fees[0])/fees[2]) * fees[3]\
+                if time_dic[car] > fees[0] else fees[1]\
+                for car in sorted([k for k in time_dic.keys()])]
+    return answer
