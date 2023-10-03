@@ -4,7 +4,7 @@ def solution(fees, records):
     # fees:주차 요금
 
     result = []  # 차량 번호가 작은거부터 요금 정산
-
+    max_time = 23 * 60 + 59  # 최대 시간
     from collections import deque
 
     car_in = []  # 입차
@@ -26,19 +26,39 @@ def solution(fees, records):
 
     car_in = deque(car_in)
 
-    print(car_in)
+    car_num = set([car_in[k][0] for k in range(len(car_in))])
 
+    car_num_check = {}  # 차량 번호별 누적 시간 check
+    for t in car_num:
+        car_num_check[t] = 0
+
+    # 차량별 주차 시간 누적 계산
     while car_in:
-        d, e = car_in.popleft()
+        v, w = car_in.popleft()
 
         if len(car_out) > 0:
-            if car_out[0][0] == d:
-                t = e - car_out[0][1]
+            if car_out[0][0] == v:
+                car_num_check[v] += car_out[0][1] - w
+                del car_out[0]
+            else:
+                car_num_check[v] += max_time - w
+        else:
+            car_num_check[v] += max_time - w
 
-                if t <= fees[0]:
-                    result.append(fees[1])
-                    del car_out[0]
-                    print(car_out)
+    # print(car_num_check)
+
+    car_num_check = sorted(car_num_check.items(), key=lambda item: item[0])
+
+    # print(car_num_check)
+
+    for a, b in car_num_check:
+        if b <= fees[0]:
+            result.append(fees[1])
+        else:
+            if (b - fees[0]) % fees[2] == 0:
+                result.append(fees[1] + int((b - fees[0]) / fees[2]) * fees[3])
+            else:
+                result.append(fees[1] + (int((b - fees[0]) / fees[2]) + 1) * fees[3])
 
     return result
 
