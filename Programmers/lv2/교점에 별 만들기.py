@@ -154,3 +154,31 @@ def solution(line):
     for i in plaid:  # 문자열로 합쳐서 결과 리스트에 추가
         result.append(''.join(i))
     return result
+# 다른 사람 풀이
+def solution(line):
+    # 교점구하기
+    nodeList = list()
+    for i in range(len(line)):
+        a, b, e = line[i]
+
+        for c, d, f in line[i + 1:]:
+            if a * d - b * c == 0: continue
+            x = (b * f - e * d) / (a * d - b * c)
+            y = (e * c - a * f) / (a * d - b * c)
+
+            if int(x) == x and int(y) == y and (x, y) not in nodeList:
+                nodeList.append((int(x), int(y)))
+
+    # 교점의 가장 큰/작은 값 구하기
+    nodeList.sort(key=lambda x: x[0])
+    minx, maxx = nodeList[0][0], nodeList[-1][0]
+    nodeList.sort(key=lambda x: x[1])
+    miny, maxy = nodeList[0][1], nodeList[-1][1]
+
+    # 배열에 별 그리기
+    arr = [["." for j in range(maxx - minx + 1)] for i in range(maxy - miny + 1)]
+    for x, y in nodeList:
+        r, c = y - miny, x - minx
+        arr[r][c] = "*"
+
+    return ["".join(item) for item in arr][::-1]  # r방향이 좌표와 반대이므로 뒤집어서 출력
