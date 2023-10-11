@@ -1,39 +1,63 @@
-# 내 풀이 (개선 중)
+# 내 풀이
 def solution(line):
     from itertools import combinations
-    from collections import deque
 
+    # 직선 2개씩 묶음 집합
     k = list(combinations(line, 2))
-    result = []
-    max_x, max_y = 0, 0
 
+    # 교점들의 집합
+    result = []
+    line_x, line_y = [], []
     for a in k:
         a = list(a)
-        # 직선 두 개 계산
-        if (a[0][0] * a[1][1]) - (a[0][1] * a[1][0]) == 0:
+        # ad-bc check 평행 또는 일치 확인
+        if a[0][0] * a[1][1] - a[0][1] * a[1][0] == 0:
             continue
+
         else:
-            # 소거법
-            # y좌표
-            c = (a[0][0] * a[1][2] - a[1][0] * a[0][2]) / (a[0][1] * a[1][0] - a[0][0] * a[1][1])
-            if c == int(c):
-                # x좌표
-                if a[0][0] != 0:
-                    b = (a[0][1] * (-1) * c + a[0][2] * (-1)) / a[0][0]
-                    if b == int(b):
-                        result.append([int(b), int(c)])
-                        if max_x < abs(b):
-                            max_x = int(abs(b))
-                        if max_y < abs(c):
-                            max_y = int(abs(c))
+            x = (a[0][1] * a[1][2] - a[0][2] * a[1][1]) / (a[0][0] * a[1][1] - a[0][1] * a[1][0])
+            y = (a[0][2] * a[1][0] - a[0][0] * a[1][2]) / (a[0][0] * a[1][1] - a[0][1] * a[1][0])
 
-                else:
-                    result.append([0, int(c)])
-                    # if max_y<abs(c):
-                    # max_y=int(abs(c))
+            if int(x) == x and int(y) == y:
+                result.append([int(x), int(y)])
+                line_x.append(int(x))
+                line_y.append(int(y))
+    ################### 교점까지 완료 ##################
+    # print(result)
+    # print(line_x)
+    line_y.sort()
+    print(line_y)
 
-            else:
-                continue
+    line_x.sort()
+    print(line_y)
+
+    """
+    if abs(line_x[0])>=abs(line_x[-1]):
+        max_x=abs(line_x[0])
+    else:
+        max_x=abs(line_x[-1])
+    """
+
+    check_x = max(line_x) - min(line_x) + 1
+
+    # print(check_x,"x")
+    map = [list("." * check_x) for b in range(min(line_y), max(line_y) + 1)]
+
+    # print(map, "map")
+
+    result.sort(key=lambda x: (-x[1]))
+    # print(result)
+
+    for c, d in result:
+        # print(max(line_y)-d,max_x+c,"좌표 확인")
+        map[max(line_y) - d][c - min(line_x)] = "*"
+
+    for t in range(len(map)):
+        map[t] = "".join(map[t])
+
+    # print(map)
+
+    return map
     # print(result)
     # print(int(max_x),int(max_y),"최대값")
 
