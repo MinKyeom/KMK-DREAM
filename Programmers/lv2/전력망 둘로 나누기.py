@@ -71,5 +71,54 @@ def solution(n, wires):
 
     answer = -1
     return answer
+## 개선중
 
+def solution(n, wires):
+    # 탑의 갯수
+    top = [k for k in range(1, n + 1)]
+
+    graph_all = {}  # 양방향
+    graph = {}  # 단방향
+    result = n + 1  # 송전탑 최대 개수 +1
+
+    # 그래프 모양 체크
+    for a, b in wires:
+        if not a in graph_all:
+            graph_all[a] = [b]
+            # graph[a]=[b]
+        else:
+            graph_all[a] += [b]
+            # graph[a]+=[b]
+
+        if not b in graph_all:
+            graph_all[b] = [a]
+        else:
+            graph_all[b] += [a]
+
+    t = wires.copy()
+
+    for c in range(len(t)):
+        del_1 = t[c][0]
+        del_2 = t[c][1]
+
+        root_1 = []  # 첫번째 새로운 송전탑 그룹
+
+        for d in graph_all[del_1]:
+            if d != del_2:
+                root_1 += graph_all[d]
+                root_1.append(d)
+
+        root_2 = []  # 두번째 새로운 송전탑 그룹
+
+        for e in graph_all[del_2]:
+            if e != del_1:
+                root_2 += graph_all[e]
+                root_2.append(e)
+
+        if len(set(root_1) & set(root_2)) == 0 and set(root_1) | set(root_2) == set(top):
+            check = abs(len(set(root_1)) - len(set(root_2)))
+            if check <= result:
+                result = check
+
+    return result
 # 다른 사람 풀이
