@@ -121,6 +121,7 @@ def solution(n, wires):
                 result = check
 
     return result
+
 # 다른 사람 풀이
 from collections import deque
 
@@ -164,3 +165,61 @@ def solution(n, wires):
         if abs(cnts - other_cnts) < answer:
             answer = abs(cnts - other_cnts)
     return answer
+
+
+# 다른 사람 풀이
+import sys
+
+input = sys.stdin.readline
+INF = sys.maxsize
+
+
+def find(x, parent):
+    if parent[x] < 0:
+        return x
+
+    parent[x] = find(parent[x], parent)
+    return parent[x]
+
+
+def union(a, b, parent):
+    root_a = find(a, parent)
+    root_b = find(b, parent)
+
+    if root_a == root_b:
+        return False
+
+    if parent[root_a] < parent[root_b]:
+        # 루트 노드의 parent 값의 절댓값은 트리의 크기를 의미
+        parent[root_a] += parent[root_b]
+        parent[root_b] = root_a
+    elif parent[root_a] > parent[root_b]:
+        parent[root_b] += parent[root_a]
+        parent[root_a] = root_b
+    else:
+        parent[root_b] += parent[root_a]
+        parent[root_a] = root_b
+
+    return True
+
+
+def solution(n, wires):
+    answer = INF
+    for exclude in range(len(wires)):
+        parent = [-1] * (n + 1)
+
+        # 간선을 차례대로 제외해보면서, 이외의 간선들로 유니온 파인드
+        for a, b in (wires[:exclude] + wires[exclude + 1:]):
+            union(a, b, parent)
+
+        # 제외한 간선의 양 끝 점은 서로 독립된 트리의 어느 한 점이므로,
+        # 그 두 점의 루트 노드의 parent 값의 차의 절댓값이 두 트리
+        # 사이의 노드 개수 차이이다.
+        sub_cnt1 = parent[find(wires[exclude][0], parent)]
+        sub_cnt2 = parent[find(wires[exclude][1], parent)]
+        answer = min(answer, abs(sub_cnt1 - sub_cnt2))
+
+    return answer
+
+
+print(solution(9, [[1, 3], [2, 3], [3, 4], [4, 5], [4, 6], [4, 7], [7, 8], [7, 9]]))
