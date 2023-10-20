@@ -1,16 +1,13 @@
-# 내 풀이(갱신중)
+# 내 풀이
 def solution(places):
     result = []
 
     # bfs
     from collections import deque
-    # dx=[1,-1,0,0]
-    # dy=[0,0,1,-1]
+    flag = False
 
     for a in places:
-        # visited=[[False]*5 for k in range(5)]
         q = []
-
         dx = [-2, -1, 1, 2, 0, 0, 0, 0, -1, -1, 1, 1]
         dy = [0, 0, 0, 0, -2, -1, 1, 2, 1, -1, 1, -1]
 
@@ -19,6 +16,10 @@ def solution(places):
                 if a[c][d] == "P":
                     q.append([c, d])
         q = deque(q)
+
+        if len(q) == 0:
+            result.append(1)
+            continue
 
         while q:
             e, f = q.popleft()
@@ -29,8 +30,10 @@ def solution(places):
                 if 0 <= e + x < 5 and 0 <= f + y < 5:
                     if a[e + x][f + y] == "P":
                         # case1 ## 중요 케이스
+
                         if abs(x) == 2 or abs(y) == 2:
-                            if abs(x) == 2:
+
+                            if abs(x) == 2 and abs(y) == 0:
                                 if x > 0 and a[e + x - 1][f + y] == "X":
                                     continue
                                 elif x < 0 and a[e + x + 1][f + y] == "X":
@@ -40,7 +43,7 @@ def solution(places):
                                     flag = True
                                     break
 
-                            elif abs(y) == 2:
+                            elif abs(y) == 2 and abs(x) == 0:
                                 if y > 0 and a[e + x][f + y - 1] == "X":
                                     continue
                                 elif y < 0 and a[e + x][f + y + 1] == "X":
@@ -86,16 +89,21 @@ def solution(places):
                                     break
 
                                     # case3
+
                         elif abs(x) == 1 and abs(y) == 0:
                             flag = True
                             print(7)
                             break
 
                         # case4
+
                         elif abs(x) == 0 and abs(y) == 1:
                             flag = True
                             print(8)
                             break
+
+            else:
+                continue
 
             if flag == True:
                 break
@@ -106,3 +114,27 @@ def solution(places):
             result.append(0)
 
     return result
+
+
+# 다른 사람 풀이
+def check(place):
+    for irow, row in enumerate(place):
+        for icol, cell in enumerate(row):
+            if cell != 'P':
+                continue
+            if irow != 4 and place[irow + 1][icol] == 'P':
+                return 0
+            if icol != 4 and place[irow][icol + 1] == 'P':
+                return 0
+            if irow < 3 and place[irow + 2][icol] == 'P' and place[irow + 1][icol] != 'X':
+                return 0
+            if icol < 3 and place[irow][icol + 2] == 'P' and place[irow][icol + 1] != 'X':
+                return 0
+            if irow != 4 and icol != 4 and place[irow + 1][icol + 1] == 'P' and (place[irow + 1][icol] != 'X' or place[irow][icol + 1] != 'X'):
+                return 0
+            if irow != 4 and icol != 0 and place[irow + 1][icol - 1] == 'P' and (place[irow + 1][icol] != 'X' or place[irow][icol - 1] != 'X'):
+                return 0
+    return 1
+
+def solution(places):
+    return [check(place) for place in places]
