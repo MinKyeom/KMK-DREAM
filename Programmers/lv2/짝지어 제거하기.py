@@ -1,56 +1,41 @@
-# 내 풀이 (수정 중)
+# 내 풀이
 def solution(s):
-    if len(s) == 1:
-        return 0
+    from collections import deque
 
-    if len(s) == 2:
-        if s[0] == s[1]:
-            return 1
-        else:
-            return 0
+    k = deque(list(s))
+    c = 0
+    check = []
 
-    k = list(s)
-    count = 0
-
-    while count < len(k) - 1:
-        if k[count] == k[count + 1]:
-            del k[count]
-            del k[count]
-
-            if len(k) >= 1 and count >= 1:
-                count -= 1
-                continue
-            elif count == 0:
-                count = 0
-                continue
+    while k:
+        a = k.popleft()
+        if check:
+            if check[-1] == a:
+                check.pop()
+                while check:
+                    if len(check) >= 2:
+                        if check[-1] == check[-2]:
+                            check.pop()
+                            check.pop()
+                        else:
+                            break
+                    else:
+                        break
             else:
-                return 1
-        count += 1
-
-    return 1 if len(k) == 0 else 0
-
-# 내 풀이(수정중)
-def solution(s):
-    k = list(s)
-
-    # 특이케이스
-    if len(k) == 0:
-        return 1
-    elif len(k) == 1:
-        return 0
-
-    ###
-    count = 0
-
-    while k or len(k) != 1 or count + 1 < len(k) - 1:
-        if k[count] == k[count + 1]:
-            del k[count]
-            del k[count]
-            if count > 0:
-                count -= 1
+                check.append(a)
 
         else:
-            if count + 1 < len(k) - 2:
-                count += 1
+            check.append(a)
 
-    return 1
+    return 1 if len(check) == 0 else 0
+
+# 다른 사람 풀이
+def solution(s):
+    temp = ["",s[0]]
+
+    for i in s[1:]:
+        if temp[-1]!=i:
+            temp.append(i)
+        else:
+            temp.pop()
+
+    return 1 if len(temp)==1 else 0
