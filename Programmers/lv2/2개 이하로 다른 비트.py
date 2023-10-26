@@ -1,42 +1,34 @@
-# 내 풀이(개선 중)
+# 내 풀이
 def solution(numbers):
     result = []
     for a in numbers:
         k = list(str(bin(a))[2:])
-        k_1 = bin(a)  #
-        t = a + 1
-        print(type(k_1))
+        t = k[::-1]
+        flag = False
 
-        #         while True:
-        #             c=bin(t)
-        #             d=c-k_1
-        #             e=str(d)[2:]
-        #             if e.count("1")<=1:
-        #                 result.append(t)
-        #                 break
-        #             else:
-        #                 t+=1
-
-        """
-        while True:
-            b=list(str(bin(t))[2:])
-            c=len(b)-len(k)
-            e=["0"]*c+k
-
-            count=0
-
-            for f in range(len(e)-1,-1,-1):
-                if b[f]!=e[f]:
-                    count+=1
-                    if count>2:
-                        break
-
-            if count<=2:
-                result.append(t)
+        for b in range(len(t)):
+            if t[b] == "0":
+                c = b
+                flag = True
                 break
 
-            else:
-                t+=1
-            """
+        if flag == True:
+            d = "1" + "0" * (b - 1)
+            e = int(d, 2)
+            result.append(a + e)
+
+        else:
+            d = "1" + "0" * (len(k) - 1)
+            e = int(d, 2)
+            result.append(a + e)
 
     return result
+
+# 다른 사람 풀이
+def solution(numbers):
+    answer = []
+    for idx, val in enumerate(numbers):
+        answer.append(((val ^ (val+1)) >> 2) +val +1)
+
+    return answer
+
