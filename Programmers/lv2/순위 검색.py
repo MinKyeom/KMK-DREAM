@@ -53,6 +53,50 @@ def solution(info, query):
                 continue
 
             result[d] += 1
+    # 개선 중 풀이 3
+    for b in range(len(query)):
+        t = query[b].split(" ")
+        v = [t[0], t[2], t[4], t[6], t[7]]
+        check.append(v)
+
+    for a in info:
+        k = a.split(" ")
+        # person.append(k)
+
+        for d in range(len(check)):
+            flag = False
+
+            if check[d][0] == "-" or check[d][0] == k[0]:
+                pass
+            else:
+                flag = True
+                continue
+
+            if check[d][1] == "-" or check[d][1] == k[1]:
+                pass
+            else:
+                flag = True
+                continue
+
+            if check[d][2] == "-" or check[d][2] == k[2]:
+                pass
+            else:
+                flag = True
+                continue
+
+            if check[d][3] == "-" or check[d][3] == k[3]:
+                pass
+            else:
+                flag = True
+                continue
+
+            if int(check[d][4]) <= int(k[4]):
+                pass
+            else:
+                flag = True
+                continue
+
+            result[d] += 1
 
     """
     #정확도 100 효율성 애매 풀이
@@ -87,4 +131,4 @@ def solution(info, query):
                 result[b]+=1
                 """
 
-    return result 
+    return result
