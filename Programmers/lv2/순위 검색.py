@@ -1,58 +1,51 @@
-# 내 풀이 (개선 중)
-# 예전에 나왔던 완탐 문제랑 비슷
+# 내 풀이
 def solution(info, query):
-    # 조건:5가지
-    result = [0 for c in range(len(query))]
-    person = []
-    check = []
+    from itertools import combinations
+    from collections import defaultdict
+    import bisect
+    result = []
 
-    # 효율성 감안 새로운 풀이
+    dic = defaultdict(list)
+
     for a in info:
-        k = a.split(" ")
-        person.append(k)
+        a = a.split()
+        condition = a[:-1]
+        score = int(a[-1])  # 숫자만 따로 빼놓음
 
-    for b in range(len(query)):
-        t = query[b].split(" ")
-        v = [t[0], t[2], t[4], t[6], t[7]]
-        check.append(v)
+        # 해당 경우의 수에서 -를 포함하는 모든 경우의 수를 추가!!!
+        for b in range(5):
+            case = list(combinations([0, 1, 2, 3], b))
 
-    print(check[0])
+            for c in case:
+                tmp = condition.copy()
 
-    for c in person:
-        for d in range(len(check)):
-            flag = False
+                for idx in c:
+                    tmp[idx] = "-"
 
-            if check[d][0] == "-" or check[d][0] == c[0]:
-                pass
-            else:
-                flag = True
-                continue
+                key = "".join(tmp)
+                dic[key].append(score)
 
-            if check[d][1] == "-" or check[d][1] == c[1]:
-                pass
-            else:
-                flag = True
-                continue
+    for value in dic.values():
+        # 내부 스코어 값 정렬(같은 경우의 수에 해당하는 사람의 경우 스코어를 리스트에 추가 후 지금 정렬)
+        value.sort()
 
-            if check[d][2] == "-" or check[d][2] == c[2]:
-                pass
-            else:
-                flag = True
-                continue
+    for d in query:
+        d = d.replace("and", "")
+        d = d.split()
 
-            if check[d][3] == "-" or check[d][3] == c[3]:
-                pass
-            else:
-                flag = True
-                continue
+        target_key = "".join(d[:-1])
+        target_score = int(d[-1])
 
-            if int(check[d][4]) <= int(c[4]):
-                pass
-            else:
-                flag = True
-                continue
+        count = 0
 
-            result[d] += 1
+        if target_key in dic:
+            target_list = dic[target_key]
+            idx = bisect.bisect_left(target_list, target_score)
+            count = len(target_list) - idx
+
+        result.append(count)
+
+    return result
     # 개선 중 풀이 3
     for b in range(len(query)):
         t = query[b].split(" ")
