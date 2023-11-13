@@ -1,46 +1,62 @@
-# 내 풀이 (개선 중)
+# 내 풀이
 # 처음 배열을 false를 활용한 후 해당 상황에 맞는 값을 false 체크 후 없으면 채워 넣고 삼각형 완성!
 def solution(n):
-    result = [[] for a in range(n)]
-    count = 0
-    all_count = n  # 순회에 따른 숫자를 넣을 개수
-    sam_count = 0  # 삼각형 순회 횟수
-    sam = 0  # 0 삼각형 좌변 1 삼각형 밑변 2 삼각형 우변
-    down = n - 1  # 삼각형 밑변 위치(변화 체크)
+    result = []
 
-    while count <= int((n * (n + 1)) / 2):
+    tri = []
 
-        if sam == 0:  # 좌변
-            for a in range(sam_count, all_count):
-                count += 1
-                result[a].append(count)
+    t = int(n * (1 + n) / 2)
 
-            sam_count += 1
-            all_count -= 1
-            sam = 1
+    for a in range(1, n + 1):
+        k = [False for b in range(a)]
+        tri.append(k)
 
-        elif sam == 1:  # 밑변
-            for b in range(all_count):
-                count += 1
-                result[down].append(count)
+    count = 1
+    direction = 0
+    # 높이
+    high = n
+    start = 0  # 아래 대각선 시작 위치
+    left = 0  # 왼쪽방향
+    right = 0
+    while count <= t:
+        # 1 아래 대각선
+        if direction == 0:
+            for a in range(start, n):
+                for b in range(left, len(tri[a])):
+                    if tri[a][b] == False:
+                        tri[a][b] = count
+                        count += 1
+                        break
+                    else:
+                        continue
+            direction = 1
 
-            down -= 1
-            sam_count += 1
-            all_count -= 1
-            sam = 2
+        # 2 밑변
+        elif direction == 1:
+            for a in range(len(tri[high - 1])):
+                if tri[high - 1][a] == False:
+                    tri[high - 1][a] = count
+                    count += 1
 
-        elif sam == 2:
-            k = int(sam_count / 3) + 1
-            for c in range(down, k - 1, -1):
-                count += 1
-                result[c].append(count)
+            high -= 1
 
-            sam_count += 1
-            all_count -= 1
-            sam = 0
-            break
+            direction = 2
 
-    print(result)
+        # 3 오른쪽 대각선
+        elif direction == 2:
+            for a in range(high - 1, 0, -1):
+                for b in range(len(tri[a]) - 1 - right, -1, -1):
+                    if tri[a][b] == False:
+                        tri[a][b] = count
+                        count += 1
+                        break
+            direction = 0
+            start += 2
+            left += 1
+            right += 1
+
+    for a in range(len(tri)):
+        result += tri[a]
 
     return result
 
