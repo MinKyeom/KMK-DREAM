@@ -1,40 +1,60 @@
 # 내 풀이(개선 중)
-def solution(expression):
-    from itertools import permutations
-    num = []
-    ex = []
-    check = ["*", "-", "+"]
-    k = list(expression)
+def solution(n):
+    result = []
 
-    for a in range(len(k)):
-        if k[a] in check:
-            ex.append(k[a])
-            k[a] = " "
+    tri = []
 
-    l = "".join(k)
-    l = l.split(" ")
+    t = int(n * (1 + n) / 2)
 
-    # t_num=list(permutations(l,len(l)))
-    # t_ex=list(permutations(ex,len(ex)))
+    for a in range(1, n + 1):
+        k = [False for b in range(a)]
+        tri.append(k)
 
-    ex_ = set(ex)
-    ex_ = list(ex_)
-    ex__ = list(permutations(ex_, len(ex_)))  # 연산기호 우선순위
+    count = 1
+    direction = 0
+    # 높이
+    high = n
+    start = 0  # 아래 대각선 시작 위치
+    left = 0  # 왼쪽방향
+    right = 0
+    while count <= t:
+        # 1 아래 대각선
+        if direction == 0:
+            for a in range(start, n):
+                for b in range(left, len(tri[a])):
+                    if tri[a][b] == False:
+                        tri[a][b] = count
+                        count += 1
+                        break
+                    else:
+                        continue
+            direction = 1
 
-    result = 0
+        # 2 밑변
+        elif direction == 1:
+            for a in range(len(tri[high - 1])):
+                if tri[high - 1][a] == False:
+                    tri[high - 1][a] = count
+                    count += 1
 
-    while ex__:
-        v = ex__.pop()
-        x = expression
+            high -= 1
 
-        for a in range(len(v)):
-            pass
+            direction = 2
 
-        break
+        # 3 오른쪽 대각선
+        elif direction == 2:
+            for a in range(high - 1, 0, -1):
+                for b in range(len(tri[a]) - 1 - right, -1, -1):
+                    if tri[a][b] == False:
+                        tri[a][b] = count
+                        count += 1
+                        break
+            direction = 0
+            start += 2
+            left += 1
+            right += 1
 
-        break
-
-        if abs(int(start)) > result:
-            result = abs(int(start))
+    for a in range(len(tri)):
+        result += tri[a]
 
     return result
