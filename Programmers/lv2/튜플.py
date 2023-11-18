@@ -1,39 +1,50 @@
-# 내 풀이(개선 중)
+# 내 풀이
 def solution(s):
     from collections import deque
+
     s = s[1:len(s) - 1]
-    c = s.replace(",", " ")
-    d = c.replace("{", "")
-    t = d.split("}")
-    print(t)
-    for a in t:
-        print(a)
+    k = deque(list(s))
 
-    return 1
+    before = []
 
-    s = deque(list(s))
-    result = []
-    result_check = []
+    while k:
+        a = k.popleft()
 
-    while s:
-        k = s.popleft()
-
-        if k == "{":
+        if a == "{":
             check = []
-            while True:
-                a = s.popleft()
+            num = ""
 
-                if a == "}":
-                    result_check.append(check)
+            while k:
+                b = k.popleft()
+
+                if b == ",":
+                    check.append(num)
+                    num = ""
+
+                elif b == "}":
+                    check.append(num)
+                    before.append(check)
                     break
-                elif a != "," and a != "}" and int(a) in t:
-                    check.append(int(a))
 
-    result_check.sort(key=lambda x: len(x))
+                else:
+                    num += b
 
-    for a in result_check:
-        for b in a:
-            if not int(b) in result:
-                result.append(int(b))
+    before.sort(key=len)
+
+    result = []
+
+    for t in before:
+        for v in t:
+            if not int(v) in result:
+                result.append(int(v))
 
     return result
+
+# 다른 사람 풀이
+def solution(s):
+
+    s = Counter(re.findall('\d+', s))
+    return list(map(int, [k for k, v in sorted(s.items(), key=lambda x: x[1], reverse=True)]))
+
+import re
+from collections import Counter
