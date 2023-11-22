@@ -1,121 +1,49 @@
-# 내 풀이(개선 중)
-from collections import deque
+# 내 풀이
+# 균형잡힌 괄호 문자열인지 체크하는 함수
+def isbalanced(s):
+	chk=0
+	for c in s:
+		if c=='(': chk+=1
+		elif c==')': chk-=1
+
+	if chk==0: return True
+	else: return False
+
+# 올바른 괄호 문자열인지 체크하는 함수
+def iscorrect(s):
+	stack=[]
+	stack.append(s[0])
+	for i in range(1,len(s)):
+		if len(stack)==0 or stack[-1]==')' or (stack[-1]=='(' and s[i]=='('):
+			stack.append(s[i])
+		else:
+			stack.pop()
+	if len(stack)==0: return True
+	else: return False
 
 
-# u 변환
-def change_u(sub):
-    sub = deque(sub)
-    sub.popleft()
-    sub.pop()
-
-    for a in range(len(sub)):
-        if sub[a] == "(":
-            sub[a] = ")"
-        else:
-            sub[a] = "("
-
-    sub.appendleft("(")
-    sub.append(")")
-
-    return sub
-
-
-# sub가 v인지 check
-def check_v(sub, result):
-    sub = deque(sub)
-    new_sub = []
-    check = []
-    count_1 = 0
-    count_2 = 0
-
-    while sub:
-        k = sub.popleft()
-        new_sub.append(k)
-
-        if k == "(":
-            count_1 += 1
-        else:
-            count_2 += 1
-
-        if len(check) == 0:
-            check.append(k)
-        else:
-
-            if k == ")" and check[-1] == "(":
-                check.pop()
-            else:
-                check.append(k)
-
-            if count_1 == count_2:
-                if len(check) == 0:
-                    t = "".join(new_sub)
-                    result = result + t
-                    check = []
-                    new_sub = []
-                    count_1 = 0
-                    count_2 = 0
-                else:
-                    new = change_u(new_sub)
-                    result = check_v(new, result)
-                    check = []
-                    new_sub = []
-                    count_1 = 0
-                    count_2 = 0
-
-    return result
-
-
-# 전체
 def solution(p):
-    p = deque(list(p))
+	answer = ''
+	u=""
+	v=""
+	#빈 문자열이나 올바른 괄호 문자열은 그대로 반환
+	if len(p)==0 or iscorrect(p): return p
 
-    result = ""
+	#u가 균형잡힌 괄호 문자열이 될 때까지 2개씩 추가해서 u,v 나누기
+	for i in range(2,len(p)+1,2):
+		if isbalanced(p[0:i]):
+			u=p[0:i]
+			v=p[i:len(p)]
+			break
 
-    check = []
-    sub = []
+	if iscorrect(u):
+		#u가 올바른 괄호 문자열일 때
+		answer+=u+solution(v)
+	else:
+		#u가 올바른 괄호 문자열이 아닐 때
+		answer+='('+solution(v)+')'
+		for c in u[1:-1]:
+			if c=='(': answer+=')'
+			else: answer+='('
 
-    count_1 = 0  # (
-
-    count_2 = 0  # )
-
-    while p:
-        k = p.popleft()
-        sub.append(k)
-
-        if k == "(":
-            count_1 += 1
-        else:
-            count_2 += 1
-
-        if len(check) == 0:
-            check.append(k)
-        else:
-            if check[-1] == "(" and k == ")":
-                check.pop()
-            else:
-                check.append(k)
-
-            if count_1 == count_2:
-                if len(check) == 0:
-                    t = "".join(sub)
-                    result = result + t
-
-                    sub = []
-                    check = []
-
-                    count_1 = 0
-                    count_2 = 0
-
-                else:
-                    sub = change_u(sub)
-
-                    result = check_v(sub, result)
-
-                    sub = []
-                    check = []
-
-                    count_1 = 0
-                    count_2 = 0
-
-                print(result)
-    return result
+	return answer
