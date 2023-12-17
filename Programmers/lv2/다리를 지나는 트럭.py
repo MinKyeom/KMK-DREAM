@@ -1,98 +1,187 @@
-# 내 풀이(개선 중)
+# 내 풀이
+"""
 def solution(bridge_length, weight, truck_weights):
-    from itertools import combinations
     from collections import deque
-    now = 0  # 경과 시간
 
-    b_l = bridge_length  # 다리 위 차량 최대 대수
-    w = weight  # 다리 감당 가능 무게
-    t_w = truck_weights  # 트럭들 무게
-    t_w.sort(reverse=True)  # 높은 순으로 나열
-    t_w = deque(t_w)
+    b_l=bridge_length #최대 수용 가능 차량 수
+    w=weight #무게
+    t_w=deque(truck_weights)
 
-    check = deque([])  # 현재 차량 확인
+    now=0  #시간
+    count_w=0 #다리 위 차량 무게
+    count_c=0 #차량 수
 
-    count = 0  # 현재 무게 측정
+    check=deque([])
 
-    finish = []  # 완료 차량 체크
+    finish=[] #완료 확인
+
+    while t_w:
+
+        k=t_w.popleft()
+
+        if len(check)==0:
+            check.append([now,k])
+            count_w+=k
+            count_c+=1
+            now+=1
+            continue
+
+        while check:
+            t,c=check.popleft()
+
+            if now-t==b_l:
+                count_w-=c
+                count_c-=1
+
+            else:
+                check.appendleft([t,c])
+                break
+
+        if count_w+k<=w and count_c+1<=b_l:
+            count_w+=k
+            count_c+=1
+            check.append([now,k])
+        else:
+            t_w.appendleft(k)
+
+        now+=1
+
+
+    while check:
+        t,c=check.popleft()
+
+        if now-t==b_l:
+
+            if len(check)==0:
+                return now+1
+            else:
+                now+=1
+        else:
+            check.appendleft([t,c])
+            now+=1
+
+    return now
+"""
+
+
+def solution(bridge_length, weight, truck_weights):
+    from collections import deque
+
+    b_l = bridge_length  # 최대 수용 가능 차량 수
+    w = weight  # 무게
+    t_w = deque(truck_weights)
+
+    now = 0  # 시간
+    count_w = 0  # 다리 위 차량 무게
+    count_c = 0  # 차량 수
+
+    check = deque([])
 
     while t_w:
         k = t_w.popleft()
 
-        if len(t_w) > 0:
-            start = now
+        if len(check) == 0:
+            check.append([now, k])
+            count_w += k
+            count_c += 1
 
-            if len(check) == 0:
-                check.append([k, start])
-                count += k
-                now += 1
-                continue
-            else:
-                if count + k <= w and len(check) + 1 <= b_l:
-                    check.append([k, start])
-                    count += k
+        else:
+            if now - check[0][0] == b_l:  # 차가 다리를 벗어나는 시점
+                i, j = check.popleft()
+                count_w -= j
+                count_c -= 1
 
-                    while check:  # 도착 차량 빼기
-                        i, j = check.popleft()
-                        if now - j == b_l:
-                            finish.append([i, j])
-                            continue
-                        else:
-                            check.appendleft([i, j])
-                            break
-                    now += 1
-                    continue
+                if count_w + k <= w and count_c + 1 <= b_l:
+                    check.append([now, k])
+                    count_w += k
+                    count_c += 1
 
                 else:
                     t_w.appendleft(k)
 
-                if count + t_w[-1] <= w and len(check) + 1 <= b_l:
-                    k_s = t_w.pop()
-                    count += k_s
-                    check.append([k_s, start])
+                now += 1
+                # print(check)
+                continue
 
-                    while check:  # 도착 차량 빼기
-                        i, j = check.popleft()
+            if count_w + k <= w and count_c + 1 <= b_l:
+                check.append([now, k])
+                count_w += k
+                count_c += 1
 
-                        if now - j == b_l:
-                            finish.append([i, j])
-                            continue
-                        else:
-                            check.appendleft([i, j])
-                            break
-                    now += 1
-                    continue
+            else:
+                t_w.appendleft(k)
 
-                else:
-                    while check:  # 도착 차량 빼기
-                        i, j = check.popleft()
+        now += 1
 
-                        if now - j == b_l:
-                            finish.append([i, j])
-                            continue
-                        else:
-                            check.appendleft([i, j])
-                            break
-                    now += 1
-                    continue
+        # print(check)
 
-        else:  # 모든 차량이 다리 위에 이미 존재
-
-            while check:  # 도착 차량 빼기
-                i, j = check.popleft()
-
-                if now - j == b_l:
-                    finish.append([i, j])
-                    now += 1
-                    continue
-                else:
-                    check.appendleft([i, j])
-                    now += 1
-                    continue
-            print(finish)
-            return now
-
-    return "check"
-
+    return check[-1][0] + b_l + 1
 
 # 다른 사람 풀이
+import collections
+
+DUMMY_TRUCK = 0
+
+
+class Bridge(object):
+
+    def __init__(self, length, weight):
+        self._max_length = length
+        self._max_weight = weight
+        self._queue = collections.deque()
+        self._current_weight = 0
+
+    def push(self, truck):
+        next_weight = self._current_weight + truck
+        if next_weight <= self._max_weight and len(self._queue) < self._max_length:
+            self._queue.append(truck)
+            self._current_weight = next_weight
+            return True
+        else:
+            return False
+
+    def pop(self):
+        item = self._queue.popleft()
+        self._current_weight -= item
+        return item
+
+    def __len__(self):
+        return len(self._queue)
+
+    def __repr__(self):
+        return 'Bridge({}/{} : [{}])'.format(self._current_weight, self._max_weight, list(self._queue))
+
+
+def solution(bridge_length, weight, truck_weights):
+    bridge = Bridge(bridge_length, weight)
+    trucks = collections.deque(w for w in truck_weights)
+
+    for _ in range(bridge_length):
+        bridge.push(DUMMY_TRUCK)
+
+    count = 0
+    while trucks:
+        bridge.pop()
+
+        if bridge.push(trucks[0]):
+            trucks.popleft()
+        else:
+            bridge.push(DUMMY_TRUCK)
+
+        count += 1
+
+    while bridge:
+        bridge.pop()
+        count += 1
+
+    return count
+
+
+def main():
+    print(solution(2, 10, [7, 4, 5, 6]), 8)
+    print(solution(100, 100, [10]), 101)
+    print(solution(100, 100, [10, 10, 10, 10, 10, 10, 10, 10, 10, 10]), 110)
+
+
+if __name__ == '__main__':
+    main()
