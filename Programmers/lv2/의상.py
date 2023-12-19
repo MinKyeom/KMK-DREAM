@@ -1,29 +1,56 @@
-# 내 풀이(개선 중)
+# 내 풀이
+# 선택하지 않는 경우의 수 추가 후 그걸 제외!!
 def solution(clothes):
     from itertools import combinations
-    result = 0
+    from collections import deque
 
-    check = [k for k in range(len(clothes))]
+    result = 1
 
-    for a in range(1, len(clothes) + 1):  # 갖춰입는 옷의 종류 개수
-        c = list(combinations(check, a))
+    check = {}
 
-        if a == 1:
-            count = 0
-            for b in c:
-                for d in b:
-                    result += len(clothes[d]) - 1
+    n = []  # 옷 종류 분류
+
+    # dic 내의 종류별 옷 분류
+
+    for c in clothes:
+        if c[-1] not in check:
+            check[c[-1]] = 1
+            n.append(c[-1])
 
         else:
-            for b in c:  # 종류 조합
-                print(b)
-                count = 1
-                for d in b:
-                    count *= len(clothes) - 1
+            check[c[-1]] += 1
 
-            result += count
+    # print(check)
 
-    print(result)
-    answer = 0
+    final = []  # 확인 할 조합 수
+
+    #     for a in range(1,len(n)+1):
+    #         new=map(list,list(combinations(n,a)))
+    #         final+=new
+
+    #     final=deque(final)
+
+    #     while final:
+    #         num=final.pop()
+
+    #         if len(num)==1:
+    #             result+=check[num[0]]
+    #         else:
+    #             count=1
+    #             for b in num:
+    #                 count*=check[b]
+
+    #             result+=count
+
+    for t in check:
+        result *= (check[t] + 1)
+
+    return result - 1
+
+# 다른 사람 풀이
+def solution(clothes):
+    from collections import Counter
+    from functools import reduce
+    cnt = Counter([kind for name, kind in clothes])
+    answer = reduce(lambda x, y: x*(y+1), cnt.values(), 1) - 1
     return answer
-
