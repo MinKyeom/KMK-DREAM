@@ -48,31 +48,26 @@ def dfs2(graph, start_node):
 
 # 내 풀이(개선 중)
 # dfs start
-def another(i, d_time, d, count, visit, K, new):
-    flag = False
+# d={} # 연결된 마을
+# d_time={} # 연결된 마을마다 걸리는 시간
+# dfs start
 
+def another(i, d_time, d, visit, count, check):
     for a in d[i]:
-        if not [a, i] in visit:
-            if 1 in d[a]:
-                count += d_time[a, i]
-                count += d_time[a, 1]
-                new.append(count)
-            else:
-                count += d_time[a, i]
-                visit.append([a, i])
-                if count > K:
-                    flag = True
-                    break
+        if 1 in d[a]:
+            for t in d_time[str(a) + "-" + str(1)]:
+                check.append(count + t)
 
-                else:
-                    count, flag = another(a, d_time, d, count, visit, K, new)
-
-        else:
+        elif a in visit:
             continue
 
-    # print(new,"new")
-    c = min(new)
-    return flag, c
+        else:
+            visit.append(a)
+            for k in d_time[str(a) + "-" + str(i)]:
+                new_count = count + k
+                another(a, d_time, d, visit, new_count, check)
+
+    return check
 
 
 def solution(N, road, K):
@@ -82,41 +77,53 @@ def solution(N, road, K):
 
     result = 0  # 마을의 개수
     d = {}  # 연결된 마을
-    d_time = {}
+    d_time = {}  # 연결된 마을마다 걸리는 시간
     del_list = [k for k in range(2, N + 1)]  # 배달 받을 마을
     visit = []
 
     for a, b, c in road:
         if not a in d:
             d[a] = [b]
-            d_time[a, b] = c
         else:
             d[a].append(b)
-            d_time[a, b] = c
+
         if not b in d:
             d[b] = [a]
-            d_time[b, a] = c
         else:
             d[b].append(a)
-            d_time[b, a] = c
+        if not str(a) + "-" + str(b) in d_time:
+            d_time[str(a) + "-" + str(b)] = [c]
+        else:
+            d_time[str(a) + "-" + str(b)].append(c)
+        if not str(b) + "-" + str(a) in d_time:
+            d_time[str(b) + "-" + str(a)] = [c]
+        else:
+            d_time[str(a) + "-" + str(b)].append(c)
+
+    # print(d,d_time)
 
     for i in del_list:
         count = 0  # 거리
         visit = []
         if i in d[1]:
-            count += d_time[i, 1]
+            for t in d_time[str(a) + "-" + str(b)]:
+                if t <= K:
+                    result += 1
+                else:
+                    continue
+        else:
+            check = []
+            visit.append(i)
+            check = another(i, d_time, d, visit, count, check)
+            if len(check) == 0:
+                continue
+            else:
+                count = min(check)
+
             if count <= K:
                 result += 1
             else:
                 continue
-
-        else:
-            new = []
-            flag, c = another(i, d_time, d, count, visit, K, new)
-            # print(flag,"flag",count,visit)
-            if c <= K and flag == False:
-                print("check")
-                result += 1
 
     return result
 
