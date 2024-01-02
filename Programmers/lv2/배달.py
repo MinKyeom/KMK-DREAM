@@ -69,85 +69,59 @@ def dfs2(graph, start_node):
 
     return visited
 
-# 내 풀이(개선 중)
-# dfs start
-# d={} # 연결된 마을
-# d_time={} # 연결된 마을마다 걸리는 시간
-# dfs start
+# 내 풀이
+# import heapq
 
-def another(i, d_time, d, visit, count, check):
-    for a in d[i]:
-        if 1 in d[a]:
-            for t in d_time[str(a) + "-" + str(1)]:
-                check.append(count + t)
+def dijkstra(check, r):
+    heap = []
 
-        elif a in visit:
-            continue
+    heap.append([0, 1])  ###
 
-        else:
-            visit.append(a)
-            for k in d_time[str(a) + "-" + str(i)]:
-                new_count = count + k
-                another(a, d_time, d, visit, new_count, check)
+    # heapq.heappush(heap,[0,1])
 
-    return check
+    while heap:
+        # cost,node=heapq.heappop(heap)
+        cost, node = heap.pop()
+        for c, n in r[node]:
+            if cost + c < check[n]:
+                check[n] = cost + c
+                heap.append([cost + c, n])
+                # heapq.heappush(heap,[cost+c,n])
 
 
 def solution(N, road, K):
-    # 1번 마을에서 배달 가능한 마을의 개수
-    # dfs
-    # 도달 가능한지 여부
+    check = [float("inf")] * (N + 1)
 
-    result = 0  # 마을의 개수
-    d = {}  # 연결된 마을
-    d_time = {}  # 연결된 마을마다 걸리는 시간
-    del_list = [k for k in range(2, N + 1)]  # 배달 받을 마을
-    visit = []
+    check[1] = 0
+    # print(check)
 
-    for a, b, c in road:
-        if not a in d:
-            d[a] = [b]
-        else:
-            d[a].append(b)
+    r = [[] for _ in range(N + 1)]
 
-        if not b in d:
-            d[b] = [a]
-        else:
-            d[b].append(a)
-        if not str(a) + "-" + str(b) in d_time:
-            d_time[str(a) + "-" + str(b)] = [c]
-        else:
-            d_time[str(a) + "-" + str(b)].append(c)
-        if not str(b) + "-" + str(a) in d_time:
-            d_time[str(b) + "-" + str(a)] = [c]
-        else:
-            d_time[str(a) + "-" + str(b)].append(c)
+    for k in road:
+        r[k[0]].append([k[2], k[1]])
+        r[k[1]].append([k[2], k[0]])
+    print(r)
+    dijkstra(check, r)
 
-    # print(d,d_time)
-
-    for i in del_list:
-        count = 0  # 거리
-        visit = []
-        if i in d[1]:
-            for t in d_time[str(a) + "-" + str(b)]:
-                if t <= K:
-                    result += 1
-                else:
-                    continue
-        else:
-            check = []
-            visit.append(i)
-            check = another(i, d_time, d, visit, count, check)
-            if len(check) == 0:
-                continue
-            else:
-                count = min(check)
-
-            if count <= K:
-                result += 1
-            else:
-                continue
-
-    return result
+    return len([i for i in check if i <= K])
 
 # 다른 사람 풀이
+import sys
+def solution(N, road, K):
+    visited, D, r = [False]*(N+1), [sys.maxsize]*(N+1), [[(None, None)]] + [[] for _ in range(N)]
+    for e in road:
+        r[e[0]].append((e[1],e[2]))
+        r[e[1]].append((e[0],e[2]))
+    D[1] = 0
+    for _ in range(1,N+1):
+        min_ = sys.maxsize
+        for i in range(1,N+1):
+            if not visited[i] and D[i] < min_:
+                min_ = D[i]
+                m = i
+        visited[m] = True
+        for w, wt in r[m]:
+            if D[m] + wt < D[w]:
+                D[w] = D[m] + wt
+
+    return len([d for d in D if d <= K])
