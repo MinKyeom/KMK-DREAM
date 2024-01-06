@@ -170,3 +170,41 @@ def solution(maps):
 #                         flag=True
 
     return result+1 if flag!=False else -1
+
+# 내 풀이(개선 중)
+from collections import deque
+
+
+def solution(maps):
+    q = deque([[0, 0, 1]])
+
+    visit = [[False] * len(maps[0]) for _ in range(len(maps))]
+    dx = [1, -1, 0, 0]
+    dy = [0, 0, 1, -1]
+
+    while q:
+        x, y, z = q.popleft()
+
+        visit[x][y] = True
+
+        if [x, y] == [len(maps) - 1, len(maps[0]) - 1]:
+            return z
+
+        for new_x, new_y in zip(dx, dy):
+            if 0 <= x + new_x < len(maps) and 0 <= y + new_y < len(maps[0]) and visit[x + new_x][y + new_y] == False and \
+                    maps[x + new_x][y + new_y] != 0:
+                q.append([x + new_x, y + new_y, z + 1])
+
+    #         if 0<=x+1<len(maps) and 0<=y<len(maps[0]) and visit[x+1][y]==False and maps[x+1][y]!=0:
+    #             q.append([x+1,y,z+1])
+
+    #         if 0<=x-1<len(maps) and 0<=y<len(maps[0]) and visit[x-1][y]==False and maps[x-1][y]!=0:
+    #             q.append([x-1,y,z+1])
+
+    #         if 0<=x<len(maps) and 0<=y+1<len(maps[0]) and visit[x][y+1]==False and maps[x][y+1]!=0:
+    #             q.append([x,y+1,z+1])
+
+    #         if 0<=x<len(maps) and 0<=y-1<len(maps[0]) and visit[x][y-1]==False and maps[x][y-1]!=0:
+    #             q.append([x,y-1,z+1])
+
+    return -1
