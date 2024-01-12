@@ -1,20 +1,24 @@
-# 내 풀이(개선 중)
-from itertools import combinations
+# 내 풀이
+def check(chess, n, queen):
+    count = 0
+    if n == queen:
+        return 1
+
+    for i in range(n):
+        chess[queen] = i
+        for j in range(queen):
+            if chess[j] == chess[queen]:
+                break
+            if abs(chess[j] - chess[queen]) == (queen - j):
+                break
+        else:
+            count += check(chess, n, queen + 1)
+    return count
 
 
 def solution(n):
-    k = [[] for _ in range(n)]
-    num = [a for a in range(n * n)]
-    count = 0
-
-    for i in range(n):
-        for j in range(n):
-            k[i].append(count)
-            count += 1
-
-    t = list(combinations(num, n))
-
-    return 0
+    chess = [0] * n
+    return check(chess, n, 0)
 
 
 # 다른 사람 풀이
