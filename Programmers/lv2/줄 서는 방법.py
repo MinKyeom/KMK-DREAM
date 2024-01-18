@@ -64,4 +64,3 @@ def solution(n, k):
     return result
 """
 
-# 다른 사람 풀이
