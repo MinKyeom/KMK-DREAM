@@ -1,29 +1,40 @@
 # 내 풀이(개선 중)
 # bfs로 접근했으나 dp로 각 사각형을 쪼개서 계산하는 방향성 생각해보기!
 from collections import deque
-
 def solution(n):
-    dx = [1, 0]
-    dy = [0, 1]
-
-    tri = [[0 for _ in range(n)] for _ in range(3)]
-
-    result = 0
-
+    check = [0, 0, 3, 0, 11]
     if (n * 3) % 2 == 1:
         return 0
-    else:
-        for i in range(3):
-            for j in range(n):
-                if i == 2 and j == n - 1:
-                    result = tri[i - 1][j] + tri[i][j - 1]
-                if i + 1 < 3:
-                    tri[i + 1][j] = max(tri[i + 1][j], tri[i][j]) + 1
-                    result = max(tri[i + 1][j], result)
-                if j + 1 < n:
-                    tri[i][j + 1] = max(tri[i][j + 1], tri[i][j]) + 1
-                    result = max(tri[i][j + 1], result)
 
-    return result % 1000000007
+    else:
+        if n == 2 or n == 4:
+            return check[n] % 1000000007
+
+        else:
+            for i in range(5, n + 1):
+                if i % 2 == 0:
+                    num = check[i - 2] * 3 + 2
+                    check.append(num)
+                else:
+                    check.append(0)
+
+            return check[n] % 1000000007
+
+
 
 # 다른 사람 풀이
+def solution(n):
+    mod = 1000000007
+    dp = [0 for i in range(n+1)]
+    dp[2] = 3
+    if n > 2:
+        dp[4] = 11
+        for i in range(6, n+1):
+            if i % 2 == 0:
+                dp[i] = dp[i-2] * 3 + 2
+                for j in range(i-4, -1, -2):
+                    dp[i] += dp[j] * 2
+                dp[i] = dp[i] % mod
+            else:
+                dp[i] = 0
+    return dp[n]
