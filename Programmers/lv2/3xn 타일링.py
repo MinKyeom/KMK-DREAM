@@ -1,24 +1,32 @@
 # 내 풀이(개선 중)
 # bfs로 접근했으나 dp로 각 사각형을 쪼개서 계산하는 방향성 생각해보기!
-from collections import deque
+# 규칙성을 파악하는 dp!! 패턴 파악!
+
 def solution(n):
-    check = [0, 0, 3, 0, 11]
-    if (n * 3) % 2 == 1:
+    dp = [0, 0, 3, 0, 11]
+    if n == 2:
+        return dp[2]
+    elif n == 4:
+        return dp[4]
+    elif n % 2 == 1:
         return 0
-
     else:
-        if n == 2 or n == 4:
-            return check[n] % 1000000007
+        check = 4
 
-        else:
-            for i in range(5, n + 1):
-                if i % 2 == 0:
-                    num = check[i - 2] * 3 + 2
-                    check.append(num)
-                else:
-                    check.append(0)
+        while check < n:
+            new = dp[check] * 3
+            dp.append(0)
 
-            return check[n] % 1000000007
+            for i in range(2, check):
+                new += dp[i] * 2
+
+            new += 2
+
+            dp.append(new)
+
+            check += 2
+
+    return dp[n] % 1000000007
 
 
 
