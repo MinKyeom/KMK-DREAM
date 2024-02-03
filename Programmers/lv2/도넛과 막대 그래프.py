@@ -1,3 +1,33 @@
+# 내 풀이
+def solution(edges):
+    result = [0, 0, 0, 0]
+    g = {}
+    e = edges  # 용어 축소
+
+    for start, arrive in e:  # g[0]:start g[1]:arrive
+        if not g.get(start):
+            g[start] = [0, 0]
+        if not g.get(arrive):
+            g[arrive] = [0, 0]
+
+        g[start][0] += 1
+        g[arrive][1] += 1
+
+    for key, val in g.items():
+        # 정점 찾기
+        if val[0] >= 2 and val[1] == 0:
+            result[0] = key
+        # 막대그래프 찾기
+        elif val[0] == 0 and val[1] >= 1:
+            result[2] += 1
+        # 8자그래프 찾기
+        elif val[0] >= 2 and val[1] >= 2:
+            result[3] += 1
+    # 도넛 그래프
+    result[1] = (g[result[0]][0] - result[2] - result[3])
+
+    return result
+
 # 내 풀이(개선 중)
 # 정점을 없애고 그래프 모양을 판별 후 갯수 추가
 # 정점을 제외한 부분에서 나머지 점에서 출발 후 모양 판별
