@@ -1,3 +1,55 @@
+# 내 풀이
+# bfs를 한 번 돌린 후 파이프 번호에 내장량을 더해준다!
+from collections import deque
+def solution(land):
+    n = len(land)  # 깊이(세로)
+    m = len(land[0])  # 폭(가로)
+    dx = [1, 0, 0, -1]
+    dy = [0, 1, -1, 0]
+
+    p = [0 for _ in range(m)]  # 파이프 번호
+
+    v = [[False for _ in range(m)] for _ in range(n)]  # 방문
+
+    q = deque([])
+
+    check_p = []  # 파이프 뭉치 체크
+
+    for i in range(n):
+        for j in range(m):
+            if land[i][j] == 1:
+                q.append([i, j])
+
+    # 석유가 들어있는 점 모두 q 시작
+    while q:
+        count = 0
+        new = deque([])
+        x, y = q.popleft()
+        if v[x][y] == False:
+            v[x][y] = True
+            check_p.append(y)
+            new.append([x, y])
+
+        while new:
+            count += 1
+            x, y = new.popleft()
+
+            for nx, ny in zip(dx, dy):
+                if 0 <= x + nx < len(land) and 0 <= y + ny < len(land[0]) and land[x + nx][y + ny] == 1 and v[x + nx][
+                    y + ny] == False:
+                    new.append([x + nx, y + ny])
+                    v[x + nx][y + ny] = True
+                    check_p.append(y + ny)
+
+        for k in list(set(check_p)):
+            p[k] += count
+
+        # 초기화
+        count = 0
+        new = deque([])
+        check_p = []
+
+    return max(p)
 # 내 풀이 (개선 중)
 # bfs > 효율성 0
 # bfs를 한 번에 하고 결과값 나오게 연결된 관은 모두 값으로 만들어 풀기 idea 생각해보기
@@ -131,4 +183,30 @@ def solution(land):
                 bfs(i, j)
     answer = max(result)
     return answer
+
+# 다른 사람 풀이
+def solution(land):
+    n, m = len(land), len(land[0])
+    visited = [[True]*m for _ in range(n)]
+    delta = [(1,0),(-1,0),(0,1),(0,-1)]
+    oil_cnt = [0]*m
+    for i in range(n):
+        for j in range(m):
+            if land[i][j] and visited[i][j]:
+                visited[i][j] = False
+                s = [(i,j)]
+                col = set()
+                oil = 0
+                while s:
+                    x, y = s.pop()
+                    col.add(y)
+                    oil += 1
+                    for dx, dy in delta:
+                        X, Y = x+dx, y+dy
+                        if 0<=X<n and 0<=Y<m and land[X][Y] and visited[X][Y]:
+                            visited[X][Y] = False
+                            s.append((X,Y))
+                for y in col:
+                    oil_cnt[y] += oil
+    return max(oil_cnt)
 
