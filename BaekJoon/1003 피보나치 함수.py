@@ -1,4 +1,27 @@
 # 내 풀이
+#f(n)=f(n-1)+f(n-2)
+n=int(input())
+result=[]
+
+for i in range(n):
+    k=int(input())
+    dp=[0]*(k+1)
+    if k==0:
+        dp=[0]*2
+
+    dp[k]=1
+    j=k
+
+    while j>=2:
+        dp[j-1]+=dp[j]
+        dp[j-2]+=dp[j]
+        j-=1
+    result.append([dp[0],dp[1]])
+
+for i,j in result:
+    print(i, j)
+
+# 내 풀이(개선 중)
 from collections import deque
 n=int(input())
 k=deque([])
