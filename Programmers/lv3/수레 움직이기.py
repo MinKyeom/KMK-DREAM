@@ -398,3 +398,103 @@ def solution(maze):
         # q=deque([[[r_s,[r_s]],[b_s,[b_s]]]])
 
     return result if flag_r == True and flag_b == True else 0
+
+########################################################################################
+
+# 다른 사람 풀이
+from collections import deque
+from copy import deepcopy
+
+visited_states = []
+states_queue = deque()
+
+class StatePerColor:
+    def __init__(self, maze, v_init, v_goal):
+        self.visited = [[False for cell in row] for row in maze]
+        for i, row in enumerate(maze):
+            for j, cell in enumerate(row):
+                if cell == v_init:
+                    self.pos = (i, j)
+                if cell == v_goal:
+                    self.goal = (i, j)
+
+        self.size = len(maze), len(maze[0])
+
+    def __eq__(self, other):
+        if self.pos != other.pos:
+            return False
+        if self.goal != other.goal:
+            return False
+        if self.visited != other.visited:
+            return False
+
+    def get_updated(self, wall):
+        if self.pos == self.goal:
+            return [self]
+
+        i, j = self.pos
+        updatable = [(i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)]
+        n, m = self.size
+
+        prev_i, prev_j = i, j
+        updated_list = []
+        for i, j in updatable:
+            if not (0 <= i < n and 0 <= j < m):
+                continue
+            if wall[i][j]:
+                continue
+            if self.visited[i][j]:
+                continue
+
+            updated = deepcopy(self)
+            updated.pos = i, j
+            updated.visited[prev_i][prev_j] = True
+            updated.prev_pos = prev_i, prev_j
+
+            updated_list.append(updated)
+
+        return updated_list
+
+def is_goal(states):
+    for state in states:
+        if state.pos != state.goal:
+            return False
+    return True
+
+def update(states, wall):
+    updated_list_red, updated_list_blue = [state.get_updated(wall) for state in states]
+
+    updated_list = []
+    for updated_red in updated_list_red:
+        for updated_blue in updated_list_blue:
+            if updated_red.pos == updated_blue.pos:
+                continue
+            if updated_red.prev_pos == updated_blue.pos \
+            and updated_red.pos == updated_blue.prev_pos:
+                continue
+
+            updated_list.append((updated_red, updated_blue))
+    return updated_list
+
+def solution(maze):
+    state_red = StatePerColor(maze, v_init=1, v_goal=3)
+    state_blue = StatePerColor(maze, v_init=2, v_goal=4)
+    wall = [[v == 5 for v in row] for row in maze]
+
+    states = (state_red, state_blue)
+
+    states_queue.append((states, 0))
+    while len(states_queue) > 0:
+        states, num_steps = states_queue.popleft()
+        visited_states.append(states)
+
+        if is_goal(states):
+            return num_steps
+
+        updated_list = update(states, wall)
+
+        for updated in updated_list:
+            if not updated in visited_states:
+                states_queue.append((updated, num_steps + 1))
+
+    return 0
