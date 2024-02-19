@@ -3,6 +3,97 @@ from collections import deque
 
 
 def solution(temperature, t1, t2, a, b, onboard):
+    result = float("inf")  # 전력소모량
+    p = onboard  # 승객 탑승 여부
+    t = temperature  # temperature: 실외온도
+    now = temperature  # 현재기온
+    s = sum(onboard)
+    o = []
+    for x in range(len(p)):
+        if p[x] == 1:
+            o.append(x)
+
+    # want: 희망온도 off: 전원 temperature: 시간에 따른 온도
+    check = [[now, temperature, "off"] for _ in range(len(p))]  # 시간에 따른 에어컨 전원 및 온도 변경여부 0,1,-1
+
+    #### 목표 ####
+    # 승객이 탑승중일때 최적화된 실내 온도를 최소의 전력으로 맞추기
+    # 승객이 탑승할때도 에어컨이 켜져있다면 외부 온도와 관계없이 에어컨의 조건에 따른다!
+    # 사이인거 등호 포함!
+    # 더 더울경우 t2 추울경우 t1
+    # 탑승객이 없을경우 최적화를 맞출 필요가 없다 그래야 최소 전력 가능!
+    # 변화가 생기기 직전에 에어컨 on
+    #################################
+
+    # 기준점 t: 현재 온도
+
+    ####
+    # 온도를 선택하는 방법 중 전력이 최소로 드는걸 선택
+    # [현재온도, 전력]으로 이루어진 리스트를 활용하여 체크
+    # 최근 고객이 탈 때까지 최적한 온도를 맞출 수 있는 지 여부 확인 실외온도를 채택할경우
+
+    count = 0
+    # [현재기온,전력,시간,남은 승객 수]
+    q = deque([[now, 0, 0, s]])
+    result = float("inf")
+
+    while q:
+        c, e, time, x = q.pop()
+        new = []
+        new_x = x
+        # 최적화 온도 여부 체크
+        if not t1 <= c <= t2 and p[time] == 1:
+            continue
+        elif t1 <= c <= t2 and p[time] == 1:
+            new_x = x - 1
+
+        if e >= result:
+            continue
+
+        if time == len(p) - 1 or x == 0:
+            if e < result:
+                result = e
+            continue
+
+        # 에어컨 off 경우 실외 온도와 동일하게
+        if c == t and c > t2 and c - (time + 1 - o[s - x]) <= t2:
+            q.append([c, e, time + 1, new_x])
+            # new.append([c,e,time+1,x])
+        elif c == t and c < t1 and c + (time + 1 - o[s - x]) >= t1:
+            q.append([c, e, time + 1, new_x])
+            # new.append([c,e,time+1,x])
+        elif c > t and c + (time + 1 - o[s - x]) - 1 >= t1:
+            q.append([c - 1, e, time + 1, new_x])
+            # new.append([c-1,e,time+1,x])
+        elif c < t and c - (time + 1 - o[s - x]) + 1 <= t2:
+            q.append([c + 1, e, time + 1, new_x])
+            # new.append([c+1,e,time+1,x])
+
+        # 에어컨 on 경우 변동
+        if c > t2:
+            q.append([c - 1, e + a, time + 1, new_x])
+            # new.append([c-1,e+a,time+1,x])
+        elif c < t1:
+            q.append([c + 1, e + a, time + 1, new_x])
+            # new.append([c+1,e+a,time+1,x])
+        elif t1 <= c <= t2:
+            q.append([c, e + b, time + 1, new_x])
+            # new.append([c,e+b,time+1,x])
+            if abs(t2 - c) >= abs(c - t1):
+                q.append([c + 1, e + a, time + 1, new_x])
+                # new.append([c+1,e+a,time+1,x])
+            elif abs(t2 - c) < abs(c - t1):
+                q.append([c - 1, e + a, time + 1, new_x])
+                # new.append([c-1,e+a,time+1,x])
+
+        # new=sorted(new, key=lambda x:x[1])
+
+    return result
+# 내 풀이(개선 중)
+from collections import deque
+
+
+def solution(temperature, t1, t2, a, b, onboard):
     result = 0  # 전력소모량
     p = onboard  # 승객 탑승 여부
     t = temperature  # temperature: 실외온도
