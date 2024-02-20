@@ -1,4 +1,52 @@
 # 내 풀이(개선 중)
+def solution(temperature, t1, t2, a, b, onboard):
+    t = temperature  # 현재 온도
+    p = onboard  # 승객 탑승 여부
+    start = max(t - t2, t1 - t)
+    check = start  # 처음 기온차
+    result = 0  # 전력량
+    num = sum(p)
+
+    for i in range(len(p)):
+        if p[i] == 1:
+            if start == 0:
+                if num > 1 and p[i + 1] != 1:
+                    if b + b > a:
+                        start += 1
+                    else:
+                        result += b
+                elif num > 1 and p[i + 1] == 1:
+                    result += b
+            num -= 1
+
+        else:  # 승객 탑승 x
+            if start > 1:
+                result += a
+                start -= 1
+            elif start == 1 and check != 1 and p[i + 1] != 1:
+                if b + b > a:
+                    start -= 1
+                    result += a
+                else:
+                    result += b
+
+            elif start == 1 and p[i + 1] == 1:
+                start -= 1
+                result += a
+
+            elif start == 0 and p[i + 1] != 1:
+                if b + b > a:
+                    start += 1
+                else:
+                    result += b
+            elif start == 0 and p[i + 1] == 1:
+                result += b
+
+        print(result, start, p[i])
+
+        if num == 0:
+            return result
+# 내 풀이(개선 중)
 from collections import deque
 
 
