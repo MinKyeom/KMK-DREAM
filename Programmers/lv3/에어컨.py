@@ -1,3 +1,117 @@
+# 내 풀이
+def solution(temperature, t1, t2, a, b, onboard):
+    t = temperature
+    p = onboard
+
+    max_t, min_t = t2, t1
+
+    dp = [[1e9] * 51 for _ in range(1001)]
+
+    dp[0][t + 10] = 0
+
+    count = sum(p)
+
+    for i in range(1, len(onboard)):  # i 시간
+        if p[i] == 1:
+            start = t1
+            end = t2 + 1
+        else:
+            start = -10
+            end = 40 + 1
+
+        for j in range(start, end):
+            if j == t:
+                check = [dp[i - 1][j + 10]]
+
+                if j + 10 != 0:
+                    check.append(dp[i - 1][j - 1 + 10])
+                if j + 10 != 50:
+                    check.append(dp[i - 1][j + 1 + 10])
+
+                dp[i][j + 10] = min(check)
+
+            elif j > t:
+                check = [dp[i - 1][j + 10] + b]
+
+                if j + 10 != 0:
+                    check.append(dp[i - 1][j + 10 - 1] + a)
+                if j + 10 != 50:
+                    check.append(dp[i - 1][j + 10 + 1])
+
+                dp[i][j + 10] = min(check)
+
+
+            else:
+                check = [dp[i - 1][j + 10] + b]
+
+                if j + 10 != 0:
+                    check.append(dp[i - 1][j + 10 - 1])
+                if j + 10 != 50:
+                    check.append(dp[i - 1][j + 10 + 1] + a)
+
+                dp[i][j + 10] = min(check)
+
+        if p[i] == 1:
+            count -= 1
+            if count == 0:
+                last = i
+                return min(dp[last])
+
+                # return min(dp[len(p)-1])
+
+
+"""
+def solution(temperature, t1, t2, a, b, onboard):
+    mintemp, maxtemp = t1, t2
+
+    # dp[temp][t] = 시간 t에 실내온도가 (temp+10)도인
+    # 상황을 만드는 최소 소비 전력
+    dp = [[1e9] * 51 for _ in range(1001)]
+
+    # 초기화 (t=0)
+    dp[0][temperature + 10] = 0
+
+    for t, is_onboard in enumerate(onboard[1:], 1):
+        print(t,is_onboard)
+        # 승객이 탑승한 상황에서는 오직 mintemp <= temp <= maxtemp
+        # 인 경우만 고려하면 된다.
+        if is_onboard:
+            mintemp_to_consider = mintemp
+            maxtemp_to_consider = maxtemp + 1
+        else:
+            mintemp_to_consider = -10
+            maxtemp_to_consider = 40 + 1
+
+        for temp in range(mintemp_to_consider, maxtemp_to_consider):
+            if temp == temperature:
+                candidates = [dp[t - 1][temp + 10]]
+                if temp + 10 != 0:
+                    candidates.append(dp[t - 1][temp - 1 + 10])
+                if temp + 10 != 50:
+                    candidates.append(dp[t - 1][temp + 1 + 10])
+
+                dp[t][temp + 10] = min(candidates)
+
+            elif temp > temperature:
+                candidates = [dp[t - 1][temp + 10] + b]
+                if temp + 10 != 0:
+                    candidates.append(dp[t - 1][temp - 1 + 10] + a)
+                if temp + 10 != 50:
+                    candidates.append(dp[t - 1][temp + 1 + 10])
+
+                dp[t][temp + 10] = min(candidates)
+            else:
+                candidates = [dp[t - 1][temp + 10] + b]
+                if temp + 10 != 0:
+                    candidates.append(dp[t - 1][temp - 1 + 10])
+                if temp + 10 != 50:
+                    candidates.append(dp[t - 1][temp + 1 + 10] + a)
+
+                dp[t][temp + 10] = min(candidates)
+
+    answer = min(dp[len(onboard) - 1])
+    return answer
+    """
 # 내 풀이(개선 중)
 def solution(temperature, t1, t2, a, b, onboard):
     t = temperature  # 현재 온도
