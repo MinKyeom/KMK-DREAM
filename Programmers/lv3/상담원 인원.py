@@ -212,3 +212,38 @@ def solution(k, n, reqs):
         wait_min += heappop(wait_diff)
 
     return wait_min
+
+# 다른 사람 풀이
+import heapq
+
+def sol(now, rest, k, arr, pq, reqs):
+    if now == k-1:
+        tmp = 0
+        arr[now] = rest
+        for i in range(k):
+            pq[i].clear()
+        for a, b, c in reqs:
+            c -= 1
+            while pq[c] and pq[c][0] <= a:
+                heapq.heappop(pq[c])
+            if len(pq[c]) == arr[c]:
+                t = heapq.heappop(pq[c])
+                tmp += t - a
+                heapq.heappush(pq[c], t+b)
+            else:
+                heapq.heappush(pq[c], a+b)
+        return tmp
+    else:
+        i = 1
+        tmp = 987654321
+        while True:
+            if rest-i < k-1-now: break
+            arr[now] = i
+            tmp = min(sol(now+1, rest-i, k, arr, pq, reqs), tmp)
+            i += 1
+        return tmp
+
+def solution(k, n, reqs):
+    arr = [0] * k
+    pq = [[] for i in range(k)]
+    return sol(0, n, k, arr, pq, reqs)
