@@ -1,3 +1,42 @@
+# 내 풀이(개선 중5)
+# 2중 for문 한 번에 구별가능한지 확인!
+# 완호의 점수
+# 임의의 다른 사원보다 두 점수 모두 낮은 경우 인센티브x +석차에서 제외
+
+from collections import deque
+def solution(scores):
+    # 완호의 점수
+    s = deque(scores)
+    n = s.popleft()
+    num = n[0] + n[1]
+    # 완호보다 위의 사람
+    check = deque([])
+    while s:
+        i, j = s.popleft()
+        if i + j > num:
+            if len(check) == 0:
+                check.append([i, j])
+            else:
+                k = len(check)
+                count = 0
+                flag = False
+
+                while count < k:
+                    v, w = check.popleft()
+                    if v > i and w > j:
+                        flag = True
+                        break
+                    elif v < i and w < j:
+                        continue
+                    else:
+                        check.append([v, w])
+                    count += 1
+                if flag == False:
+                    check.append([i, j])
+
+    return len(check) + 1
+
+
 # 내 풀이(개선 중4)
 # 2중 for문 한 번에 구별가능한지 확인!
 # 완호의 점수
