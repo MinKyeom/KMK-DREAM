@@ -1,3 +1,35 @@
+# 내 풀이
+def solution(scores):
+    n = scores[0]
+    num = n[0] + n[1]
+
+    s = sorted(scores, key=lambda x: (-x[0], x[1]))
+
+    check = []
+
+    for i in range(len(s)):
+        if s[i][0] + s[i][1] > num:
+            if s[i][0] > n[0] and s[i][1] > n[1]:
+                return -1
+
+            elif len(check) == 0:  # 첫번째의 경우 인센티브 못받을 경우x
+                check.append([s[i][0], s[i][1]])
+                v = s[i][1]
+                w = s[i][0]
+
+            else:
+                if s[i][0] != w:  # 더 작아지는 순간
+                    if v > s[i][1]:  # 이전 첫번째 성과가 무조건 높기에 두번째는 그 이전보다 높아야 인센티브 가능!
+                        continue
+                    else:
+                        check.append([s[i][0], s[i][1]])
+                        v = s[i][1]
+                        w = s[i][0]
+                else:
+                    check.append([s[i][0], s[i][1]])
+                    v = s[i][1]  # 첫번쨰가 같다면 두번쩨는 뒤로 갈수록 점수가 최소 높거나 같기때문에 갱신
+
+    return len(check) + 1
 # 내 풀이(개선 중5)
 # 2중 for문 한 번에 구별가능한지 확인!
 # 완호의 점수
@@ -198,3 +230,18 @@ def solution(scores):
         count += 1
 
     return len(check) + 1
+
+# 다른 사람 풀이
+def solution(scores):
+    wanho = scores[0]
+    wanho_sum = sum(wanho)
+    scores.sort(key=lambda s: (-s[0], s[1]))
+    max_company, answer = 0, 1
+    for s in scores:
+        if wanho[0] < s[0] and wanho[1] < s[1]:
+            return -1
+        if max_company <= s[1]:
+            if wanho_sum < s[0] + s[1]:
+                answer += 1
+            max_company = s[1]
+    return answer
