@@ -347,3 +347,87 @@ def solution(commands):
                 answer.append(values[rootx])
 
     return answer
+
+# 다른 사람풀이
+TABLE_SIZE = 50;
+
+
+def update(value1, value2, table):
+    for r in range(1, TABLE_SIZE + 1):
+        for c in range(1, TABLE_SIZE + 1):
+            if table[r][c] == value1:
+                table[r][c] = value2
+
+
+def merge(r1, c1, r2, c2, table, group):
+    group[r2][c2] = group[r1][c1]
+    table[r2][c2] = table[r1][c1]
+
+
+def unmerge(r, c, table, group):
+    table[r][c] = ""
+    group[r][c] = 51 * r + c
+
+
+def solution(commands):
+    table = [[""] * (TABLE_SIZE + 1) for _ in range(TABLE_SIZE + 1)]
+    group = [[0] * (TABLE_SIZE + 1) for _ in range(TABLE_SIZE + 1)]
+    group_dict = dict()
+
+    result = []
+
+    for r in range(1, TABLE_SIZE + 1):
+        for c in range(1, TABLE_SIZE + 1):
+            group[r][c] = 51 * r + c
+            group_dict[group[r][c]] = [[r, c]]
+
+    for command in commands:
+        order, *rest = command.split(" ")
+
+        if order == "UPDATE":
+            if len(rest) == 2:   # UPDATE value1 value2
+                value1, value2 = rest
+                update(value1, value2, table)
+            else:                # UPDATE r c value
+                r, c, value = rest
+                r, c = int(r), int(c)
+
+                for nr, nc in group_dict[group[r][c]]:
+                    table[nr][nc] = value
+        elif order == "MERGE":   # MERGE r1 c1 r2 c2
+            r1, c1, r2, c2 = map(int, rest)
+
+            if group[r1][c1] == group[r2][c2]:
+                continue
+
+            if not table[r1][c1] and table[r2][c2]:
+                r1, r2 = r2, r1
+                c1, c2 = c2, c1
+
+            merged_group = group[r2][c2]
+
+            for nr, nc in group_dict[merged_group]:
+                merge(r1, c1, nr, nc, table, group)
+
+            group_dict[group[r1][c1]].extend(group_dict[merged_group])
+            group_dict[merged_group] = []
+        elif order == "UNMERGE": # UNMERGE r c
+            r, c = map(int, rest)
+            original_group = group[r][c]
+            original_value = table[r][c]
+            original_group_values = group_dict[original_group]
+
+            for nr, nc in group_dict[original_group]:
+                unmerge(nr, nc, table, group)
+                group_dict[nr * 51 + nc] = [[nr, nc]]
+
+            table[r][c] = original_value
+        elif order == "PRINT":   # PRINT r c
+            r, c = map(int, rest)
+
+            if table[r][c]:
+                result.append(table[r][c])
+            else:
+                result.append("EMPTY")
+
+    return result
