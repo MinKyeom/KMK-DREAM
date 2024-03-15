@@ -1,3 +1,38 @@
+# 내 풀이
+# point:약수의 개수를 효율적으로 구하는 방식에 대하여 고민해서 풀기
+
+# 약수의 개수로 구할 수 있다
+# 리스트로 만들기에는 1억의 숫자를 두 번 구성하는 리스트 만들 경우 데이터 초과
+# 각 수가 나오는 출현 횟수는 표를 보면 약수의 개수와 비례한다는 사실 유추 가능!!
+# dp로 한 번에 나오는게 가능한가 생각 접근해보기! > 출제의도!(디클레어 증명등등 사용x)
+# 약수의 개수를 구하는 과정을 간소화 시킬 전략 생각해보고 접근하기!
+
+def solution(e, starts):
+    dp = [0] * (e + 1)
+
+    for i in range(1, e + 1):
+        for j in range(1, min((e // i + 1), i)):
+            dp[i * j] += 1
+
+    check = [0] * (e + 1)
+
+    num = 0  # 약수의 번호
+    count = 0  # 약수의 개수
+
+    for k in range(e, -1, -1):
+        if dp[k] >= count:
+            count = dp[k]
+            num = k
+            check[k] = num
+        else:
+            check[k] = num
+
+    result = []
+    for t in starts:
+        result.append(check[t])
+
+    return result
+
 # 약수의 개수로 구할 수 있다
 # 리스트로 만들기에는 1억의 숫자를 두 번 구성하는 리스트 만들 경우 데이터 초과
 # 각 수가 나오는 출현 횟수는 표를 보면 약수의 개수와 비례한다는 사실 유추 가능!!
