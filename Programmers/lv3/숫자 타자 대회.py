@@ -1,3 +1,120 @@
+# 내 풀이(개선 중 숫자 번호는 12개라는 점 고려해서 개선하려고 함)
+# 목표: 최소한의 시간으로 타이핑을 하는 경우의 가중치
+# 이동하지 않고 제자리 누르기:1 상하좌우 이동 후 누르기:2 대각선:3
+
+# 왼손 오른손 중 가중치가 제일 적은 경우의 수들의 합
+# 같은 번호에 두 손가락 놓는거 불가
+# 상하좌우 두 번 가는것보다 대각선 한 번이 더 이득
+# 최솟값+최솟값 = 최솟값 명제는 항상 성립
+# 번호판을 dp로 생각 후 마지막 번호의 dp값이 가중치 최솟값으로 생각접근해보기
+
+
+from collections import deque
+
+
+# 왼손 가중치 계산
+def left_hand(new_x, new_y):
+    l = 0
+    while True:
+        if new_x > 0 and new_y > 0:
+            l += 3
+            new_x -= 1
+            new_y -= 1
+        elif new_x > 0 and new_y == 0:
+            l += 2
+            new_x -= 1
+        elif new_x == 0 and new_y > 0:
+            l += 2
+            new_y -= 1
+        elif new_x == 0 and new_y == 0:
+            l += 1
+            break
+        if new_x == 0 and new_y == 0:
+            break
+    return l
+
+
+# 오른손 가중치 계산
+def right_hand(new_x, new_y):
+    r = 0
+    while True:
+        if new_x > 0 and new_y > 0:
+            r += 3
+            new_x -= 1
+            new_y -= 1
+        elif new_x > 0 and new_y == 0:
+            r += 2
+            new_x -= 1
+        elif new_x == 0 and new_y > 0:
+            r += 2
+            new_y -= 1
+        elif new_x == 0 and new_y == 0:
+            r += 1
+            break
+        if new_x == 0 and new_y == 0:
+            break
+
+    return r
+
+
+# 숫자 위치
+def point(k, i):
+    # i의 번호 찾기
+    for a in range(4):
+        for b in range(3):
+            if k[a][b] == i:
+                x = a
+                y = b
+                break
+    return x, y
+
+
+def solution(numbers):
+    k = [["1", "2", "3"], ["4", "5", "6"], ["7", "8", "9"], ["*", "0", "#"]]
+
+    #     result=0
+
+    #     left=k[1][0]
+
+    #     l_x=1
+    #     l_y=0
+
+    #     right=k[1][2]
+
+    #     r_x=1
+    #     r_y=2
+
+    n = list(numbers)
+
+    dp = [0 for _ in range(12)]
+
+    dp_num = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#"]
+
+    check = deque([["4", "6"]])  # 왼손 오른손 가중치
+
+    for t in range(len(n)):
+        i = n[t]
+        x, y = point(k, i)
+        new = []
+        d = []  # 거리 가중치값들 모음
+
+        # j=dp_num.index(i)
+
+        while check:
+            left, right = check.popleft()
+            # dx,dy=point(k,num)
+            if not [right, i] in new and not [i, right] in new:
+                new.append([right, i])
+            if not [left, i] in new and not [i, left] in new:
+                new.append([left, i])
+
+        # 이전 길에 따른 가중치 기록이 필요하다!!
+
+        check += new
+
+        print(check)
+
+    return 0
 # 내 풀이(개선 중 뒤를 돌아본 후 이전꺼 재결정 풀이)
 # 목표: 최소한의 시간으로 타이핑을 하는 경우의 가중치
 # 이동하지 않고 제자리 누르기:1 상하좌우 이동 후 누르기:2 대각선:3
