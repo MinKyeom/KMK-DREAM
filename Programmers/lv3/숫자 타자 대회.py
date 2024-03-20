@@ -552,3 +552,34 @@ def solution(numbers):
     #     j=n.popleft()
 
     return 0
+
+# 다른 사람 풀이
+def solution(numbers):
+    now_weight = 0
+    left_pos = 4
+    right_pos = 6
+    all_dict = {}
+    finger_pos = (left_pos, right_pos)
+    all_dict[finger_pos] = now_weight
+
+    for str_num in numbers:
+        num = int(str_num)
+        curr_dict = {}
+        for finger_pos, weight in all_dict.items():
+            left_pos, right_pos = finger_pos
+            if right_pos == num:
+                if not (left_pos, num) in curr_dict.keys() or curr_dict[(left_pos, num)] > weight + 1:
+                    curr_dict[(left_pos, num)] = weight + 1
+            elif left_pos == num:
+                if not (num, right_pos) in curr_dict.keys() or curr_dict[(num, right_pos)] > weight + 1:
+                    curr_dict[(num, right_pos)] = weight + 1
+            else:
+                if not (left_pos, num) in curr_dict.keys() or curr_dict[(left_pos, num)] > weight + costs[right_pos][
+                    num]:
+                    curr_dict[(left_pos, num)] = weight + costs[right_pos][num]
+                if not (num, right_pos) in curr_dict.keys() or curr_dict[(num, right_pos)] > weight + costs[left_pos][
+                    num]:
+                    curr_dict[(num, right_pos)] = weight + costs[left_pos][num]
+        all_dict = curr_dict
+
+    return min(list(all_dict.values()))
