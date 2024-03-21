@@ -583,3 +583,54 @@ def solution(numbers):
         all_dict = curr_dict
 
     return min(list(all_dict.values()))
+
+# 다른 사람 풀이
+def solution(numbers):
+    answer = 0
+
+    costs = [[1, 7, 6, 7, 5, 4, 5, 3, 2, 3]
+        , [7, 1, 2, 4, 2, 3, 5, 4, 5, 6]
+        , [6, 2, 1, 2, 3, 2, 3, 5, 4, 5]
+        , [7, 4, 2, 1, 5, 3, 2, 6, 5, 4]
+        , [5, 2, 3, 5, 1, 2, 4, 2, 3, 5]
+        , [4, 3, 2, 3, 2, 1, 2, 3, 2, 3]
+        , [5, 5, 3, 2, 4, 2, 1, 5, 3, 2]
+        , [3, 4, 5, 6, 2, 3, 5, 1, 2, 4]
+        , [2, 5, 4, 5, 3, 2, 3, 2, 1, 2]
+        , [3, 6, 5, 4, 5, 3, 2, 4, 2, 1]]
+
+    cost = 0
+    left = 4
+    right = 6
+    allDict = {}
+    allDict[(left, right)] = cost
+
+    newNumbers = list(numbers)
+
+    for number in newNumbers:
+        num = int(number)
+
+        currentDict = {}
+        for key, value in allDict.items():
+            currentLeft, currentRight = key
+
+            if currentRight == num:
+                if (currentLeft, num) not in currentDict or currentDict[(currentLeft, num)] > value + 1:
+                    currentDict[(currentLeft, num)] = value + 1
+            elif currentLeft == num:
+                if (num, currentRight) not in currentDict or currentDict[(num, currentRight)] > value + 1:
+                    currentDict[(num, currentRight)] = value + 1
+            else:
+                if (currentLeft, num) not in currentDict or currentDict[(currentLeft, num)] > value + \
+                        costs[currentRight][num]:
+                    currentDict[(currentLeft, num)] = value + costs[currentRight][num]
+
+                if (num, currentRight) not in currentDict or currentDict[(num, currentRight)] > value + \
+                        costs[currentLeft][num]:
+                    currentDict[(num, currentRight)] = value + costs[currentLeft][num]
+
+        allDict = currentDict
+
+    answer = (min(allDict.values()))
+
+    return answer
