@@ -1,3 +1,138 @@
+# 목표: 최소한의 시간으로 타이핑을 하는 경우의 가중치
+# 이동하지 않고 제자리 누르기:1 상하좌우 이동 후 누르기:2 대각선:3
+
+# 왼손 오른손 중 가중치가 제일 적은 경우의 수들의 합
+# 같은 번호에 두 손가락 놓는거 불가
+# 상하좌우 두 번 가는것보다 대각선 한 번이 더 이득
+# 최솟값+최솟값 = 최솟값 명제는 항상 성립
+# 번호판을 dp로 생각 후 마지막 번호의 dp값이 가중치 최솟값으로 생각접근해보기
+
+
+from collections import deque
+
+
+# 왼손 가중치 계산
+def left_hand(new_x, new_y):
+    l = 0
+    while True:
+        if new_x > 0 and new_y > 0:
+            l += 3
+            new_x -= 1
+            new_y -= 1
+        elif new_x > 0 and new_y == 0:
+            l += 2
+            new_x -= 1
+        elif new_x == 0 and new_y > 0:
+            l += 2
+            new_y -= 1
+        elif new_x == 0 and new_y == 0:
+            l += 1
+            break
+        if new_x == 0 and new_y == 0:
+            break
+    return l
+
+
+# 오른손 가중치 계산
+def right_hand(new_x, new_y):
+    r = 0
+    while True:
+        if new_x > 0 and new_y > 0:
+            r += 3
+            new_x -= 1
+            new_y -= 1
+        elif new_x > 0 and new_y == 0:
+            r += 2
+            new_x -= 1
+        elif new_x == 0 and new_y > 0:
+            r += 2
+            new_y -= 1
+        elif new_x == 0 and new_y == 0:
+            r += 1
+            break
+        if new_x == 0 and new_y == 0:
+            break
+
+    return r
+
+
+# 숫자 위치
+def point(k, i):
+    # i의 번호 찾기
+    for a in range(4):
+        for b in range(3):
+            if k[a][b] == i:
+                x = a
+                y = b
+                break
+    return x, y
+
+
+from collections import deque
+
+
+def solution(numbers):
+    k = [["1", "2", "3"], ["4", "5", "6"], ["7", "8", "9"], ["*", "0", "#"]]
+
+    num = list("123456789*0#")
+    n = list(numbers)
+
+    last = n[-1]
+
+    # 이전 가중치
+    # 이전에 해당번호에 도달했을때 가중치가 가장 적은 경우를 저장한 후 after의 최솟값으로 재갱신
+    # before={"1":0, "2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,"*":0,"#":7}
+
+    # m 각 그래프 위치에 따른 가중치
+
+    m = [[0] * 12 for _ in range(12)]
+
+    # i>j
+    for i in range(12):
+        x, y = point(k, num[i])
+        for j in range(12):
+            dx, dy = point(k, num[j])
+            new_x = abs(x - dx)
+            new_y = abs(y - dy)
+            m[i][j] = right_hand(new_x, new_y)
+
+    t = list("123456789*0#")
+
+    now_weight = 0
+    left = 4
+    right = 6
+    all_dict = {}
+
+    hand = (left, right)
+    all_dict[hand] = now_weight
+
+    for str_num in n:
+        num = int(str_num)
+        # num=int(str_num)
+        curr_dict = {}
+
+        for hand, weight in all_dict.items():
+            left, right = hand
+            if right == num:
+                if not (left, num) in curr_dict.keys() or curr_dict[(left, num)] > weight + 1:
+                    curr_dict[(left, num)] = weight + 1
+
+            elif left == num:
+                if not (num, right) in curr_dict.keys() or curr_dict[(num, right)] > weight + 1:
+                    curr_dict[(num, right)] == weight + 1
+
+            else:
+                if not (left, num) in curr_dict.keys() or curr_dict[(left, num)] > weight + m[right][num]:
+                    curr_dict[(left, num)] = weight + m[right][num]
+
+                if not (num, right) in curr_dict.keys() or curr_dict[(num, right)] > weight + m[left][num]:
+                    curr_dict[(num, right)] = weight + m[left][num]
+
+        all_dict = curr_dict
+
+    return min(all_dict.values())
+
+
 # 내 풀이(개선 중 숫자 번호는 12개라는 점 고려해서 개선하려고 함)
 # 목표: 최소한의 시간으로 타이핑을 하는 경우의 가중치
 # 이동하지 않고 제자리 누르기:1 상하좌우 이동 후 누르기:2 대각선:3
