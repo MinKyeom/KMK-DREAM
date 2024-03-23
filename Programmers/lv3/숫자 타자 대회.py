@@ -1,3 +1,151 @@
+# 내 풀이
+# 목표: 최소한의 시간으로 타이핑을 하는 경우의 가중치
+# 이동하지 않고 제자리 누르기:1 상하좌우 이동 후 누르기:2 대각선:3
+
+# 왼손 오른손 중 가중치가 제일 적은 경우의 수들의 합
+# 같은 번호에 두 손가락 놓는거 불가
+# 상하좌우 두 번 가는것보다 대각선 한 번이 더 이득
+# 최솟값+최솟값 = 최솟값 명제는 항상 성립
+# 번호판을 dp로 생각 후 마지막 번호의 dp값이 가중치 최솟값으로 생각접근해보기
+
+# 다시 정리하는 dic.items(): key,value 둘다
+# dic.keys(): key 값
+# dic.values(): values 모두 키값에 관계없이 모두
+from collections import deque
+
+
+# 왼손 가중치 계산
+def left_hand(new_x, new_y):
+    l = 0
+    while True:
+        if new_x > 0 and new_y > 0:
+            l += 3
+            new_x -= 1
+            new_y -= 1
+        elif new_x > 0 and new_y == 0:
+            l += 2
+            new_x -= 1
+        elif new_x == 0 and new_y > 0:
+            l += 2
+            new_y -= 1
+        elif new_x == 0 and new_y == 0:
+            l += 1
+            break
+        if new_x == 0 and new_y == 0:
+            break
+    return l
+
+
+# 오른손 가중치 계산
+def right_hand(new_x, new_y):
+    r = 0
+    while True:
+        if new_x > 0 and new_y > 0:
+            r += 3
+            new_x -= 1
+            new_y -= 1
+        elif new_x > 0 and new_y == 0:
+            r += 2
+            new_x -= 1
+        elif new_x == 0 and new_y > 0:
+            r += 2
+            new_y -= 1
+        elif new_x == 0 and new_y == 0:
+            r += 1
+            break
+        if new_x == 0 and new_y == 0:
+            break
+
+    return r
+
+
+# 숫자 위치
+def point(k, i):
+    # i의 번호 찾기
+    for a in range(4):
+        for b in range(3):
+            if k[a][b] == i:
+                x = a
+                y = b
+                break
+    return x, y
+
+
+from collections import deque
+
+
+def solution(numbers):
+    k = [["1", "2", "3"], ["4", "5", "6"], ["7", "8", "9"], ["*", "0", "#"]]
+
+    num = list("123456789*0#")
+
+    n = list(numbers)
+
+    last = n[-1]
+
+    # 이전 가중치
+    # 이전에 해당번호에 도달했을때 가중치가 가장 적은 경우를 저장한 후 after의 최솟값으로 재갱신
+    # before={"1":0, "2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,"*":0,"#":7}
+
+    # m 각 그래프 위치에 따른 가중치
+
+    m = [[0] * 12 for _ in range(12)]
+
+    # i>j
+    for i in range(12):
+        x, y = point(k, num[i])
+        for j in range(12):
+            dx, dy = point(k, num[j])
+            new_x = abs(x - dx)
+            new_y = abs(y - dy)
+            m[i][j] = right_hand(new_x, new_y)
+
+    w = 0
+    left = "4"
+    right = "6"
+
+    # 현재 들어있는 손 가중치
+    now = {}
+
+    hand = (left, right)
+
+    now[hand] = w
+
+    # p: numbers num:위치 인덱스 담은 배열
+
+    for c in n:
+        after = {}  # 다음 손 가중치
+        c_num = num.index(c)
+        # c: 누를 번호
+
+        # h:손 n_w:손 가중치 (이전 손 위치로부터 온 가중치)
+        # 이전 위치에서 온 가중치들을 저장함과 동시에 도착할 위치중 중복 위치시 최솟값으로 매 번 갱신 그 뿐만 아니라
+        # 중복된 위치는 dic으로 제거하기에 최대 갯수는 12**2로 유지된다 그 이상으로 늘어나지 않는다
+        for h, n_w in now.items():
+            l, r = h  # 왼손, 오른손
+
+            l_num = num.index(l)
+            r_num = num.index(r)
+
+            if r == c:
+                if not (l, c) in after.keys() or now[(l, c)] > n_w + 1:
+                    # 이해 과정: or 뒤의 두 번째 조건은 최소값일 경우 재갱신을 위해서이다!
+                    after[(l, c)] = n_w + 1
+
+            elif l == c:
+                if not (c, r) in after.keys() or now[(c, r)] > n_w + 1:
+                    after[(c, r)] = n_w + 1
+
+            else:
+                if not (l, c) in after.keys() or after[(l, c)] > n_w + m[r_num][c_num]:
+                    after[(l, c)] = n_w + m[r_num][c_num]
+                if not (c, r) in after.keys() or after[(c, r)] > n_w + m[l_num][c_num]:
+                    after[(c, r)] = n_w + m[l_num][c_num]
+
+            now = after
+
+    return min(list(now.values()))
+
 # 내 풀이(개선 중)
 # 목표: 최소한의 시간으로 타이핑을 하는 경우의 가중치
 # 이동하지 않고 제자리 누르기:1 상하좌우 이동 후 누르기:2 대각선:3
