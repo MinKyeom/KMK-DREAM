@@ -12,3 +12,8 @@ print(type(d_convert))
 d2=json.loads(d_convert)
 
 print(type(d2))
+
+# 괄호에 따른 기본 변환 과정 다시 체크 
+d3=json.loads("{'name': 'min' }")
+
+print(d3)
