@@ -1,4 +1,42 @@
 # 내 풀이(개선 중)
+# 등대: n개 뱃길:n-1개
+# 목표: 켜 두어야하는 최소한의 등대 개수
+# 한 붓 그리기인줄 알았으나 그 부분에서는 벗어나있다
+# 애매하게 기억나는 포인트: 딕셔너리 생성시 리스트 생성으로 하는 라이브러리 체크 (시간복잡도 감소)
+# dfs로 한 후 중간에 그것보다 적은 등대 개수로 한 경우가 발생하던가 했을 경우 돌아가 백트래킹 생각해보기
+
+# -------------------#
+
+# dp로 접근해보기!:부모 노드가 켜져있을때 자식 노드가 켜진다는 상황을 생각 후 접근
+
+import heapq
+from collections import deque
+
+
+def solution(n, lighthouse):
+    m = {}
+
+    l = lighthouse  # 축약
+
+    # 딕션너리 활용해 그래프 형태로 만들기
+
+    for i, j in l:
+
+        if not i in m:
+            m[i] = [j]
+        else:
+            heapq.heappush(m[i], j)
+        if not j in m:
+            m[j] = [i]
+        else:
+            heapq.heappush(m[j], i)
+
+    dp = [["off", "dark"] for _ in range(n)]
+
+    return 0
+
+
+# 내 풀이(개선 중)
 # bfs,dfs 동시 활용 방안 고려: 시간 초과 및 순서에 따른 리스트 변경 관련 의문 사항 해결 필요
 # 등대: n개 뱃길:n-1개
 # 목표: 켜 두어야하는 최소한의 등대 개수
@@ -115,3 +153,42 @@ def solution(n, lighthouse):
     print(new_m)
 
     return 0
+
+# 다른 사람 풀이
+import sys
+from collections import defaultdict
+
+sys.setrecursionlimit(1000001)
+
+A = defaultdict(list)
+vis = [False] * 1000001
+
+
+# 자신을 포함한 subtree에서, 내가 켜졌을 때의 최소 점등 등대 개수와
+# 내가 꺼졌을 때의 최소 점등 등대 개수를 반환합니다.
+def dfs(u):
+    vis[u] = True
+    if not A[u]:
+        # u가 leaf라면 내가 켜졌을 떄의 최소 점등 등대 개수는 1
+        # 내가 꺼졌을 때의 최소 점등 등대 개수는 0
+        return 1, 0
+
+    # u가 leaf가 아니라면
+    on, off = 1, 0
+    for v in [v for v in A[u] if not vis[v]]:
+        # 내가 켜졌다면 child들은 켜지든 꺼지든 상관 없습니다. -> 킨 것과 끈 것중 최소값을 취함
+        # 내가 꺼졌다면 child들은 무조건 켜져야 합니다.
+        # 이 점을 생각해서 leaf들의 정보를 취합, 정리합니다.
+        child_on, child_off = dfs(v)
+        on += min(child_on, child_off)
+        off += child_on
+    return on, off
+
+
+def solution(n, lighthouse):
+    for u, v in lighthouse:
+        A[u].append(v)
+        A[v].append(u)
+
+    on, off = dfs(1)
+    return min(on, off)
