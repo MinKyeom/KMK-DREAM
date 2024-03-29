@@ -1,3 +1,71 @@
+# 내 풀이(추가 이해 필요 및 효율성을 위한 체크 라이브러리)
+# 등대: n개 뱃길:n-1개
+# 목표: 켜 두어야하는 최소한의 등대 개수
+# 한 붓 그리기인줄 알았으나 그 부분에서는 벗어나있다
+# 애매하게 기억나는 포인트: 딕셔너리 생성시 리스트 생성으로 하는 라이브러리 체크 (시간복잡도 감소)
+# dfs로 한 후 중간에 그것보다 적은 등대 개수로 한 경우가 발생하던가 했을 경우 돌아가 백트래킹 생각해보기
+
+# -------------------#
+
+# dp로 접근해보기!:부모 노드가 켜져있을때 자식 노드가 켜진다는 상황을 생각 후 접근
+
+
+import heapq
+from collections import deque
+from collections import defaultdict
+import sys
+
+sys.setrecursionlimit(10 ** 6)
+
+
+def dfs(x, r, check):
+    check[x] = True
+
+    if not r[x]:
+        return 1, 0
+
+    on, off = 1, 0
+
+    for i in [j for j in r[x] if not check[j]]:
+        son_on, son_off = dfs(i, r, check)
+        on += min(son_on, son_off)
+        off += son_on
+
+    return on, off
+
+
+def solution(n, lighthouse):
+    #    m={}
+    r = defaultdict(list)
+
+    l = lighthouse  # 축약
+
+    # 딕션너리 활용해 그래프 형태로 만들기
+
+    # 기존 내 풀이 풀이방향
+    """
+    for i,j in l:
+
+        if not i in m:
+            m[i]=[j]
+        else:
+            heapq.heappush(m[i],j)
+        if not j in m:
+            m[j]=[i]
+        else:
+            heapq.heappush(m[j],i)
+    """
+    # 새로운 효율성 접근 개선
+    for i, j in l:
+        r[i].append(j)
+        r[j].append(i)
+
+    check = [False] * (n + 1)
+
+    on, off = dfs(1, r, check)
+
+    return min(on, off)
+
 # 내 풀이(개선 중)
 # 등대: n개 뱃길:n-1개
 # 목표: 켜 두어야하는 최소한의 등대 개수
