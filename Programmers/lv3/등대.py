@@ -1,3 +1,60 @@
+# 생각의 포인트
+"""
+생각의 전제: 트리 내 전체 등대는 모두 켜져야 한다
+자식 노드와 부모 노드와의 관계성에서
+부모노드가 켜지면 자식노드는 켜지든 꺼지는 상관없다
+부모노드가 꺼지면 자식노드는 무조건 켜져야 부모 노드 또한 밝음 유지
+
+# 전체 등대가 켜져야한다는 생각을 지닌채로 dfs 실행 후 맨 아래 리프 노드부터 맨 위의 루트노드까지의 생각을 이어나가야 풀 수 있다.
+
+코드의 흐름은 전체 내려가면서 모두가 켜지는 상황을 구현 그리고 맨 아래로 리프노드로 내려 갈 시 그 맨 위의 등대가 어떻게해야 최소로 등대를 켤 수 있는지를 고려해야한다
+
+dfs는 맨 아래 리프 노드에 대한 생각을 맨 위로 끌어올리는게 포인트!
+
+최대 깊이 설정에 대한 것도 생각
+import sys
+sys.setrecursionlimit(10 ** 6)
+
+위의 라이브러리를 사용 안할시 깊이 문제로 오류 발생
+"""
+
+# 내 풀이(오답 및 생각 정리 후 재풀이)
+# dfs 깊이 설정
+from collections import defaultdict
+import sys
+
+sys.setrecursionlimit(10 ** 6)
+
+m = defaultdict(list)
+
+
+def dfs(k, check):
+    check[k] = True  # 해당 노드는 on
+
+    light, black = 1, 0  # 해당 노드가 켜질 때 꺼질 때
+
+    for next_node in [n for n in m[k] if check[n] != True]:
+        next_node_light, next_node_black = dfs(next_node, check)
+
+        light += min(next_node_light, next_node_black) # 다 켜지는 상황에서의 next 노드의 light,black 생각 밑바탕!
+        black += next_node_light
+
+    return light, black
+
+
+def solution(n, lighthouse):
+    l = lighthouse
+    check = [False] * (n + 1)  # 등대 번호
+
+    for start, arrive in l:
+        m[start].append(arrive)
+        m[arrive].append(start)
+
+    light, black = dfs(1, check)
+
+    return min(light, black)
+
+
 # 이해가 안된 부분 해결 이해 과정:
 """
 dfs로 재귀 구현 시 on, off를 구성할 시 사고를 맨 위의 노드를 중심으로 사고하는게 아닌 맨 아래 노드를 중심으로 생각 후 위의 노드로 하나씩 올려 생각해야 재귀 사고 과정에 맞다는 걸 인지하는 것이 중요
