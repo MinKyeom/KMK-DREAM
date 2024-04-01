@@ -64,7 +64,9 @@ book_child=list(book)
 
 print(book_child)
 
+name, author ,year =book_child
 
+print(name.text)
 
 
 
