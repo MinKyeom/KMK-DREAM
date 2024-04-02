@@ -272,3 +272,45 @@ def solution(n, roads, sources, destination):
                 new = []
 
     return result
+
+# 다른 사람 풀이 모음
+from collections import deque
+
+def solution(n, roads, sources, destination):
+    paths = [[] for _ in range(n+1)]
+    for s,t in roads:
+        paths[s].append(t)
+        paths[t].append(s)
+    dist = [-1 for _ in range(n+1)]
+    dist[destination] = 0
+    s = deque([destination])
+    while s:
+        v = s.popleft()
+        d = dist[v]
+        for u in paths[v]:
+            if dist[u] == -1:
+                dist[u] = d+1
+                s.append(u)
+
+    return [dist[i] for i in sources]
+
+
+def solution(n, roads, sources, destination):
+    maps = [[] for _ in range(n+1)]
+    for p1, p2 in roads:
+        maps[p1].append(p2)
+        maps[p2].append(p1)
+
+    times = [-1] * (n+1)
+    queue = [(destination, 0)]
+    times[destination] = 0
+    while queue:
+        q = queue.pop(0)
+        for j in maps[q[0]]:
+            if times[j] == -1:
+                queue.append((j, q[1]+1))
+                times[j] = q[1]+1
+
+    return [times[i] for i in sources]
+
+
