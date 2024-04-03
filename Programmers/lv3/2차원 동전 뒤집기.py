@@ -1,3 +1,120 @@
+# 내 풀이(개선 중)
+# 조건: 동전을 뒤집기 위해서는 해당 줄에 포함된 모든 동전 뒤집기
+# 0: 앞면 1:뒷면
+# 만들 수 없다면 1
+
+# 초기 모형:beginning, 목표 모형:target
+
+# 목표: 최소 몆 번을 뒤집어야 목표한 모형이 되는지 여부
+
+# 생각방향
+# 하나의 돌의 앞 뒤 모양을 바꿀 떄 십자가 형태로 가로 세로 다 바꾼다!(잘못된 생각)
+# 행 또는 열을 통째로 뒤집는다 행과 열 동시에 x
+# 그리디 생각 > 세부 조건이 너무 많아 풀기 난해 방향 전환
+# 타겟이 10으로 길이가 짧기 때문에 브루트포스 접근 생각
+# 뒤집는 순서에 따라 바뀌는가 여부 확인 후 풀이 스타트
+# deepcopy를 활용하여 원형을 만든 후 가로 바꿀 거 세로 바꿀 거를 바꾼 후 타겟과 확인 (효율성 개선 필요)
+
+# 임의의 돌이 다시 원래 형태로 유지되려면 0 또는 짝수번을 유지해야한다
+# dp로 접근: 지속적인 형태의 반복
+# 주어진 타겟의 길이로 볼 떄 여러번 반복 가능
+
+from itertools import combinations
+from collections import deque
+import copy
+
+
+def change_raw(new, i, m):
+    for k in i:
+        for t in range(len(m)):
+            if new[t][k] == 0:
+                new[t][k] = 1
+            else:
+                new[t][k] = 0
+
+    return new
+
+
+def change_col(new_2, j, n):
+    for k in j:
+        for t in range(len(n)):
+            if new_2[k][t] == 0:
+                new_2[k][t] = 1
+            else:
+                new_2[k][t] = 0
+
+    return new_2
+
+
+def solution(beginning, target):
+    b = beginning
+    t = target
+
+    # 타겟과 같을 경우 바로 끝
+    if b == t:
+        return 0
+
+    elif len(b) == 1:
+        return 1
+
+    m = [k for k in range(len(target))]  # 세로 길이
+    n = [t for t in range(len(target[0]))]  # 가로 길이
+
+    check = []
+
+    for i in m:
+        for j in n:
+            check.append([i, j])
+
+    check.sort(key=lambda x: (x[0] + x[1]))
+
+    check = deque(check)
+
+    check.popleft()  # [0,0] 제거 완전 같은 경우 제거
+
+    # m:세로 n:가로
+    while check:
+        raw, col = check.popleft()  # raw:가로 바꿀 줄 수 # col: 세로 바꿀 줄 수
+
+        raw_list = list(combinations(n, raw))
+        col_list = list(combinations(m, col))
+
+        if raw == 0:
+            for i in col_list:
+                new = copy.deepcopy(b)  # 기본 모형 초기화
+                new = change_col(new, i, n)
+
+                if new == t:
+                    return col + raw
+
+            continue
+
+        elif col == 0:
+            for i in raw_list:
+                new = copy.deepcopy(b)  # 기본 모형 초기화
+                new = change_raw(new, i, m)
+
+                if new == t:
+                    return raw + col
+
+            continue
+
+        for i in raw_list:  # i 바꿀 라인 모음
+
+            new = copy.deepcopy(b)  # 새로운 형태를 만들기 위해 deepcopy 비긴닝 복사 #기본 모형 초기화
+
+            new_raw = change_raw(new, i, m)  # 형태 변환(가로 변환)
+
+            for j in col_list:  # j 바꿀 라인 모음
+
+                new_2 = copy.deepcopy(new_raw)
+
+                final = change_col(new_2, j, n)
+
+                if final == t:
+                    return raw + col
+
+    return -1
 # 내 풀이 (개선 중)
 # 조건: 동전을 뒤집기 위해서는 해당 줄에 포함된 모든 동전 뒤집기
 # 0: 앞면 1:뒷면
