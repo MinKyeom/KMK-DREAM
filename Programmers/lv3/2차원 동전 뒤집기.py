@@ -225,3 +225,33 @@ def solution(beginning, target):
         answer = -1
 
     return answer
+
+
+def solution(beginning, target):
+    # beginning과 target 차이
+    # 뒤집어야 하면 1, 그대로 둬야하면 0
+    row, col = len(beginning), len(beginning[0])
+    board = [[1 if beginning[i][j] != target[i][j] else 0 for j in range(col)] for i in range(row)]
+
+    answer = 0
+    # 행 전부 뒤집기
+    for i in range(row):
+        if board[i][0] == 1:
+            answer += 1
+            for j in range(col):
+                board[i][j] = 1 - board[i][j]
+
+                # 열 확인하기
+    for j in range(col):
+        tmp = set([board[i][j] for i in range(row)])  # j열
+        if len(tmp) == 2:  # 0과 1이 섞여 있다면
+            answer = -1
+            목표
+            상태
+            도달
+            불가능
+            break
+        elif 1 in tmp:  # 1로만 이루어져 있으면 = 뒤집어야 하면
+            answer += 1
+
+    return answer
