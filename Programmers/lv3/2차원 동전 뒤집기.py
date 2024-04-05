@@ -163,6 +163,7 @@ def solution(beginning, target):
 
 
 # 다른 사람 풀이
+# so1 1
 def flipColumn(arr, col):
     n = len(arr)
 
@@ -227,7 +228,7 @@ def solution(beginning, target):
 
     return answer
 
-
+# sol2
 def solution(beginning, target):
     # beginning과 target 차이
     # 뒤집어야 하면 1, 그대로 둬야하면 0
@@ -256,3 +257,53 @@ def solution(beginning, target):
             answer += 1
 
     return answer
+
+
+# sol3
+import math
+
+
+def fliprow(board, bits):
+    flipped = []
+    for i in range(len(board)):
+        # i번째 row를 뒤집어야 하면 뒤집은 리스트를 저장합니다.
+        if bits & (1 << i):
+            flipped.append([1 - x for x in board[i]])
+        else:
+            flipped.append(board[i])
+    return flipped
+
+
+def try_flipcol(board, target):
+    n_colflip = 0
+    # i번쨰 컬럼을 확인하는데
+    for i in range(len(board[0])):
+        # 경우의 수는 세가지입니다.
+        # 1. 안 뒤집어도 되는 경우
+        if [row[i] for row in board] == [t[i] for t in target]:
+            continue
+        # 2. 뒤집으면 같아지는 경우
+        elif [1 - row[i] for row in board] == [t[i] for t in target]:
+            n_colflip += 1
+        # 3. 어떻게 해도 같아질 수 없는 경우
+        else:
+            return -1
+
+    return n_colflip
+
+
+def solution(beginning, target):
+    # 뒤집어야 하는 row를 비트로 표현합니다.
+    # n개의 row가 있으면 0~2**n-1 까지 수로 나타내면 됩니다.
+    n = len(beginning)
+    ans = math.inf
+    for bits in range(2 ** n):
+        flipped = fliprow(beginning[:], bits)
+        n_colflip = try_flipcol(flipped, target)
+        if n_colflip == -1:
+            continue
+
+        n_rowflip = sum(bits & (1 << i) != 0 for i in range(n))
+        ans = min(n_rowflip + n_colflip, ans)
+
+    return ans if ans != math.inf else -1
