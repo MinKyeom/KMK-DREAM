@@ -1,3 +1,93 @@
+# 내 풀이(개선 중)
+# 조건: 동전을 뒤집기 위해서는 해당 줄에 포함된 모든 동전 뒤집기
+# 0: 앞면 1:뒷면
+# 만들 수 없다면 1
+
+# 초기 모형:beginning, 목표 모형:target
+
+# 목표: 최소 몆 번을 뒤집어야 목표한 모형이 되는지 여부
+
+# 생각방향
+# 하나의 돌의 앞 뒤 모양을 바꿀 떄 십자가 형태로 가로 세로 다 바꾼다!(잘못된 생각)
+# 행 또는 열을 통째로 뒤집는다 행과 열 동시에 x
+# 그리디 생각 > 세부 조건이 너무 많아 풀기 난해 방향 전환
+# 타겟이 10으로 길이가 짧기 때문에 브루트포스 접근 생각
+# 뒤집는 순서에 따라 바뀌는가 여부 확인 후 풀이 스타트
+# deepcopy를 활용하여 원형을 만든 후 가로 바꿀 거 세로 바꿀 거를 바꾼 후 타겟과 확인 (효율성 개선 필요)
+# deepcopy vs slicing (슬라이싱이 더 빠르다 그리고 id로 확인시 둘다 원형과 위치 다름)
+
+# 핵심 포인트 사고
+# 기본 풀이 방향 전제: 모두를 탐색한다 최대 2**20개 (뒤집냐 vs 안뒤집냐)
+
+# 임의의 돌이 다시 원래 형태로 유지되려면 0 또는 짝수번을 유지해야한다
+# dp로 접근: 지속적인 형태의 반복
+# 주어진 타겟의 길이로 볼 떄 여러번 반복 가능
+
+from collections import deque
+
+def change(new, k, t):
+    flag = False
+    check = new[:]
+
+    count = 0  # 바꾼 줄 수
+
+    for i in range(len(k)):
+        if i < len(new) and k[i] == True:
+            for j in range(len(check[0])):
+                if check[i][j] == 1:
+                    check[i][j] = 0
+                else:
+                    check[i][j] = 1
+            count += 1
+
+        elif i >= len(new) and k[i] == True:
+
+            v = i - len(new)
+
+            for j in range(len(check)):
+                if check[j][v] == 1:
+                    check[j][v] = 0
+                else:
+                    check[j][v] = 1
+            count += 1
+
+    if check == t:
+        flag = True
+
+    return flag, count
+
+
+def solution(beginning, target):
+    b = beginning
+    t = target
+    result = []
+
+    m = len(b)  # 세로
+    n = len(b[0])  # 가로
+
+    new = b[:]
+
+    # 타겟과 같을 경우 바로 끝
+
+    if b == t:
+        return 0
+
+    q = deque([[True], [False]])
+
+    while q:
+        k = q.popleft()
+
+        flag, count = change(new, k, t)
+
+        if flag == True:
+            result.append(count)
+
+        if len(k) < (m + n):
+            q.append(k + [True])
+            q.append(k + [False])
+
+    return min(result) if len(result) > 0 else -1
+
 # 내 풀이(시간 초과)
 # 비트 마스크를 활용하여 재풀이
 # nCr 원리등에 활용
