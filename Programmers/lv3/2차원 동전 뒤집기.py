@@ -1,3 +1,58 @@
+# 내 풀이
+# 조건: 동전을 뒤집기 위해서는 해당 줄에 포함된 모든 동전 뒤집기
+# 0: 앞면 1:뒷면
+# 만들 수 없다면 1
+
+# 초기 모형:beginning, 목표 모형:target
+
+# 목표: 최소 몆 번을 뒤집어야 목표한 모형이 되는지 여부
+
+# 생각방향
+# 하나의 돌의 앞 뒤 모양을 바꿀 떄 십자가 형태로 가로 세로 다 바꾼다!(잘못된 생각)
+# 행 또는 열을 통째로 뒤집는다 행과 열 동시에 x
+# 그리디 생각 > 세부 조건이 너무 많아 풀기 난해 방향 전환
+# 타겟이 10으로 길이가 짧기 때문에 브루트포스 접근 생각
+# 뒤집는 순서에 따라 바뀌는가 여부 확인 후 풀이 스타트
+# deepcopy를 활용하여 원형을 만든 후 가로 바꿀 거 세로 바꿀 거를 바꾼 후 타겟과 확인 (효율성 개선 필요)
+# deepcopy vs slicing (슬라이싱이 더 빠르다 그리고 id로 확인시 둘다 원형과 위치 다름)
+
+# 핵심 포인트 사고
+# 기본 풀이 방향 전제: 모두를 탐색한다 최대 2**20개 (뒤집냐 vs 안뒤집냐)
+
+# 임의의 돌이 다시 원래 형태로 유지되려면 0 또는 짝수번을 유지해야한다
+# dp로 접근: 지속적인 형태의 반복
+# 주어진 타겟의 길이로 볼 떄 여러번 반복 가능
+
+def change_row(start, count, row):
+    n = 0
+
+    for k in range(row):
+        if count & (1 << k):  # 넘어가는 곳이 해당 열을 뒤집는다는 의미
+
+            # for change in range(len(start[0])):
+            #     if start[k][change]==0:
+            #         start[k][change]=1
+            #     else:
+            #         start[k][change]=0
+
+            start[k] = [1 - t for t in start[k]]
+            n += 1
+
+    return start, n
+
+
+def change_col(start, col):
+    m = 0
+
+    for i in range(col):
+        num = set([row[i] for row in start])
+
+        if len(num) == 2:
+            return -1
+
+        elif 1 in num:
+            m += 1
+
 # 내 풀이(개선 중)
 # 조건: 동전을 뒤집기 위해서는 해당 줄에 포함된 모든 동전 뒤집기
 # 0: 앞면 1:뒷면
