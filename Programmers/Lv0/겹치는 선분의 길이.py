@@ -1,3 +1,7 @@
+"""
+출처: 프로그래머스 코딩 테스트 연습,
+https://school.programmers.co.kr/learn/courses/30/lessons/120876
+"""
 #내 풀이
 #점 개념 선 개념 정확히 생각 후 풀기! 핵심 생각
 def solution(lines):
