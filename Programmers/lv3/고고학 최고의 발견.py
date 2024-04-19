@@ -26,7 +26,7 @@ https://school.programmers.co.kr/learn/courses/30/lessons/131702
 # 원순열 기본 원리랑 비슷 고정시킨 후 원형으로 만든 후 경우의 수 표현하는 방식
 
 # 시계 돌리기
-
+import copy
 from itertools import product
 from collections import deque
 
@@ -58,7 +58,9 @@ def solution(clockHands):
 
     while check:
         # 회전 시킬판 deepcopy 대신 시간복잡도가 덜 드는 슬라이싱 활용!
-        new = [i[:] for i in c]
+        new=copy.deepcopy(c)
+        #new = [i[:] for i in c]
+
 
         # 기준점이 돌아가는 횟수
         count = 0
