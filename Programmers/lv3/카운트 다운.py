@@ -2,6 +2,124 @@
 출처: 프로그래머스 코딩 테스트 연습,
 https://school.programmers.co.kr/learn/courses/30/lessons/131129
 """
+# 내 풀이(개선 중)
+# 점수를 깎아서 0점으로 만듬 단, 남은 점수보다 큰 점수로 득점하면 버스트 후 실격
+
+# 조건:
+# 싱글: 해당 점수 더블:해당 점수 2배 트리플: 해당 점수 3배
+# 불, 아우터 불: 50점
+
+# 승리 조건: 더 빨리 0점 만든 선수(같은 라운드의 경우 그 중 싱글 또는 불을 더 많이 던진 선수)
+
+# 빨리 0점을 만들면서 싱글 또는 불을 최대한 많이 던지는 방법
+
+# 목표:[다트 던진 횟수,싱글 횟수+불 횟수]
+
+# 생각방향: 무조건 1번에 끝나지 않는 경우 불과 싱글과 함께된 조합으로 동일한 횟수로 해결 가능할 경우 그 경우의 수 조합 생각
+# 불과 싱글인 수로 뺀 것 그렇지 않은 경우 두 가지 밖에 없다
+# 기본 전제 생각 조건: 가장 빨리 끝나는 라운드에서 싱글과 불이 제일 많아야한다
+
+import heapq
+from collections import deque
+
+def solution(target):
+    t = target
+
+    # 다트판 (싱글 가능판)
+    d = [k + 1 for k in range(20)]
+
+    # 점수 얻을 수 있는 판
+    s = []
+
+    for i in d:
+        s.append(i)
+        s.append(i * 2)
+        s.append(i * 3)
+
+    s.append(50)
+
+    s = list(set(s))
+
+    d.append(50)
+
+    s.sort()
+
+    # 최단라운드 구하기
+    if t > 60:
+        a = t // 60
+        b = t % 60
+        count = 0
+        while True:
+            flag = False
+            for c in range(len(s) - 1, -1, -1):
+                if b >= s[c]:
+                    b -= s[c]
+                    if b == 0:
+                        count += 1
+                        flag = True
+                    else:
+                        count += 1
+                    break
+            if flag == True:
+                r = count + a
+                break
+    else:
+        b = t
+        count = 0
+        while True:
+            flag = False
+            for c in range(len(s) - 1, -1, -1):
+                if b >= s[c]:
+                    b -= s[c]
+                    if b == 0:
+                        count += 1
+                        flag = True
+                    else:
+                        count += 1
+                    break
+
+            if flag == True:
+                r = count
+                break
+
+    result = []
+    q = deque([[0, t]])
+    new = []
+
+    result_round = r
+
+    while q:
+        sb, num = q.popleft()
+        for n in range(len(s) - 1, -1, -1):
+            if num >= s[n] and (num - s[n]) - ((60) * (r - 1)) <= 0:
+                if s[n] in d:
+                    new.append([sb + 1, num - s[n]])
+                    if num - s[n] == 0:
+                        result.append([result_round, sb + 1])
+                    break
+                else:
+                    new.append([sb, num - s[n]])
+                    if num - s[n] == 0:
+                        result.append([result_round, sb])
+
+
+            elif (num - s[n]) - ((60) * (r - 1)) > 0:
+                break
+
+        if len(q) == 0:
+            r -= 1
+            if r == 0:
+                break
+            else:
+                q = list(q)
+                new = sorted(new, key=lambda x: (-x[0], x[1]))
+                q += new
+                new = []
+                q = deque(q)
+
+    result = sorted(result, key=lambda x: (x[0], -x[1]))
+
+    return result[0]
 
 # 내 풀이(개선 중)
 # 점수를 깎아서 0점으로 만듬 단, 남은 점수보다 큰 점수로 득점하면 버스트 후 실격
