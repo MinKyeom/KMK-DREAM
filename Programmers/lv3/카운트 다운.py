@@ -2,6 +2,96 @@
 출처: 프로그래머스 코딩 테스트 연습,
 https://school.programmers.co.kr/learn/courses/30/lessons/131129
 """
+#
+# 점수를 깎아서 0점으로 만듬 단, 남은 점수보다 큰 점수로 득점하면 버스트 후 실격
+
+# 조건:
+# 싱글: 해당 점수 더블:해당 점수 2배 트리플: 해당 점수 3배
+# 불, 아우터 불: 50점
+
+# 승리 조건: 더 빨리 0점 만든 선수(같은 라운드의 경우 그 중 싱글 또는 불을 더 많이 던진 선수)
+
+# 빨리 0점을 만들면서 싱글 또는 불을 최대한 많이 던지는 방법
+
+# 목표:[다트 던진 횟수,싱글 횟수+불 횟수]
+
+# 생각방향: 무조건 1번에 끝나지 않는 경우 불과 싱글과 함께된 조합으로 동일한 횟수로 해결 가능할 경우 그 경우의 수 조합 생각
+# 불과 싱글인 수로 뺀 것 그렇지 않은 경우 두 가지 밖에 없다
+# 기본 전제 생각 조건: 가장 빨리 끝나는 라운드에서 싱글과 불이 제일 많아야한다
+# dfs로 생각 후 접근 방향 생각! > 시간초과
+# 같은 수들로 끊임없이 작게 만들어 원하는 값을 얻는 방식 > dp 접근
+# 다트의 수가 차이나는 순간에 대하여 고찰 후 문제를 접근 > 시간 단축 및 정답!
+
+
+import heapq
+from collections import deque
+import sys
+
+sys.setrecursionlimit(10 ** 6)
+
+result = []
+
+
+def dfs(count, sb, num, s, d):
+    global result
+
+    for i in range(len(s) - 1, -1, -1):
+        if num - s[i] >= 0:
+            if s[i] in d and num - s[i] == 0:
+                result.append([count + 1, sb + 1])
+
+            elif not s[i] in d and num - s[i] == 0:
+                result.append([count + 1, sb])
+
+            elif s[i] in d and num - s[i] > 0:
+                if len(result) > 0:
+                    if count + 1 >= result[0][0]:
+                        break
+                dfs(count + 1, sb + 1, num - s[i], s, d)
+                break
+            elif not s[i] in d and num - s[i] > 0:
+                if len(result) > 0:
+                    if count + 1 >= result[0][0]:
+                        break
+                dfs(count + 1, sb, num - s[i], s, d)
+
+    return result
+
+
+def solution(target):
+    t = target
+    global result
+
+    # 다트판 (싱글 가능판)
+    d = [k + 1 for k in range(20)]
+
+    # 점수 얻을 수 있는 판
+    s = []
+
+    for i in d:
+        s.append(i)
+        s.append(i * 2)
+        s.append(i * 3)
+
+    s.append(50)
+
+    s = list(set(s))
+
+    d.append(50)
+
+    s.sort()
+
+    count, sb, num = 0, 0, t
+
+    if t > 300:
+        count += (t - 300) // 60
+        num = 300 + (t - 300) % 60
+
+    dfs(count, sb, num, s, d)
+
+    result = sorted(result, key=lambda x: (x[0], -x[1]))
+
+    return result[0]
 # 내 풀이(개선 중)
 # 점수를 깎아서 0점으로 만듬 단, 남은 점수보다 큰 점수로 득점하면 버스트 후 실격
 
