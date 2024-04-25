@@ -312,3 +312,35 @@ def solution(target):
     dyn[target][0] += count
     answer = dyn[target]
     return answer
+
+# 다른 사람 풀이
+def solution(target):
+    answer = []
+
+    sin_bull = [x for x in range(1, 21)] + [50]
+    dou_tri = sorted([2 * x for x in range(1, 21)] + [3 * x for x in range(1, 21)])
+
+    table = [[int(1e5) for _ in range(target + 1)] for _ in range(2)]
+    table[0][0] = table[1][0] = 0
+    for trg in range(1, target + 1):
+        for i in sin_bull:
+            if trg - i >= 0:
+                if table[0][trg - i] + 1 < table[0][trg]:
+                    table[0][trg] = table[0][trg - i] + 1
+                    table[1][trg] = table[1][trg - i] + 1
+                elif table[0][trg - i] + 1 == table[0][trg]:
+                    table[1][trg] = max(table[1][trg], table[1][trg - i] + 1)
+            else:
+                break
+
+        for j in dou_tri:
+            if trg - j >= 0:
+                if table[0][trg - j] + 1 < table[0][trg]:
+                    table[0][trg] = table[0][trg - j] + 1
+                    table[1][trg] = table[1][trg - j]
+                elif table[0][trg - j] + 1 == table[0][trg]:
+                    table[1][trg] = max(table[1][trg], table[1][trg - j])
+            else:
+                break
+
+    return [table[0][-1], table[1][-1]]
