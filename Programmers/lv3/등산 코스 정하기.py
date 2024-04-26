@@ -2,6 +2,91 @@
 출처: 프로그래머스 코딩 테스트 연습,
 https://school.programmers.co.kr/learn/courses/30/lessons/118669
 """
+
+# 내 풀이(개선 중)
+# 조건: 1~n번의 지점: 출입구 ,쉼터, 산봉우리 중 하나
+# intensity:휴식 없이 이동해야 하는 시간 중 가장 긴 시간을 의미
+# 출입구는 처음 끝 한번씩 산봉우리 한 번 포함하는 다시 원래 출입구로 돌아오는 등산코스 다른 출입구 한 번더 반복 x
+# 거리 가중치 최소화를 처음 보고 든 생각 다익스트라 알고리즘
+
+# 지점 수:n 등산로 정보:paths 출입구 정보: gates 산봉우리들 번호:summits
+# [intensity 최소로 만드는 산봉우리, 그 때의 intensity] 산봉우리가 여러 개 일시 가장 낮은 번호의 산봉우리
+
+# 목표: intensity가 최소가 되도록 등산 코스 정하기
+
+# 생각 방향 등산로를 만들면서 쉼터,산봉우리 갈 시 intensity 재갱신 후 최대로 된 걸 체크
+# dfs로 산을 오른 후 경로에 따라 피로도 중 최대를 재갱신 후 산봉우리 도착과 입구와 출구와 같은 지점을 결고값에 넣은 후
+# 그 중 sort 이후 최소 값을 답으로 낸다
+# 한 번에 여러 조건을 검증하기 보다 출입구로 다시 돌아오는 경로만 추린 후 (if문이 너무 여러 번 쓰여 오히려 복잡해진다)
+# 다시 경로 재정제하는 방향으로 전환
+# dfs로 할 시 중복되는 부분들에 대한 리스트 정리 생각 부족
+# dfs 사용시 서로 연결 된 경로가 중복된 경우에 대한 개념 정리
+
+
+from collections import defaultdict
+from collections import deque
+import sys
+
+sys.setrecursionlimit(10 ** 6)
+
+result = []
+
+
+# m:경로 start:시작 지점 s:산봉우리 i:피로도 top:도착한 산봉우리 g:출입구
+
+def dfs(start, m, v, q):
+    global result
+
+    while q:
+        a = q.pop()  # 출발 지점
+        # m[a]:k에서 연결된 산 경로
+        for b in m[a]:
+            if not b in v:
+                v.append(b)
+                q += [b]
+                dfs(b, m, v, q)
+
+            elif b == v[0]:
+                end = v[:]
+                end = end + [v[0]]
+                result.append(end)
+
+            print(v)
+
+    return 0
+
+
+def solution(n, paths, gates, summits):
+    global result
+
+    # 거리
+    d = defaultdict(list)
+    # 경로
+    m = defaultdict(list)
+
+    p = paths  # 경로
+    g = gates  # 출입구
+    s = summits  # 산봉우리
+
+    # 등산로 별 시간 기록
+    for a, b, c in p:
+        d[(a, b)] = c
+        d[(b, a)] = c
+        m[a].append(b)
+        m[b].append(a)
+
+    # 출입구에 따른 스타트에 따른 경로
+    for start in g:
+        i = 0  # 피로도
+        v = [start]
+        q = [start]
+        # m:경로 start:시작 지점 s:산봉우리 i:피로도 top:도착한 산봉우리 g:출입구
+        dfs(start, m, v, q)
+
+    print(result)
+
+    return 0
+
 # 내 풀이(개선 중)
 # 조건: 1~n번의 지점: 출입구 ,쉼터, 산봉우리 중 하나
 # intensity:휴식 없이 이동해야 하는 시간 중 가장 긴 시간을 의미
