@@ -37,6 +37,111 @@ result = []
 def dfs(q, m, d, s, g):
     global result
     q = deque(q)
+    new = []
+    while q:
+        road, tired, top = q.popleft()
+
+        # for문이 실행되는 동안 road,tired,top 값을 변경하면 문제 발생
+        for i in m[road[-1]]:
+
+            if len(result) > 0:
+                if max(tired, max(tired, d[(road[-1], i)])) > result[1]:
+                    continue
+
+            if len(set(road + [i]) & set(g)) == 2:
+                continue
+
+            elif len(set([i]) & set(s)) == 1:
+                new_tired = max(tired, d[(road[-1], i)])
+
+                if len(result) == 0:
+                    result = [i, new_tired]
+
+                else:
+                    if result[1] > new_tired:
+                        result = [i, new_tired]
+
+                    elif result[1] == new_tired:
+                        result = [min(i, result[0]), new_tired]
+
+            elif len(set([i]) & set(road)) == 0:
+                if len(result) > 0:
+                    if max(tired, max(tired, d[(road[-1], i)])) > result[1]:
+                        continue
+                    else:
+                        q.append([road + [i], max(tired, d[(road[-1], i)]), top])
+                else:
+                    q.append([road + [i], max(tired, d[(road[-1], i)]), top])
+
+                # q.append([road+[i],max(tired,d[(road[-1],i)]),top])
+
+    return result
+
+
+# m:경로 start:시작 지점 s:산봉우리 i:피로도 top:도착한 산봉우리 g:출입구
+
+def solution(n, paths, gates, summits):
+    global result
+
+    # 거리
+    d = defaultdict(list)
+    # 경로
+    m = defaultdict(list)
+
+    p = paths  # 경로
+    g = gates  # 출입구
+    s = sorted(summits)  # 산봉우리
+
+    # 등산로 별 시간 기록
+    for a, b, c in p:
+        d[(a, b)] = c
+        d[(b, a)] = c
+        heapq.heappush(m[a], b)
+        heapq.heappush(m[b], a)
+
+    for start in g:
+        q = deque([[[start], 0, False]])
+        dfs(q, m, d, s, g)
+
+    # finish=sorted(result,key=lambda x:(x[1],x[0]))
+
+    return result
+
+# 내 풀이(개선 중)
+# 조건: 1~n번의 지점: 출입구 ,쉼터, 산봉우리 중 하나
+# intensity:휴식 없이 이동해야 하는 시간 중 가장 긴 시간을 의미
+# 출입구는 처음 끝 한번씩 산봉우리 한 번 포함하는 다시 원래 출입구로 돌아오는 등산코스 다른 출입구 한 번더 반복 x
+# 거리 가중치 최소화를 처음 보고 든 생각 다익스트라 알고리즘
+# 출입구와 산봉우리를 제외하면 모두 휴식터로 분류한다
+
+# 지점 수:n 등산로 정보:paths 출입구 정보: gates 산봉우리들 번호:summits
+# [intensity 최소로 만드는 산봉우리, 그 때의 intensity] 산봉우리가 여러 개 일시 가장 낮은 번호의 산봉우리
+
+# 목표: intensity가 최소가 되도록 등산 코스 정하기
+
+# 생각 방향 등산로를 만들면서 쉼터,산봉우리 갈 시 intensity 재갱신 후 최대로 된 걸 체크
+# dfs로 산을 오른 후 경로에 따라 피로도 중 최대를 재갱신 후 산봉우리 도착과 입구와 출구와 같은 지점을 결고값에 넣은 후
+# 그 중 sort 이후 최소 값을 답으로 낸다
+# 한 번에 여러 조건을 검증하기 보다 출입구로 다시 돌아오는 경로만 추린 후 (if문이 너무 여러 번 쓰여 오히려 복잡해진다)
+# 다시 경로 재정제하는 방향으로 전환
+# dfs로 할 시 중복되는 부분들에 대한 리스트 정리 생각 부족
+# dfs 사용시 서로 연결 된 경로가 중복된 경우에 대한 개념 정리
+# 산 정상까지만 계산 후 피로도를 계산하면 나머지는 할 필요가 없다 (절반은 반복이니까)
+
+
+import heapq
+from collections import defaultdict
+from collections import deque
+import sys
+
+sys.setrecursionlimit(10 ** 6)
+
+result = []
+
+
+def dfs(q, m, d, s, g):
+    global result
+    q = deque(q)
 
     while q:
         road, tired, top = q.pop()
