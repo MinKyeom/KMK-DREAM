@@ -2,6 +2,160 @@
 출처: 프로그래머스 코딩 테스트 연습,
 https://school.programmers.co.kr/learn/courses/30/lessons/118669
 """
+# 내 풀이
+# 조건: 1~n번의 지점: 출입구 ,쉼터, 산봉우리 중 하나
+# intensity:휴식 없이 이동해야 하는 시간 중 가장 긴 시간을 의미
+# 출입구는 처음 끝 한번씩 산봉우리 한 번 포함하는 다시 원래 출입구로 돌아오는 등산코스 다른 출입구 한 번더 반복 x
+# 거리 가중치 최소화를 처음 보고 든 생각 다익스트라 알고리즘
+# 출입구와 산봉우리를 제외하면 모두 휴식터로 분류한다
+
+# 지점 수:n 등산로 정보:paths 출입구 정보: gates 산봉우리들 번호:summits
+# [intensity 최소로 만드는 산봉우리, 그 때의 intensity] 산봉우리가 여러 개 일시 가장 낮은 번호의 산봉우리
+
+# 목표: intensity가 최소가 되도록 등산 코스 정하기
+
+# 생각 방향 등산로를 만들면서 쉼터,산봉우리 갈 시 intensity 재갱신 후 최대로 된 걸 체크
+# dfs로 산을 오른 후 경로에 따라 피로도 중 최대를 재갱신 후 산봉우리 도착과 입구와 출구와 같은 지점을 결고값에 넣은 후
+# 그 중 sort 이후 최소 값을 답으로 낸다
+# 한 번에 여러 조건을 검증하기 보다 출입구로 다시 돌아오는 경로만 추린 후 (if문이 너무 여러 번 쓰여 오히려 복잡해진다)
+# 다시 경로 재정제하는 방향으로 전환
+# dfs로 할 시 중복되는 부분들에 대한 리스트 정리 생각 부족
+# dfs 사용시 서로 연결 된 경로가 중복된 경우에 대한 개념 정리
+# 산 정상까지만 계산 후 피로도를 계산하면 나머지는 할 필요가 없다 (절반은 반복이니까)
+
+
+from heapq import heappop, heappush
+from collections import defaultdict
+from collections import deque
+import sys
+
+sys.setrecursionlimit(10 ** 6)
+
+result = [float("inf"), float("inf")]
+
+"""
+def Dijkstra(q,m,s,v):
+    global result
+
+    while q:
+        # 출발할 위치, 피로도
+        tired,k=heapq.heappop(q)
+
+        if tired > v[k] or k in s:
+            continue
+
+#         if k in s:
+#             if result[1]>tired:
+#                 result[0],result[1]=k,tired
+
+#             elif result[1]==tired:
+#                 result[0]=min(k,result[0])
+
+#             continue
+
+        #j: 연결된 경로 i:피로도
+        for i,j in m[k]:
+            new=max(tired,i)
+
+            if new<v[j]:
+                v[j]=new
+                q=list(q)
+                heapq.heappush(q,(new,j))
+
+
+    #print(v)
+
+    return v
+    """
+
+
+# m:경로 start:시작 지점 s:산봉우리 i:피로도 top:도착한 산봉우리 g:출입구
+
+def solution(n, paths, gates, summits):
+    summits.sort()
+    s = set(summits)
+
+    # p=paths
+    # g=gates
+    # s=summits
+    def Dijkstra():
+        global result
+
+        # 거리
+        d = defaultdict(list)
+        # 경로
+        m = defaultdict(list)
+
+        # check=[float("inf") if not _ in gates else 0 for _ in range(n+1)]
+
+        check = [float("inf")] * (n + 1)
+
+        # for i in g:
+        #     check[i]=0
+
+        # 등산로 별 시간 기록
+        # for a,b,c in p:
+        #     d[(a,b)]=c
+        #     d[(b,a)]=c
+        #     heapq.heappush(m[a],b)
+        #     heapq.heappush(m[b],a)
+
+        for a, b, c in paths:
+            m[a].append((c, b))
+            m[b].append((c, a))
+
+        q = []
+
+        for start in gates:
+            heappush(q, (0, start))
+            check[start] = 0
+
+            # ---------------#
+            v = check
+
+        while q:
+            # 출발할 위치, 피로도
+            tired, k = heappop(q)
+
+            if k in s or tired > v[k]:
+                continue
+
+            #           if k in s:
+            #               if result[1]>tired:
+            #                   result[0],result[1]=k,tired
+
+            #             elif result[1]==tired:
+            #                 result[0]=min(k,result[0])
+
+            #             continue
+
+            # j: 연결된 경로 i:피로도
+            for i, j in m[k]:
+                new = max(tired, i)
+
+                if new < v[j]:
+                    v[j] = new
+                    heappush(q, (new, j))
+
+        # print(v)
+        for top in summits:
+            if result[1] > check[top]:
+                result[0], result[1] = top, check[top]
+        return result
+
+        # check=Dijkstra()
+
+    # for top in summits:
+    #     if result[1]>check[top]:
+    #         result[0],result[1]=top,check[top]
+
+    # elif result[1]==check[top]:
+    #     result[0]=min(result[0],top)
+
+    # finish=sorted(result,key=lambda x:(x[1],x[0]))
+
+    return Dijkstra()
+
 # 내 풀이(개선 중)
 # 조건: 1~n번의 지점: 출입구 ,쉼터, 산봉우리 중 하나
 # intensity:휴식 없이 이동해야 하는 시간 중 가장 긴 시간을 의미
