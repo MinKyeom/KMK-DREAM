@@ -20,6 +20,179 @@ https://school.programmers.co.kr/learn/courses/30/lessons/118668
 
 import heapq
 
+
+def solution(alp, cop, problems):
+    # 목표 역량
+    algorism, coding = 0, 0
+
+    for a, c, algo, code, time in problems:
+        algorism = max(a, algorism)
+        coding = max(c, coding)
+
+    # dp를 활용하기 위한 최대 시간 계산
+    if alp >= algorism:
+        plus_alp = 0
+    else:
+        plus_alp = algorism - alp
+
+    if cop >= coding:
+        plus_cop = 0
+    else:
+        plus_cop = coding - cop
+
+    max_time = plus_alp + plus_cop
+    dp = [[] for _ in range(plus_alp + plus_cop + 1)]
+
+    # 이미 충족된 경우
+    if len(dp) == 0:
+        return 0
+
+    dp[0].append([alp, cop])
+
+    # i 경과 시간
+    for i in range(len(dp)):
+
+        for al, co in dp[i]:
+            if al >= algorism and co >= coding:
+                return i
+
+            for a, c, algo, code, time in problems:
+
+                if al >= a and co >= c and i + time <= max_time and algo + code >= time:
+
+                    if al >= algorism and co < coding and code < time:
+                        continue
+                    elif co >= coding and al < algorism and algo < time:
+                        continue
+                    else:
+                        dp[i + time].append([al + algo, co + code])
+
+            dp[i + 1].append([al + 1, co])
+            dp[i + 1].append([al, co + 1])
+
+        new = []
+
+        for v, w, in dp[i + 1]:
+            for x, y in dp[i + 1]:
+                if v < x and w < y:
+                    break
+            else:
+                if not [v, w] in new:
+                    new.append([v, w])
+
+        dp[i + 1] = []
+        dp[i + 1] += new
+
+    return 0
+
+# 내 풀이(개선 중)
+# 알고력: 0이상의 정수 코딩력: 0이상의 정수
+# 조건: 알고력, 코딩력, 알고력 증가량, 코딩력 증가량, 걸리는 시간
+
+# 목표: 모든 문제를 푸는 코딩력,알고력을 얻는 최단 시간 (최단 시간안에 역량 얻기)
+# 중요포인트:모든 문제 다 안풀어도 됨,같은 문제 여러번 풀기 가능
+
+# 생각 접근 및 방향 변화: 최대로 걸리는 시간을 산정 후 그 시간에 도달하기 전 코딩력 알고력 체크
+# 도달해야 될 알고력과 코딩력을 확인 후 최단 시간에 도달하는 방향으로 나아가는 생각
+# 완탐 불가능
+# 효율1 알고력 효율2 코딩력을 기준으로 가장 효율이 좋은 것을 넣는 방식 고민
+# 시간 대비 효율
+# 시간 효율로 dp 구성 가능한지 여부(반복되는 문제를 통해 답을 찾는 과정이라 생각이 들기 때문이다.)
+# 요구력에 제일 근사한 값이 두 개 나올 시 dp에 넣을지 생각
+# 효율이 떨어져도 검증해야될 필요성 느낌: 문제 푸는데 최소한의 역량 확보와 효율과 차이가 날 수 있음
+
+import heapq
+
+def solution(alp, cop, problems):
+
+    # 목표 역량
+    algorism,coding=0,0
+
+    for a,c,algo,code,time in problems:
+        algorism=max(a,algorism)
+        coding=max(c,coding)
+
+
+    # dp를 활용하기 위한 최대 시간 계산
+    if alp>=algorism:
+        plus_alp=0
+    else:
+        plus_alp=algorism-alp
+
+    if cop>=coding:
+        plus_cop=0
+    else:
+        plus_cop=coding-cop
+
+    max_time=plus_alp+plus_cop
+#     dp=[[] for _ in range(plus_alp+plus_cop+1)]
+
+#     # 이미 충족된 경우
+#     if len(dp)==0:
+#         return 0
+
+#     dp[0].append([alp,cop])
+
+    dp=[[0,alp,cop]]
+
+    result=[]
+
+    while dp:
+        time,al,co = heapq.heappop(dp)
+
+        if al>=algorism and co>=coding:
+            if len(result)==0:
+                check_time=time
+            else:
+                if check_time<time:
+                    break
+                else:
+                    result.append(time)
+
+        for a,c,algo,code,t in problems:
+
+            # 문제 풀이 가능 및 최대 시간 초과 x 및
+            if al>=a and co>=c and t+time<=max_time and algo+code > time:
+
+                # 한 쪽 충족 및 효율 기준치 미달
+                if al>=algorism and code<time:
+                    continue
+                elif co>=coding and algo<time:
+                    continue
+
+                else:
+                    heapq.heappush(dp,[t+time,al+algo,co+code])
+
+        if not [time+1,al+1,co] in dp:
+            heapq.heappush(dp,[time+1,al+1,co])
+
+        if not [time+1,al,co+1] in dp:
+            heapq.heappush(dp,[time+1,al,co+1])
+
+
+        print(dp)
+        break
+
+    return 0
+
+# 내 풀이(개선 중)
+# 알고력: 0이상의 정수 코딩력: 0이상의 정수
+# 조건: 알고력, 코딩력, 알고력 증가량, 코딩력 증가량, 걸리는 시간
+
+# 목표: 모든 문제를 푸는 코딩력,알고력을 얻는 최단 시간 (최단 시간안에 역량 얻기)
+# 중요포인트:모든 문제 다 안풀어도 됨,같은 문제 여러번 풀기 가능
+
+# 생각 접근 및 방향 변화: 최대로 걸리는 시간을 산정 후 그 시간에 도달하기 전 코딩력 알고력 체크
+# 도달해야 될 알고력과 코딩력을 확인 후 최단 시간에 도달하는 방향으로 나아가는 생각
+# 완탐 불가능
+# 효율1 알고력 효율2 코딩력을 기준으로 가장 효율이 좋은 것을 넣는 방식 고민
+# 시간 대비 효율
+# 시간 효율로 dp 구성 가능한지 여부(반복되는 문제를 통해 답을 찾는 과정이라 생각이 들기 때문이다.)
+# 요구력에 제일 근사한 값이 두 개 나올 시 dp에 넣을지 생각
+# 효율이 떨어져도 검증해야될 필요성 느낌: 문제 푸는데 최소한의 역량 확보와 효율과 차이가 날 수 있음
+
+import heapq
+
 def solution(alp, cop, problems):
     check_alp, check_cop = 0, 0
     min_alp, min_cop = float("inf"), float("inf")
