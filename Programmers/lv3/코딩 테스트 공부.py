@@ -734,3 +734,61 @@ def solution(alp, cop, problems):
 
     answer = 0
     return answer
+
+# 다른 사람 풀이
+
+from collections import defaultdict
+import math
+
+
+def solution(alp, cop, problems):
+    answer = 0
+
+    # 알고력 1을 높이기 위해서 1의 시간이 필요
+    # 코딩력 1을 높이기 위해서 1의 시간이 필요
+    # 문제마다 문제를 풀면 올라가는 알고력과 코딩력이 정해
+    # 같은 문제를 여러 번 푸는 것이 가능합니다.
+
+    # 주어진 모든 문제들을 풀 수 있는 알고력과 코딩력을 얻는 최단시간
+    # 모든 문제를 풀 필요는 없음 -> 요구하는 알고력과 코딩력을 구해야함
+
+    # problems의 원소는 [alp_req, cop_req, alp_rwd, cop_rwd, cost]
+
+    max_alp, max_cop = 0, 0
+    for a, b, c, d, e in problems:
+        max_alp = max(max_alp, a)
+        max_cop = max(max_cop, b)
+
+    max_alp = max(max_alp, alp)
+    max_cop = max(max_cop, cop)
+
+    dp = [[math.inf for __ in range(max_alp + 1)] for _ in range(max_cop + 1)]
+    dp[cop][alp] = 0
+
+    can_solve = defaultdict(list)
+
+    for p_num, p in enumerate(problems):
+        for c in range(p[1], max_cop + 1):
+            for a in range(p[0], max_alp + 1):
+                can_solve[c * 1000 + a].append(p_num)
+
+    for c in range(cop, max_cop + 1):
+        for a in range(alp, max_alp + 1):
+
+            if c + 1 <= max_cop: dp[c + 1][a] = min(dp[c][a] + 1, dp[c + 1][a])
+            if a + 1 <= max_alp: dp[c][a + 1] = min(dp[c][a] + 1, dp[c][a + 1])
+
+            for p_num in can_solve[c * 1000 + a]:
+                p = problems[p_num]
+                a_rwd = p[2]
+                c_rwd = p[3]
+                cost = p[4]
+
+                a_dst = min(a + a_rwd, max_alp)
+                c_dst = min(c + c_rwd, max_cop)
+                naive_cost = a_dst + c_dst - c - a
+
+                dp[c_dst][a_dst] = min(dp[c_dst][a_dst], dp[c][a] + min(cost, naive_cost))
+
+    return dp[max_cop][max_alp]
+
