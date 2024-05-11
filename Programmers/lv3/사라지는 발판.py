@@ -1,0 +1,108 @@
+"""
+출처: 프로그래머스 코딩 테스트 연습,
+https://school.programmers.co.kr/learn/courses/30/lessons/92345
+"""
+
+# 조건
+# 발판 있는 곳 없는 곳 존재
+# 밟던 발판 다른 곳으로 이동시 사라짐
+# 양 플레이어 상하좌우로 움직임
+
+# 움직일 발판이 없는 경우 or 밖으로 넘어가는거 포함 패배
+# 같은 발판에 존재 가능
+# 같은 발판에 있다 둘중 한 플레이어가 이동하여 해당 발판이 사라지면 다른 플레이어 패배
+# 시작: 플레이어 a 시작
+# 항상 이길 수 있는 플레이어 패배하는 플레이어가 정해져 있음
+# 항상 이기는 플레이어는 실수하지 않고 항상 지는 플레이어는 최대한 버티는 방향으로 했을 때 최적값 구하기
+
+# 목표: 양플레이어가 최적으로 움직였을 때 횟수의 합
+# 생각 방향: 보드 게임 bfs or dfs 접근
+# 각 플레이어가 최적으로 움직이는 부분을 구현 핵심 누가 항상 이기는 플레이어인지 확인하기
+# 최적이란? 이기는 플레이는 이길 수 있는 방향으로 지는 플레이어는 무조건 버티도록
+
+# board: 보드 상태 aloc:a의 위치 bloc:b의 위치
+
+import copy
+
+
+def solution(board, aloc, bloc):
+    m = len(board)  # 열
+    n = len(board[0])  # 행
+
+    ax, ay = aloc[0], aloc[1]
+
+    bx, by = bloc[0], bloc[1]
+
+    dx = [1, -1, 0, 0]
+    dy = [0, 0, -1, 1]
+
+    result = 0
+
+    a_win = 0
+    b_win = 0
+
+    q = [(0, ax, ay, bx, by, board)]
+
+    while q:
+
+        count, a_x, a_y, b_x, b_y, b = q.pop()
+
+        for i, j in zip(dx, dy):
+
+            # a 시작 및 이동경로 보드 내인지 확인
+            if 0 <= a_x + i < m and 0 <= a_y + j < n:
+
+                # 발판 존재 확인
+                if b[a_x + i][a_y + j] != 0:
+
+                    # 발판 저장 및 새롭게 구성
+                    c = copy.deepcopy(b)
+
+                    # 기존 발판 사라짐
+                    c[a_x][a_y] = 0
+
+                    # b가 거기 서있을경우
+                    if c[b_x][b_y] == 0:
+                        result = max(result, count + 1)
+                        a_win += 1
+                        continue
+
+                    # b 시작 및 이동경로 보드 내인지 확인
+                    for v, w in zip(dx, dy):
+                        if 0 <= b_x + v < m and 0 <= b_y + w < n:
+
+                            # 발판 존재 확인
+                            if c[b_x + v][b_y + w] != 0:
+
+                                # 기존 발판 저장
+                                e = copy.deepcopy(c)
+
+                                # 기존 발판 사라짐
+                                e[b_x][b_y] = 0
+
+                                # a가 거기 서있었을 경우
+                                if e[a_x + i][a_y + j] == 0:
+                                    result = max(result, count + 2)
+                                    b_win += 1
+                                    continue
+
+                                q.append((count + 2, a_x + i, a_y + j, b_x + v, b_y + w, e))
+
+                            else:
+                                result = max(count + 1, result)
+                                a_win += 1
+                        else:
+                            result = max(count + 1, result)
+                            a_win += 1
+
+                else:
+                    result = max(count, result)
+                    b_win += 1
+
+
+            else:
+                result = max(count, result)
+                b_win += 1
+
+    print(a_win, b_win)
+    return result
