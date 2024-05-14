@@ -23,6 +23,85 @@ https://school.programmers.co.kr/learn/courses/30/lessons/92345
 
 # board: 보드 상태 aloc:a의 위치 bloc:b의 위치
 
+dx = [1, -1, 0, 0]
+dy = [0, 0, -1, 1]
+
+game = []  # 게임판 진행 상황
+
+
+def start(ax, ay, bx, by, board, m, n):
+    global game
+
+    count = 0
+
+    for x, y in zip(dx, dy):
+        new_x = ax + x
+        new_y = ay + y
+
+        # 범위 밖 또는 해당판 존재x
+        if not 0 <= new_x < m or not 0 <= new_y < n or board[new_x][new_y] == 0 or game[new_x][new_y] == 1:
+            continue
+
+        # 해당 말 움직였으므로 해당판 존재사라짐
+        game[ax][ay] = 1
+
+        # dfs 구현
+        # a의 말이 움직인 후에 같은 방식으로 b의 말이 움직임
+        enemy = start(bx, by, new_x, new_y, board, m, n) + 1
+
+        # 그 다음 for문을 위해 원복
+        game[ax][ay] = 0
+
+        if count % 2 == 0 and enemy % 2 == 1:
+            count = enemy
+
+        elif count % 2 == 0 and enemy % 2 == 0:
+            count = max(count, enemy)
+
+        elif count % 2 == 1 and enemy % 2 == 1:
+            count = min(count, enemy)
+
+    return count
+
+
+def solution(board, aloc, bloc):
+    global game
+
+    m = len(board)  # 열
+    n = len(board[0])  # 행
+
+    ax, ay = aloc[0], aloc[1]
+
+    bx, by = bloc[0], bloc[1]
+
+    # 게임판 진행 상황 체크
+    game = [[0] * n for _ in range(m)]
+
+    result = start(ax, ay, bx, by, board, m, n)
+
+    return result
+
+# 내 풀이(개선 중)
+# 조건
+# 발판 있는 곳 없는 곳 존재
+# 밟던 발판 다른 곳으로 이동시 사라짐
+# 양 플레이어 상하좌우로 움직임
+
+# 움직일 발판이 없는 경우 or 밖으로 넘어가는거 포함 패배
+# 같은 발판에 존재 가능
+# 같은 발판에 있다 둘중 한 플레이어가 이동하여 해당 발판이 사라지면 다른 플레이어 패배
+# 시작: 플레이어 a 시작
+# 항상 이길 수 있는 플레이어 패배하는 플레이어가 정해져 있음
+# 항상 이기는 플레이어는 실수하지 않고 항상 지는 플레이어는 최대한 버티는 방향으로 했을 때 최적값 구하기
+
+# 목표: 양플레이어가 최적으로 움직였을 때 횟수의 합
+# 생각 방향: 보드 게임 bfs or dfs 접근
+# 각 플레이어가 최적으로 움직이는 부분을 구현 핵심 누가 항상 이기는 플레이어인지 확인하기
+# 최적이란? 이기는 플레이는 이길 수 있는 방향으로 지는 플레이어는 무조건 버티도록 하는 방향성 고민
+# 항상 이기는 플레이어의 조건
+
+# board: 보드 상태 aloc:a의 위치 bloc:b의 위치
+
 import copy
 
 
