@@ -3,6 +3,91 @@
 https://school.programmers.co.kr/learn/courses/30/lessons/87391
 """
 # 내 풀이(개선 중)
+# command 0,1:열 y
+i = []
+
+# command 2,3:행 x
+j = []
+
+for command, dx in queries:
+    if command == 0:
+        i.append(-dx)
+    elif command == 1:
+        i.append(dx)
+    elif command == 2:
+        j.append(-dx)
+    elif command == 3:
+        j.append(dx)
+# 열
+one = []
+
+# 행
+two = []
+
+q = [y]
+
+for a in range(len(i) - 1, -1, -1):
+    b = i[a]
+    new = []
+
+    while q:
+        c = q.pop()
+
+        if c == 0 or c == m - 1:
+            # 0쪽에 가까움
+            if c == 0:
+                for d in range(m):
+                    if d + b <= 0:
+                        new.append(d)
+                    else:
+                        break
+            else:
+                for d in range(m - 1, -1, -1):
+                    if d + b >= m - 1:
+                        new.append(d)
+                    else:
+                        break
+        else:
+            new.append(c + b * (-1))
+
+    new = list(set(new))
+    q += new
+
+one += q
+
+q = [x]
+
+for a in range(len(j) - 1, -1, -1):
+    b = j[a]
+    new = []
+
+    while q:
+        c = q.pop()
+
+        if c == 0 or c == n - 1:
+            # 0쪽에 가까움
+            if c == 0:
+                for d in range(n):
+                    if d + b <= 0:
+                        new.append(d)
+                    else:
+                        break
+            else:
+                for d in range(n - 1, -1, -1):
+                    if d + b >= n - 1:
+                        new.append(d)
+                    else:
+                        break
+        else:
+            new.append(c + b * (-1))
+
+    new = list(set(new))
+    q += new
+two += q
+
+return len(one) * len(two)
+
+# 내 풀이(개선 중)
 """
 명령어: 0:열 번호 감소 1:열 번호 증가 2:행 번호 감소 3:행 번호 증가
 
@@ -171,3 +256,4 @@ def solution(n, m, x, y, queries):
         """
 
     return 0
+
