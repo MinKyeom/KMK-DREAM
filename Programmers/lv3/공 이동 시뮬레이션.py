@@ -2,6 +2,59 @@
 프로그래머스,
 https://school.programmers.co.kr/learn/courses/30/lessons/87391
 """
+# 내 풀이
+start_x, end_x = x, x
+start_y, end_y = y, y
+
+for i in range(len(queries) - 1, -1, -1):
+    command, dx = queries[i]
+
+    if command == 0:
+        end_y = min(end_y + dx, m - 1)
+
+        if start_y == 0:
+            start_y = 0
+
+        else:
+            start_y = start_y + dx
+
+            if start_y > m - 1:
+                return 0
+
+    elif command == 1:
+        if end_y == m - 1:
+            end_y = m - 1
+        else:
+            end_y = end_y - dx
+
+            if end_y < 0:
+                return 0
+
+        start_y = max(start_y - dx, 0)
+
+    elif command == 2:
+        end_x = min(end_x + dx, n - 1)
+
+        if start_x == 0:
+            start_x = 0
+        else:
+            start_x = start_x + dx
+            if start_x > n - 1:
+                return 0
+
+    elif command == 3:
+        if end_x == n - 1:
+            end_x = n - 1
+
+        else:
+            end_x = end_x - dx
+            if end_x < 0:
+                return 0
+
+        start_x = max(start_x - dx, 0)
+
+return (end_x - start_x + 1) * (end_y - start_y + 1)
+
 # 내 풀이(개선 중)
 # command 0,1:열 y
 i = []
