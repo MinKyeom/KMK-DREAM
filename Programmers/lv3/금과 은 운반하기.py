@@ -2,6 +2,133 @@
 출처:프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/86053
 """
+# 내 풀이
+"""
+조건: 
+새 도시를 만들 조건: 금:a 은:b
+
+이해 과정:i번 도시에는 일정 이상의 광물이 있고, 새 도시에 광물을 전달해준다
+
+목표:새로운 도시를 건설하기 위한 최단 시간을 구하시오
+"""
+
+"""
+
+# 필요한 금:a 은:b 
+g[i]:i번 도시에 보유한 금
+s[i]:i번 도시에 보유한 은
+
+신도시까지 이동시간: t[i] 옮길 수 있는 최대 양 w[i]
+
+"""
+# 생각 방향: 각 도시에 일정량을 가져오는 경우를 모두 산정 후 그 중 누적 후 시간이 최소인것을 구한다.
+# 시간 빠른 순으로 트럭을 돌려보내고 받고를 한 후 금과 은 중에 더 많은 광석을 먼저 소비하는 방식으로 한 후 다시 heap 리스트에 추가!
+# 시간을 1씩 올려서 혹은 내려서 접근하는 방식은 많은 시간을 소요해 시간초과로 이어진다
+# 이분탐색(이진탐색)을 바탕으로 접근해야 한다
+
+import heapq
+
+
+def solution(a, b, g, s, w, t):
+    start = 0
+    end = (10 ** 9) * (10 ** 5) * 4
+
+    result = (10 ** 9) * (10 ** 5) * 4
+
+    # 도시 개수
+    city = len(g)
+
+    while start <= end:
+
+        gold_max, gold_min = 0, 0
+        silver_max, silver_min = 0, 0
+        weight = 0
+        mid = (start + end) // 2
+
+        for k in range(city):
+
+            # 편도 횟수
+            count = mid // t[k]
+
+            # 왕복만 가능
+            if count % 2 == 0:
+                check = (count // 2) * w[k]
+
+                if check >= s[k] + g[k]:
+                    check = s[k] + g[k]
+                    weight += check
+                    silver_max += s[k]
+                    silver_min += s[k]
+                    gold_max += g[k]
+                    gold_min += g[k]
+
+                else:
+                    weight += check
+                    if check >= s[k]:
+                        silver_max += s[k]
+                        gold_min += check - s[k]
+
+                    # 실버만 채워야함
+                    else:
+                        silver_max += check
+
+                    if check >= g[k]:
+                        gold_max += g[k]
+                        silver_min += check - g[k]
+                    else:
+                        gold_max += check
+
+            # 마지막 편도 한 번까지 가능
+            else:
+                check = ((count // 2) + 1) * w[k]
+
+                if check >= s[k] + g[k]:
+                    check = s[k] + g[k]
+                    weight += check
+                    silver_max += s[k]
+                    silver_min += s[k]
+                    gold_max += g[k]
+                    gold_min += g[k]
+
+                else:
+                    weight += check
+                    if check >= s[k]:
+                        silver_max += s[k]
+                        gold_min += check - s[k]
+
+                    # 실버만 채워야함
+                    else:
+                        silver_max += check
+
+                    if check >= g[k]:
+                        gold_max += g[k]
+                        silver_min += check - g[k]
+                    else:
+                        gold_max += check
+
+        if weight >= a + b and gold_max >= a and silver_max >= b:
+            result = min(result, mid)
+            end = mid - 1
+
+            # num=silver_max
+
+        #             for i in range(gold_min,gold_max+1):
+        #                 if i >=a and num>=b:
+        #                     break
+        #                 else:
+        #                     num-=1
+        #             else:
+        #                 start=mid+1
+        #                 continue
+
+        #             result=min(result,mid)
+        #             end=mid-1
+
+        else:
+            start = mid + 1
+
+    return result
+
 # 내 풀이(개선 중)
 """
 조건: 
