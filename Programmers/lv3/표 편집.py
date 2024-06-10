@@ -1,0 +1,148 @@
+"""
+출처: 프로그래머스
+https://school.programmers.co.kr/learn/courses/30/lessons/81303
+"""
+
+# 내 풀이(개선 중)_시간 초과
+"""
+# 비슷한 문제 존재 연관짓기 think
+# 조건
+
+"U X": 현재 선택된 행에서 X칸 위에 있는 행을 선택합니다.
+
+"D X": 현재 선택된 행에서 X칸 아래에 있는 행을 선택합니다.
+
+"C" : 현재 선택된 행을 삭제한 후, 바로 아래 행을 선택합니다. 단, 삭제된 행이 가장 마지막 행인 경우 바로 윗 행을 선택합니다.
+
+"Z" : 가장 최근에 삭제된 행을 원래대로 복구합니다. 단, 현재 선택된 행은 바뀌지 않습니다.(되돌리기)
+
+
+# 제시된 조건:
+ n:처음 행의 개수 
+ k:처음 시작할 행의 위치
+
+ # 목표:삭제된 행 아닌 행 구분
+"""
+
+
+# sol1
+
+def solution(n, k, cmd):
+    # 시작 표
+    # start=[i for i in range(n)]
+
+    # 변경 할 표
+    end = [j for j in range(n)]
+
+    # 중간에 담을 표
+    # middle=[t for t in range(n)]
+
+    # 지워질 경우 되돌릴 것
+    backup = []
+
+    progress = k
+
+    for command in cmd:
+        # c=command.split(" ")
+        c = command
+
+        if c[0] == "U":
+            count = int(c[2])
+
+            # 비어있는 경우
+            if len(end) == 0:
+                continue
+
+            if progress - count >= 0:
+                progress -= count
+            else:
+                progress = 0
+
+        elif c[0] == "D":
+            count = int(c[2])
+            if len(end) == 0:
+                continue
+
+            if progress + count < len(end):
+                progress += count
+
+            else:
+                progress = len(end) - 1
+
+        elif c[0] == "C":
+            # 리스트 형태가 아니라 new 안바뀜
+            new = end[progress]
+            # middle[new]="null"
+
+            backup.append(new)
+
+            # 맨 마지막 행일 경우
+            if progress == len(end) - 1:
+                del end[progress]
+                progress -= 1
+
+            else:
+                del end[progress]
+
+        elif c[0] == "Z":
+            # 최근에 삭제된 자료
+            now = end[progress]
+            new = backup.pop()
+
+            # middle[new]=new
+
+            #             e=[]
+
+            #             for re in middle:
+            #                 if re!="null":
+            #                     e.append(re)
+
+            # end=e
+
+            end.append(new)
+            end.sort()
+
+            # 현재 위치 그대로
+            progress = end.index(now)
+
+    # print(middle)
+
+    result = ["X"] * n
+
+    for r in end:
+        result[r] = "O"
+
+    return "".join(result)
+
+
+# sol2
+"""
+def solution(n, k, cmd):
+    check=[i for i range(n)]
+
+    p=k
+
+    # 백업 리스트
+    b=[]
+
+    for command in cmd:
+        c=command.split(" ")
+
+        if c[0]=="U":
+            count=c[1]
+
+            while count
+            pass
+        elif c[0]=="D":
+
+            pass
+        elif c[0]=="C":
+
+            pass
+        elif c[0]=="Z":
+
+            pass
+
+
+    return 0
+"""
