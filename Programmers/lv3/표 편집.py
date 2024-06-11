@@ -2,6 +2,85 @@
 출처: 프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/81303
 """
+# 내 풀이 (개선 중)
+"""
+# 비슷한 문제 존재 연관짓기 think
+# 조건
+
+"U X": 현재 선택된 행에서 X칸 위에 있는 행을 선택합니다.
+
+"D X": 현재 선택된 행에서 X칸 아래에 있는 행을 선택합니다.
+
+"C" : 현재 선택된 행을 삭제한 후, 바로 아래 행을 선택합니다. 단, 삭제된 행이 가장 마지막 행인 경우 바로 윗 행을 선택합니다.
+
+"Z" : 가장 최근에 삭제된 행을 원래대로 복구합니다. 단, 현재 선택된 행은 바뀌지 않습니다.(되돌리기)
+
+
+# 제시된 조건:
+ n:처음 행의 개수 
+ k:처음 시작할 행의 위치
+
+ # 목표:삭제된 행 아닌 행 구분
+"""
+from collections
+
+
+def solution(n, k, cmd):
+    def solution(n, k, cmd):
+        # 변경 할 표
+        end = [i for i in range(n)]
+
+        result = ["O"] * n
+
+        # 지워질 경우 되돌릴 것
+        backup = []
+
+        progress = k
+
+        for command in cmd:
+
+            c = command
+
+            if c[0] == "U":
+                count = int(c[2])
+
+                while count > 0 and progress > 0:
+                    if end[progress - 1] == "O":
+                        progress -= 1
+                        count -= 1
+                    else:
+                        progress -= 1
+
+            elif c[0] == "D":
+                count = int(c[2])
+
+                while count > 0 and progress < len(end) - 1:
+                    if end[progress + 1] == "O":
+                        progress += 1
+                        count -= 1
+                    else:
+                        progress += 1
+
+            elif c[0] == "C":
+                backup.append(progress)
+
+                # 맨 마지막 행일 경우
+                if progress == len(end) - 1:
+                    end[progress] = "X"
+                    progress -= 1
+
+                else:
+                    end[progress] = "X"
+                    progress += 1
+
+            elif c[0] == "Z":
+                z = backup.pop()
+                end[z] = "O"
+
+        return "".join(end)
+
+        return 0
+
 
 # 내 풀이(개선 중)_시간 초과
 """
