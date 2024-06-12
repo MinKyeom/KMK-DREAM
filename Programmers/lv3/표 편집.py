@@ -2,6 +2,92 @@
 출처: 프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/81303
 """
+# 내 풀이(개선 중)
+"""
+# 비슷한 문제 존재 연관짓기 think
+# 조건
+
+"U X": 현재 선택된 행에서 X칸 위에 있는 행을 선택합니다.
+
+"D X": 현재 선택된 행에서 X칸 아래에 있는 행을 선택합니다.
+
+"C" : 현재 선택된 행을 삭제한 후, 바로 아래 행을 선택합니다. 단, 삭제된 행이 가장 마지막 행인 경우 바로 윗 행을 선택합니다.
+
+"Z" : 가장 최근에 삭제된 행을 원래대로 복구합니다. 단, 현재 선택된 행은 바뀌지 않습니다.(되돌리기)
+
+
+# 제시된 조건:
+ n:처음 행의 개수 
+ k:처음 시작할 행의 위치
+
+ # 목표:삭제된 행 아닌 행 구분
+ 
+ # 자료구조 링크드인리스트 활용 생각해보기! 
+"""
+from collections import deque
+
+
+def solution(n, k, cmd):
+    check = [i for i in range(n)]
+    backup = []
+
+    # 진행도
+    progress = k
+
+    for command in cmd:
+        c = command.split(" ")
+
+        if c[0] == "U":
+
+            count = int(c[1])
+            progress = max(0, progress - count)
+
+        elif c[0] == "D":
+            count = int(c[1])
+            progress = min(len(check) - 1, progress + count)
+
+        elif c[0] == "C":
+            new = check[progress]
+            backup.append(new)
+
+            del check[progress]
+
+            progress = min(progress, len(check) - 1)
+
+        elif c[0] == "Z":
+            add = backup.pop()
+
+            before = check[progress]
+
+            check = deque(check)
+
+            new_check = []
+
+            while check:
+                num = check.popleft()
+                if num > add:
+                    new_check.append(add)
+                    new_check.append(num)
+                    break
+                else:
+                    new_check.append(num)
+            else:
+                new_check.append(add)
+
+            check = list(check)
+
+            check = new_check + check
+
+            progress = check.index(before)
+
+    result = ["X"] * n
+
+    for r in check:
+        result[r] = "O"
+
+    return "".join(result)
+
+
 # 내 풀이 (개선 중)
 """
 # 비슷한 문제 존재 연관짓기 think
