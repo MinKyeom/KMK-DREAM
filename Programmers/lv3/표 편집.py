@@ -2,6 +2,106 @@
 출처: 프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/81303
 """
+
+# 내 풀이
+"""
+# 비슷한 문제 존재 연관짓기 think
+# 조건
+
+"U X": 현재 선택된 행에서 X칸 위에 있는 행을 선택합니다.
+
+"D X": 현재 선택된 행에서 X칸 아래에 있는 행을 선택합니다.
+
+"C" : 현재 선택된 행을 삭제한 후, 바로 아래 행을 선택합니다. 단, 삭제된 행이 가장 마지막 행인 경우 바로 윗 행을 선택합니다.
+
+"Z" : 가장 최근에 삭제된 행을 원래대로 복구합니다. 단, 현재 선택된 행은 바뀌지 않습니다.(되돌리기)
+
+
+# 제시된 조건:
+ n:처음 행의 개수 
+ k:처음 시작할 행의 위치
+
+ # 목표:삭제된 행 아닌 행 구분
+
+ # 생각방향: 링크드리스트 > 빈 곳을 일일이 방금 안해도 된다!
+ 딕셔너리의 각각의 수는 고유명사로 봐줘야한다
+"""
+
+def solution(n, k, cmd):
+    result = ["O"] * n
+
+    # 이전 존재,이후 존재
+    linked_list = {i: [i - 1, i + 1] for i in range(n)}
+
+    # 현 위치
+    progress = k
+
+    backup = []
+
+    for command in cmd:
+
+        # 삭제
+        if command == "C":
+
+            # 현재 항 바꾸기
+            result[progress] = "X"
+
+            before = linked_list[progress][0]
+            after = linked_list[progress][1]
+
+            # 백업 기록
+            backup.append((before, progress, after))
+
+            # 현 위치 변경: 다음 위치가 마지막을 넘어가는 경우
+            if after == n:
+                progress = before
+            else:
+                progress = after
+
+            # linked_list 변경: 이어주기
+            if before == -1:
+                linked_list[after][0] = before
+            elif after == n:
+                linked_list[before][1] = after
+            else:
+                linked_list[before][1] = after
+                linked_list[after][0] = before
+
+        # 되돌리기
+        elif command == "Z":
+            z_before, z_now, z_after = backup.pop()
+
+            result[z_now] = "O"
+
+            if z_before == -1:
+                linked_list[z_after][0] = z_now
+
+            elif z_after == n:
+                linked_list[z_before][1] = z_now
+
+            else:
+                linked_list[z_after][0] = z_now
+                linked_list[z_before][1] = z_now
+
+        # 위치 변경
+        else:
+            c = command.split(" ")
+
+            if c[0] == "U":
+                count = int(c[1])
+
+                for num in range(count):
+                    progress = linked_list[progress][0]
+
+            else:
+                count = int(c[1])
+
+                for num in range(count):
+                    progress = linked_list[progress][1]
+
+    return "".join(result)
+
+
 # 내 풀이(개선 중)
 """
 # 비슷한 문제 존재 연관짓기 think
