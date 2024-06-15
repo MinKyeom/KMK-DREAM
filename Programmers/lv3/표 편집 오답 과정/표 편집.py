@@ -27,6 +27,7 @@ https://school.programmers.co.kr/learn/courses/30/lessons/81303
  딕셔너리의 각각의 수는 고유명사로 봐줘야한다
 """
 
+
 def solution(n, k, cmd):
     result = ["O"] * n
 
@@ -121,7 +122,7 @@ def solution(n, k, cmd):
  k:처음 시작할 행의 위치
 
  # 목표:삭제된 행 아닌 행 구분
- 
+
  # 자료구조 링크드인리스트 활용 생각해보기! 
 """
 from collections import deque
@@ -410,10 +411,11 @@ def solution(n, k, cmd):
     return 0
 """
 
+
 # 다른 사람 풀이
 def solution(n, k, cmd):
     cur = k
-    table = { i:[i - 1, i + 1] for i in range(n) }
+    table = {i: [i - 1, i + 1] for i in range(n)}
     answer = ['O'] * n
     table[0] = [None, 1]
     table[n - 1] = [n - 2, None]
@@ -460,8 +462,9 @@ def solution(n, k, cmd):
                     cur = table[cur][0]
     return ''.join(answer)
 
+
 # 다른 사람 풀이
-N = 10**9
+N = 10 ** 9
 
 
 class Node:
@@ -479,14 +482,13 @@ def solution(n, k, camaand):
     N = n
 
     # linked list
-    table = {i: Node(i-1, i+1) for i in range(n)}
+    table = {i: Node(i - 1, i + 1) for i in range(n)}
 
     # 현재 선택된 행
     now = k
 
     # 삭제된 번호
     stack = []
-
 
     for cmd in camaand:
         # 삭제
