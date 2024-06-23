@@ -2,6 +2,74 @@
 출처:프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/77886
 """
+# 내 풀이
+"""
+조건:0과 1로 이루어진 x를 바탕으로 주어진 s를 순서를 바꿔 최소값을 return 
+
+생각방향: 110을 지속적으로 찾아내기
+원래 s에 있는 형태의 110이 아니더라도 중간에 변형에 의하여 생긴 110 또한 존재
+110 빼서 111 자리 앞에 넣어줘야한다
+
+# 필요한 생각: 지속적으로 반복되는 110대한 처리 생각 > 모두 제거 한 후 110을 배치
+
+모두 제거 방법에 대한 생각
+"""
+from collections import deque
+
+
+def solution(s):
+    result = []
+
+    for i in s:
+        i = deque(list(i))
+        check = []
+        count = 0
+
+        while i:
+            k = i.popleft()
+
+            if len(check) < 2:
+                check.append(k)
+
+            else:
+                if check[-2] + check[-1] + k == "110":
+                    check.pop()
+                    check.pop()
+                    count += 1
+
+                    # 새로 생겨난 110 빼기
+                    while len(check) >= 3:
+                        if check[-3] + check[-2] + check[-1] == "110":
+                            check.pop()
+                            check.pop()
+                            check.pop()
+                            count += 1
+                        else:
+                            break
+                else:
+                    check.append(k)
+
+        new = "".join(check)
+
+        # 111 위치
+        n = new.find("111")
+
+        if n != -1:
+            final = new[:n] + "110" * count + new[n:]
+            result.append(final)
+
+        else:
+            for j in range(len(new) - 1, -1, -1):
+                if new[j] == "0":
+                    final = new[:j + 1] + "110" * count + new[j + 1:]
+                    result.append(final)
+                    break
+            else:
+                final = "110" * count + new
+                result.append(final)
+
+    return result
+
 # 내 풀이(개선 중)
 """
 조건:0과 1로 이루어진 x를 바탕으로 주어진 s를 순서를 바꿔 최소값을 return 
