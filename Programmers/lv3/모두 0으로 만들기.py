@@ -2,6 +2,64 @@
 출처: 프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/76503
 """
+# 내 풀이
+"""
+
+생각방향:
+리프노드를 모두 0으로 만든 후의 생각 접근 
+핵심 접근 생각 방향 시작:한 곳으로 모으기 생각
+#각 점이 간선의 개수가 많은 곳으로 옮기기
+#각 점이 간선의 개수가 같다면 가중치가 많은 쪽으로 이동 
+#위의 두 개 조차 같다면 번호가 작은쪽으로 
+
+# 모든 점들이 서로 연결되지 않은 경우 생각해서 체크 필요 
+# 한 곳으로 모으기 vs 여러 곳으로 나눠모으기 
+
+목표:모든 점들의 가중치를 0으로 만들기 
+
+"""
+from collections import defaultdict
+from collections import deque
+import sys
+
+sys.setrecursionlimit(10 ** 6)
+
+# 간선 연결 확인
+m = defaultdict(list)
+result = 0
+
+
+def dfs(c, p, a):
+    global m, result
+
+    for up in m[c]:
+        if up != p:
+            dfs(up, c, a)
+
+    a[p] += a[c]
+    result += abs(a[c])
+
+    return result
+
+
+def solution(a, edges):
+    global m, result
+
+    for i, j in edges:
+        m[i].append(j)
+        m[j].append(i)
+
+    # a: 각 점의 가중치를 의미 edges: 간선
+    n = len(a)
+
+    if sum(a) != 0:
+        return -1
+
+    dfs(0, 0, a)
+
+    return result
+
+
 # 내 풀이(개선 중)
 """
 
