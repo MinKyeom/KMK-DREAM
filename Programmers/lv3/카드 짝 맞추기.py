@@ -36,6 +36,153 @@ def start(now_x, now_y, nex_x, nex_y, count, fir):
     dy = [0, 0, 1, -1]
 
     visit = set([])
+    while q:
+        x, y, k = q.popleft()
+
+        if x == nex_x and y == nex_y:
+            return k
+
+        if not (x, y) in visit:
+            visit = visit | set([(x, y)])
+
+        else:
+            continue
+
+        for nx, ny in zip(dx, dy):
+            new_x, new_y = x, y
+
+            while True:
+                new_x += nx
+                new_y += ny
+
+                if new_x > 3 or new_x < 0 or new_y > 3 or new_y < 0:
+                    if new_x > 3 and not (3, new_y) in visit:
+                        q.append((3, new_y, k + 1))
+                    elif new_x < 0 and not (0, new_y) in visit:
+                        q.append((0, new_y, k + 1))
+                    elif new_y > 3 and not (new_x, 3) in visit:
+                        q.append((new_x, 3, k + 1))
+                    elif new_y < 0 and not (new_x, 0) in visit:
+                        q.append((new_x, 0, k + 1))
+
+                    break
+                else:
+                    if not (new_x, new_y) in visit and fir[new_x][new_y] == 1:
+                        q.append((new_x, new_y, k + 1))
+
+    return 0
+
+
+# k:카드 뽑는 순서, 게임판, 현 위치, 총 움직인 순서
+def count(k, distance):
+    order, game, location, count = k[0], k[1], k[2], k[3]
+    x, y = location[0], location[1]
+
+    q = deque([[order, game, [x, y], count]])
+
+    while q:
+        new_order, new_game, new_location, new_count = q.popleft()
+        new_x, new_y = location[0], location[1]
+
+        new_order = deque(new_order)
+        num = new_order.popleft()
+
+        # 같은 카드는 2개이므로 어느쪽으로 갈지 택해야한다
+        fir = copy.deepcopy(new_game)  # 새로운 게임판1
+        fir_x, fir_y = distance[num][0]  # one 위치
+
+        sec = copy.deepcopy(new_game)  # 새로운 게임판2
+        sec_x, sec_y = distance[num][1]  # two 위치
+
+        # location > one > two
+        one = start(new_x, new_y, fir_x, fir_y, count, fir)
+        one = start(fir_x, fir_y, sec_x, sec_y, count, fir)
+
+        print(one)
+        break
+        # location > two > one
+
+    return count
+
+
+def solution(board, r, c):
+    result = float("inf")
+
+    # 카드 위치
+    distance = defaultdict(list)
+
+    # 현재 위치
+    d = [r, c]
+
+    # 카드 종류
+    card = []
+
+    for i in range(4):
+        for j in range(4):
+            if board[i][j] != 0:
+                card.append(board[i][j])
+
+    card = list(set(card))
+
+    for i in card:
+
+        for v in range(4):
+            for w in range(4):
+                if board[v][w] == i:
+                    distance[i].append([v, w])
+
+    turn = list(permutations(card, len(card)))
+    turn = list(map(list, turn))
+
+    q = []
+
+    # 카드 뽑는 순서, 현 위치, 총 움직인순서
+    for i in turn:
+        new = copy.deepcopy(board)
+        q.append([i, new, [r, c], 0])
+
+    while q:
+        k = q.pop()
+        check = count(k, distance)
+
+        break
+        result = min(check, result)
+
+    return 0
+# 내 풀이(개선 중)
+"""
+조작횟수: enter+방향키
+
+목표:남은 카드를 모두 제거하는데 필요한 키 조작 횟수의 최솟값 
+
+생각방향:
+카드를 하나 고르면 무조건 그 짝을 무조건 찾아야한다
+그 다음 카드를 선택하는 기준은?
+배열 자체가 작기 때문에 크기가 중요하진 않다 모든 경우의 수 고려가능 
+칸 16개이기 떄문에 카드 종류 최대 8개
+뽑을 순서의 카드를 미리 정한 후 그 순서에 맞춰서 뽑은 후 순서 정하기
+
+
+# 시간적으로 코드가 문제가 없으므로 논리의 틀린 부분이 없기에 수정 후 풀이가능
+만약, 해당 방향에 카드가 하나도 없다면 그 방향의 가장 마지막 칸으로 이동합니다. < 중요한 생각의 포인트 기점
+
+"""
+
+import copy
+from itertools import combinations
+from itertools import permutations
+from collections import defaultdict
+from collections import deque
+
+
+# 두 점 사이의 이동 (현재 위치, 이동할 위치, 이동 횟수, 해당 게임판)
+def start(now_x, now_y, nex_x, nex_y, count, fir):
+    q = deque([[now_x, now_y, count]])
+    num = float("inf")
+    dx = [1, -1, 0, 0]
+    dy = [0, 0, 1, -1]
+
+    visit = set([])
 
     while q:
         x, y, k = q.popleft()
