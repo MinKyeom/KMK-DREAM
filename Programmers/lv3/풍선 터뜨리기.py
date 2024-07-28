@@ -2,6 +2,35 @@
 출처: 프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/68646
 """
+# 내 풀이
+"""
+맨 끝에 두 개는 항상 살아남음 
+"""
+def solution(a):
+    result = []
+
+    if len(a) >= 3:
+        check = [0] * len(a)
+        left_num = float("inf")
+        # 좌로 확인
+        for l in range(len(a)):
+            if left_num < a[l]:
+                check[l] += 1
+            else:
+                left_num = a[l]
+
+        # 우로 확인
+        right_num = float("inf")
+        for r in range(len(a) - 1, -1, -1):
+            if right_num < a[r]:
+                check[r] += 1
+            else:
+                right_num = a[r]
+    else:
+        return len(result)
+
+    return len(a) - check.count(2)
+
 # 내 풀이(개선 중)
 """
 맨 끝에 두 개는 항상 살아남음 
@@ -87,8 +116,7 @@ def solution(a):
         if left_min > a[i] and right_min > a[i]:
             answer += 1
         # 한쪽은 크고 다른한쪽은 작은경우
-        elif (left_min > a[i] and right_min < a[i])
-            or (left_min < a[i] and right_min > a[i]):
+        elif (left_min > a[i] and right_min < a[i]) or (left_min < a[i] and right_min > a[i]):
             answer += 1
 
     return answer
