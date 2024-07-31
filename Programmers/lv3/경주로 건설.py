@@ -2,6 +2,114 @@
 출처:프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/67259
 """
+# 내 풀이
+"""
+0:비어있음 1:벽이 있음
+start:(0,0) destination:(n-1,n-1)
+
+목표: 최소 비용으로 건설하기 
+
+생각 방향: 게임 보드를 활용 > bfs or dfs
+
+"""
+from collections import deque
+import copy
+import heapq
+
+
+# 수직 확인
+def check(direction, direc):
+    # 수직 여부
+    P = False
+
+    if direction == "up" or direction == "down":
+        one = True
+    else:
+        one = False
+
+    if direc == "up" or direc == "down":
+        two = True
+    else:
+        two = False
+
+    if one == two:
+        return P
+    else:
+        return True
+
+
+def solution(board):
+    result = float("inf")
+
+    b = board
+
+    # 행,열
+    m = len(board)
+    n = len(board[0])
+
+    # [[0, 1], [1, 0], [-1, 0], [0, -1]];
+    # 방향성 확인
+    dx = [0, 0, 1, -1]
+    dy = [1, -1, 0, 0]
+    d = ["right", "left", "down", "up"]
+
+    # {"right":float("inf"),"left":float("inf"),"down":float("inf"),"up":float("inf")}
+    cost_table = [[0] * len(board[0]) for i in range(len(board))]
+
+    for i in range(len(b)):
+        for j in range(len(b)):
+            cost_table[i][j] = {"right": float("inf"), "left": float("inf"), "down": float("inf"), "up": float("inf")}
+
+    # 현 위치(x,y), 방향,비용
+    q = [(0, (0, 0), "stop")]
+
+    while q:
+        cost, location, direction = heapq.heappop(q)
+
+        # 위치
+        x, y = location[0], location[1]
+
+        if x == m - 1 and y == n - 1:
+            cost_table[x][y][direction] = min(cost, cost_table[x][y][direction])
+            continue
+
+        # # 방문처리
+        # if cost_table[x][y]<cost-600:
+        #     continue
+        # else:
+        #     cost_table[x][y]=cost
+
+        for nx, ny, direc in zip(dx, dy, d):
+            # 해당판 내부 확인
+            if 0 <= x + nx < m and 0 <= y + ny < n:
+                if board[x + nx][y + ny] == 0:
+
+                    # 방향성 체크
+                    if direction == "stop":
+                        heapq.heappush(q, (cost + 100, (x + nx, y + ny), direc))
+                        cost_table[x + nx][y + ny][direc] = cost + 100
+                    else:
+                        p = check(direction, direc)
+
+                        if p == True:
+                            if cost_table[x + nx][y + ny][direc] < cost + 600:
+                                continue
+                            # 수직 + 직선 거리도 이동
+                            heapq.heappush(q, (cost + 600, (x + nx, y + ny), direc))
+                            cost_table[x + nx][y + ny][direc] = cost + 600
+
+                        else:
+                            if cost_table[x + nx][y + ny][direc] < cost + 100:
+                                continue
+                            heapq.heappush(q, (cost + 100, (x + nx, y + ny), direc))
+                            cost_table[x + nx][y + ny][direc] = cost + 100
+
+    result = float("inf")
+    for i in cost_table[len(b) - 1][len(b) - 1].values():
+        result = min(result, i)
+
+    return result
+
 # 내 풀이(개선 중)
 """
 0:비어있음 1:벽이 있음
