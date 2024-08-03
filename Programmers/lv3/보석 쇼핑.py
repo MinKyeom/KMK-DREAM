@@ -2,6 +2,58 @@
 출처:프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/67258
 """
+# 내 풀이
+"""
+투포인터
+"""
+
+import heapq
+from collections import defaultdict
+from collections import deque
+from collections import Counter
+
+
+def solution(gems):
+    # 종류
+    check = len(set(gems))
+
+    start, end = 0, 0
+
+    my = defaultdict(int)
+
+    result = float("inf")
+    result_start, result_end = float("inf"), float("inf")
+
+    my[gems[start]] += 1
+
+    while start <= len(gems) - 1:
+        if len(my) != check:
+            if end < len(gems) - 1:
+                end += 1
+                my[gems[end]] += 1
+            else:
+                break
+        else:
+            if end - start < result:
+                result = end - start
+                result_start, result_end = start, end
+
+            if start == end:
+                return [start + 1, end + 1]
+
+            else:
+                my[gems[start]] -= 1
+
+                if my[gems[start]] == 0:
+                    del my[gems[start]]
+
+                start += 1
+
+    # 마지막
+    if not result_start <= len(gems) and not result_end <= len(gems):
+        return [1, len(gems)]
+
+    return [result_start + 1, result_end + 1]
 
 # 내 풀이(개선 중)
 """
