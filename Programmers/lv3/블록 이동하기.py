@@ -295,7 +295,6 @@ def solution(board):
                     if (r, c+1) == END_POINT or (r+1, c) == END_POINT:
                         return moves_count
 # 다른 사람 풀이
-
 from collections import deque
 
 dx = [1, 0, -1, 0]
@@ -350,3 +349,78 @@ def solution(board):
             q.append((x, y, _r, t + 1))
 
     return answer
+
+# 다른 사람 풀이
+
+def solution(board):
+    N = len(board)
+    mem = [[[100000 for _ in range(2)] for _ in range(N)] for _ in range(N)]
+    st = [[0,0,0]]
+    mem[0][0][0] = 0
+
+    for s in st:
+        if(s[2] == 0):
+            if(s[0]+1 < N and board[s[0]+1][s[1]] == 0 and board[s[0]+1][s[1]+1] == 0):
+                if(mem[s[0]+1][s[1]][s[2]] > mem[s[0]][s[1]][s[2]] + 1):
+                    mem[s[0]+1][s[1]][s[2]] = mem[s[0]][s[1]][s[2]] + 1
+                    st.append([s[0]+1,s[1],s[2]])
+                if(mem[s[0]][s[1]][1] > mem[s[0]][s[1]][s[2]] + 1):
+                    mem[s[0]][s[1]][1] = mem[s[0]][s[1]][s[2]] + 1
+                    st.append([s[0],s[1],1])
+                if(mem[s[0]][s[1]+1][1] > mem[s[0]][s[1]][s[2]] + 1):
+                    mem[s[0]][s[1]+1][1] = mem[s[0]][s[1]][s[2]] + 1
+                    st.append([s[0],s[1]+1,1])
+            if(s[0] > 0 and board[s[0]-1][s[1]] == 0 and board[s[0]-1][s[1]+1] == 0):
+                if(mem[s[0]-1][s[1]][s[2]] > mem[s[0]][s[1]][s[2]] + 1):
+                    mem[s[0]-1][s[1]][s[2]] = mem[s[0]][s[1]][s[2]] + 1
+                    st.append([s[0]-1,s[1],s[2]])
+                if(mem[s[0]-1][s[1]][1] > mem[s[0]][s[1]][s[2]] + 1):
+                    mem[s[0]-1][s[1]][1] = mem[s[0]][s[1]][s[2]] + 1
+                    st.append([s[0]-1,s[1],1])
+                if(mem[s[0]-1][s[1]+1][1] > mem[s[0]][s[1]][s[2]] + 1):
+                    mem[s[0]-1][s[1]+1][1] = mem[s[0]][s[1]][s[2]] + 1
+                    st.append([s[0]-1,s[1]+1,1])
+            if(s[1]+2 < N and board[s[0]][s[1]+2] == 0):
+                if(mem[s[0]][s[1]+1][s[2]] > mem[s[0]][s[1]][s[2]] + 1):
+                    mem[s[0]][s[1]+1][s[2]] = mem[s[0]][s[1]][s[2]] + 1
+                    st.append([s[0],s[1]+1,s[2]])
+            if(s[1] > 0 and board[s[0]][s[1]-1] == 0):
+                if(mem[s[0]][s[1]-1][s[2]] > mem[s[0]][s[1]][s[2]] + 1):
+                    mem[s[0]][s[1]-1][s[2]] = mem[s[0]][s[1]][s[2]] + 1
+                    st.append([s[0],s[1]-1,s[2]])
+
+        else:
+            if(s[1]+1 < N and board[s[0]][s[1]+1] == 0 and board[s[0]+1][s[1]+1] == 0):
+                if(mem[s[0]][s[1]+1][s[2]] > mem[s[0]][s[1]][s[2]] + 1):
+                    mem[s[0]][s[1]+1][s[2]] = mem[s[0]][s[1]][s[2]] + 1
+                    st.append([s[0],s[1]+1,s[2]])
+                if(mem[s[0]][s[1]][0] > mem[s[0]][s[1]][s[2]] + 1):
+                    mem[s[0]][s[1]][0] = mem[s[0]][s[1]][s[2]] + 1
+                    st.append([s[0],s[1],0])
+                if(mem[s[0]+1][s[1]][0] > mem[s[0]][s[1]][s[2]] + 1):
+                    mem[s[0]+1][s[1]][0] = mem[s[0]][s[1]][s[2]] + 1
+                    st.append([s[0]+1,s[1],0])
+            if(s[1] > 0 and board[s[0]][s[1]-1] == 0 and board[s[0]+1][s[1]-1] == 0):
+                if(mem[s[0]][s[1]-1][s[2]] > mem[s[0]][s[1]][s[2]] + 1):
+                    mem[s[0]][s[1]-1][s[2]] = mem[s[0]][s[1]][s[2]] + 1
+                    st.append([s[0],s[1]-1,s[2]])
+                if(mem[s[0]][s[1]-1][0] > mem[s[0]][s[1]][s[2]] + 1):
+                    mem[s[0]][s[1]-1][0] = mem[s[0]][s[1]][s[2]] + 1
+                    st.append([s[0],s[1]-1,0])
+                if(mem[s[0]+1][s[1]-1][0] > mem[s[0]][s[1]][s[2]] + 1):
+                    mem[s[0]+1][s[1]-1][0] = mem[s[0]][s[1]][s[2]] + 1
+                    st.append([s[0]+1,s[1]-1,0])
+            if(s[0]+2 < N and board[s[0]+2][s[1]] == 0):
+                if(mem[s[0]+1][s[1]][s[2]] > mem[s[0]][s[1]][s[2]] + 1):
+                    mem[s[0]+1][s[1]][s[2]] = mem[s[0]][s[1]][s[2]] + 1
+                    st.append([s[0]+1,s[1],s[2]])
+            if(s[0] > 0 and board[s[0]-1][s[1]] == 0):
+                if(mem[s[0]-1][s[1]][s[2]] > mem[s[0]][s[1]][s[2]] + 1):
+                    mem[s[0]-1][s[1]][s[2]] = mem[s[0]][s[1]][s[2]] + 1
+                    st.append([s[0]-1,s[1],s[2]])
+
+
+    re1 = mem[N-1][N-2][0]
+    re2 = mem[N-2][N-1][1]
+    if(re1>re2): return re2
+    else: return re1
