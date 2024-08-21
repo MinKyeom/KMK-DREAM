@@ -2,6 +2,190 @@
 출처:프로그래머스
 https://school.programmers.co.kr/learn/challenges?order=recent&levels=3&languages=python3&page=3
 """
+# 내 풀이
+from collections import deque
+
+# sol2
+
+# 기둥 유지 가능 여부 확인
+def check_up(x, y, check):
+    # 그 아래 기둥이 있는 경우
+    if (x, y - 1, x, y) in check:
+        # check.add((x,y,x,y+1))
+        return True
+        # 그 아래 보가 있을 경우
+    elif (x - 1, y, x, y) in check or (x, y, x + 1, y) in check:
+        # check.add((x,y,x,y+1))
+        return True
+    else:
+        return set([(x, y, x, y + 1)])
+
+    # 보 유지 가능 여부 확인
+
+
+def check_right(x, y, check):
+    # 밑에 기둥이 있거나, 양쪽 보가 존재가 할 경우
+    if (x, y - 1, x, y) in check or (x + 1, y - 1, x + 1, y) in check:
+        # check.add((x,y,x+1,y))
+        return True
+    # 양쪽 보가 존재할 경우
+    elif (x - 1, y, x, y) in check and (x + 1, y, x + 2, y) in check:
+        # check.add((x,y,x+1,y))
+        return True
+    else:
+        return set([(x, y, x + 1, y)])
+
+
+def solution(n, build_frame):
+    # 기둥,보 설치 확인
+    check = set([])
+
+    for x, y, a, b in build_frame:
+        # 설치 1
+        if b == 1:
+            # 기둥
+            if a == 0:
+                # 바닥인경우
+                if y == 0:
+                    check.add((x, y, x, y + 1))
+
+                else:
+                    # 그 아래 기둥이 있는 경우
+                    if (x, y - 1, x, y) in check:
+                        check.add((x, y, x, y + 1))
+
+                    # 그 아래 보가 있을 경우
+                    elif (x - 1, y, x, y) in check or (x, y, x + 1, y) in check:
+                        check.add((x, y, x, y + 1))
+
+            # 보
+            else:
+                if y != 0:
+                    # 밑에 기둥이 있거나, 양쪽 보가 존재가 할 경우
+                    if (x, y - 1, x, y) in check or (x + 1, y - 1, x + 1, y) in check:
+                        check.add((x, y, x + 1, y))
+                    # 양쪽 보가 존재할 경우
+                    elif (x - 1, y, x, y) in check and (x + 1, y, x + 2, y) in check:
+                        check.add((x, y, x + 1, y))
+
+
+        else:
+            q = deque([])
+            up = [(0, 1, 0, 2), (-1, 1, 0, 1), (0, 1, 1, 1)]  # 기둥
+            right = [(1, 0, 2, 0), (1, 0, 1, 1), (-1, 0, 0, 0), (0, 0, 0, 1)]  # 보
+
+            # 기둥
+            if a == 0:
+                k = set([(x, y, x, y + 1)])
+                check = check - k  # 기둥 제거
+                # 제거되는지 여부 판단
+                for a, b, c, d in up:
+                    if (x + a, y + b, x + c, y + d) in check:
+                        # 기둥
+                        if d - b == 1:
+                            flag = check_up(x + a, y + b, check)
+                            if flag != True:
+                                check = check | k
+                                break
+                        else:
+                            flag = check_right(x + a, y + b, check)
+                            if flag != True:
+                                check = check | k
+                                break
+                else:
+                    k = set([(x, y, x, y + 1)])
+                    check = check - k  # 기둥 제거
+                """
+                for a,b,c,d in up:
+                    if (x+a,y+b,x+c,y+d) in check:
+                        q.append((x+a,y+b,x+c,y+d))
+                """
+            # 보 제거 여부 판단
+            else:
+                k = set([(x, y, x + 1, y)])
+                check = check - k  # 기둥 제거
+
+                # 제거되는지 여부 판단
+                for a, b, c, d in right:
+                    if (x + a, y + b, x + c, y + d) in check:
+                        # 기둥
+                        if d - b == 1:
+                            flag = check_up(x + a, y + b, check)
+
+                            if flag != True:
+                                check = check | k
+                                break
+                        else:
+                            flag = check_right(x + a, y + b, check)
+                            if flag != True:
+                                check = check | k
+                                break
+                else:
+                    k = set([(x, y, x + 1, y)])
+                    check = check - k  # 기둥 제거
+
+                """
+                for a,b,c,d in right:
+                    if (x+a,y+b,x+c,y+d) in check:
+                        q.append((x+a,y+b,x+c,y+d))
+                        break
+                else:        
+                    k=set([(x,y,x+1,y)])
+                    check=check-k # 보 제거
+                """
+
+                """
+                for a,b,c,d in right:
+                    if (x+a,y+b,x+c,y+d) in check:
+                        q.append((x+a,y+b,x+c,y+d))
+
+                """
+
+            # 기둥 또는 보를 제거함으로써 주변 제거할 기둥 보 탐색
+            """
+            while q:
+                k=q.popleft()
+
+                # 기둥
+                if k[3]-k[1]!=0:
+                    shape="기둥"
+                    exist=check_up(k[0],k[1],check)
+                # 보
+                else:
+                    shape="보"
+                    exist=check_right(k[0],k[1],check)
+
+                if exist==True:
+                    continue
+
+                else:
+                    check=check-exist
+                    if shape=="기둥":
+                        for a,b,c,d in up:
+                            if (k[0]+a,k[1]+b,k[0]+c,k[1]+d) in check:
+                                    q.append((k[0]+a,k[1]+b,k[0]+c,k[1]+d))
+
+                    else:
+                        for a,b,c,d in right:
+                            if (k[0]+a,k[1]+b,k[0]+c,k[1]+d) in check:
+                                    q.append((k[0]+a,k[1]+b,k[0]+c,k[1]+d))                        
+            """
+        # print(check,"check")
+
+    # 마무리 단계 재 구조화
+    result = []
+
+    for a, b, c, d in check:
+        if d - b == 1:
+            s = 0
+        else:
+            s = 1
+        result.append([a, b, s])
+
+    result.sort()
+
+    return result
+
 
 # 내 풀이 (개선 중)
 """
