@@ -2,6 +2,7 @@
 출처:프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/60059
 """
+
 # 내 풀이(개선 중)
 board = []
 import copy
@@ -85,7 +86,7 @@ def solution(key, lock):
             return True
 
     return False
-# 내 풀이
+# 내 풀이(개선 중)
 """
 최대 이동 상하좌우 모두 n번씩
 회전 n
