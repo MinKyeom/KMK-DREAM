@@ -571,3 +571,61 @@ def solution(key, lock):
         return True
 
     return full_matching(key_lst, lock_lst, lock, n, m)
+
+# 다른 사람 풀이
+def solution(key, lock):
+    N = len(lock)
+    # M = len(key)
+    key_ones = sum([sum(x) for x in key])
+    lock_zeros = N ** 2 - sum([sum(x) for x in lock])
+
+    if lock_zeros > key_ones:
+        return False
+    if not lock_zeros:
+        return True
+
+    lock_loc = get_location(lock, target=0)
+    lock_rel = get_relation(lock_loc, 0)
+    for _ in range(4):
+        key_loc = get_location(key, target=1)
+
+        for idx in range(len(key_loc)):
+            key_rel = get_relation(key_loc, idx)
+            if lock_rel == key_rel:
+                return True
+
+            valid_rel = len([x for x in lock_rel if x in key_rel])
+            if len(lock_rel) == valid_rel:
+                for k in key_rel:
+                    ny = lock_loc[0][0] - k[0]
+                    nx = lock_loc[0][1] - k[1]
+                    if ny < 0 or ny >= N or nx < 0 or nx >= N:
+                        continue
+                    if lock[ny][nx]:
+                        break
+                else:
+                    return True
+
+        key = [list(reversed(l)) for l in zip(*key)]
+    else:
+        return False
+
+
+def get_location(lst, target=1):
+    location = []
+    for i in range(len(lst)):
+        for j in range(len(lst)):
+            if lst[i][j] == target:
+                location.append((i, j))
+    return location
+
+
+def get_relation(lst, idx):
+    relation = []
+    if lst:
+        l1 = lst[idx]
+        lst_copy = lst[:]
+        lst_copy.pop(idx)
+        for l2 in lst_copy:
+            relation.append((l1[0] - l2[0], l1[1] - l2[1]))
+    return relation
