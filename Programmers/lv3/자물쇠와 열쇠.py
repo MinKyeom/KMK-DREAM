@@ -2,6 +2,89 @@
 출처:프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/60059
 """
+# 내 풀이
+board = []
+import copy
+
+def open_(key, distance, lock):
+    check = [[0] * distance for _ in range(distance)]
+
+    for x in range(1, distance - len(key)):
+        for y in range(1, distance - len(key)):
+
+            for i in range(len(key)):
+                for j in range(len(key)):
+                    check[i + x][j + y] = key[i][j]
+
+            for i in range(len(key), len(key) + len(lock)):
+                for j in range(len(key), len(key) + len(lock)):
+                    if check[i][j] + board[i][j] != 1:
+                        break
+                else:
+                    continue
+
+                break
+
+            else:
+                return True
+
+            check = [[0] * distance for _ in range(distance)]
+
+    return False
+
+
+def rotation(key, r):
+    count = 0
+    change = [[0] * len(key) for _ in range(len(key))]
+
+    for i in range(len(key)):
+        for j in range(len(key)):
+            change[j][len(key) - i - 1] = key[i][j]
+    return change
+
+
+def solution(key, lock):
+    global board
+    distance = len(key) * 2 + len(lock)
+
+    board = [[0] * (len(key) * 2 + len(lock)) for _ in range(len(key) * 2 + len(lock))]
+    lock_count = 0
+
+    for i in range(len(lock)):
+        for j in range(len(lock)):
+            board[len(key) + i][len(key) + j] = lock[i][j]
+            if lock[i][j] == 0:
+                lock_count += 1
+
+    key_count = 0
+
+    for i in range(len(key)):
+        for j in range(len(key)):
+            if key[i][j] == 1:
+                key_count += 1
+
+    # for i in range(4):
+    #     key = rotation(key, i + 1)
+    #     print(key)
+
+    if lock_count > key_count:
+        return False
+
+    open_door = open_(key, distance, lock)
+
+    if open_door == True:
+        return True
+
+    # 90,180,270
+    for i in range(4):
+        key = rotation(key, i + 1)
+        open_door = open_(key, distance, lock)
+
+        if open_door == True:
+            return True
+
+    return False
+
 # 내 풀이(개선 중)
 board = []
 import copy
