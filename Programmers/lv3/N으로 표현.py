@@ -2,6 +2,31 @@
 출처:프로그래머스
 
 """
+# 내 풀이
+from collections import defaultdict
+
+def solution(N, number):
+    if N == number:
+        return 1
+
+    num = defaultdict(set)
+    num[1].add(N)
+
+    for i in range(2, 9):
+        num[i].add(int(str(N) * i))
+        for j in range(i):
+            for a in num[j]:
+                for b in num[i - j]:
+                    num[i].add(a + b)
+                    num[i].add(a - b)
+                    num[i].add(a * b)
+                    if b != 0:
+                        num[i].add(a // b)
+
+        if number in num[i]:
+            return i
+
+    return -1
 
 # 내 풀이(개선 중)
 from itertools import product
