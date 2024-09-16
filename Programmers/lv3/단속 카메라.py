@@ -132,3 +132,5 @@ def solution(routes):
         count += 1
 
     return result
+
+# 다른 사람 풀이
