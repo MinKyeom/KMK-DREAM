@@ -2,6 +2,77 @@
 출처:프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/42893
 """
+# 내 풀이
+"""
+조건:
+기본점수: 검색어가 등장하는 횟수
+외부링크 수:다른 외부 페이지와 연결된 개수 
+링크점수:기본점수/외부링크 수 총합
+
+한 웹페이지의 링크점수는 해당 웹페이지로 링크가 걸린 다른 웹페이지의 기본점수 ÷ 외부 링크 수의 총합이다.
+"""
+
+from collections import defaultdict
+from collections import deque
+import re
+
+def solution(word, pages):
+    mylink = defaultdict(list)
+    linkbasic = defaultdict(int)
+    url_list = []
+
+    # 기본점수, 외부 링크점수
+    check = [[0] * 2 for i in range(len(pages))]
+
+    # 웹페이지별 구분
+    linkpage = []
+
+    # 내부 링크 구분 및 링크 정리 > linkpage
+    for n in range(len(pages)):
+        url = re.search('<meta property=\"og:url\" content=\"https://([\S]+)\".*/>', pages[n]).group(1)
+        linkpage.append(url)
+        url_list.append(url)
+        page = re.findall('<a href=\"https://([\S]+)\">', pages[n])
+        if len(page) > 0:
+            mylink[url] = page
+        else:
+            mylink[url] = []
+
+        #         if page is None:
+        #             check[n][1]=0
+        #         else:
+        #             check[n][1]=len(page)
+
+        count = 0
+
+        for w in re.findall('[a-zA-Z]+', pages[n]):
+            if w.upper() == word.upper():
+                count += 1
+
+        linkbasic[url] = count
+
+    # mylink=defaultdict(list)
+    # linkbasic=defaultdict(int)
+
+    result = -1
+
+    final = defaultdict(int)
+    for my, another in mylink.items():
+        # 홍보를 받는 다른 곳
+        for link in another:
+            if len(mylink[my]) > 0:
+                final[link] += linkbasic[my] / len(mylink[my])
+
+        final[my] += linkbasic[my]
+
+    for r in range(len(url_list)):
+        if final[url_list[r]] > result:
+            result = final[url_list[r]]
+            answer = r
+
+    return answer
+
+
 # 내 풀이(개선 중)
 """
 조건:
