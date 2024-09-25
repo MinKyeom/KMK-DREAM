@@ -3,6 +3,141 @@
 https://school.programmers.co.kr/learn/courses/30/lessons/42892
 """
 # 내 풀이_ 개선 중
+from collections import defaultdict, deque
+import copy
+
+
+def root_parent(root_num, graph, xy_to_point):
+    for p, son in graph.items():
+        if root_num in son:
+            return xy_to_point[p]
+
+
+def solution(nodeinfo):
+    # 전위 순회
+    before = []
+    # 후위 순회
+    after = []
+
+    # point level
+    level = defaultdict(list)
+
+    # graph
+    graph = defaultdict(list)
+
+    # point search
+    point_number = defaultdict(int)
+    xy_to_point = defaultdict(tuple)
+
+    start = set()
+
+    for num, node in enumerate(nodeinfo):
+        point_number
+        x, y = node[0], node[1]
+        point_number[(x, y)] = num + 1
+        xy_to_point[num + 1] = (x, y)
+
+        # (x,y) and 해당 좌표 번호
+        level[y].append(x)
+        start.add(y)
+
+    for s in start:
+        level[s].sort()
+
+    # 위상에 따라 구분
+    start = list(start)
+    start.sort(reverse=True)
+
+    start = deque(start)
+    visit = set()
+
+    # 진행도
+    progress = 0
+    finish = len(start)
+
+    # 탑 노드
+    now = start.popleft()
+
+    while start:
+        k = start.popleft()
+        new = deque(copy.deepcopy(level[k]))
+
+        while new:
+            x = new.popleft()
+            node_num = point_number[(x, k)]
+            for c in range(len(level[now])):
+                p_x = level[now][c]
+                num = point_number[(p_x, now)]
+                if x < p_x:
+                    graph[num].append(node_num)
+                    break
+
+                elif x > p_x:
+                    if len(level[now]) > c + 1:
+                        if level[now][c + 1] < x:
+                            continue
+                        elif level[now][c + 1] < x and len(graph[num]) < 2:
+                            graph[num].append(node_num)
+
+                        break
+                    # 맨 오른쪽
+                    else:
+                        graph[num].append(node_num)
+                        break
+                break
+
+        print(graph)
+
+        # 위상 변경
+        now = k
+        # break
+
+    return 0
+# 내 풀이_ 개선 중
+from collections import defaultdict, deque
+
+
+def solution(nodeinfo):
+    point_number = defaultdict(int)
+    level = set()
+
+    for n, node in enumerate(nodeinfo):
+        x, y = node[0], node[1]
+        level.add(y)
+        point_number[(x, y)] = n + 1
+
+    # 크기 재배열
+    node_x = sorted(nodeinfo, key=lambda x: x[0])
+    node_y = sorted(node_x, key=lambda x: -x[1])
+
+    # 그래프 구성
+    graph = defaultdict(list)
+
+    # 위상 구분
+    level = list(level)
+    level.sort(reverse=True)
+    level = deque(level)
+
+    level.popleft()
+
+    # 노드 구분
+    node = deque(node_y)
+    count = 0
+
+    while node:
+        # 현재 위상
+        point = level.popleft()
+        x, y = node.popleft()
+        number = point_number[((x, y))]
+
+        for i, j in node:
+            if j < point:
+                break
+            else:
+
+    answer = [[]]
+    return answer
+# 내 풀이_ 개선 중
 """
 전위순회:dfs
 후위순회:자식 노드 없을 경우에 추가
