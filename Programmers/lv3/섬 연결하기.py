@@ -2,7 +2,46 @@
 출처:프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/42861
 """
+# 내 풀이 개선 중
+from collections import defaultdict, deque
+import copy
 
+def solution(n, costs):
+    # 비용
+    c = defaultdict(int)
+    # 연결 경로
+    r = defaultdict(set)
+    result = float("inf")
+    check = []
+
+    for a, b, cost in costs:
+        r[a].add(b)
+        r[b].add(a)
+        c[(a, b)] = cost
+        c[(b, a)] = cost
+
+    q = deque([])
+
+    # (start,arrive,cost), 0에서 arrive로 가는 비용의 최솟값을 나열
+    for i in r[0]:
+        q.append((0, i, 0, [0, i]))
+
+    while q:
+        start, end, cost, road = q.popleft()
+
+        if cost > result:
+            continue
+
+        if len(set(road)) == n:
+            check.append(cost)
+            result = min(result, cost + c[(start, end)])
+
+        for i in r[end]:
+            q.append((end, i, cost + c[(start, end)], road + [i]))
+
+    return result
+
+# 내 풀이 개선중
 from collections import defaultdict, deque
 import copy
 
