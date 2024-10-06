@@ -1,21 +1,31 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
 </head>
 <body>
-    <h1> 포스트 리스트 </h1>
-    <ul>
-        {% for post in posts %}
-            <li>
-                <h1>{{ post }}</h1>
-                <h2>{{ post.title }}</h2>
-                <p> {{ post.content }}</p>
-                <div>{{ post.comment_set.all }}</div>
-            </li>
-        {% endfor %}
-    </ul>
-
+    <div id ="navbar">
+        <span>MKHOBBY</span>
+    </div>
+    <div id="post-list">
+        <ul class="posts">
+            {% for post in posts %}
+                <li class="post">
+                    <div>{{ post.title }}</div>
+                    <p>{{ post.content }}</p>
+                    <ul class="comments">
+                        {% for comment in post.comment_set.all %}
+                            <li class="comment">{{ comment.content }}</li>
+                        {% empty %}
+                            <li class="comment-empty"> 아직 댓글이 없습니다</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>
