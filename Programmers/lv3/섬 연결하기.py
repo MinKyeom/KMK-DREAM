@@ -2,6 +2,90 @@
 출처:프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/42861
 """
+# 내 풀이
+# 삼각형 변의 길이 조건 생각 크루스칼 알고리즘
+
+from collections import defaultdict
+
+
+def solution(n, costs):
+    c = sorted(costs, key=lambda x: x[2])
+
+    island = defaultdict(set)
+    node_cost = defaultdict(int)
+    node_link = defaultdict(list)
+
+    result = 0
+
+    check = []
+    for x, y, cost in c:
+        island[x].add(x)
+        island[y].add(y)
+        node_cost[(x, y)] = cost
+        node_cost[(y, x)] = cost
+
+    for x, y, cost in c:
+        if len(island[x] & island[y]) == 0:
+            check.append((x, y, cost))
+
+            for i in island[x] | island[y]:
+                island[i] = island[x] | island[y]
+
+            result += cost
+
+            if len(check) == n - 1:
+                return result
+
+# 내 풀이 개선 중
+from collections import defaultdict
+
+
+def change_parent(node_parent, x):
+    before = node_parent[x]
+    while True:
+        if node_parent[before] != before:
+            before = node_parent[before]
+        else:
+            node_parent[x] = before
+            break
+
+        print(before)
+
+    return node_parent
+
+
+def solution(n, costs):
+    c = sorted(costs, key=lambda x: x[2])
+
+    node_cost = defaultdict(int)
+    node_link = defaultdict(list)
+
+    # 초기화
+    node_parent = [k for k in range(n)]
+
+    result = 0
+
+    check = []
+
+    print(c)
+
+    for x, y, cost in c:
+        node_cost[(x, y)] = cost
+        node_cost[(y, x)] = cost
+
+        if node_parent[x] != node_parent[y]:
+            check.append((x, y))
+            node_parent[x] = min(node_parent[x], x, y, node_parent[y])
+            node_parent[y] = min(node_parent[y], x, y, node_parent[x])
+            result += cost
+
+        node_parent = change_parent(node_parent, x)
+        node_parent = change_parent(node_parent, y)
+
+        print(node_parent)
+
+    return result
+
 # 내 풀이 개선 중
 """
 중간에 빠진 사고 과정:중복된 도로를 제거 안함
