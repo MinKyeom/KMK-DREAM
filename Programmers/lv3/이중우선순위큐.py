@@ -92,3 +92,58 @@ def solution(arguments):
     if min_heap == []:
         return [0, 0]
     return [-heappop(max_heap), heappop(min_heap)]
+
+
+# 다른 사람 풀이
+from collections import deque
+from typing import List
+
+class deheap:
+    def __init__(self):
+        self.sorted_elements = deque()
+
+    def insert(self, val) -> None:
+        begin, end = 0, len(self.sorted_elements)
+        mid = (begin + end) // 2
+
+        while begin < end:
+            if self.sorted_elements[mid] > val:
+                if begin != end:
+                    end = mid
+                else: break
+            else:
+                begin = mid + 1
+
+            mid = (begin + end) // 2
+
+        mid = max(mid, 0)  # mid is negative if val is the new minimum.
+        self.sorted_elements.insert(mid, val)
+
+    def empty(self) -> bool:
+        return len(self.sorted_elements) == 0
+
+    def delete_max(self) -> None:
+        self.sorted_elements.pop()
+
+    def delete_min(self) -> None:
+        self.sorted_elements.popleft()
+
+    def get_max_min(self) -> List:
+        return [self.sorted_elements[-1], self.sorted_elements[0]]
+
+def solution(operations):
+    operations = [string.split() for string in operations]
+    operations = [(cmd, int(num)) for cmd, num in operations]
+
+    heap = deheap()
+    for cmd, num in operations:
+        if cmd == "I":
+            heap.insert(num)
+        elif cmd == "D" and not heap.empty():
+            if num == 1:
+                heap.delete_max()
+            if num == -1:
+                heap.delete_min()
+
+    if heap.empty(): return [0, 0]
+    return heap.get_max_min()
