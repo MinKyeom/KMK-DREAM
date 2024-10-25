@@ -2,6 +2,46 @@
 출처:프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/12979
 """
+# 내 풀이_개선 중
+def solution(n, stations, w):
+    net = [False] * n
+
+    for s in stations:
+        net[s - 1] = True
+
+    # 현재 위치
+    start = 0
+    # w 거리측정
+    dis = 0
+    # 추가 될 위치
+    add = 0
+
+    check = set(stations)
+
+    while start < n:
+        if net[start] == False:
+            dis += 1
+            if dis > w:
+                add += 1
+                check.add(start)
+                dis = 0
+        else:
+            dis = 0
+            while start < n - 1:
+                check_last = min(start + w, n - 1)
+
+                for i in range(start + 1, check_last + 1):
+                    if net[i] == True:
+                        break
+                else:
+                    start = check_last
+                    break
+
+                start = i
+
+        start += 1
+
+    return len(check) - len(stations)
 
 # 내 풀이
 def solution(n, stations, w):
