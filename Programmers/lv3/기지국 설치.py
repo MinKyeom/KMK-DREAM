@@ -3,6 +3,37 @@
 https://school.programmers.co.kr/learn/courses/30/lessons/12979
 """
 # 내 풀이_개선 중
+from collections import deque
+
+
+def solution(n, stations, w):
+    stations = deque(stations)
+    result = 0
+    start = 0
+    check = []
+
+    while start <= n - 1:
+        if len(stations) > 0:
+            # 이미 설치된 곳에서 전파가 닿는 경우
+            if 0 <= (stations[0] - 1) - start <= w:
+                start = (stations[0]) - 1
+                stations.popleft()
+            # 그렇지 않은 경우 설치
+            else:
+                check.append(start)
+                start += (w + 1)
+                result += 1
+        else:
+            if start + w > n - 1:
+                return result
+            else:
+                check.append(start)
+                start += (w + 1)
+                result += 1
+
+    return resultㄴㄴ
+
+# 내 풀이_개선 중
 def solution(n, stations, w):
     net = [False] * n
 
