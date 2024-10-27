@@ -7,6 +7,46 @@ from collections import deque
 
 
 def solution(n, stations, w):
+    s = deque(stations)
+    min_network = 0
+    max_network = 0
+    result = 0
+    # 기지국이 설치된 곳
+    check = set([])
+
+    while max_network < n and s:
+        if len(s) > 0:
+
+            # 이미 설치된 곳의 전파가 드는 권역에 있는 경우(연장하기)
+            if s[0] - w <= max_network <= s[0] + w:
+                max_network = s[0] + w
+                s.popleft()
+
+            # 전파가 드는 권역이 아닌 경우(최대한 넓은 범위를 커버하게하기)
+            elif s[0] - w > max_network:
+                result += 1
+                max_network = max_network + 1 + 2 * w
+
+            # 이미 최대로 설치된 곳의 최대치보다 범위가 현재 넓은 경우
+            elif s[0] + w < max_network:
+                while True and s:
+                    if s[0] + w <= max_network:
+                        s.popleft()
+                    else:
+                        break
+
+        else:
+            result += 1
+            max_network = max_network + 1 + 2 * w
+
+    print(s, max_network)
+
+    return result
+# 내 풀이_개선 중
+from collections import deque
+
+
+def solution(n, stations, w):
     stations = deque(stations)
     result = 0
     start = 0
