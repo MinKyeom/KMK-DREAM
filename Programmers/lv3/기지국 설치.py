@@ -2,6 +2,62 @@
 출처:프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/12979
 """
+# 내 풀이
+from collections import deque
+
+
+def solution(n, stations, w):
+    before = set(stations)
+
+    # 기지국 설치
+    new = set([])
+
+    s = deque(stations)
+    min_network = 0
+    max_network = 0
+    result = 0
+
+    # 시작부분 범위 내에 없는 경우
+    if s[0] - w > 1:
+        max_network = 1 + 2 * w
+        new.add(1 + w)
+        result += 1
+
+    # 기지국 개설 후 시작
+    else:
+        max_network = s.popleft() + w
+
+    while max_network < n:
+        if len(s) > 0:
+
+            # 이미 설치된 곳의 전파가 드는 권역에 있는 경우(연장하기)
+            if s[0] - w <= max_network <= s[0] + w:
+                max_network = s[0] + w
+                s.popleft()
+
+            # 전파가 드는 권역이 아닌 경우(최대한 넓은 범위를 커버하게하기)
+            elif s[0] - w >= max_network + 1:
+                result += 1
+                new.add(max_network + 1 + w)
+                max_network = max_network + 1 + 2 * w
+
+            # 이미 최대로 설치된 곳의 최대치보다 범위가 현재 넓은 경우
+            elif s[0] + w < max_network:
+                while True and s:
+                    if s[0] + w <= max_network:
+                        s.popleft()
+
+                    else:
+                        break
+
+        else:
+            result += 1
+            new.add(max_network + 1 + w)
+            max_network = max_network + 1 + 2 * w
+
+    # print(s,max_network)
+
+    return len(new - before)
 # 내 풀이_개선 중
 from collections import deque
 
