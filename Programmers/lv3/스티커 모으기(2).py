@@ -2,7 +2,23 @@
 출처 프로그래머스,
 https://school.programmers.co.kr/learn/courses/30/lessons/12971
 """
+# 내 풀이(개선 중)
+def solution(sticker):
+    if len(sticker) == 1 or len(sticker) == 2:
+        return max(sticker)
 
+    dp = [0] * len(sticker)
+
+    dp[0] = sticker[0]
+    dp[1] = sticker[1]
+    dp[2] = max(sticker[2] + sticker[0], dp[1])
+
+    for i in range(3, len(sticker)):
+        dp[i] = max(dp[i - 2] + sticker[i], dp[i - 3] + sticker[i], dp[i - 1])
+
+    print(dp)
+
+    return 0
 # 내 풀이(개선 중)
 from collections import deque
 import copy
