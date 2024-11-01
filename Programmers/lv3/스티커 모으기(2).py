@@ -3,6 +3,124 @@
 https://school.programmers.co.kr/learn/courses/30/lessons/12971
 """
 # 내 풀이(개선 중)
+from collections import deque
+
+
+def solution(sticker):
+    s = deque(sticker)
+
+    if len(s) == 1 or len(s) == 2:
+        return max(s)
+
+    result = [0, 0, 0]
+
+    count = 0
+
+    while count < 3:
+        start = 0
+        result[count] += s[0]
+
+        while start <= len(s) - 2:
+            if start <= len(s) - 6:
+                if s[start + 2] + s[start + 4] < s[start + 3]:
+                    result[count] += s[start + 3]
+                    start += 3
+                else:
+                    result[count] += s[start + 2]
+                    start += 2
+            else:
+                if start == len(s) - 4:
+                    result[count] += s[start + 2]
+                    start += 2
+                    break
+                elif start == len(s) - 3:
+                    break
+                else:
+                    if s[start + 2] >= s[start + 3]:
+                        result[count] += s[start + 2]
+                        break
+                    else:
+                        result[count] += s[start + 3]
+                        break
+        count += 1
+        n = s.popleft()
+        s.append(n)
+
+    # print(result)
+
+    return max(result)
+
+
+# 내 풀이(개선 중)
+def solution(sticker):
+    if len(sticker) == 1 or len(sticker) == 2:
+        return max(sticker)
+
+    result = [0, 0]
+
+    zero_start = set([0])
+
+    start = 0
+
+    # 0 start
+    while start < len(sticker) - 1:
+        if start <= len(sticker) - 6:
+            if sticker[start + 2] + sticker[start + 4] < sticker[start + 3]:
+                zero_start.add(start + 3)
+                start += 3
+            else:
+                zero_start.add(start + 2)
+                start += 2
+        else:
+            if start == len(sticker) - 4:
+                zero_start.add(start + 2)
+                start += 2
+                break
+            elif start == len(sticker) - 5:
+                if sticker[start + 2] >= sticker[start + 3]:
+                    zero_start.add(start + 2)
+                    break
+                else:
+                    zero_start.add(start + 3)
+                    break
+
+    for i in zero_start:
+        result[0] += sticker[i]
+
+    one_start = set([1])
+    start = 1
+
+    # 1 start
+    while start < len(sticker):
+        if start <= len(sticker) - 5:
+            if sticker[start + 2] + sticker[start + 4] < sticker[start + 3]:
+                one_start.add(start + 3)
+                start += 3
+            else:
+                one_start.add(start + 2)
+                start += 2
+        else:
+            if start == len(sticker) - 3:
+                one_start.add(start + 2)
+                start += 2
+                break
+            elif start == len(sticker) - 4:
+                if sticker[start + 2] >= sticker[start + 3]:
+                    one_start.add(start + 2)
+                    break
+                else:
+                    one_start.add(start + 3)
+                    break
+
+    for i in one_start:
+        result[1] += sticker[i]
+
+        # print(zero_start,one_start)
+
+    return max(result)
+
+
+# 내 풀이(개선 중)
 def solution(sticker):
     if len(sticker) == 1 or len(sticker) == 2:
         return max(sticker)
