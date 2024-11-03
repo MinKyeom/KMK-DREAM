@@ -2,6 +2,37 @@
 출처 프로그래머스,
 https://school.programmers.co.kr/learn/courses/30/lessons/12971
 """
+# 내 풀이
+from collections import deque
+
+
+def solution(sticker):
+    s = deque(sticker)
+    if len(s) == 0 or len(s) == 1:
+        return max(s)
+
+    dp_one = [0] * len(s)
+    dp_one[0] = s[0]
+    dp_one[1] = max(s[0], s[1])
+
+    for i in range(2, len(s) - 1):
+        dp_one[i] = max(dp_one[i - 1], dp_one[i - 2] + s[i])
+
+    k = s.popleft()
+    s.append(k)
+
+    one = max(dp_one)
+
+    dp_two = [0] * len(s)
+    dp_two[0] = s[0]
+    dp_two[1] = max(s[0], s[1])
+
+    for i in range(2, len(s) - 1):
+        dp_two[i] = max(dp_two[i - 1], dp_two[i - 2] + s[i])
+
+    two = max(dp_two)
+
+    return max(one, two)
 # 내 풀이(개선 중)
 from collections import deque
 
