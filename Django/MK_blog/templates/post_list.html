@@ -3,13 +3,59 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mk_style.css' %}">
 <!--    <meta charset="UTF-8">-->
 <!--    <title>Title</title>-->
+    <style>
+        .mkposition {
+        position:absolute;
+        right:100px;
+        width: 66px;
+        height: 30px;
+        line-height: 25px;
+        background-color: #fff;
+        border-radius: 15px;
+        transition-duration: 0.3s;
+        transition-timing-function: ease;
+        font-size: 12px;
+        cursor: pointer;
+        text-align: center
+        }
+
+        .search {
+        position:absolute;
+        left:250px;
+        width: 66px;
+        height: 30px;
+        line-height: 25px;
+        background-color: #fff;
+        border-radius: 15px;
+        transition-duration: 0.3s;
+        transition-timing-function: ease;
+        font-size: 12px;
+        cursor: pointer;
+        text-align: center
+        }
+        .where{
+        position:absolute;
+        left:100px;
+        }
+    </style>
+
 </head>
 <body>
     <div id ="navbar">
-        <span>Code_PS</span>
+        <span style="position:absolute; left:10px;">Code_PS</span>
+<!--        <h1 class ="btn">체크 및 이해</h1>-->
+        <!--로그인 여부 확인 후 로그인 표시로 할지 로그아웃 표시로 할 지 고민해보기 -->
+        <input type="text" name="search" style="position:absolute; left:100px; border-width: 0 0 1px; border-color:  green;">
+        <a class="search btn-primary" type="submit" > search </a>
         <a href="/posts/add/" class="btn btn-primary"> 글 작성 </a>
+        {% if user %}
+            <a href="../users/logout" class="mkposition btn-primary" > 로그아웃 </a>
+        {% else %}
+            <a href="../users/login" class="mkposition btn-primary" > 로그인 </a>
+        {% endif %}
     </div>
     <div id="post-list">
         <ul class="posts">
