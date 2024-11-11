@@ -7,6 +7,13 @@
 <!--    <meta charset="UTF-8">-->
 <!--    <title>Title</title>-->
     <style>
+        .newbtn {
+            border: 1px solid #white;
+            color: black; }
+            .btn-primary:hover {
+                color: white;
+                background-color: white; }
+
         .mkposition {
         position:absolute;
         right:100px;
@@ -24,7 +31,7 @@
 
         .search {
         position:absolute;
-        left:170px;
+        left:250px;
         width: 66px;
         height: 30px;
         line-height: 25px;
@@ -45,16 +52,18 @@
 </head>
 <body>
     <div id ="navbar">
-        <span>Code_PS</span>
+        <a href="../"> <span style="position:absolute; left:10px; top:15px;"><i>Code_PS</i></span> </a>
 <!--        <h1 class ="btn">체크 및 이해</h1>-->
-        <!--로그인 여부 확인 후 로그인 표시로 할지 로그아웃 표시로 할 지 고민해보기 -->
-        <input type="text" name="search" style="position:absolute; left:20px;">
-        <a class="search btn-primary" type="submit"> search </a>
-        <a href="/posts/add/" class="btn btn-primary"> 글 작성 </a>
+            <!--로그인 여부 확인 후 로그인 표시로 할지 로그아웃 표시로 할 지 고민해보기 -->
+        <form method="GET">
+            <input type="text" name="search" style="position:absolute; left:100px; top:20px; border-width: 0 0 1px; border-color:  black;">
+            <button class="search newbtn" style="top:10px;" type="submit"> search </button>
+        </form>
+        <a href="/posts/add/" class="btn btn-primary" style="color:black; border-color:black;"> 글 작성 </a>
         {% if user %}
-            <a href="../users/logout" class="mkposition btn-primary" > 로그아웃 </a>
+            <a href="../users/logout" class="mkposition btn-primary" style="color:black; border-color:black;" > 로그아웃 </a>
         {% else %}
-            <a href="../users/login" class="mkposition btn-primary" > 로그인 </a>
+            <a href="../users/login" class="mkposition btn-primary" style="color:black; border-color:black;"> 로그인 </a>
         {% endif %}
     </div>
     <div id="post-list">
@@ -77,6 +86,8 @@
                         <h4> 이미지가 없습니다 </h4>
                     {% endif %}
                 </li>
+            {% empty %}
+                <h2 style="position:absolute; left:10px;"><strong>검색결과가 없습니다</strong></h2>
             {% endfor %}
         </ul>
     </div>
