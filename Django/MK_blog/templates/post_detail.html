@@ -10,11 +10,11 @@
         {% if post.thumbnail %}
             <img src="{{post.thumbnail.url }}">
         {% endif %}
-        <span>{{ post.title }}</span>
+        <span><strong style="font-size:26px;">{{ post.title }}</strong></span>
         <a href="../" class="btn btn-primary"> Post_list </a>
     </div>
     <div id="post-detail">
-        <p>{{ post.content|linebreaksbr}}</p>
+        <p style="font-size:20px;"><strong>{{ post.content|linebreaksbr}}</strong></p>
         <ul class="comments">
             {% for comment in post.comment_set.all %}
                 <li class="comment">{{ comment.content }}</li>
