@@ -5,7 +5,7 @@
 <head>
     <link rel="stylesheet" href="{% static 'css/index_style.css' %}">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>MIR</title>
 </head>
 <body>
 
@@ -31,7 +31,7 @@
         </a>
       </li>
 
-<!--      <li><label for="menuCheckbox"><a>CS</a></label></li>-->
+      <li><label for="menuCheckbox"><a>FAQ</a></label></li>
 <!--      <li><label for="menuCheckbox"><a>Contact</a></label></li>-->
 
       <li>
@@ -41,22 +41,32 @@
   </div>
 </nav>
 <main>
-    <br>
-    <br>
+    <h1 style="position:relative; left:250px;"><i>MIR</i></h1>
+
     <form method="GET">
         <input type="text" placeholder="Please enter your term" name="search" style=" width:550px; height:20px; letter-spacing: 1px">
         <button type="submit" style="font-size:13px; position:relative; top:1px; right:70px; border-style:none; background-color:white"> Search </button>
 <!--        <button type="submit" style="font-size:27px; position:relative; top:-25px; right:30px; border-style:none;"> <img src="{% static 'img/search.png' %}" style="width:26px;"> </button>-->
     </form>
     <br>
-    <h1>Recent News</h1>
-    <h3>▶︎ Code_Ps_kr</h3>
-<!--    {% for post in code_ps %}-->
-<!--        <h1>{{ post.title }}</h1>-->
-<!--    {% empty %}-->
-<!--        <h1>없습니다.</h1>-->
-<!--    {% endfor %}-->
-
+    {% if check is None %}
+    <p style="font-size:23px;"><strong>Recent Post</strong></p>
+        <h3>▶︎ Code_Ps_kr</h3>
+        {% for post in posts %}
+            <a href="posts/{{ post.id }}" style="color:white; text-decoration-line: none; position:relative; left:20px;">&nbsp;&nbsp;● {{ post.title }} </a>
+<!--            <p style="font-size:8px;">{{ post.content }}</p>-->
+        {% empty %}
+            검색 결과가 없습니다.
+        {% endfor %}
+    {% else %}
+        {% for post in posts %}
+            <br>
+            <br>
+            <a href="posts/{{ post.id }}" style="color:white; text-decoration-line: none; position:relative; left:20px;">&nbsp;&nbsp;● {{ post.title }} </a>
+        {% empty %}
+            검색 결과가 없습니다.
+        {% endfor %}
+    {% endif %}
 </main>
 
 
