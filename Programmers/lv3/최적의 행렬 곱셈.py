@@ -2,6 +2,43 @@
 출처 프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/12942
 """
+# 내 풀이 _ 개선 중
+# point: 모든 경우의 수를 효율적으로 탐색하는 방법에 대하여 생각
+import copy
+from collections import deque
+
+
+def solution(matrix_sizes):
+    m = matrix_sizes
+    dp = [0] * (len(m) - 1)
+
+    check = deque(copy.deepcopy(m))
+
+    result = 0
+
+    for i in range(len(m) - 2):
+        first = check[0][0] * check[0][1] * check[1][1] + check[0][0] * check[1][1] * check[2][1]
+        sec = check[1][0] * check[1][1] * check[2][1] + check[0][0] * check[0][1] * check[2][1]
+
+        if first < sec:
+            result += check[0][0] * check[0][1] * check[1][1]
+            new = [check[0][0], check[1][1]]
+            check.popleft()
+            check.popleft()
+            check.appendleft(new)
+
+        else:
+            result += check[1][0] * check[1][1] * check[2][1]
+            new = [check[1][0], check[2][1]]
+            k = check.popleft()
+            check.popleft()
+            check.popleft()
+            check.appendleft(new)
+            check.appendleft(k)
+
+    result += check[0][0] * check[0][1] * check[1][1]
+
+    return result
 # 내 풀이_ 개선 중
 import copy
 from collections import deque
