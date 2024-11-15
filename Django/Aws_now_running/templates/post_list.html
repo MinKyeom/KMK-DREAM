@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mk_style.css' %}">
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+    <style>
+        .newbtn {
+            border: 1px solid #white;
+            color: black; }
+            .btn-primary:hover {
+                color: white;
+                background-color: black; }
+
+        .mkposition {
+        position:absolute;
+        right:100px;
+        width: 66px;
+        height: 30px;
+        line-height: 25px;
+        background-color: #fff;
+        border-radius: 15px;
+        transition-duration: 0.3s;
+        transition-timing-function: ease;
+        font-size: 12px;
+        cursor: pointer;
+        text-align: center
+        }
+
+        .search {
+        position:absolute;
+        left:250px;
+        width: 66px;
+        height: 30px;
+        line-height: 25px;
+        background-color: #fff;
+        border-radius: 15px;
+        transition-duration: 0.3s;
+        transition-timing-function: ease;
+        font-size: 12px;
+        cursor: pointer;
+        text-align: center
+        }
+        .where{
+        position:absolute;
+        left:100px;
+        }
+    </style>
+
+</head>
+<body>
+    <div id ="navbar">
+        <a href="../"> <span style="position:absolute; left:10px; top:15px;"><i>Code_PS</i></span> </a>
+<!--        <h1 class ="btn">체크 및 이해</h1>-->
+            <!--로그인 여부 확인 후 로그인 표시로 할지 로그아웃 표시로 할 지 고민해보기 -->
+        <form method="GET">
+            <input type="text" name="search" style="position:absolute; left:100px; top:20px; border-width: 0 0 1px; border-color:  black;">
+            <button class="search newbtn" style="top:15px;" type="submit"> search </button>
+        </form>
+        <a href="/posts/add/" class="btn btn-primary" style=" border-color:black;"> 글 작성 </a>
+        {% if user %}
+            <a href="../users/logout" class="mkposition btn-primary" style="border-color:black;" > 로그아웃 </a>
+        {% else %}
+            <a href="../users/login" class="mkposition btn-primary" style=" border-color:black;"> 로그인 </a>
+        {% endif %}
+    </div>
+
+    <div id="post-list">
+        <ul class="posts">
+            {% for post in posts %}
+                <li class="post">
+                    <div> <a href="/posts/{{ post.id }}"> <strong>{{ post.title }}</strong> </a> </div>
+                    <p>{{ post.content }}</p>
+                    <ul class="comments">
+                        {% for comment in post.comment_set.all %}
+                            <li class="comment">{{ comment.content }}</li>
+                        {% empty %}
+                            <li class="comment-empty"> 아직 댓글이 없습니다</li>
+                        {% endfor %}
+                    </ul>
+                    {% if post.thumbnail %}
+                        <img src="{{ post.thumbnail.url }}" alt="">
+                    {% else %}
+                        <img src="" alt="">
+                        <h4> 이미지가 없습니다 </h4>
+                    {% endif %}
+                </li>
+            {% empty %}
+                <h2 style="position:absolute; left:10px;"><strong>검색결과가 없습니다</strong></h2>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

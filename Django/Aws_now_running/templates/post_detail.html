@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div id="navbar">
+        {% if post.thumbnail %}
+            <img src="{{post.thumbnail.url }}">
+        {% endif %}
+        <span><strong style="font-size:26px;">{{ post.title }}</strong></span>
+        <a href="../" class="btn btn-primary"> Post_list </a>
+    </div>
+    <div id="post-detail">
+        <p style="font-size:20px;"><strong>{{ post.content|linebreaksbr}}</strong></p>
+        <ul class="comments">
+            {% for comment in post.comment_set.all %}
+                <li class="comment">{{ comment.content }}</li>
+            {% empty %}
+                <li class="comment-empty" 아직 댓글이 없습니다</li>
+            {% endfor %}
+        </ul>
+        <form method="POST">
+            {% csrf_token %}
+            <textarea name="comment"></textarea>
+            <button type="submit" class="btn btn-primary">댓글 작성</button>
+        </form>
+    </div>
+    <!-- 글 수정 및 삭제 구성 10_23-->
+    <!--
+    클릭시 데이터 전달 후 해당 페이지 삭제 및 수정 작업을 admin을 거치지 않고 바로 할 수 있게 하는 방법 생각해보기
+    -->
+    <div style="float: right;">
+        <a href="../../users/login" ><button class="btn btn-primary" >수정</button> </a>
+        <a href="../../users/login" ><button class="btn btn-primary" >삭제</button> </a>
+    </div>
+
+</body>
+</html>
