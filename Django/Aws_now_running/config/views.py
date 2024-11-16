@@ -11,6 +11,7 @@ def index(request):
     posts=Post.objects.all()
     #최신 소식
     Code_ps=[posts[len(posts)-1]]
+
     if keyword is None:
         context={
             "posts":Code_ps,
