@@ -2,6 +2,29 @@
 출처 프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/12942
 """
+# 내 풀이
+def solution(matrix_sizes):
+    m = matrix_sizes
+
+    dp = [[0] * len(m) for _ in range(len(m))]
+    l = len(m)
+
+    # 자기자신은 연산값 0
+    for start in range(l):
+        dp[start][0] = 0
+
+    for gap in range(1, l):
+        for start in range(l - gap):
+            end = start + gap
+            result = float("inf")
+
+            for go in range(start, end):
+                result = min(dp[start][go] + dp[go + 1][end] + m[start][0] * m[go][1] * m[end][1], result)
+
+            dp[start][end] = result
+
+    return dp[0][l - 1]
+
 # 내 풀이 _ 개선 중
 # point: 모든 경우의 수를 효율적으로 탐색하는 방법에 대하여 생각
 import copy
