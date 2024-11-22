@@ -1,0 +1,65 @@
+{% load static %}
+<!-- Test page -->
+<!-- page urls: http://3.37.248.157/check/ -->
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <!-- mobile viewport  11.20 -->
+    <meta name="viewport" content="width=device-width", initial-scale="1">
+    <!-- css 정보 받아오기 -->
+    <link rel="stylesheet" href="{% static 'css/check.css' %}">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playball&display=swap');
+    </style>
+
+    <meta charset="UTF-8">
+    <title>Make Check Page </title>
+</head>
+<body>
+    <!-- 메인 고정 헤드바 구성 시작 -->
+    <div class="post_name_bar">
+        <!-- 블록 단위 h태그 시작 -->
+        <h2 id="playball-regular" class="post_name"> Miky's css test page
+            <span>
+                <button class="button_effect button_size" style="position:fixed; right:1%;"> post </button>
+                <!-- 사이드 드롭다운 메뉴 구성 시작 -->
+                <div id="menuToggle">
+
+                    <i style="position:fixed; left:5%;">Miky</i>
+                    <input type="checkbox" id="menuCheckbox" />
+
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+                    <ul id="menu">
+                        <li>
+                            <a href="#">
+                                <label for="menuCheckbox" onclick="this.parentNode.click();"><a href=""><i>Home</i></a></label>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#about">
+                                <label for="menuCheckbox" onclick="this.parentNode.click();"><a href="posts/"><i> Code_PS_Kr</i></a></label>
+                            </a>
+                        </li>
+
+                        <li><label for="menuCheckbox"><a>FAQ</a></label></li>
+            <!--      <li><label for="menuCheckbox"><a>Contact</a></label></li>-->
+
+                        <li>
+                            <a href="https://github.com/minkyeom" target="_blank"><i>GitHub</i></a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- 드롭다운 메뉴 구성 끝부분 -->
+
+            </span>
+        </h2>
+    </div>
+
+</body>
+</html>

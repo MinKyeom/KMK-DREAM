@@ -1,0 +1,270 @@
+/* usw-font */
+@import url('https://fonts.googleapis.com/css2?family=Playball&display=swap');
+
+/* cf .클래스명 #id명 */
+
+#playball-regular {
+  font-family: "Playball", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* 영역 구분 연습 */
+.box1 {
+    /* float:left; */
+    box-sizing:border-box;
+    height:30%;
+    border-style:solid;
+    }
+
+.box2 {
+    box-sizing:border-box;
+    height: 70%;
+    border-style:solid;
+    }
+
+/* web page 구성 만들기 시작 11.20 */
+.post_name_bar {
+    box-sizing:border-box;
+    position:fixed;
+    height:10%;
+    width:100%;
+    margin:0px;
+    border-style:solid;
+}
+
+.post_name {
+    text-align:center;
+    }
+/*
+.postlist_button {
+    float:right;
+    }
+*/
+
+/* 버튼 효과 및 위치 */
+.button_effect {
+  border: 1px solid black;
+  color: black; }
+  .button_effect:hover {
+    color: white;
+    background-color: black; }
+
+/* 버튼 사이즈 및 위치 조정 */
+.button_size {
+  width: 66px;
+  height: 30px;
+  line-height: 25px;
+  background-color: #fff;
+  border-radius: 15px;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: center; }
+
+ /* menutoggle 만들어보기 */
+ /* Hamburger */
+ /*
+.hamburger {
+  float:left;
+  height: 45px;
+  margin: 0px 0px 0px 5px;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  justify-items: left;
+}
+
+.hamburger div {
+  background-color: #000;
+  position: relative;
+  width: 40px;
+  height: 4px;
+  margin-top: 0px;
+  transition: all 0.2s ease-in-out;
+  border-radius: 35px;
+}
+
+#toggle {
+  display: none;
+}
+
+#toggle:checked + .hamburger .top {
+  transform: rotate(45deg);
+  margin-top: 10px;
+}
+
+#toggle:checked + .hamburger .middle {
+  transform: rotate(-45deg);
+  margin-top: -5px;
+}
+
+#toggle:checked + .hamburger .bottom {
+transform: scale(0);
+}
+*/
+
+/* 이전에 저장해둔 부분 참고로 적용 */
+#menuToggle
+{
+  display: block;
+  /* You can also use relative/absolute here if you want to stay on the top */
+  position: fixed;
+  top: 5%;
+  left: 20px;
+
+  z-index: 1;
+
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#menuToggle a
+{
+  text-decoration: none;
+  color: #232323;
+
+  transition: color 0.3s ease;
+}
+
+#menuToggle a:hover
+{
+  color: tomato;
+}
+
+
+#menuToggle input
+{
+  display: block;
+  width: 40px;
+  height: 32px;
+  position: absolute;
+  top: -7px;
+  left: -5px;
+
+  cursor: pointer;
+
+  opacity: 0; /* hide this */
+  z-index: 2; /* and place it over the hamburger */
+
+  -webkit-touch-callout: none;
+}
+
+/*
+ * Just a quick hamburger
+ */
+#menuToggle span
+{
+  display: block;
+  width: 33px;
+  height: 4px;
+  margin-bottom: 5px;
+  position: relative;
+
+  background: #cdcdcd;
+  border-radius: 3px;
+
+  z-index: 1;
+
+  transform-origin: 4px 0px;
+
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+              background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+              opacity 0.55s ease;
+}
+
+#menuToggle span:first-child
+{
+  transform-origin: 0% 0%;
+}
+
+#menuToggle span:nth-last-child(2)
+{
+  transform-origin: 0% 100%;
+}
+
+/*
+ * Transform all the slices of hamburger
+ * into a crossmark.
+ */
+#menuToggle input:checked ~ span
+{
+  opacity: 1;
+  transform: rotate(45deg) translate(-2px, -1px);
+  background: #232323;
+}
+
+/*
+ * But let's hide the middle one.
+ */
+#menuToggle input:checked ~ span:nth-last-child(3)
+{
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+/*
+ * Ohyeah and the last one should go the other direction
+ */
+#menuToggle input:checked ~ span:nth-last-child(2)
+{
+  transform: rotate(-45deg) translate(0, -1px);
+}
+
+/*
+ * Make this absolute positioned
+ * at the top left of the screen
+ */
+#menu
+{
+  position: absolute;
+  max-width: 400px;
+  width: 100vw;
+  max-height: 100vh;
+  margin: -100px 0 0 -50px;
+  padding: 50px;
+  padding-top: 125px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  background: #ededed;
+  list-style-type: none;
+  -webkit-font-smoothing: antialiased;
+  /* to stop flickering of text in safari */
+
+  transform-origin: 0% 0%;
+  transform: translate(-100%, 0);
+
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+}
+
+#menu li
+{
+  padding: 10px 0;
+  font-size: 22px;
+}
+
+#menu li label
+{
+  cursor: pointer;
+}
+
+/*
+ * And let's slide it in from the left
+ */
+#menuToggle input:checked ~ ul
+{
+  transform: none;
+}
+
+.search {
+  position: relative;
+  width: 300px;
+}
+
+input {
+  width: 100%;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
