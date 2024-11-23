@@ -52,13 +52,45 @@
 </head>
 <body>
     <div id ="navbar">
-        <a href="../"> <span style="position:absolute; left:10px; top:15px;"><i>Code_PS</i></span> </a>
+        <!-- drop down 추가-->
+        <div id="menuToggle" style="position:fixed; top:17px;">
+            <input type="checkbox" id="menuCheckbox" />
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+            <ul id="menu">
+                <li>
+                    <a href="#">
+                        <label for="menuCheckbox" onclick="this.parentNode.click();"><a href="../"><i>Home</i></a></label>
+                    </a>
+                </li>
+                <li>
+                    <a href="#about">
+                        <label for="menuCheckbox" onclick="this.parentNode.click();"><a href=""><i> Code_PS_Kr</i></a></label>
+                    </a>
+                </li>
+
+                <li><label for="menuCheckbox"><a>FAQ</a></label></li>
+            <!--      <li><label for="menuCheckbox"><a>Contact</a></label></li>-->
+
+                <li>
+                    <a href="https://github.com/minkyeom" target="_blank"><i>GitHub</i></a>
+                </li>
+            </ul>
+        </div>
+        <!-- drop down 추가 마지막 -->
+        <a href="../"> <span id="playball-regular" style="position:absolute; left:60px; top:15px;"><i>Code_PS</i></span> </a>
 <!--        <h1 class ="btn">체크 및 이해</h1>-->
             <!--로그인 여부 확인 후 로그인 표시로 할지 로그아웃 표시로 할 지 고민해보기 -->
+
         <form method="GET">
-            <input type="text" name="search" style="position:absolute; left:100px; top:20px; border-width: 0 0 1px; border-color:  black;">
-            <button class="search newbtn" style="top:15px;" type="submit"> search </button>
+            <input type="text"  name="search" style="width:30%; position:absolute; left:30%; top:10px; border-width:0 0 1px; border-color:black;">
+            <button style="position:fixed; left:58%; top:18px; border-style:none; background-color:white" type="submit"> search </button>
+        <!--class="search newbtn"-->
         </form>
+
         <a href="/posts/add/" class="btn btn-primary" style=" border-color:black;"> 글 작성 </a>
         {% if user %}
             <a href="../users/logout" class="mkposition btn-primary" style="border-color:black;" > 로그아웃 </a>

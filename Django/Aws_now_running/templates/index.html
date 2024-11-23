@@ -5,6 +5,9 @@
 <head>
     <link rel="stylesheet" href="{% static 'css/index_style.css' %}">
     <meta charset="UTF-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playball&display=swap');
+    </style>
     <title>MIR</title>
 </head>
 <body>
@@ -12,7 +15,7 @@
 <nav role="navigation">
   <div id="menuToggle">
 
-    <h1 style="position:absolute; left:50px; top:-25px"><i>MIR</i></h1>
+    <h1 id="playball-regular" style="position:absolute; left:50px; top:-25px"><i>Miky</i></h1>
     <input type="checkbox" id="menuCheckbox" />
 
     <span></span>
@@ -20,28 +23,28 @@
     <span></span>
 
     <ul id="menu">
-      <li>
+      <li id="playball-regular">
         <a href="#">
           <label for="menuCheckbox" onclick="this.parentNode.click();"><a href=""><i>Home</i></a></label>
         </a>
       </li>
-      <li>
+      <li id="playball-regular">
         <a href="#about">
           <label for="menuCheckbox" onclick="this.parentNode.click();"><a href="posts/"><i> Code_PS_Kr</i></a></label>
         </a>
       </li>
 
-      <li><label for="menuCheckbox"><a>FAQ</a></label></li>
+      <li id="playball-regular"><label for="menuCheckbox"><a>FAQ</a></label></li>
 <!--      <li><label for="menuCheckbox"><a>Contact</a></label></li>-->
 
-      <li>
+      <li id="playball-regular">
         <a href="https://github.com/minkyeom" target="_blank"><i>GitHub</i></a>
       </li>
     </ul>
   </div>
 </nav>
 <main>
-    <h1 style="position:relative; left:250px;"><i>MIR</i></h1>
+    <h1 id="playball-regular" style="position:relative; left:250px;"><i>Miky</i></h1>
 
     <form method="GET">
         <input type="text" placeholder="Please enter your term" name="search" style=" width:550px; height:20px; letter-spacing: 1px">
