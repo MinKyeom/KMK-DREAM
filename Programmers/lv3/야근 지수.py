@@ -25,4 +25,17 @@ def solution(n, works):
         # print(new)
         return 0
 
-    return sum(list(map(lambda x: x * x, new)))ㄴ
+    return sum(list(map(lambda x: x * x, new)))
+
+# 다른 사람 풀이
+def noOvertime(n, works):
+  if n>=sum(works):
+    return 0;
+
+  while n > 0:
+    works[works.index(max(works))] -= 1
+    n -= 1
+
+  result = sum([w ** 2 for w in works])
+
+  return result
