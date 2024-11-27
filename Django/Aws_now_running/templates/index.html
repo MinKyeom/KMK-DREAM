@@ -48,15 +48,15 @@
 
     <form method="GET">
         <input type="text" placeholder="Please enter your term" name="search" style=" width:550px; height:20px; letter-spacing: 1px">
-        <button type="submit" style="font-size:13px; position:relative; top:1px; right:70px; border-style:none; background-color:white"> Search </button>
+        <button type="submit" id="playball-regular" style="font-size:13px; position:relative; top:1px; right:70px; border-style:none; background-color:white"> Search </button>
 <!--        <button type="submit" style="font-size:27px; position:relative; top:-25px; right:30px; border-style:none;"> <img src="{% static 'img/search.png' %}" style="width:26px;"> </button>-->
     </form>
     <br>
     {% if check is None %}
-    <p style="font-size:23px;"><strong>Recent Post</strong></p>
-        <h3>▶︎ Code_Ps_kr</h3>
+        <p id="playball-regular" style="font-size:23px;"><strong>Recent Post</strong></p>
+        <h3 id="playball-regular">▶︎ Code_Ps_kr</h3>
         {% for post in posts %}
-            <a href="posts/{{ post.id }}" style="color:white; text-decoration-line: none; position:relative; left:20px;">&nbsp;&nbsp;● {{ post.title }} </a>
+            <a href="posts/{{ post.id }}" style="color:black; text-decoration-line: none; position:relative; left:20px;">&nbsp;&nbsp;● {{ post.title }} </a>
 <!--            <p style="font-size:8px;">{{ post.content }}</p>-->
         {% empty %}
             검색 결과가 없습니다.
@@ -65,13 +65,12 @@
         {% for post in posts %}
             <br>
             <br>
-            <a href="posts/{{ post.id }}" style="color:white; text-decoration-line: none; position:relative; left:20px;">&nbsp;&nbsp;● {{ post.title }} </a>
+            <a href="posts/{{ post.id }}" style="color:black; text-decoration-line: none; position:relative; left:20px;">&nbsp;&nbsp;● {{ post.title }} </a>
         {% empty %}
             검색 결과가 없습니다.
         {% endfor %}
     {% endif %}
 </main>
-
 
 </body>
 </html>

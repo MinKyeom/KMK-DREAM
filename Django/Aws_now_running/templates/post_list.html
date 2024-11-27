@@ -7,6 +7,7 @@
 <!--    <meta charset="UTF-8">-->
 <!--    <title>Title</title>-->
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playball&display=swap');
         .newbtn {
             border: 1px solid #white;
             color: black; }
@@ -47,6 +48,14 @@
         position:absolute;
         left:100px;
         }
+
+
+        #playball-regular {
+        font-family: "Playball", cursive;
+        font-weight: 400;
+        font-style: normal;
+        }
+
     </style>
 
 </head>
@@ -61,21 +70,21 @@
             <span></span>
 
             <ul id="menu">
-                <li>
+                <li id="playball-regular">
                     <a href="#">
                         <label for="menuCheckbox" onclick="this.parentNode.click();"><a href="../"><i>Home</i></a></label>
                     </a>
                 </li>
-                <li>
-                    <a href="#about">
+                <li id="playball-regular">
+                    <a href="#about" >
                         <label for="menuCheckbox" onclick="this.parentNode.click();"><a href=""><i> Code_PS_Kr</i></a></label>
                     </a>
                 </li>
 
-                <li><label for="menuCheckbox"><a>FAQ</a></label></li>
+                <li id="playball-regular" ><label for="menuCheckbox"><a>FAQ</a></label></li>
             <!--      <li><label for="menuCheckbox"><a>Contact</a></label></li>-->
 
-                <li>
+                <li id="playball-regular" >
                     <a href="https://github.com/minkyeom" target="_blank"><i>GitHub</i></a>
                 </li>
             </ul>
@@ -87,7 +96,7 @@
 
         <form method="GET">
             <input type="text"  name="search" style="width:30%; position:absolute; left:30%; top:10px; border-width:0 0 1px; border-color:black;">
-            <button style="position:fixed; left:58%; top:18px; border-style:none; background-color:white" type="submit"> search </button>
+            <button id="playball-regular" style="position:fixed; left:58%; top:18px; border-style:none; background-color:white" type="submit"> search </button>
         <!--class="search newbtn"-->
         </form>
 

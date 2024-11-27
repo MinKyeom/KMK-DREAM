@@ -4,17 +4,51 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playball&display=swap');
+    </style>
 </head>
 <body>
     <div id="navbar">
+        <!--전체 메뉴 드롭다운 바 제작 시작  -->
+        <!-- drop down 추가-->
+        <div id="menuToggle" style="position:fixed; top:17px;">
+            <input type="checkbox" id="menuCheckbox" />
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+            <ul id="menu">
+                <li id="playball-regular">
+                    <a href="#">
+                        <label for="menuCheckbox" onclick="this.parentNode.click();"><a href="../"><i>Home</i></a></label>
+                    </a>
+                </li>
+                <li id="playball-regular">
+                    <a href="#about" >
+                        <label for="menuCheckbox" onclick="this.parentNode.click();"><a href=""><i> Code_PS_Kr</i></a></label>
+                    </a>
+                </li>
+
+                <li id="playball-regular" ><label for="menuCheckbox"><a>FAQ</a></label></li>
+            <!--      <li><label for="menuCheckbox"><a>Contact</a></label></li>-->
+
+                <li id="playball-regular" >
+                    <a href="https://github.com/minkyeom" target="_blank"><i>GitHub</i></a>
+                </li>
+            </ul>
+        </div>
+        <!-- 드롭다운 제작 끝 부분 -->
+        <a href="../"> <span id="playball-regular" style="position:absolute; left:60px; top:15px;"><i>Code_Ps</i></span> </a>
         {% if post.thumbnail %}
             <img src="{{post.thumbnail.url }}">
         {% endif %}
-        <span><strong style="font-size:26px;">{{ post.title }}</strong></span>
+        <span><strong style="font-size:26px;" id="playball-regular">{{ post.title }}</strong></span>
         <a href="../" class="btn btn-primary"> Post_list </a>
     </div>
     <div id="post-detail">
-        <p style="font-size:20px;"><strong>{{ post.content|linebreaksbr}}</strong></p>
+        <p id="playball-regular" style="font-size:16px;"><strong>{{ post.content|linebreaksbr}}</strong></p>
         <ul class="comments">
             {% for comment in post.comment_set.all %}
                 <li class="comment">{{ comment.content }}</li>
@@ -24,7 +58,7 @@
         </ul>
         <form method="POST">
             {% csrf_token %}
-            <textarea name="comment"></textarea>
+            <textarea placeholder="If you have any questions or comments, please feel free to let me know." name="comment"></textarea>
             <button type="submit" class="btn btn-primary">댓글 작성</button>
         </form>
     </div>
