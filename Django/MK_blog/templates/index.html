@@ -5,6 +5,9 @@
 <head>
     <link rel="stylesheet" href="{% static 'css/index_style.css' %}">
     <meta charset="UTF-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playball&display=swap');
+    </style>
     <title>MIR</title>
 </head>
 <body>
@@ -12,7 +15,7 @@
 <nav role="navigation">
   <div id="menuToggle">
 
-    <h1 style="position:absolute; left:50px; top:-25px"><i>MIR</i></h1>
+    <h1 id="playball-regular" style="position:absolute; left:50px; top:-25px"><i>Miky</i></h1>
     <input type="checkbox" id="menuCheckbox" />
 
     <span></span>
@@ -20,40 +23,40 @@
     <span></span>
 
     <ul id="menu">
-      <li>
+      <li id="playball-regular">
         <a href="#">
           <label for="menuCheckbox" onclick="this.parentNode.click();"><a href=""><i>Home</i></a></label>
         </a>
       </li>
-      <li>
+      <li id="playball-regular">
         <a href="#about">
           <label for="menuCheckbox" onclick="this.parentNode.click();"><a href="posts/"><i> Code_PS_Kr</i></a></label>
         </a>
       </li>
 
-      <li><label for="menuCheckbox"><a>FAQ</a></label></li>
+      <li id="playball-regular"><label for="menuCheckbox"><a>FAQ</a></label></li>
 <!--      <li><label for="menuCheckbox"><a>Contact</a></label></li>-->
 
-      <li>
+      <li id="playball-regular">
         <a href="https://github.com/minkyeom" target="_blank"><i>GitHub</i></a>
       </li>
     </ul>
   </div>
 </nav>
 <main>
-    <h1 style="position:relative; left:250px;"><i>MIR</i></h1>
+    <h1 id="playball-regular" style="position:relative; left:250px;"><i>Miky</i></h1>
 
     <form method="GET">
         <input type="text" placeholder="Please enter your term" name="search" style=" width:550px; height:20px; letter-spacing: 1px">
-        <button type="submit" style="font-size:13px; position:relative; top:1px; right:70px; border-style:none; background-color:white"> Search </button>
+        <button type="submit" id="playball-regular" style="font-size:13px; position:relative; top:1px; right:70px; border-style:none; background-color:white"> Search </button>
 <!--        <button type="submit" style="font-size:27px; position:relative; top:-25px; right:30px; border-style:none;"> <img src="{% static 'img/search.png' %}" style="width:26px;"> </button>-->
     </form>
     <br>
     {% if check is None %}
-    <p style="font-size:23px;"><strong>Recent Post</strong></p>
-        <h3>▶︎ Code_Ps_kr</h3>
+        <p id="playball-regular" style="font-size:23px;"><strong>Recent Post</strong></p>
+        <h3 id="playball-regular">▶︎ Code_Ps_kr</h3>
         {% for post in posts %}
-            <a href="posts/{{ post.id }}" style="color:white; text-decoration-line: none; position:relative; left:20px;">&nbsp;&nbsp;● {{ post.title }} </a>
+            <a href="posts/{{ post.id }}" style="color:black; text-decoration-line: none; position:relative; left:20px;">&nbsp;&nbsp;● {{ post.title }} </a>
 <!--            <p style="font-size:8px;">{{ post.content }}</p>-->
         {% empty %}
             검색 결과가 없습니다.
@@ -62,13 +65,12 @@
         {% for post in posts %}
             <br>
             <br>
-            <a href="posts/{{ post.id }}" style="color:white; text-decoration-line: none; position:relative; left:20px;">&nbsp;&nbsp;● {{ post.title }} </a>
+            <a href="posts/{{ post.id }}" style="color:black; text-decoration-line: none; position:relative; left:20px;">&nbsp;&nbsp;● {{ post.title }} </a>
         {% empty %}
             검색 결과가 없습니다.
         {% endfor %}
     {% endif %}
 </main>
-
 
 </body>
 </html>

@@ -1,67 +1,77 @@
 {% load static %}
+<!-- Test page -->
+<!-- page urls: http://3.37.248.157/check/ -->
 
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="{% static 'css/index_style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/check.css' %}">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playball&display=swap');
+    </style>
+    <title>MIR</title>
 </head>
 <body>
-<!--    Made by Erik Terwan    -->
-<!--   24th of November 2015   -->
-<!--        MIT License        -->
+
 <nav role="navigation">
   <div id="menuToggle">
-    <!--
-    A fake / hidden checkbox is used as click reciever,
-    so you can use the :checked selector on it.
-    -->
-    <h1 style="position:absolute; left:50px; top:-25px"><i>Life</i></h1>
+
+    <h1 id="playball-regular" style="position:absolute; left:50px; top:-25px"><i>Miky</i></h1>
     <input type="checkbox" id="menuCheckbox" />
-    <!--
-    Some spans to act as a hamburger.
 
-    They are acting like a real hamburger,
-    not that McDonalds stuff.
-    -->
     <span></span>
     <span></span>
     <span></span>
 
-    <!--
-    Too bad the menu has to be inside of the button
-    but hey, it's pure CSS magic.
-    -->
     <ul id="menu">
-      <!--
-      We can use a label here to close upon click (when doing same page navigation), this
-      does require a slight bit of JS.
-      -->
-      <li>
+      <li id="playball-regular">
         <a href="#">
-          <label for="menuCheckbox" onclick="this.parentNode.click();"><a href="../">Home</a></label>
+          <label for="menuCheckbox" onclick="this.parentNode.click();"><a href=""><i>Home</i></a></label>
         </a>
       </li>
-      <li>
+      <li id="playball-regular">
         <a href="#about">
-          <label for="menuCheckbox" onclick="this.parentNode.click();"><a href="../posts/"> Code_PS s</a></label>
+          <label for="menuCheckbox" onclick="this.parentNode.click();"><a href="posts/"><i> Code_PS_Kr</i></a></label>
         </a>
       </li>
 
-      <!-- These just close the menu -->
-      <li><label for="menuCheckbox"><a>CS</a></label></li>
-      <li><label for="menuCheckbox"><a>Contact</a></label></li>
+      <li id="playball-regular"><label for="menuCheckbox"><a>FAQ</a></label></li>
+<!--      <li><label for="menuCheckbox"><a>Contact</a></label></li>-->
 
-      <!-- Or just use regular URLs -->
-      <li>
-        <a href="https://github.com/minkyeom" target="_blank">GitHub</a>
+      <li id="playball-regular">
+        <a href="https://github.com/minkyeom" target="_blank"><i>GitHub</i></a>
       </li>
     </ul>
   </div>
 </nav>
 <main>
-    <h1></h1>
+    <h1 id="playball-regular" style="position:relative; left:250px;"><i>Miky</i></h1>
+
+    <form method="GET">
+        <input type="text" placeholder="Please enter your term" name="search" style=" width:550px; height:20px; letter-spacing: 1px">
+        <button type="submit" style="font-size:13px; position:relative; top:1px; right:70px; border-style:none; background-color:white"> Search </button>
+<!--        <button type="submit" style="font-size:27px; position:relative; top:-25px; right:30px; border-style:none;"> <img src="{% static 'img/search.png' %}" style="width:26px;"> </button>-->
+    </form>
+    <br>
+    {% if check is None %}
+    <p style="font-size:23px;"><strong>Recent Post</strong></p>
+        <h3>▶︎ Code_Ps_kr</h3>
+        {% for post in posts %}
+            <a href="posts/{{ post.id }}" style="color:white; text-decoration-line: none; position:relative; left:20px;">&nbsp;&nbsp;● {{ post.title }} </a>
+<!--            <p style="font-size:8px;">{{ post.content }}</p>-->
+        {% empty %}
+            검색 결과가 없습니다.
+        {% endfor %}
+    {% else %}
+        {% for post in posts %}
+            <br>
+            <br>
+            <a href="posts/{{ post.id }}" style="color:white; text-decoration-line: none; position:relative; left:20px;">&nbsp;&nbsp;● {{ post.title }} </a>
+        {% empty %}
+            검색 결과가 없습니다.
+        {% endfor %}
+    {% endif %}
 </main>
 
 
