@@ -64,3 +64,14 @@ def solution(n, money):
                     result.append(Counter(num + [i]))
 
     return len(result) % 1000000007
+
+# 다른 사람 풀이
+def change(total, coin):
+    l = (total+1)*[0]
+    ll = coin
+    ll.sort()
+    for x in ll:
+        l[x]+=1
+        for i in range(x+1,total+1):
+            l[i]+=l[i-x]
+    return l[total];
