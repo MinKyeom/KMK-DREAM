@@ -1,6 +1,9 @@
-## 오답 필수 ##
+"""
+출처: 프로그래머스
+https://school.programmers.co.kr/learn/courses/30/lessons/120921
+"""
 
-# 풀이1
+# 풀이 과정
 def solution(A, B):
     a = list(A)
     b = []

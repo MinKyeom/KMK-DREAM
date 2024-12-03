@@ -1,3 +1,14 @@
+"""
+출처: 프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/120908
+"""
+# 풀이 과정
+def solution(str1, str2):
+    if str2 in str1:
+        return 1
+    else:return 2
+
+
 # 풀이 1
 
 # () 아예 못품
