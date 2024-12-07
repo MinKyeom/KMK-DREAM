@@ -78,3 +78,43 @@ def solution(diffs, times, limit):
 
         print(t, mid)
     return result
+
+
+# 다른 사람 풀이
+def binary_search(diffs, times, limit, level) :
+
+    spend = sum(times)
+    pre = 0
+
+    for i in range(len(diffs)) :
+        diff = diffs[i]
+        time = times[i]
+        if diff > level :
+            spend += (diff-level)*(pre+time)
+        if spend>limit :
+            return False
+        pre =  time
+
+    return True
+
+
+def solution(diffs, times, limit):
+    answer = 0
+
+    right = max(diffs)
+    left = min(diffs)
+
+
+    isPos = False
+    while left <=right :
+        level = (left+right)//2
+
+        if binary_search(diffs, times, limit, level) :
+            answer = level
+            right = level - 1
+        else :
+            left = level + 1
+
+    print(answer)
+
+    return answer
