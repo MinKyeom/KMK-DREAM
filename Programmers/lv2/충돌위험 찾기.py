@@ -83,6 +83,87 @@ def solution(points, routes):
 
     return 0
 
+# 풀이과정 _ 개선 중
+"""
+로봇별로 현 위치 딕셔너리 구현
+출발하는 순간 마다 매 로봇 위치 변화 및 현 위치 운송 도착 여부 확인 후 다음 위치 있나 다시 체크
+
+그리고 그 후 로봇 위치 별로 for 문 구현 후 충돌한 위치를 set 문에 넣은 후 중복 제거 및 여러 대 충돌 여부 따로 처리할 필요 없게 제거
+"""
+from collections import deque, defaultdict
+
+
+def solution(points, routes):
+    routes = list(map(deque, routes))
+    arrive = [False] * len(routes)
+
+    crush = 0
+
+    robot = defaultdict(int)
+    check = dict([])
+
+    # 로봇 번호, 로봇이 갈 포인트
+    for i, j in enumerate(routes):
+        # 포인트 번호
+        start = (j[0] - 1)
+
+        # 시작 위치
+        x, y = points[start][0], points[start][1]
+        robot[i] = [x, y]
+
+        # 현 위치 도달과 동시에 포인트 제거
+        j.popleft()
+
+    while True:
+
+        k = set([])
+
+        # 첫 포인트 충돌 확인 작업 실시
+        for r, now in robot.items():
+            for x, y in robot.items():
+                if r == x:
+                    continue
+                else:
+                    if now == y and now != [-1, -1]:
+                        k.add(tuple(now))
+
+        crush += len(k)
+
+        # 이동
+        for r, p in enumerate(routes):
+
+            if len(p) == 0:
+                arrive[r] = True
+                robot[r] = [-1, -1]
+
+
+            # 이동
+            else:
+                # return "check"
+                num = p[0] - 1
+                x, y = robot[r][0], robot[r][1]
+                n, m = points[num][0], points[num][1]
+
+                if robot[r] == [n, m]:
+                    p.popleft()
+
+                    robot[r] = [-1, -1]
+
+                else:
+                    if x > n:
+                        robot[r][0] -= 1
+                    elif x < n:
+                        robot[r][0] += 1
+                    elif y > m:
+                        robot[r][1] -= 1
+                    elif y < m:
+                        robot[r][1] += 1
+
+            if arrive.count(True) == len(arrive):
+                return crush
+
+    return 0
+
 # 풀이 과정_ 개선 중
 
 """
