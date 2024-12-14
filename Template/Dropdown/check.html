@@ -1,0 +1,51 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/check.css' %}">
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+    <meta name="viewport" content="width=device-width, iniial-scale=1,minimum-scale=1, maximum-scale=1,user-scalable=no">
+
+    <!--새로 추가 -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!--	<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+</head>
+
+<body>
+    <div id="menu">
+        <ul>
+            <li style="background:yellow;">
+                    <label for="check">누르시오</label>
+                    <input type="checkbox" style="display:none;" id='check'>
+                    <nav id="cc">
+                        <ul>
+                            <li>내부 구조</li>
+                        </ul>
+                    </nav>
+                    <!-- id result 값에 따른 결과 보여주는거 확인 -->
+
+            </li>
+
+            <li>기본 구조
+                <ul>
+                    <li>내부 구조</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</body>
+<script>
+  function is_checked() {
+    const checkbox = document.getElementById('my_checkbox');
+    const is_checked = checkbox.checked;
+    document.getElementById('result').innerText = is_checked;
+}
+</script>
+
+</html>
