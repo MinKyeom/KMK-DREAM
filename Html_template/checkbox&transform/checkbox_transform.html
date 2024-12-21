@@ -1,0 +1,102 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/check.css' %}">
+    <!-- 플랙서블 박스 아래 2줄 추가 후 작동되었다 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+			.origin {
+				width: 100px;
+				height: 100px;
+				border: 1px solid black;
+				margin: 0px;
+			}
+			.origin > div {
+				width:100px;
+				height:100px;
+				background-color:orange;
+				transition:1s;
+			}
+
+            #new {
+            	width:100px;
+				height:100px;
+				position:absolute;
+				left:-100px;
+				top:0px;
+				background-color:orange;
+				transition:1s;
+				z-index:1;
+            }
+			check:checked+label+#box>#buy>#new{
+			    display:block;
+			    transform:translate(100px);
+			}
+
+            #la:checked + #main >#before{
+            display:none;
+            }
+            #la:checked + #main >#after{
+            display:block;
+            }
+            #after {
+            display:none;
+            }
+    </style>
+</head>
+
+<body>
+    <!--check1 -->
+<!--    <input type=checkbox id="check">-->
+<!--    <label for="check">-->
+<!--        <div id="before" style="position:absolute; top:0px; z-index:100;">-->
+<!--            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">-->
+<!--                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>-->
+<!--            </svg>-->
+<!--        </div>-->
+<!--    </label>-->
+<!--    <div id="box">-->
+<!--        <div id="buy">-->
+<!--            <div id="new">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <!--check2 -->
+    <label>
+        <input id="la" type="checkbox" style="display:none;">
+        <div id="main" style="position:absolute; top:0px; z-index:100;">
+            <div id="before">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                </svg>
+            </div>
+            <div id="after">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                </svg>
+            </div>
+        </div>
+
+        <div id="dropdown">
+            <div id="drop_before">
+                <div id="new">
+                </div>
+            </div>
+            <div id="drop_after">
+
+            </div>
+        </div>
+    </label>
+
+</body>
+
+</html>
+
+
+<!-- grid 확인 -->
+
