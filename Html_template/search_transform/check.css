@@ -1,0 +1,212 @@
+/* 폰트 영역 */
+
+@import url('https://fonts.googleapis.com/css2?family=Playball&display=swap');
+
+@playball-regular {
+  font-family: "Playball", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/*--------------------- 폰트 영역 끝 ------------------------------------------- */
+
+/* 전체 페이지 마진 제거 */
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    }
+
+html {
+    display:inline-flex;
+    flex-wrap:wrap;
+}
+/* 머릿말 <header> */
+/*
+menu: z-index:900떄
+search: z-index:400때
+login: 헤더보단 높게
+*/
+header {
+    position:relative;
+    width:100vw;
+    height:100px;
+    border-style:none;
+    background-color:yellow;
+    display:flex;
+    z-index:1;
+}
+#menu_board {
+    width:100vw;
+    height:100vh;
+    border-style:none;
+    background-color:white;
+    position:absolute;
+    left:-100vw;
+    top:0px;
+    z-index:998;
+    transition:1s;
+
+	font:bold 25px "Playball";
+	color:#808080;
+	line-height: 50px;
+	margin:0 auto;
+	text-align: center;
+
+
+}
+
+#check:checked + #menu >#menu_board {
+    transform:translate(100vw);
+}
+
+#menu_close {
+    display:none;
+    position:absolute;
+    top:25px;
+    left:10px;
+    z-index:999;
+}
+
+#menu_open {
+    position:absolute;
+    top:25px;
+    left:10px;
+}
+
+/* 드롭 다운 메뉴 열린 후 */
+#check:checked + #menu > #menu_close {
+    display:block;
+}
+
+/*드롭 다운 메뉴 열리기 전 */
+#check:checked + #menu > #menu_open{
+    display:none;
+}
+
+/* 검색 시스템 드롭 다운 */
+#search_menu {
+    width:100vw;
+    height:200px;
+    background-color:green;
+    position:absolute;
+    top:-200px;
+    transition:1s;
+    z-index:4;
+}
+
+#search_open {
+    position:absolute;
+    right:60px;
+    top:29px;
+}
+
+#search_close {
+    display:none;
+}
+
+#search_check:checked + #search_click > #search_menu{
+    transform:translateY(200px);
+}
+
+#search_check:checked + #search_click > #search_close{
+    display:block;
+    position:absolute;
+    right:20px;
+    top:25px;
+    z-index:5;
+}
+
+#search_check:checked + #search_click > #search_open{
+    display:none;
+}
+
+#login_check{
+    position:absolute;
+    right:10px;
+    top:25px;
+}
+
+#search_check:checked + #search_click > #login_check{
+    display:none;
+}
+
+#logo {
+    position:absolute;
+    left:65px;
+    top:35px;
+    font:bold 25px "Playball";
+}
+/* ----------------------------- 헤더 영역 끝------------------------------------*/
+
+/*----------------------------- 메인 구역 ---------------------------------------*/
+main {
+    text-align: center;
+    width:100vw;
+    margin-top:20px;
+    display:inline-flex;
+    flex-wrap:wrap;
+    }
+
+main > div > ul> li {
+    list-style-type : none;
+}
+/*-----------------------------메인 구역 끝 ------------------------------------- */
+
+
+
+
+/* 이전에 만든 실험 과정 */
+/*
+    <style>
+			.origin {
+				width: 100px;
+				height: 100px;
+				border: 1px solid black;
+				margin: 0px;
+			}
+			.origin > div {
+				width:100px;
+				height:100px;
+				background-color:orange;
+				transition:1s;
+			}
+
+            #new {
+            	width:100vw;
+				height:100px;
+				position:absolute;
+				left:-100vw;
+				top:0px;
+				background-color:orange;
+				transition:1s;
+				z-index:1;
+            }
+			check:checked+label+#box>#buy>#new{
+			    display:block;
+			    transform:translate(100px);
+			}
+
+            #la:checked + #main >#before{
+            display:none;
+            }
+
+            #la:checked + #main >#after{
+            display:block;
+            position:absolute;
+            top:0px;
+            right:100px;
+            z-index:2;
+            }
+
+            #after {
+            display:none;
+            }
+
+            #la:checked +#main >#new{
+			    display:block;
+			    transform:translate(100vw);
+            }
+    </style>
+
+ */
