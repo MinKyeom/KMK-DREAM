@@ -34,3 +34,20 @@ def solution(wallet, bill):
         cnt += 1
 
     return cnt
+
+# 다른 사람 풀이
+def solution(wallet, bill):
+    result = 0
+
+    while True:
+        wallet.sort()
+        bill.sort()
+
+        if bill[0] <= wallet[0] and bill[1] <= wallet[1]:
+            break
+
+        bill[1] //= 2
+        result += 1
+
+    return result
+
