@@ -189,3 +189,127 @@ def solution(expressions):
         temp = str(results.pop()) if len(results) == 1 else '?'
         answer.append(expression[: -1] + temp)
     return answer
+
+# 다른 사람 풀이
+
+def convert_to_decimal(val: str, notation: int):
+
+    decimal_value = 0
+    length = len(val) #가중치를 곱할 횟수
+    weight = notation ** (length - 1)
+
+    # 값을 순회하면서, 더해줌
+    for c in val:
+        number_c = int(c)
+
+        # 변환이 불가능한 수. (값 >= 진법 ex) 2진법은 0, 1만 가능함.
+        if number_c >= notation:
+            return -1
+
+        decimal_value = decimal_value + (number_c * weight)
+        weight /= notation
+
+    return int(decimal_value)
+
+def convert_to_notation(val: int, notation: int):
+
+    notation_value = ""
+
+    if val == 0:
+        return "0"
+
+    while val > 0:
+
+        mod = val % notation
+        notation_value = str(mod) + notation_value
+        val = val // notation
+
+    return notation_value
+
+# 수식과 탐색 진법 후보군을 입력받아, 수식에 대한 결과 진법 후보군을 반환
+def get_candidate_notations(formula: str, notations: list):
+
+    candidate_notations = []
+
+    # 공백을 기준으로 수식을 분리함
+    a, op, b, _, result = formula.split()
+
+    for notation in notations:
+
+        decimal_a = convert_to_decimal(a, notation)
+        decimal_b = convert_to_decimal(b, notation)
+        decimal_result = convert_to_decimal(result, notation)
+
+        if decimal_a == -1 or decimal_b == -1 or decimal_result == -1:
+            continue
+
+        if op == "+" and decimal_a + decimal_b == decimal_result:
+            candidate_notations.append(notation)
+        if op == "-" and decimal_a - decimal_b == decimal_result:
+            candidate_notations.append(notation)
+
+    return candidate_notations
+
+# 메인 실행
+def solution(expressions):
+    print(convert_to_notation(0, 8))
+    answer = []
+
+    # 아는/모르는 수식 분리
+    known_formula = list(filter(lambda x : "X" not in x, expressions))
+    unknown_formula = list(filter(lambda x : "X" in x, expressions))
+
+    # 탐색 진법 후보군 정의
+    maximum_val = 2
+    for fomula in expressions:
+        a, _, b, _, c = fomula.split()
+
+        each_values = list(a) + list(b) + list(c)
+
+        for char in each_values:
+            if char == 'X':
+                continue
+
+            maximum_val = max(maximum_val, int(char) + 1)
+
+    notations = list(range(maximum_val, 10))
+
+    # 아는 수식에서 진법 후보군 추출
+    for formula in known_formula:
+
+        notations = get_candidate_notations(formula, notations)
+
+        if len(notations) == 0:
+            break
+
+    print(notations)
+
+    # 모르는 수식과 추출된 진법 후보군을 통해, X의 값 유추
+    for formula in unknown_formula:
+
+        # 진법 후보군이 없었다면, 알 수 없음으로 처리
+        if len(notations) == 0:
+            answer.append(formula.replace('X', '?'))
+            continue
+
+        result = set()
+        a, op, b, _, _ = formula.split()
+
+        for notation in notations:
+
+            decimal_a = convert_to_decimal(a, notation)
+            decimal_b = convert_to_decimal(b, notation)
+
+            temp_result = 0
+
+            if op == "+":
+                result.add(convert_to_notation(decimal_a + decimal_b, notation))
+            if op == "-":
+                result.add(convert_to_notation(decimal_a - decimal_b, notation))
+
+        if len(result) == 1:
+            answer.append(formula.replace('X', list(result)[0]))
+        else:
+            answer.append(formula.replace('X', '?'))
+
+    return answer
