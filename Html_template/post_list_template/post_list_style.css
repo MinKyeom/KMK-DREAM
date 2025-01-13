@@ -85,6 +85,17 @@ header {
     top:25px;
     left:10px;
     z-index:999;
+
+    >svg {
+    width:40;
+    height:40;
+
+    @media all and (max-width: 450px) {
+    width:35;
+    height:35;
+    }
+
+    }
 }
 
 #menu_open {
@@ -152,8 +163,14 @@ header {
 
 #search_open {
     position:absolute;
-    right:80px;
     top:29px;
+    @media all and (max-width: 749px) {
+        right:60px;
+    }
+
+    @media all and (min-width: 750px) {
+        right:80px;
+    }
 }
 
 #search_close {
@@ -178,8 +195,15 @@ header {
 
 #login_check{
     position:absolute;
-    right:30px;
     top:25px;
+
+    @media all and (max-width: 749px) {
+        right:10px;
+    }
+
+    @media all and (min-width: 750px) {
+        right:30px;
+    }
 }
 
 #search_check:checked + #search_click > #login_check{
@@ -191,6 +215,10 @@ header {
     left:65px;
     top:35px;
     font:bold 25px "Playball";
+
+    @media all and (max-width: 450px) {
+        font:bold 22px "Playball";
+    }
 }
 /* ----------------------------- 헤더 영역 끝------------------------------------*/
 
@@ -244,26 +272,34 @@ main > div > ul> li {
 /* 내부 컨텐츠와 여백을 포함하는 공간 */
 #post_contents {
     width:60vw;
-    height:10vw;
+    /*height:10vw;*/
     margin-left:1vw;
+    /*
     overflow:hidden;
+    */
 
     /* 새로 추가한 영역 */
-    overflow: hidden;
-    white-space: normal;
+/*    white-space: normal;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 100;
     -webkit-box-orient: vertical;
-    word-break: keep-all;
+    word-break: keep-all;*/
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 4;
 
-    text-overflow: ellipsis;
+    /* 폰트(font) */
     font:bold 0.9rem "Playball";
     /*font-size:0.9rem;*/
     }
+
 #post_comments {
     width:80vw;
     height:3vw;
+    position:relative;
+    left:11px;
 }
 
 /* 이미지와 여백을 포함하는 공간 */
@@ -293,7 +329,7 @@ main > div > ul> li {
 #post_title {
     width:80vw;
     position:relative;
-    font:bold 1.2rem "Playball";
+    font:bold 1.0rem "Playball";
     margin-bottom:10px;
     /*font-size:1.2rem;*/
     /*
@@ -308,26 +344,25 @@ main > div > ul> li {
 /* 내부 컨텐츠와 여백을 포함하는 공간 */
 #post_contents {
     width:75vw;
-    height:10vw;
     margin-left:1vw;
-    overflow:hidden;
 
-    /* 새로 추가한 영역 */
-    overflow: hidden;
-    white-space: normal;
-    text-overflow: ellipsis;
+    /* 새로 추가한 영역
+    height 기준이 있을 시에는 라인 줄 수 제한이 안된다!!
+    */
     display: -webkit-box;
-    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    word-break: keep-all;
+    overflow: hidden;
+    -webkit-line-clamp: 3;
 
-    text-overflow: ellipsis;
-    font:bold 0.9rem "Playball";
+
+    font:bold 0.7rem "Playball";
     /*font-size:0.9rem;*/
     }
 #post_comments {
     width:80vw;
     height:3vw;
+    position:relative;
+    left:10px;
 }
 
 /* 이미지와 여백을 포함하는 공간 */
