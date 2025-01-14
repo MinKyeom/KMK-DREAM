@@ -26,6 +26,7 @@ a {
     text-decoration: none;
     color:black;
 }
+
 /*--------------------------------머릿말 <header> -------------------------------*/
 /*
 menu: z-index:900떄
@@ -217,7 +218,7 @@ header {
     font:bold 25px "Playball";
 
     @media all and (max-width: 450px) {
-        font:bold 22px "Playball";
+        font:bold 15px "Playball";
     }
 }
 /* ----------------------------- 헤더 영역 끝------------------------------------*/
