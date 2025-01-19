@@ -150,14 +150,14 @@ header {
     align-items: center;
     word-break:break-all;
 
-    font:bold 20px "Playball";
+    font:bold 20px "Kalam";
 
     @media all and (max-width: 750px) {
-        font:bold 15px "Playball";
+        font:bold 15px "Kalam";
     }
 
     @media all and (max-width: 450px) {
-        font:bold 12px "Playball";
+        font:bold 12px "Kalam";
     }
 }
 /* ---------------------------------- 헤더 영역 끝----------------------------------------*/
@@ -170,12 +170,16 @@ main {
     margin-right:10vw;
     display:flex;
     flex-wrap:wrap;
-
+    word-break:break-all;
     }
 main > #post_content{
     font:bold 18px "Kalam";
-    word-break:break-all;
-
+    white-space: pre-wrap;
+    word-break: break-all;
+    >pre{
+        white-space: pre-wrap;
+        word-break: break-all;
+    }
     @media all and (max-width: 750px) {
         font:bold 13px "Kalam";
     }
