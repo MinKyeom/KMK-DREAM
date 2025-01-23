@@ -281,26 +281,33 @@ main > #main_search{
     flex-wrap:nowrap;
     font-size:0;
     /* 검색어 이미지 */
-    >form >button{
+    >form{
+        display:flex;
+
+        >button{
         background-color: transparent;
         border: 0;
+        position:relative;
+        margin-left:auto;
+        right:50px;
+
       >img {
         width:30px;
         height:30px;
         position:relative;
-        top:7px;
-        right:35px;
-        opacity: 0.5;
+        left:0vw;
+        opacity: 0.3;
         background-color:white;
         }
+    }
     }
 
     /* 검색어 입력 스타일 */
     >form >input{
-    width:70vw;
+    width:80vw;
     height:60px;
     position:relative;
-    left:15px;
+    left:0px;
     letter-spacing: 2px;
     font:bold 20px "Kalam";
     }
@@ -316,7 +323,7 @@ main > #main_search{
     @media all and (max-width: 550px) {
             /* 검색어 입력 스타일 */
         >form >input{
-            width:60vw;
+            width:80vw;
             height:60px;
             letter-spacing: 2px;
             font:bold 15px "Kalam";
