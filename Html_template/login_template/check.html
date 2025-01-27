@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/check.css' %}">
+
+    <!-- 플랙서블 박스 아래 2줄 추가 후 작동되었다 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1,maximum-scale=1,user-scalable=no">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playball&display=swap');
+    </style>
+
+</head>
+<body>
+
+    <div id="login">
+        <form method="POST">
+            <div id="login_logo">
+                <p>Login</p>
+            </div>
+
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <div id="login_id_pw">
+                <p>
+                    <label for="id_password"></label>
+                    <input type="password" placeholder="Enter your password" name="password" minlength="4" required id="id_password">
+                </p>
+            </div>
+
+            <div id="login_button">
+                <button type="submit">Login</button>
+            </div>
+
+        </form>
+
+        <button class="btn btn-login" > <a href="../../" style="color:white;"> Go Home </a> </button>
+    </div>
+
+</body>
+</html>
