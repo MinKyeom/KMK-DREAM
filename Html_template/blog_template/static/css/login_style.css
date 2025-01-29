@@ -1,1250 +1,354 @@
-@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
-ul, ol {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+/* 폰트 영역 */
 
-h1, h2, h3, h4, h5, h6 {
-  padding: 0;
-  margin: 0;
-  font-weight: 300;
-}
+@import url('https://fonts.googleapis.com/css2?family=Playball&display=swap');
 
-h2 {
-  font-size: 1.42rem;
-}
-
-a {
-  text-decoration: none;
-  color: #333;
-}
-
-html {
-  margin: 0;
-  font-family: "Noto Sans KR", serif;
-  font-weight: 300;
-  font-size: 14px;
-  color: #333;
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  height: 100%;
-}
-
-#wrap {
-  height: 100%;
-}
-
-.index-container {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  margin-top: -4vh;
-}
-
-.navbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 999;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.9);
-  color: #666;
-  font-size: 1.3rem;
-  height: 59px;
-  border-bottom: 1px solid #ddd;
-}
-.navbar img {
-  height: 29.5px;
-  border-radius: 3px;
-  margin-right: 10px;
-}
-.navbar .btn {
-  position: absolute;
-  right: 20px;
-}
-
-.btn {
-  width: 66px;
-  height: 30px;
-  line-height: 25px;
-  background-color: #fff;
-  border-radius: 15px;
-  transition-duration: 0.3s;
-  transition-timing-function: ease;
-  font-size: 12px;
-  cursor: pointer;
-  text-align: center;
-}
-
-a.btn {
-  height: 28px;
-}
-
-.btn-primary {
-  border: 1px solid #00c3bd;
-  color: #00c3bd;
-}
-.btn-primary:hover {
-  color: white;
-  background-color: #00c3bd;
-}
-
-.btn-secondary {
-  border: 1px solid #bbb;
-  color: #666;
-}
-.btn-secondary:hover {
-  color: white;
-  background-color: #bbb;
-}
-
-input, textarea {
-  border: none;
-  padding: 10px;
-}
-input:focus, textarea:focus {
-  outline: none;
-}
-
-textarea {
-  resize: none;
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  transition: background-color 5000s ease-in-out 0s;
-  -webkit-transition: background-color 9999s ease-out;
-  -webkit-box-shadow: 0 0 0 1000px white inset !important;
-  -webkit-text-fill-color: #666;
-}
-
-ul, ol {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  padding: 0;
-  margin: 0;
-  font-weight: 300;
-}
-
-h2 {
-  font-size: 1.42rem;
-}
-
-a {
-  text-decoration: none;
-  color: #333;
-}
-
-html {
-  margin: 0;
-  font-family: "Noto Sans KR", serif;
-  font-weight: 300;
-  font-size: 14px;
-  color: #333;
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  height: 100%;
-}
-
-#wrap {
-  height: 100%;
-}
-
-.index-container {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  margin-top: -4vh;
-}
-
-.navbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 999;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.9);
-  color: #666;
-  font-size: 1.3rem;
-  height: 59px;
-  border-bottom: 1px solid #ddd;
-}
-.navbar img {
-  height: 29.5px;
-  border-radius: 3px;
-  margin-right: 10px;
-}
-.navbar .btn {
-  position: absolute;
-  right: 20px;
-}
-
-.btn {
-  width: 66px;
-  height: 30px;
-  line-height: 25px;
-  background-color: #fff;
-  border-radius: 15px;
-  transition-duration: 0.3s;
-  transition-timing-function: ease;
-  font-size: 12px;
-  cursor: pointer;
-  text-align: center;
-}
-
-a.btn {
-  height: 28px;
-}
-
-.btn-primary {
-  border: 1px solid #00c3bd;
-  color: #00c3bd;
-}
-.btn-primary:hover {
-  color: white;
-  background-color: #00c3bd;
-}
-
-.btn-secondary {
-  border: 1px solid #bbb;
-  color: #666;
-}
-.btn-secondary:hover {
-  color: white;
-  background-color: #bbb;
-}
-
-input, textarea {
-  border: none;
-  padding: 10px;
-}
-input:focus, textarea:focus {
-  outline: none;
-}
-
-textarea {
-  resize: none;
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  transition: background-color 5000s ease-in-out 0s;
-  -webkit-transition: background-color 9999s ease-out;
-  -webkit-box-shadow: 0 0 0 1000px white inset !important;
-  -webkit-text-fill-color: #666;
-}
-
-#login, #signup {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background-color: #fafafa;
-}
-#login > form, #signup > form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 1px solid #ddd;
-  margin-top: -40px;
-  padding: 30px 40px 40px;
-  border-radius: 2px;
-  background-color: white;
-}
-#login > form > h1, #signup > form > h1 {
-  margin: 0 0 20px 0;
-  font-weight: bold;
-}
-#login > form > p, #signup > form > p {
-  margin: 0;
-}
-#login > form > p > label, #signup > form > p > label {
-  display: block;
-  position: relative;
-  font-size: 12px;
+@playball-regular {
+  font-family: "Playball", cursive;
   font-weight: 400;
-  margin-bottom: 2px;
-  color: #333;
-}
-#login > form > p > label::after, #signup > form > p > label::after {
-  bottom: 0;
-  color: white;
-  content: ":";
-  position: absolute;
-  transform: translate(-100%, 0);
-}
-#login > form > p > input, #signup > form > p > input {
-  padding: 11px 0 10px 10px;
-  min-width: 250px;
-  outline: 0;
-  margin: 0 0 10px 0;
-  font-size: 13px;
-  color: #333;
-  border: 1px solid #ddd;
-  border-radius: 2px;
-}
-#login > form > ul.errorlist, #signup > form > ul.errorlist {
-  color: red;
-  font-size: 12px;
-  font-weight: 500;
-  margin-bottom: 6px;
-}
-#login .btn-login, #login .btn-signup, #signup .btn-login, #signup .btn-signup {
-  width: 100%;
-  border: none;
-  color: white;
-  background-color: #0095f6;
-  margin-top: 10px;
-  border-radius: 4px;
-  font-size: 13px;
+  font-style: normal;
 }
 
-ul, ol {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  padding: 0;
-  margin: 0;
-  font-weight: 300;
-}
-
-h2 {
-  font-size: 1.42rem;
-}
-
-a {
-  text-decoration: none;
-  color: #333;
-}
-
-html {
-  margin: 0;
-  font-family: "Noto Sans KR", serif;
-  font-weight: 300;
-  font-size: 14px;
-  color: #333;
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  height: 100%;
-}
-
-#wrap {
-  height: 100%;
-}
-
-.index-container {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  margin-top: -4vh;
-}
-
-.navbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 999;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.9);
-  color: #666;
-  font-size: 1.3rem;
-  height: 59px;
-  border-bottom: 1px solid #ddd;
-}
-.navbar img {
-  height: 29.5px;
-  border-radius: 3px;
-  margin-right: 10px;
-}
-.navbar .btn {
-  position: absolute;
-  right: 20px;
-}
-
-.btn {
-  width: 66px;
-  height: 30px;
-  line-height: 25px;
-  background-color: #fff;
-  border-radius: 15px;
-  transition-duration: 0.3s;
-  transition-timing-function: ease;
-  font-size: 12px;
-  cursor: pointer;
-  text-align: center;
-}
-
-a.btn {
-  height: 28px;
-}
-
-.btn-primary {
-  border: 1px solid #00c3bd;
-  color: #00c3bd;
-}
-.btn-primary:hover {
-  color: white;
-  background-color: #00c3bd;
-}
-
-.btn-secondary {
-  border: 1px solid #bbb;
-  color: #666;
-}
-.btn-secondary:hover {
-  color: white;
-  background-color: #bbb;
-}
-
-input, textarea {
-  border: none;
-  padding: 10px;
-}
-input:focus, textarea:focus {
-  outline: none;
-}
-
-textarea {
-  resize: none;
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  transition: background-color 5000s ease-in-out 0s;
-  -webkit-transition: background-color 9999s ease-out;
-  -webkit-box-shadow: 0 0 0 1000px white inset !important;
-  -webkit-text-fill-color: #666;
-}
-
-.post-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-sizing: border-box;
-}
-@media (min-width: 700px) {
-  .post-container {
-    padding: 0 2.5vw 5vw;
-  }
-}
-@media (max-width: 700px) {
-  .post-container {
-    margin: -11px -10px 50px -10px;
-  }
-}
-
-article.post {
-  display: flex;
-  flex-direction: column;
-  border-radius: 2px;
-  padding-top: 80px;
-  margin-top: -80px;
-  margin-bottom: 20px;
-}
-@media (min-width: 700px) {
-  article.post {
-    width: 600px;
-  }
-}
-@media (max-width: 700px) {
-  article.post {
-    width: 100%;
-  }
-}
-article.post header.post-header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 60px;
-  box-sizing: border-box;
-  padding: 14px 16px;
-  border: 1px solid #ddd;
-}
-article.post header.post-header img {
-  height: 32px;
-  border-radius: 50%;
-  border: 1px solid #eee;
-  box-sizing: border-box;
-  margin-right: 10px;
-}
-article.post header.post-header span {
-  font-weight: bold;
-}
-article.post .post-images img {
-  width: 100%;
-}
-article.post .post-content {
-  padding: 10px;
-  box-sizing: border-box;
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-  border-bottom: 1px solid #eee;
-}
-article.post .post-tags a {
-  color: #0095f6;
-}
-article.post .post-buttons {
-  padding: 10px 7px;
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-}
-article.post .post-buttons form {
-  display: inline-block;
-}
-article.post .post-buttons a, article.post .post-buttons button, article.post .post-buttons span {
-  background-color: transparent;
-  font-size: 13px;
-  font-family: "Noto Sans KR", serif;
-  line-height: 1;
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap');
+@kalam-regular {
+  font-family: "Kalam", cursive;
   font-weight: 400;
-  height: 25px;
-  box-sizing: border-box;
-  padding: 3px;
-  margin: 0;
-  color: #333;
-  border: none;
-  transition-duration: 0.25s;
+  font-style: normal;
 }
-article.post .post-buttons a, article.post .post-buttons button {
-  cursor: pointer;
-}
-article.post .post-comments {
-  padding: 0 10px 10px;
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-}
-article.post .post-comments ul {
-  margin-bottom: 5px;
-}
-article.post .post-comments ul > li {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-article.post .post-comments ul > li span:first-child {
-  font-weight: bold;
-  margin-right: 5px;
-}
-article.post .post-comments button {
-  color: #ff797b;
-  background-color: transparent;
-  border: 1px solid #ff797b;
-  border-radius: 10px;
-  font-size: 12px;
-  height: 20px;
-  margin-top: 2px;
-  margin-left: 4px;
-  padding: 0 8px;
-  cursor: pointer;
-  transition-duration: 0.25s;
-  font-weight: bold;
-}
-article.post .post-comments button:hover {
-  background-color: #ff797b;
-  color: white;
-}
-article.post > small {
-  padding: 0 10px 10px;
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-  border-bottom: 1px solid #eee;
-}
-article.post .post-comment-create {
-  display: flex;
-  flex-direction: row;
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-  border-bottom: 1px solid #eee;
-}
-article.post .post-comment-create form {
-  display: flex;
-  flex-grow: 1;
-  flex-direction: row;
-}
-article.post .post-comment-create input {
-  padding: 15px 15px 15px 10px;
-  box-sizing: border-box;
-  flex-grow: 1;
-}
-article.post .post-comment-create button {
-  color: #0095f6;
-  background-color: transparent;
-  border: none;
-  padding: 0 15px;
-  cursor: pointer;
-  transition-duration: 0.25s;
-}
-article.post .post-comment-create button:hover {
-  font-weight: bold;
-}
+/*--------------------- 폰트 영역 끝 ------------------------------------------- */
 
-ul, ol {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+/* 전체 페이지 마진 제거 */
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    }
 
-h1, h2, h3, h4, h5, h6 {
-  padding: 0;
-  margin: 0;
-  font-weight: 300;
-}
-
-h2 {
-  font-size: 1.42rem;
+html {
+    display:flex;
+    flex-wrap:wrap;
 }
 
 a {
-  text-decoration: none;
-  color: #333;
+    text-decoration: none;
+    color:black;
 }
 
-html {
-  margin: 0;
-  font-family: "Noto Sans KR", serif;
-  font-weight: 300;
-  font-size: 14px;
-  color: #333;
-  height: 100%;
+/*--------------------------------머릿말 <header> -------------------------------*/
+
+/*--------------------------------머릿말 <header> -------------------------------*/
+/*
+menu: z-index:900떄
+search: z-index:400때
+login: 헤더보단 높게
+*/
+header {
+    position:relative;
+    width:100vw;
+    height:100px;
+    border-style:none;
+    background-color:#B1B6B7;
+    display:flex;
+    z-index:1;
+}
+#menu_board {
+    width:100vw;
+    height:100vh;
+    border-style:none;
+    background-color:white;
+    position:absolute;
+    left:-100vw;
+    top:0px;
+    z-index:998;
+    transition:1s;
+
+	font:bold 25px "Kalam";
+	color:#808080;
+	line-height: 50px;
+	margin:0 auto;
+	text-align: center;
+
+
+}
+#in_menu{
+    width:100vw;
+    height:100px;
+    position:relative;
+    background-color:#B1B6B7
 }
 
-body {
-  margin: 0;
-  height: 100%;
+#in_menu > #menu_list {
+    position:absolute;
+    top:50%;
+    left:49%;
+    color:black;
+    margin: -25px 0 0 -25px;
 }
 
-#wrap {
-  height: 100%;
+#check:checked + #menu >#menu_board {
+    transform:translate(100vw);
 }
 
-.index-container {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  margin-top: -4vh;
+#menu_close {
+    display:none;
+    position:absolute;
+    top:25px;
+    left:10px;
+    z-index:999;
+
+    >svg {
+    width:40;
+    height:40;
+
+    @media all and (max-width: 450px) {
+    width:35;
+    height:35;
+    }
+
+    }
 }
 
-.navbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 999;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.9);
-  color: #666;
-  font-size: 1.3rem;
-  height: 59px;
-  border-bottom: 1px solid #ddd;
-}
-.navbar img {
-  height: 29.5px;
-  border-radius: 3px;
-  margin-right: 10px;
-}
-.navbar .btn {
-  position: absolute;
-  right: 20px;
+#menu_open {
+    position:absolute;
+    top:25px;
+    left:10px;
 }
 
-.btn {
-  width: 66px;
-  height: 30px;
-  line-height: 25px;
-  background-color: #fff;
-  border-radius: 15px;
-  transition-duration: 0.3s;
-  transition-timing-function: ease;
-  font-size: 12px;
-  cursor: pointer;
-  text-align: center;
+/* 드롭 다운 메뉴 열린 후 */
+#check:checked + #menu > #menu_close {
+    display:block;
 }
 
-a.btn {
-  height: 28px;
+/*드롭 다운 메뉴 열리기 전 */
+#check:checked + #menu > #menu_open{
+    display:none;
 }
 
-.btn-primary {
-  border: 1px solid #00c3bd;
-  color: #00c3bd;
+/* 검색 시스템 드롭 다운 */
+#search_menu {
+    width:100vw;
+    height:200px;
+    background-color:#B1B6B7;
+    position:relative;
+    top:-200px;
+    transition:1s;
+    z-index:4;
 }
-.btn-primary:hover {
-  color: white;
-  background-color: #00c3bd;
-}
-
-.btn-secondary {
-  border: 1px solid #bbb;
-  color: #666;
-}
-.btn-secondary:hover {
-  color: white;
-  background-color: #bbb;
-}
-
-input, textarea {
-  border: none;
-  padding: 10px;
-}
-input:focus, textarea:focus {
-  outline: none;
+#search_menu > form> #search_text{
+    position:absolute;
+    top:40%;
+    left:10%;
+    display:flex;
+    width:80vw;
+    height:13vh;
+    background-color:#B1B6B7;
+    flex-direction:row;
 }
 
-textarea {
-  resize: none;
+#search_menu > form >#search_text > #search_button{
+    flex-wrap:wrap;
+    width:3rem;
+    height:3rem;
+    background-color:green;
+
+    >button {
+        width:3rem;
+        height:3rem;
+    }
 }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  transition: background-color 5000s ease-in-out 0s;
-  -webkit-transition: background-color 9999s ease-out;
-  -webkit-box-shadow: 0 0 0 1000px white inset !important;
-  -webkit-text-fill-color: #666;
+#search_menu >form >#search_text >#search_list{
+    >input {
+        width:70vw;
+        height:3rem;
+        font-size:1.3rem;
+        letter-spacing:2px;
+        }
+    background-color:#B1B6B7;
+
+}
+#search_click{
+    width:0;
+    height:0;}
+
+#search_open {
+    position:absolute;
+    top:29px;
+    @media all and (max-width: 749px) {
+        right:60px;
+    }
+
+    @media all and (min-width: 750px) {
+        right:80px;
+    }
 }
 
-#post-add div {
-  border-bottom: 1px solid #eee;
-  padding-bottom: 8px;
-  margin-bottom: 10px;
-}
-#post-add div:last-of-type {
-  border: none;
-}
-#post-add h1 {
-  margin-bottom: 20px;
-}
-#post-add label {
-  display: block;
-  margin-bottom: 3px;
-  font-weight: bold;
-}
-#post-add input, #post-add textarea {
-  border: 1px solid #ddd;
-  width: 100%;
-  box-sizing: border-box;
-}
-#post-add button {
-  color: #0095f6;
-  background-color: transparent;
-  border: 1px solid #0095f6;
-  border-radius: 5px;
-  box-sizing: border-box;
-  padding: 8px 55px;
-  cursor: pointer;
-  transition-duration: 0.25s;
-}
-#post-add button:hover {
-  color: white;
-  background-color: #0095f6;
+#search_close {
+    display:none;
 }
 
-ul, ol {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+#search_check:checked + #search_click > #search_menu{
+    transform:translateY(200px);
 }
 
-h1, h2, h3, h4, h5, h6 {
-  padding: 0;
-  margin: 0;
-  font-weight: 300;
+#search_check:checked + #search_click > #search_close{
+    display:block;
+    position:absolute;
+    right:20px;
+    top:25px;
+    z-index:5;
 }
 
-h2 {
-  font-size: 1.42rem;
+#search_check:checked + #search_click > #search_open{
+    display:none;
 }
 
-a {
-  text-decoration: none;
-  color: #333;
+#login_check{
+    position:absolute;
+    top:25px;
+
+    @media all and (max-width: 749px) {
+        right:10px;
+    }
+
+    @media all and (min-width: 750px) {
+        right:30px;
+    }
 }
 
-html {
-  margin: 0;
-  font-family: "Noto Sans KR", serif;
-  font-weight: 300;
-  font-size: 14px;
-  color: #333;
-  height: 100%;
+#search_check:checked + #search_click > #login_check{
+    display:none;
 }
 
-body {
-  margin: 0;
-  height: 100%;
-}
+#logo {
+    position:absolute;
+    left:65px;
+    top:35px;
+    font:bold 25px "Playball";
 
-#wrap {
-  height: 100%;
+    @media all and (max-width: 450px) {
+        font:bold 15px "Playball";
+    }
 }
+/* ----------------------------- 헤더 영역 끝------------------------------------*/
 
-.index-container {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  margin-top: -4vh;
-}
-
-.navbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 999;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.9);
-  color: #666;
-  font-size: 1.3rem;
-  height: 59px;
-  border-bottom: 1px solid #ddd;
-}
-.navbar img {
-  height: 29.5px;
-  border-radius: 3px;
-  margin-right: 10px;
-}
-.navbar .btn {
-  position: absolute;
-  right: 20px;
-}
-
-.btn {
-  width: 66px;
-  height: 30px;
-  line-height: 25px;
-  background-color: #fff;
-  border-radius: 15px;
-  transition-duration: 0.3s;
-  transition-timing-function: ease;
-  font-size: 12px;
-  cursor: pointer;
-  text-align: center;
-}
-
-a.btn {
-  height: 28px;
-}
-
-.btn-primary {
-  border: 1px solid #00c3bd;
-  color: #00c3bd;
-}
-.btn-primary:hover {
-  color: white;
-  background-color: #00c3bd;
-}
-
-.btn-secondary {
-  border: 1px solid #bbb;
-  color: #666;
-}
-.btn-secondary:hover {
-  color: white;
-  background-color: #bbb;
-}
-
-input, textarea {
-  border: none;
-  padding: 10px;
-}
-input:focus, textarea:focus {
-  outline: none;
-}
-
-textarea {
-  resize: none;
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  transition: background-color 5000s ease-in-out 0s;
-  -webkit-transition: background-color 9999s ease-out;
-  -webkit-box-shadow: 0 0 0 1000px white inset !important;
-  -webkit-text-fill-color: #666;
-}
-
-#wrap > nav {
-  position: fixed;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  top: 0;
-  width: 100%;
-  height: 60px;
-  box-sizing: border-box;
-  padding: 0 10px;
-  z-index: 3;
-  border-bottom: 1px solid #ddd;
-  background-color: white;
-}
-#wrap > nav > h1 {
-  font-weight: bold;
-  flex-grow: 1;
-}
-#wrap > nav > a {
-  font-weight: 400;
-  color: #0095f6;
-  margin-right: 10px;
-}
-
-#container {
-  margin-top: 60px;
-  padding: 2vw;
-}
-
-ul, ol {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  padding: 0;
-  margin: 0;
-  font-weight: 300;
-}
-
-h2 {
-  font-size: 1.42rem;
-}
-
-a {
-  text-decoration: none;
-  color: #333;
-}
-
-html {
-  margin: 0;
-  font-family: "Noto Sans KR", serif;
-  font-weight: 300;
-  font-size: 14px;
-  color: #333;
-  height: 100%;
-}
+/*------------------------------- 메인영역 ---------------------------------------*/
 
 body {
-  margin: 0;
-  height: 100%;
+    width:100vw;
+    height:100vh;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+    >#login {
+    /* 내부 컨텐츠 사각형 중앙에 배치 */
+    justify-content: center;
+    align-items: center;
+    }
 }
 
-#wrap {
-  height: 100%;
+#login{
+    display:flex;
+    flex-direction:column;
+    width:60vw;
+    background-color:;
+
+    >form >#login_id_pw{
+
+      >p >input{
+        width:40vw;
+        height:60px;
+        letter-spacing: 2px;
+        font:bold 20px "Kalam";
+
+        @media all and (max-width: 879px) {
+            width:45vw;
+            height:60px;
+            letter-spacing: 2px;
+            font:bold 20px "Kalam";
+        }
+        @media all and (max-width:600px){
+            width:60vw;
+            height:60px;
+            letter-spacing: 2px;
+            font:bold 20px "Kalam";
+        }
+
+        @media all and (max-width:400px){
+            width:70vw;
+            height:60px;
+            letter-spacing: 2px;
+            font:bold 20px "Kalam";
+        }
+
+    }
+    /* ::placeholder 설정 */
+      >p >input::placeholder{
+        font-size:20px;
+        }
+
+      @media all and (max-width: 879px) {
+            >p >input::placeholder{
+            font-size:17px;
+            }
+        }
+      @media all and (max-width: 600px) {
+            >p >input::placeholder{
+            font-size:15px;
+            }
+        }
+      @media all and (max-width: 400px) {
+            >p >input::placeholder{
+            font-size:0px;
+            }
+        }
+
+    }
+    /* placeholder 설정 끝 */
+}
+/* input 부분 끝 */
+
+
+#login_button{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+    >button {
+        width:40vw;
+        background-color:white;
+        text-align:center;
+        font:bold 30px "Playball";
+
+        @media all and (max-width: 879px) {
+            width:45vw;
+        }
+        @media all and (max-width:600px){
+            width:60vw;
+        }
+
+        @media all and (max-width:400px){
+            width:70vw;
+        }
+
+    }
+
+    >button:hover {
+        background-color:black;
+        color:white;
+    }
+
+}
+#gohome>button{
+    background-color:black;
 }
 
-.index-container {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  margin-top: -4vh;
+#gohome >button:hover{
+    background-color:#B1B6B7;
 }
 
-.navbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 999;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.9);
-  color: #666;
-  font-size: 1.3rem;
-  height: 59px;
-  border-bottom: 1px solid #ddd;
-}
-.navbar img {
-  height: 29.5px;
-  border-radius: 3px;
-  margin-right: 10px;
-}
-.navbar .btn {
-  position: absolute;
-  right: 20px;
+#login_logo {
+    font:bold 60px "Playball";
+    text-align:center;
 }
 
-.btn {
-  width: 66px;
-  height: 30px;
-  line-height: 25px;
-  background-color: #fff;
-  border-radius: 15px;
-  transition-duration: 0.3s;
-  transition-timing-function: ease;
-  font-size: 12px;
-  cursor: pointer;
-  text-align: center;
-}
-
-a.btn {
-  height: 28px;
-}
-
-.btn-primary {
-  border: 1px solid #00c3bd;
-  color: #00c3bd;
-}
-.btn-primary:hover {
-  color: white;
-  background-color: #00c3bd;
-}
-
-.btn-secondary {
-  border: 1px solid #bbb;
-  color: #666;
-}
-.btn-secondary:hover {
-  color: white;
-  background-color: #bbb;
-}
-
-input, textarea {
-  border: none;
-  padding: 10px;
-}
-input:focus, textarea:focus {
-  outline: none;
-}
-
-textarea {
-  resize: none;
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  transition: background-color 5000s ease-in-out 0s;
-  -webkit-transition: background-color 9999s ease-out;
-  -webkit-box-shadow: 0 0 0 1000px white inset !important;
-  -webkit-text-fill-color: #666;
-}
-
-.post-grid-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.post-grid {
-  display: flex;
-  width: 30.6666666667vw;
-  height: 30.6666666667vw;
-  margin-right: 2vw;
-  margin-bottom: 2vw;
-  background-color: #eee;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-.post-grid:nth-of-type(3n) {
-  margin-right: 0;
-}
-.post-grid a {
-  display: flex;
-}
-.post-grid img {
-  max-width: 100%;
-  object-fit: cover;
-  object-position: center center;
-}
-
-ul, ol {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  padding: 0;
-  margin: 0;
-  font-weight: 300;
-}
-
-h2 {
-  font-size: 1.42rem;
-}
-
-a {
-  text-decoration: none;
-  color: #333;
-}
-
-html {
-  margin: 0;
-  font-family: "Noto Sans KR", serif;
-  font-weight: 300;
-  font-size: 14px;
-  color: #333;
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  height: 100%;
-}
-
-#wrap {
-  height: 100%;
-}
-
-.index-container {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  margin-top: -4vh;
-}
-
-.navbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 999;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.9);
-  color: #666;
-  font-size: 1.3rem;
-  height: 59px;
-  border-bottom: 1px solid #ddd;
-}
-.navbar img {
-  height: 29.5px;
-  border-radius: 3px;
-  margin-right: 10px;
-}
-.navbar .btn {
-  position: absolute;
-  right: 20px;
-}
-
-.btn {
-  width: 66px;
-  height: 30px;
-  line-height: 25px;
-  background-color: #fff;
-  border-radius: 15px;
-  transition-duration: 0.3s;
-  transition-timing-function: ease;
-  font-size: 12px;
-  cursor: pointer;
-  text-align: center;
-}
-
-a.btn {
-  height: 28px;
-}
-
-.btn-primary {
-  border: 1px solid #00c3bd;
-  color: #00c3bd;
-}
-.btn-primary:hover {
-  color: white;
-  background-color: #00c3bd;
-}
-
-.btn-secondary {
-  border: 1px solid #bbb;
-  color: #666;
-}
-.btn-secondary:hover {
-  color: white;
-  background-color: #bbb;
-}
-
-input, textarea {
-  border: none;
-  padding: 10px;
-}
-input:focus, textarea:focus {
-  outline: none;
-}
-
-textarea {
-  resize: none;
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  transition: background-color 5000s ease-in-out 0s;
-  -webkit-transition: background-color 9999s ease-out;
-  -webkit-box-shadow: 0 0 0 1000px white inset !important;
-  -webkit-text-fill-color: #666;
-}
-
-.tags-header {
-  margin-bottom: 10px;
-}
-
-/*# sourceMappingURL=style.css.map */

@@ -213,7 +213,18 @@ header {
     @media all and (min-width: 750px) {
         right:30px;
     }
+
+    >a >button{
+    background-color:transparent;
+    border:0;
+    }
+
+    >a >button:hover{
+    color:orange;
+    }
+
 }
+
 
 #search_check:checked + #search_click > #login_check{
     display:none;
@@ -256,6 +267,14 @@ main > #main_title {
     background-color:white;
     font:bold 50px "Playball";
 
+    /* 애니메이션 효과 추가해보기 */
+    text-shadow: 0 -3px 0 #333,
+        0 6px 8px rgba(0,0,0,.4),
+        0 9px 10px rgba(0,0,0,.15),
+        0 30px 10px rgba(0,0,0,.18),
+        0 15px 10px rgba(0,0,0,.21);
+
+    /* 애니메이션 효과 추가 끝 */
     @media all and (max-width: 450px) {
         font:bold 40px "Playball";
     }

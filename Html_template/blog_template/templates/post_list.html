@@ -100,13 +100,30 @@
                 </div>
             </div>
         </label>
-                <!-- login 메뉴판 제작 가려지기 편하게-->
+
+        <!-- login 메뉴판 제작 가려지기 편하게-->
         <div id="login_check">
-            <a  href="http://3.37.248.157/users/login/">
-                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
-                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
-                </svg>
-            </a>
+            {% if user %}
+                <!-- 로그인이 된 경우 로그아웃 버튼으로 활성화-->
+                <a  href="../../users/logout/">
+                    <button>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-person-fill-dash" viewBox="0 0 16 16">
+                            <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1m0-7a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                            <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
+                        </svg>
+                    </button>
+                </a>
+            {% else %}
+            <!-- 로그인 안된 경우 로그아웃 아이콘 표시 -->
+                <a  href="http://3.37.248.157/users/login/">
+                    <button>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                        </svg>
+                    </button>
+                </a>
+            {% endif %}
+
         </div>
     </header>
 
@@ -158,7 +175,7 @@
                         {% if page_number >= page_list.number|add:-5 and page_number <= page_list.number|add:5 %}
                             {% if keyword is None %}
                                 {% if page_number == page_list.number %}
-                                    <a href="?search=&page={{page_number}}" style="color: #ededed;"><strong>{{page_number}}</strong></a>
+                                    <a href="?search=&page={{page_number}}" style="color: orange;"><strong>{{page_number}}</strong></a>
                                 {% else %}
                                     <a href="?search=&page={{page_number}}">{{page_number}}</a>
                                 {% endif %}
@@ -177,6 +194,25 @@
         </div>
     </main>
 
+    <div id="post_add_check">
+        {% if user %}
+            <a href="http://3.37.248.157/posts/add">
+                <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                    </svg>
+                </button>
+            </a>
+        {% else %}
+            <a href="http://3.37.248.157/users/login/">
+                <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                    </svg>
+                </button>
+            </a>
+        {% endif %}
+    </div>
 </body>
 
 </html>

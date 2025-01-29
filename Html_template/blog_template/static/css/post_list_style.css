@@ -211,6 +211,14 @@ header {
     @media all and (min-width: 750px) {
         right:30px;
     }
+    >a >button{
+    background-color:transparent;
+    border:0;
+    }
+
+    >a >button:hover{
+    color:orange;
+    }
 }
 
 #search_check:checked + #search_click > #login_check{
@@ -405,6 +413,28 @@ main > div > ul> li {
 
 
 /*------------------페이지네이션 구역 끝----------------------------------*/
+
+
+
+
+/*post_add */
+#post_add_check >a >button{
+    position:fixed;
+    right:3vw;
+    bottom:3vw;
+    background-color:transparent;
+    border:0;
+}
+
+#post_add_check >a >button:hover{
+    position:fixed;
+    right:3vw;
+    bottom:3vw;
+    color:orange;
+    border:0;
+}
+/* post_add icon finish   */
+
 /* 이전에 만든 실험 과정 */
 /*
     <style>
