@@ -33,6 +33,16 @@ a {
     color:black;
 }
 
+video{
+    width:100%;
+    height:200vh;
+    position:absolute;
+    top:100px;
+    object-fit: fill;
+    opacity:1;
+    z-index:-1;
+}
+
 /*--------------------------------머릿말 <header> -------------------------------*/
 /*
 menu: z-index:900떄
@@ -44,7 +54,7 @@ header {
     width:100vw;
     height:100px;
     border-style:none;
-    background-color:#B1B6B7;
+    background-color:white; /* #B1B6B7; */
     display:flex;
     z-index:1;
 }
@@ -71,7 +81,7 @@ header {
     width:100vw;
     height:100px;
     position:relative;
-    background-color:#B1B6B7
+    background-color:#B1B6B7;
 }
 
 #in_menu > #menu_list {
@@ -171,6 +181,7 @@ main {
     display:flex;
     flex-wrap:wrap;
     word-break:break-all;
+    color:white;
     }
 main > #post_content{
     font:bold 18px "Kalam";
