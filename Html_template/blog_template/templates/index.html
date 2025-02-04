@@ -54,6 +54,10 @@
                         </li>
 
                         <li>
+                            <a href="http://3.37.248.157/update/">Update_note</a>
+                        </li>
+
+                        <li>
                             <a href="https://github.com/minkyeom">GitHub</a>
                         </li>
                     </ul>
@@ -131,6 +135,7 @@
                 </div>
                 <br>
                 <h3>▶︎ Code_Ps_kr</h3>
+                <br>
                 {% for post in posts %}
                     <div class="search_contents">
                         <a href="http://3.37.248.157/posts/{{ post.id }}">&nbsp;&nbsp;● {{ post.title }} </a>
@@ -140,6 +145,18 @@
                     검색 결과가 없습니다.
 
                 {% endfor %}
+
+                <br>
+                <br>
+                <h3>▶︎ Update</h3>
+                <br>
+                {% for up in update %}
+                    <div class="search_contents">
+                        <a href="http://3.37.248.157/update/{{ up.id }}">&nbsp;&nbsp;● {{ up.title }}</a>
+                    </div>
+
+                {% endfor %}
+
             {% else %}
                 {% for post in posts %}
                     <br>

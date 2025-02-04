@@ -233,143 +233,122 @@ header {
 
 /*------------------------------- 메인영역 ---------------------------------------*/
 
-main {
-    width:80vw;
-    margin-top:20px;
-    margin-left:10vw;
-    margin-right:10vw;
+body {
+    width:100vw;
+    height:100vh;
     display:flex;
-    flex-wrap:wrap;
-    }
-
-    /* 메인 타이틀 */
-main > #main_title {
-    width:100vw; /* main 자체를 상속받기 떄문에 80퍼센트가 100vw 취급 */
-    height:150px;
-    display:flex;
-    flex-wrap:wrap;
-
-    /* 내부 컨텐츠 사각형 중앙에 배치 */
     justify-content: center;
     align-items: center;
 
-    background-color:yellow;
-    font:bold 50px "Playball";
-
-    @media all and (max-width: 450px) {
-        font:bold 40px "Playball";
+    >#login {
+    /* 내부 컨텐츠 사각형 중앙에 배치 */
+    justify-content: center;
+    align-items: center;
     }
 }
 
-/* 메인 검색대 */
-main > #main_search{
-    width:100vw; /* main 자체를 상속받기 떄문에 80퍼센트가 100vw 취급 */
-    height:100px;
+#login{
     display:flex;
-    flex-wrap:wrap;
-
-    /* 내부 컨텐츠 사각형 중앙에 배치 */
-    justify-content: center;
-    align-items: center;
-
-    background-color:green;
-    font:bold 50px "Playball";
-
-    >#search_frame {
-    display:flex;
-    flex-direction:row;
-    flex-wrap:nowrap;
-    font-size:0;
-    /* 검색어 이미지 */
-    >form >button{
-        background-color: transparent;
-        border: 0;
-      >img {
-        width:30px;
-        height:30px;
-        position:relative;
-        top:7px;
-        right:35px;
-        opacity: 0.5;
-        background-color:white;
-        }
-    }
-
-    /* 검색어 입력 스타일 */
-    >form >input{
+    flex-direction:column;
     width:60vw;
-    height:60px;
-    position:relative;
-    left:15px;
-    letter-spacing: 2px;
-    font:bold 20px "Kalam";
-    }
+    background-color:;
 
-    /* 검색어 placehorder 처리 */
+    >form >#login_id_pw{
 
-    >form >input::placeholder{
-        color: gray;
-        font-size: 20px;
-        font-style: italic;
-    }
+      >p >input{
+        width:40vw;
+        height:60px;
+        letter-spacing: 2px;
+        font:bold 20px "Kalam";
 
-    @media all and (max-width: 550px) {
-            /* 검색어 입력 스타일 */
-        >form >input{
+        @media all and (max-width: 879px) {
+            width:45vw;
+            height:60px;
+            letter-spacing: 2px;
+            font:bold 20px "Kalam";
+        }
+        @media all and (max-width:600px){
             width:60vw;
             height:60px;
             letter-spacing: 2px;
-            font:bold 15px "Kalam";
-            }
-
-    /* 검색어 placehorder 처리 */
-
-        >form >input::placeholder{
-            color: gray;
-            font-size: 15px;
-            font-style: italic;
-        }
-    }
-
-    @media all and (max-width: 480px) {
-        >form >input::placeholder{
-            color: gray;
-            font-size: 12px;
-            font-style: italic;
-            }
+            font:bold 20px "Kalam";
         }
 
-    @media all and (max-width: 380px) {
-        >form >input::placeholder{
-            font-size:0;
-            }
+        @media all and (max-width:400px){
+            width:70vw;
+            height:60px;
+            letter-spacing: 2px;
+            font:bold 20px "Kalam";
         }
 
     }
- } /*search_frame 닫기 */
- /*main_Search 닫기 */
+    /* ::placeholder 설정 */
+      >p >input::placeholder{
+        font-size:20px;
+        }
 
-    /* 메인 검색대 끝 */
+      @media all and (max-width: 879px) {
+            >p >input::placeholder{
+            font-size:17px;
+            }
+        }
+      @media all and (max-width: 600px) {
+            >p >input::placeholder{
+            font-size:15px;
+            }
+        }
+      @media all and (max-width: 400px) {
+            >p >input::placeholder{
+            font-size:0px;
+            }
+        }
 
-/* 메인 검색 페이지  시작*/
+    }
+    /* placeholder 설정 끝 */
+}
+/* input 부분 끝 */
 
-main > #search_page{
+
+#login_button{
     display:flex;
-    flex-wrap:wrap;
-    flex-direction:column;
-    width:75vw;
-    margin-right:5vw;
-    background-color:white;
+    justify-content: center;
+    align-items: center;
+
+    >button {
+        width:40vw;
+        background-color:white;
+        text-align:center;
+        font:bold 30px "Playball";
+
+        @media all and (max-width: 879px) {
+            width:45vw;
+        }
+        @media all and (max-width:600px){
+            width:60vw;
+        }
+
+        @media all and (max-width:400px){
+            width:70vw;
+        }
+
+    }
+
+    >button:hover {
+        background-color:black;
+        color:white;
+    }
+
+}
+#gohome>button{
+    background-color:black;
 }
 
-#recent_post{
-font:bold 25px "Kalam";
+#gohome >button:hover{
+    background-color:#B1B6B7;
 }
 
-.search_contents > a{
-    color:black;
-    text-decoration-line: none;
-    position:relative;
-    left:20px;
-    font:bold 15px "Kalam";
+#login_logo {
+    font:bold 60px "Playball";
+    text-align:center;
 }
+

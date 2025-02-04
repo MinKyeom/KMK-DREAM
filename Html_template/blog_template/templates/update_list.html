@@ -4,7 +4,7 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="{% static 'css/post_list_style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/update_list.css' %}">
     <!-- 플랙서블 박스 아래 2줄 추가 후 작동되었다 -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1,maximum-scale=1,user-scalable=no">
@@ -49,7 +49,7 @@
                         </li>
 
                         <li>
-                            <a href="">Code_Ps</a>
+                            <a href="http://3.37.248.157/posts">Code_Ps</a>
                         </li>
 
                         <li>
@@ -66,7 +66,7 @@
         </label>
 
         <div id="logo">
-            <p id="playball-regular">Code_Ps</p>
+            <p id="playball-regular">Update_note</p>
         </div>
 
         <!-- search 메뉴판 제작-->
@@ -131,22 +131,22 @@
         </div>
     </header>
 
-    <video src="{% static 'video/spring.mp4' %}" muted autoplay loop>
+    <video src="{% static 'video/coffee.mp4' %}" muted autoplay loop>
     </video>
 
     <main>
         <div id="posts">
             <ul id="posts_list">
-                {% for post in page_list %}
+                {% for update in lists %}
                     <li>
                         <!-- 전체 포스트를 묶음 -->
                         <div id="all_post">
 
                             <div id="all_content">
-                                <div id="post_title"> <a href="/posts/{{ post.id }}"> <strong>{{ post.title }}</strong> </a> </div>
+                                <div id="post_title"> <a href="/update/{{ update.id }}"> <strong>{{ update.title }}</strong> </a> </div>
                                 <div id="post_content">
                                     <div id="post_contents">
-                                        {{ post.content }}
+                                        {{ update.content }}
                                     </div>
                                 </div>
                             </div>

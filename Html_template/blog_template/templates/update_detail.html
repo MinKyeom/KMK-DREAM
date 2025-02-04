@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="{% static 'css/post_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'css/update_detail.css' %}">
     <!-- 플랙서블 박스 아래 2줄 추가 후 작동되었다 -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1,maximum-scale=1,user-scalable=no">
@@ -64,7 +64,7 @@
         </label>
         <div id="title_box">
             <div id="post_title">
-                <p id="playball-regular">{{ post.title }}</p>
+                <p id="playball-regular">{{ lists.title }}</p>
             </div>
         </div>
         <!-- 검색 하는 부분 제거 -->
@@ -79,13 +79,13 @@
     </header>
     <!-- ----------------------------헤더 부분 끝------------------------ -->
 
-    <video src="{% static 'video/night.mp4' %}" muted autoplay loop>
+    <video src="{% static 'video/river.mp4' %}" muted autoplay loop>
     </video>
 
     <!-- main 영영 시작 -->
     <main>
         <div id="post_content">
-            <pre><strong>{{ post.content|linebreaksbr}}</strong></pre>
+            <pre><strong>{{ lists.content|linebreaksbr}}</strong></pre>
         </div>
 
     </main>
