@@ -36,10 +36,10 @@ a {
 video{
     width:100%;
     height:200vh;
-    position:absolute;
-    top:100px;
+    position:fixed;
+    top:0px;
     object-fit: fill;
-    opacity:1;
+    opacity:0.8;
     z-index:-1;
 }
 
@@ -181,7 +181,7 @@ main {
     display:flex;
     flex-wrap:wrap;
     word-break:break-all;
-    color:white;
+    color:black;
     }
 main > #post_content{
     font:bold 18px "Kalam";

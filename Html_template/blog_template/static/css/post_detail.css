@@ -23,10 +23,13 @@
     box-sizing: border-box;
     }
 
-html {
+html,body {
     display:flex;
     flex-wrap:wrap;
+    width:100%
+    height:100%
 }
+
 
 a {
     text-decoration: none;
@@ -34,13 +37,19 @@ a {
 }
 
 video{
+    /*
     width:100%;
     height:200vh;
-    position:absolute;
-    top:100px;
+    */
+    position:fixed;
+    top:0;
     object-fit: fill;
     opacity:1;
     z-index:-1;
+
+    /* */
+    width:100vw;
+	height:100vh;
 }
 
 /*--------------------------------머릿말 <header> -------------------------------*/
