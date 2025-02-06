@@ -1,8 +1,8 @@
 """
 출처:프로그래머스
-
+https://school.programmers.co.kr/learn/courses/30/lessons/42895
 """
-# 내 풀이
+# 풀이 과정
 from collections import defaultdict
 
 def solution(N, number):
@@ -28,7 +28,7 @@ def solution(N, number):
 
     return -1
 
-# 내 풀이(개선 중)
+#-------------------------------------------- 개선 전 오답 과정 ----------------------------------------------------#
 from itertools import product
 from collections import deque
 
