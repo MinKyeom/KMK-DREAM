@@ -2,7 +2,7 @@
 출처:프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/67259
 """
-# 내 풀이
+# 풀이 과정
 """
 0:비어있음 1:벽이 있음
 start:(0,0) destination:(n-1,n-1)

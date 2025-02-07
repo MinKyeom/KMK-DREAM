@@ -1,4 +1,8 @@
-# 내 풀이
+"""
+출처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/176962
+"""
+# 풀이 과정
 def solution(plans):
     result = []  # 결과
     check = []  # 현재 진행중인 과제
