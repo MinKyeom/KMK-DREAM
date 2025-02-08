@@ -181,7 +181,7 @@ main {
     display:flex;
     flex-wrap:wrap;
     word-break:break-all;
-    color:black;
+    color:blackfont:bold 25px "Playball";;
     }
 main > #post_content{
     font:bold 18px "Kalam";

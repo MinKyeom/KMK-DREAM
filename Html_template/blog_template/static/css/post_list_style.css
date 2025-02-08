@@ -67,8 +67,8 @@ header {
     top:0px;
     z-index:998;
     transition:1s;
-
-	font:bold 25px "Kalam";
+    font:bold 25px "Playball";
+	/* font:bold 25px "Kalam"; */
 	color:#808080;
 	line-height: 50px;
 	margin:0 auto;
