@@ -1,4 +1,8 @@
-# 내 풀이
+"""
+출처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/60058
+"""
+# 풀이과정
 # 균형잡힌 괄호 문자열인지 체크하는 함수
 def isbalanced(s):
 	chk=0
