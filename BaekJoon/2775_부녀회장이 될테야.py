@@ -23,3 +23,16 @@ for i in range(count):
             dp[floor][n] += dp[floor - 1][num]
 
     print(dp[k][n])
+
+# 다른 사람 풀이
+    t = int(input())
+
+    for _ in range(t):
+        floor = int(input())
+        num = int(input())
+        f0 = [x for x in range(1, num + 1)]
+        for k in range(floor):
+            for i in range(1, num):
+                f0[i] += f0[i - 1]
+            print(f0)  # 프린트문을 추가
+        print(f0[-1])
