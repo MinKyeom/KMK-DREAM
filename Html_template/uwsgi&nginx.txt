@@ -1,0 +1,20 @@
+uwgis
+
+uWSGI 서비스 등록
+sudo systemctl start uwsgi
+sudo systemctl enable uwsgi
+
+uWSGI 서비스 구동 확인
+systemctl status uwsgi
+
+
+nginx
+
+시작
+sudo systemctl start nginx
+
+재시작
+sudo systemctl restart nginx
+
+중단
+sudo systemctl stop nginx
