@@ -1,0 +1,15 @@
+# 모든 패키지 제거
+sudo apt-get purge -y $(dpkg --get-selections | grep -v deinstall | grep -v "apt" | grep -v "dpkg" | grep -v "grub" | grep -v "sudo" | grep -v "login" | grep -v "libc6" | grep -v "init" | awk '{print $1}')
+
+# 필수 패키지 재설치
+sudo apt-get install --reinstall ubuntu-server
+
+# 설정 파일 재설정
+sudo cp -r /etc/skel/. /etc/
+
+# 시스템 업데이트 및 업그레이드
+sudo apt-get update
+sudo apt-get upgrade -y
+
+# 시스템 재부팅
+sudo reboot
