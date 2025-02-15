@@ -18,3 +18,30 @@ sudo systemctl restart nginx
 
 중단
 sudo systemctl stop nginx
+
+
+export PATH=/home/testusr/.local/bin/uwsgi:$PATH
+
+
+
+$ sudo apt update
+$ sudo apt upgrade -y
+$ sudo apt install build-essential -y
+[출처] WSL Ubuntu 20.04에서 파이썬을 위한 uwsgi 설치 방법 (2)|작성자 techshare
+
+$ sudo apt install python3-pip -y
+$ python3 -m pip install --upgrade pip
+$ pip install uwsgi
+[출처] WSL Ubuntu 20.04에서 파이썬을 위한 uwsgi 설치 방법 (2)|작성자 techshare
+
+구니콘 위치 찾기
+whereis gunicorn
+
+gunicorn 서비스 실행/등록
+$ (venv) $ sudo systemctl start gunicorn
+$ (venv) $ sudo systemctl enable gunicorn
+
+구니콘 명령어 모음
+systemctl start gunicorn
+systemctl daemon-reload
+systemctl status gunicorn
