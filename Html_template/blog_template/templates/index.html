@@ -4,6 +4,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="{% static 'css/index_style.css' %}">
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" >
     <meta charset="UTF-8">
         <!-- 플랙서블 박스 아래 2줄 추가 후 작동되었다 -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -46,15 +47,15 @@
                         </div>
 
                         <li>
-                            <a href="http://3.37.248.157/">Home</a>
+                            <a href="http://mikysdailylife.com/">Home</a>
                         </li>
 
                         <li>
-                            <a href="http://3.37.248.157/posts/">Code_Ps</a>
+                            <a href="http://mikysdailylife.com/posts/">Code_Ps</a>
                         </li>
 
                         <li>
-                            <a href="http://3.37.248.157/update/">Update_note</a>
+                            <a href="http://mikysdailylife.com/update/">Update_note</a>
                         </li>
 
                         <li>
@@ -92,7 +93,7 @@
                 </a>
             {% else %}
             <!-- 로그인 안된 경우 로그아웃 아이콘 표시 -->
-                <a  href="http://3.37.248.157/users/login/">
+                <a  href="http://mikysdailylife.com/users/login/">
                     <button>
                         <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
                             <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
@@ -138,7 +139,7 @@
                 <br>
                 {% for post in posts %}
                     <div class="search_contents">
-                        <a href="http://3.37.248.157/posts/{{ post.id }}">&nbsp;&nbsp;● {{ post.title }} </a>
+                        <a href="http://mikysdailylife.com/posts/{{ post.id }}">&nbsp;&nbsp;● {{ post.title }} </a>
 <!--                    <p style="font-size:8px;">{{ post.content }}</p>-->
                     </div>
                 {% empty %}
@@ -152,7 +153,7 @@
                 <br>
                 {% for up in update %}
                     <div class="search_contents">
-                        <a href="http://3.37.248.157/update/{{ up.id }}">&nbsp;&nbsp;● {{ up.title }}</a>
+                        <a href="http://mikysdailylife.com/update/{{ up.id }}">&nbsp;&nbsp;● {{ up.title }}</a>
                     </div>
 
                 {% endfor %}
@@ -162,7 +163,7 @@
                     <br>
                     <br>
                     <div class="search_contents">
-                        <a href="http://3.37.248.157/posts/{{ post.id }}">&nbsp;&nbsp;● {{ post.title }} </a>
+                        <a href="http://mikysdailylife.com/posts/{{ post.id }}">&nbsp;&nbsp;● {{ post.title }} </a>
                     </div>
                 {% empty %}
                     검색 결과가 없습니다.
