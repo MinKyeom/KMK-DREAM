@@ -3,7 +3,7 @@
 https://school.programmers.co.kr/learn/courses/30/lessons/72414
 
 """
-# 내 풀이
+# 풀이 과정
 """
 주어진 변수:
 play_time: 재생시간, adv_time:재생시간 길이 logs:시청자들이 시청한 구간정보

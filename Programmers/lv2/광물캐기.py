@@ -1,4 +1,8 @@
-# 내 풀이 1
+"""
+출처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/172927
+"""
+# 풀이 과정
 def solution(picks, minerals):
     from collections import deque
 
@@ -39,7 +43,7 @@ def solution(picks, minerals):
 
     return answer
 
-# 내 풀이 2
+# 풀이 과정2
 def solution(picks, minerals):
     from collections import deque
     minerals = minerals[:5 * sum(picks)]
