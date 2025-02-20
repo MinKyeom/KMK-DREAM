@@ -2,7 +2,7 @@
 출처:프로그래머스
 https://school.programmers.co.kr/learn/challenges?order=recent&levels=3&languages=python3&page=3
 """
-# 내 풀이
+# 풀이 과정
 from collections import deque
 
 # sol2
