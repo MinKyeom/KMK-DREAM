@@ -1,4 +1,8 @@
-# 내 풀이
+"""
+출처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/17677
+"""
+# 풀이 과정
 def solution(str1, str2):
     # a,b 모두 공집합일 경우 자카드 유사도 1로 정의
 
