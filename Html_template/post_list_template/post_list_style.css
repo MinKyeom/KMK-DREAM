@@ -8,6 +8,12 @@
   font-style: normal;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap');
+@kalam-regular {
+  font-family: "Kalam", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
 /*--------------------- 폰트 영역 끝 ------------------------------------------- */
 
 /* 전체 페이지 마진 제거 */
@@ -27,6 +33,15 @@ a {
     color:black;
 }
 
+video{
+    width:100%;
+    height:100%;
+    position:fixed;
+    top:0;
+    object-fit: fill;
+    opacity:0.3;
+    z-index:-1;
+}
 /*--------------------------------머릿말 <header> -------------------------------*/
 /*
 menu: z-index:900떄
@@ -38,7 +53,7 @@ header {
     width:100vw;
     height:100px;
     border-style:none;
-    background-color:#B1B6B7;
+    background-color:white; /*#B1B6B7;*/
     display:flex;
     z-index:1;
 }
@@ -52,13 +67,16 @@ header {
     top:0px;
     z-index:998;
     transition:1s;
-
-	font:bold 25px "Playball";
+    font:bold 25px "Playball";
+	/* font:bold 25px "Kalam"; */
 	color:#808080;
 	line-height: 50px;
 	margin:0 auto;
 	text-align: center;
 
+    > ul > li> a:hover{
+    color:orange;
+    }
 
 }
 #in_menu{
@@ -95,14 +113,21 @@ header {
     width:35;
     height:35;
     }
-
     }
+
+    >svg:hover{
+    color:orange;
+    }
+
 }
 
 #menu_open {
     position:absolute;
     top:25px;
     left:10px;
+    >svg:hover{
+    color:orange;
+    }
 }
 
 /* 드롭 다운 메뉴 열린 후 */
@@ -172,10 +197,16 @@ header {
     @media all and (min-width: 750px) {
         right:80px;
     }
+    >svg:hover{
+    color:orange;
+    }
 }
 
 #search_close {
     display:none;
+    >svg:hover{
+    color:orange;
+    }
 }
 
 #search_check:checked + #search_click > #search_menu{
@@ -204,6 +235,14 @@ header {
 
     @media all and (min-width: 750px) {
         right:30px;
+    }
+    >a >button{
+    background-color:transparent;
+    border:0;
+    }
+
+    >a >button:hover{
+    color:orange;
     }
 }
 
@@ -258,7 +297,7 @@ main > div > ul> li {
 #post_title {
     width:65vw;
     position:relative;
-    font:bold 1.2rem "Playball";
+    font:bold 1.2rem "Kalam";
     margin-bottom:10px;
     /*font-size:1.2rem;*/
     /*
@@ -292,7 +331,7 @@ main > div > ul> li {
     -webkit-line-clamp: 4;
 
     /* 폰트(font) */
-    font:bold 0.9rem "Playball";
+    font:bold 0.9rem "Kalam";
     /*font-size:0.9rem;*/
     }
 
@@ -330,7 +369,7 @@ main > div > ul> li {
 #post_title {
     width:80vw;
     position:relative;
-    font:bold 1.0rem "Playball";
+    font:bold 1.0rem "Kalam";
     margin-bottom:10px;
     /*font-size:1.2rem;*/
     /*
@@ -356,7 +395,7 @@ main > div > ul> li {
     -webkit-line-clamp: 3;
 
 
-    font:bold 0.7rem "Playball";
+    font:bold 0.7rem "Kalam";
     /*font-size:0.9rem;*/
     }
 #post_comments {
@@ -389,7 +428,7 @@ main > div > ul> li {
     width:80vw;
     justify-content:center;
     display:flex;
-    font:bold 1.3rem "Playball";
+    font:bold 1.3rem "Kalam";
     color:black;
     text-align:center;
     letter-spacing : 7px;
@@ -399,6 +438,28 @@ main > div > ul> li {
 
 
 /*------------------페이지네이션 구역 끝----------------------------------*/
+
+
+
+
+/*post_add */
+#post_add_check >a >button{
+    position:fixed;
+    right:3vw;
+    bottom:3vw;
+    background-color:transparent;
+    border:0;
+}
+
+#post_add_check >a >button:hover{
+    position:fixed;
+    right:3vw;
+    bottom:3vw;
+    color:orange;
+    border:0;
+}
+/* post_add icon finish   */
+
 /* 이전에 만든 실험 과정 */
 /*
     <style>

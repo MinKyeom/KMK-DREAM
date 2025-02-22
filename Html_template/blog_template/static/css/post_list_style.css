@@ -74,6 +74,9 @@ header {
 	margin:0 auto;
 	text-align: center;
 
+    > ul > li> a:hover{
+    color:orange;
+    }
 
 }
 #in_menu{
@@ -110,14 +113,21 @@ header {
     width:35;
     height:35;
     }
-
     }
+
+    >svg:hover{
+    color:orange;
+    }
+
 }
 
 #menu_open {
     position:absolute;
     top:25px;
     left:10px;
+    >svg:hover{
+    color:orange;
+    }
 }
 
 /* 드롭 다운 메뉴 열린 후 */
@@ -187,10 +197,16 @@ header {
     @media all and (min-width: 750px) {
         right:80px;
     }
+    >svg:hover{
+    color:orange;
+    }
 }
 
 #search_close {
     display:none;
+    >svg:hover{
+    color:orange;
+    }
 }
 
 #search_check:checked + #search_click > #search_menu{
