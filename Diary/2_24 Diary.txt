@@ -1,0 +1,38 @@
+2_24 TIL Diary
+
+마크다운으로 포스트 작성 구현 과정
+
+시도한 과정
+1, markdownx를 활용한 models.py 구성
+
+>pip install django-markdownx
+
+setting.py에 해당 모듈 등록
+
+urls.py에 등록
+
+from markdownx.models import MarkdownxField
+models.py를 새롭게 구성
+
+컨텐츠 구성을 다시 변환하기 위해
+from markdownx.utils import markdown를 활용한
+함수 구성
+
+결과: 대부분의 마크다운 문법은 해석이 되나 
+
+">" 문법의 경우 구성하지 못하는 문제 발생
+
+2. templagetags의 필터를 활용한 마크다운 해석
+
+django 환경 내부에 templatetags에 새로운 필터를 구성한 후
+
+html contents에 를 받은 후 구성 
+
+결과: 대부분의 마크다운 문법은 해석이 되나 
+
+">" 문법의 경우 구성하지 못하는 문제 발생
+
+1번과 같은 문제 발생
+
+3. 향후 며칠내로 github api를 활용하여 재구성하여 포스트
+필드를 좀 더 활용하는 영역으로 구성을 해볼거 같다. 
