@@ -1,5 +1,8 @@
 # 생각의 포인트
 """
+츌처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/133500
+
 생각의 전제: 트리 내 전체 등대는 모두 켜져야 한다
 자식 노드와 부모 노드와의 관계성에서
 부모노드가 켜지면 자식노드는 켜지든 꺼지는 상관없다
@@ -18,7 +21,7 @@ sys.setrecursionlimit(10 ** 6)
 위의 라이브러리를 사용 안할시 깊이 문제로 오류 발생
 """
 
-# 내 풀이(오답 및 생각 정리 후 재풀이)
+# 풀이 과정
 # dfs 깊이 설정
 from collections import defaultdict
 import sys

@@ -1,0 +1,31 @@
+2_25 TIL Diary
+
+진행 과정
+
+Github api를 활용한 렌더링을 통해 markdown 문서화를 통해
+html에 반영하려하였으나
+
+def md_to_gfm(text):
+    headers = {'Content-Type': 'text/plain'}
+    data = text.encode('utf-8')
+    r = requests.post('https://api.github.com/markdown/raw', headers=headers, data=data)
+
+    return r.text.encode('utf-8')
+
+404error가 발생하여 호출시 문제 발생 
+
++ api를 인증키 없이 사용시 1시간에 50회내로 호출 제한 발생
+> github api docs에서 또한 해당 호출은 인증은 필요하지 않은데 오류가 지속적으로 발생하였다
+뿐 만 아니라 api 관련 내용을 찾아본 결과 현재 해당 api 영역이 존재하지 않는것으로 보여 다른 방향 모색
+
+github  키 생성후 등록 후 재사용하였으나,
+
+404error가 꾸준히 발생
+
+24일에 진행한 markdown의 경우 둘다 
+
+한 가지 문법 > 해당 문법에 대하여서는 오류가 발생하였는데,
+해당 문법이 벨로그, github에서만 사용가능한 문법인지 확인 후
+
+markdownx를 활용하여 블로그 글 구성 새롭게 개편해보는게 좋을거 같다.
+
