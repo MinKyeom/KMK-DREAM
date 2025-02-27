@@ -3,7 +3,7 @@
 https://school.programmers.co.kr/learn/courses/30/lessons/42627
 """
 
-# 나의 풀이
+# 풀이 과정
 # 대기 시간을 줄이기,[요청시점, 소요시간]
 
 import heapq
