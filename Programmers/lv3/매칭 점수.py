@@ -2,7 +2,7 @@
 출처:프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/42893
 """
-# 내 풀이
+# 풀이 과정
 """
 조건:
 기본점수: 검색어가 등장하는 횟수
