@@ -1,4 +1,8 @@
-# 내 풀이
+"""
+출처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/150365
+"""
+# 풀이 과정
 # 같은 곳을 두 번 방문할 수 있다
 # 거리가 k로 고정
 # bfs 같은 곳 방문 여러번 가능 단 거리는 k여야 한다
