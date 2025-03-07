@@ -1,3 +1,8 @@
+"""
+출처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/132266
+"""
+
 # lv3 부대 복귀
 # 내 풀이
 # 조건
