@@ -4,73 +4,181 @@
 <html>
 <head>
     <link rel="stylesheet" href="{% static 'css/index_style.css' %}">
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}"  type="image/x-icon">
+    <link rel="icon" href="{% static 'img/favicon.ico' %}"  type="image/x-icon">
     <meta charset="UTF-8">
+        <!-- 플랙서블 박스 아래 2줄 추가 후 작동되었다 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1,maximum-scale=1,user-scalable=no">
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playball&display=swap');
     </style>
-    <title>MIR</title>
+
+    <title>Miky</title>
 </head>
+
 <body>
+<!-- 내가 제작한 헤더 -->
+    <header>
+        <!-- 메뉴 드롭 다운 -->
+        <label>
+            <input id="check" type="checkbox" style="display:none;">
+            <!-- 드롭 다운 메뉴 시작 포인트 제작 시작 -->
+            <div id="menu">
+                <!--드롭 다운 메뉴 닫는 버튼-->
+                <div id="menu_close">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                    </svg>
+                </div>
 
-<nav role="navigation">
-  <div id="menuToggle">
+                <!-- 드롭 다운 메뉴 여는 버튼 -->
+                <div id="menu_open">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                    </svg>
+                </div>
 
-    <h1 id="playball-regular" style="position:absolute; left:50px; top:-25px"><i>Miky</i></h1>
-    <input type="checkbox" id="menuCheckbox" />
+                <!--드롭 다운 메뉴판 -->
+                <div id="menu_board">
+                    <ul>
+                        <div id="in_menu">
+                            <div id="menu_list"><strong>MENU</strong></div>
+                        </div>
 
-    <span></span>
-    <span></span>
-    <span></span>
+                        <li>
+                            <a href="http://mikysdailylife.com/">Home</a>
+                        </li>
 
-    <ul id="menu">
-      <li id="playball-regular">
-        <a href="#">
-          <label for="menuCheckbox" onclick="this.parentNode.click();"><a href=""><i>Home</i></a></label>
-        </a>
-      </li>
-      <li id="playball-regular">
-        <a href="#about">
-          <label for="menuCheckbox" onclick="this.parentNode.click();"><a href="posts/"><i> Code_PS_Kr</i></a></label>
-        </a>
-      </li>
+                        <li>
+                            <a href="http://mikysdailylife.com/posts/">Code_Ps</a>
+                        </li>
 
-      <li id="playball-regular"><label for="menuCheckbox"><a>FAQ</a></label></li>
-<!--      <li><label for="menuCheckbox"><a>Contact</a></label></li>-->
+                        <li>
+                            <a href="http://mikysdailylife.com/itdiary/">IT_Diary</a>
+                        </li>
 
-      <li id="playball-regular">
-        <a href="https://github.com/minkyeom" target="_blank"><i>GitHub</i></a>
-      </li>
-    </ul>
-  </div>
-</nav>
-<main>
-    <h1 id="playball-regular" style="position:relative; left:250px;"><i>Miky</i></h1>
+                        <li>
+                            <a href="http://mikysdailylife.com/update/">Update_note</a>
+                        </li>
 
-    <form method="GET">
-        <input type="text" placeholder="Please enter your term" name="search" style=" width:550px; height:20px; letter-spacing: 1px">
-        <button type="submit" id="playball-regular" style="font-size:13px; position:relative; top:1px; right:70px; border-style:none; background-color:white"> Search </button>
-<!--        <button type="submit" style="font-size:27px; position:relative; top:-25px; right:30px; border-style:none;"> <img src="{% static 'img/search.png' %}" style="width:26px;"> </button>-->
-    </form>
-    <br>
-    {% if check is None %}
-        <p id="playball-regular" style="font-size:23px;"><strong>Recent Post</strong></p>
-        <h3 id="playball-regular">▶︎ Code_Ps_kr</h3>
-        {% for post in posts %}
-            <a href="posts/{{ post.id }}" style="color:black; text-decoration-line: none; position:relative; left:20px;">&nbsp;&nbsp;● {{ post.title }} </a>
-<!--            <p style="font-size:8px;">{{ post.content }}</p>-->
-        {% empty %}
-            검색 결과가 없습니다.
-        {% endfor %}
-    {% else %}
-        {% for post in posts %}
-            <br>
-            <br>
-            <a href="posts/{{ post.id }}" style="color:black; text-decoration-line: none; position:relative; left:20px;">&nbsp;&nbsp;● {{ post.title }} </a>
-        {% empty %}
-            검색 결과가 없습니다.
-        {% endfor %}
-    {% endif %}
-</main>
+                        <li>
+                            <a href="https://github.com/minkyeom">GitHub</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </label>
+        <div id="title_box">
+            <div id="post_title">
+                <p id="playball-regular">{{ post.title }}</p>
+            </div>
+        </div>
+        <!-- 검색 하는 부분 제거 -->
+        <!-- login 메뉴판 제작 가려지기 편하게-->
+        <div id="login_check">
+            <!--
+            <a  href="http://3.37.248.157/users/login/">
+                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                </svg>
+            </a>
+            -->
+            {% if user %}
+                <!-- 로그인이 된 경우 로그아웃 버튼으로 활성화-->
+                <a  href="../../users/logout/">
+                    <button>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-person-fill-dash" viewBox="0 0 16 16">
+                            <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1m0-7a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                            <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
+                        </svg>
+                    </button>
+                </a>
+            {% else %}
+            <!-- 로그인 안된 경우 로그아웃 아이콘 표시 -->
+                <a  href="http://mikysdailylife.com/users/login/">
+                    <button>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                        </svg>
+                    </button>
+                </a>
+            {% endif %}
+        </div>
+    </header>
+    <!-- ----------------------------헤더 부분 끝------------------------ -->
+    <!--  ---------------------------메인 영역 시작 ------------------------- -->
+    <video src="{% static 'video/snow.mp4' %}" muted autoplay loop>
+    </video>
+
+    <main>
+        <!-- 메인 타이틀 -->
+        <div id="main_title">
+            <strong><p>Miky</p></strong>
+
+        </div>
+
+        <!-- 메인 검색대 -->
+        <div id="main_search">
+
+            <div id="search_frame">
+
+                <form method="GET">
+                    <input type="text" placeholder="검색어를 입력해주세요" name="search">
+                    <button type="submit"> <img src="{% static 'img/search.png' %}"> </button>
+                </form>
+
+            </div>
+
+        </div>
+        <div id="search_page">
+            {% if check is None %}
+                <br>
+                <div id="recent_post">
+                    <p><strong>Recent Post</strong></p>
+                </div>
+                <br>
+                <h3>▶︎ Code_Ps_kr</h3>
+                <br>
+                {% for post in posts %}
+                    <div class="search_contents">
+                        <a href="http://mikysdailylife.com/posts/{{ post.id }}">&nbsp;&nbsp;● {{ post.title }} </a>
+<!--                    <p style="font-size:8px;">{{ post.content }}</p>-->
+                    </div>
+                {% empty %}
+                    검색 결과가 없습니다.
+
+                {% endfor %}
+
+                <br>
+                <br>
+                <h3>▶︎ Update</h3>
+                <br>
+                {% for up in update %}
+                    <div class="search_contents">
+                        <a href="http://mikysdailylife.com/update/{{ up.id }}">&nbsp;&nbsp;● {{ up.title }}</a>
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+                {% for post in posts %}
+                    <br>
+                    <br>
+                    <div class="search_contents">
+                        <a href="http://mikysdailylife.com/posts/{{ post.id }}">&nbsp;&nbsp;● {{ post.title }} </a>
+                    </div>
+                {% empty %}
+                    검색 결과가 없습니다.
+                {% endfor %}
+            {% endif %}
+
+
+        </div>
+
+    </main>
 
 </body>
 </html>

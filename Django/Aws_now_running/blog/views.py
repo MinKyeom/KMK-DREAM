@@ -230,7 +230,7 @@ def update_list(request):
 
         context = {
             "page": paginator,
-            "lists": new,
+            "lists": page_list,
             "user": login_check,
             "page_list": page_list,
             "keyword": keyword,
@@ -244,7 +244,7 @@ def update_list(request):
 
         context = {
             "page": paginator,
-            "lists": update_lists,
+            "lists": page_list,
             "user": login_check,
             "page_list": page_list,
             "keyword": keyword,
