@@ -278,6 +278,7 @@ def itdiary_list(request):
     login_check = user.is_authenticated
 
     new = []
+    # 검색 키워드가 존재할 떄
     if keyword is not None:
         for k in diary:
             if keyword in k.content or keyword in k.title:
@@ -298,7 +299,7 @@ def itdiary_list(request):
             "page_list": page_list,
             "keyword": keyword,
         }
-
+    # 검색 키워드가 없을때
     else:
         # 페이지 항목 추가
         paginator = Paginator(diary, 10)

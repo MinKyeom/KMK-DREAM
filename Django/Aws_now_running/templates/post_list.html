@@ -188,20 +188,20 @@
                         {% if page_number >= page_list.number|add:-5 and page_number <= page_list.number|add:5 %}
                             {% if keyword is None %}
                                 {% if page_number == page_list.number %}
-                                    <a href="?search=&page={{page_number}}" style="color: orange;"><strong>{{page_number}}</strong></a>
+                                    <a href="?search=&page={{page_number}}" style="color: orange;"><strong>{{page_number}} </strong></a>
                                 {% else %}
-                                    <a href="?search=&page={{page_number}}">{{page_number}}</a>
+                                    <a href="?search=&page={{page_number}}"> {{page_number}} </a>
                                 {% endif %}
                             {% else %}
                                 {% if page_number == page_list.number %}
-                                    <a href="?search={{keyword}}&page={{page_number}}" style="color: orange;"><strong>{{page_number}}</strong></a>
+                                    <a href="?search={{keyword}}&page={{page_number}}" style="color: orange;"><strong> {{page_number}} </strong></a>
                                 {% else %}
-                                    <a href="?search={{keyword}}&page={{page_number}}">{{page_number}}</a>
+                                    <a href="?search={{keyword}}&page={{page_number}}"> {{page_number}} </a>
                                 {% endif %}
                             {% endif %}
                         {% endif %}
                     {% endfor %}
-                        >>
+                    >>
                 </div>
             </ul>
         </div>

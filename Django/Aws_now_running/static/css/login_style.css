@@ -352,3 +352,47 @@ body {
     text-align:center;
 }
 
+
+/* google 로그인 버트 */
+
+/*#google {
+    font:bold 20px "Kalam";
+}*/
+
+#google {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+    >button {
+        width:40vw;
+        background-color:white;
+        text-align:center;
+        font:bold 30px "Playball";
+
+        @media all and (max-width: 879px) {
+            width:45vw;
+        }
+        @media all and (max-width:600px){
+            width:60vw;
+        }
+
+        @media all and (max-width:400px){
+            width:70vw;
+        }
+
+    }
+    >button:hover{
+        background-color:black;
+        >a{
+           background-color:black;
+           color:white;
+        }
+    }
+
+    >button >a:hover {
+        background-color:black;
+        color:white;
+    }
+
+}
