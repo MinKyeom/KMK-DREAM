@@ -8,6 +8,9 @@ from django.contrib.auth.models import User
 import markdown
 from django.views.generic import CreateView
 
+# 바로 쟝고 자바스크립트 표시 후 돌아가기 위해 실행 03_09
+from django.http import HttpResponse
+
 # 페이지 나누기 추가 12.01
 from django.core.paginator import Paginator
 def post_list(request):
@@ -100,10 +103,45 @@ def post_add(request):
     user=request.user
     login_check=user.is_authenticated
 
+    """
+    로그인 권한 설정 정리
+    id
+    유저 ID
+    username
+    유저명
+    password
+    패스워드(배쉬값)
+    is_active
+    액티브 유저（True or False）
+    is_staff
+    스탭 유저（True or False）
+    is_superuser
+    슈퍼 유저（True or False）
+    first_name
+    이름
+    last_name
+    성
+    """
+
+    # 글 작성 여부 로그인 확인 최고 권한일 경우에만 접근 가능
+    if user.is_superuser==False:
+        # 로그인은 되있으나 권한이 없는 경우
+        if login_check==True:
+            print("여기로 오나?")
+            #return redirect("../")
+            #페이지로 넘기는게 아닌 자바스크립트 alert 또한 view에서 처리 가능
+            return HttpResponse("<script> alert('글쓰기 권한이 없습니다.\\n되돌아갑니다'); location.href='/posts/'; </script>")
+
+
+        #로그인이 안되어있는 경우
+        else:
+            return redirect("../../users/login")
+
+    """
     # 글 작성 여부 로그인 확인
     if login_check==False:
         return redirect("../../users/login")
-
+    """
     if request.method=="POST":
         title=request.POST["title"]
         content=request.POST["content"]
@@ -278,7 +316,6 @@ def itdiary_list(request):
     login_check = user.is_authenticated
 
     new = []
-    # 검색 키워드가 존재할 떄
     if keyword is not None:
         for k in diary:
             if keyword in k.content or keyword in k.title:
@@ -299,7 +336,7 @@ def itdiary_list(request):
             "page_list": page_list,
             "keyword": keyword,
         }
-    # 검색 키워드가 없을때
+
     else:
         # 페이지 항목 추가
         paginator = Paginator(diary, 10)

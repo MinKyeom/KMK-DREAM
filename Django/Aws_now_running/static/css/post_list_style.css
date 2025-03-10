@@ -291,11 +291,6 @@ main > div > ul> li {
     display:flex;
     flex-direction:column;
 }
-
-#post_title:hover > a> strong{
-    color:orange;
-}
-
 /* 스크린 크기에 따른 세팅 */
 @media all and (min-width: 750px) {
 
@@ -308,7 +303,6 @@ main > div > ul> li {
     /*
     justify-content: center; */
 }
-
 #post_content {
     width:65vw;
     height:10vw;
@@ -438,7 +432,7 @@ main > div > ul> li {
     color:black;
     text-align:center;
     letter-spacing : 7px;
-    display-direction:row;
+
 }
 
 
