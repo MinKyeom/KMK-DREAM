@@ -164,7 +164,6 @@
                                         Posted by
                                         {{ diary.author|upper }}
                                         &nbsp
-
                                         <div id="tags">
                                             {% if diary.tags.all.count > 3 %}
                                                 {% for tag in diary.tags.all|slice:"0:3" %}
@@ -187,7 +186,6 @@
                                                 {% endfor %}
                                             {% endif %}
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -218,22 +216,28 @@
                     <li><strong>검색결과가 없습니다</strong></li>
                 {% endfor %}
 
+                <br>
+
                 <!-- 글 번호 영역 -->
                 <div id="page_number">
-                    <<
+                    <<&nbsp
                     {% for page_number in page_list.paginator.page_range %}
                         {% if page_number >= page_list.number|add:-5 and page_number <= page_list.number|add:5 %}
                             {% if keyword is None %}
                                 {% if page_number == page_list.number %}
                                     <a href="?search=&page={{page_number}}" style="color: orange;"><strong>{{page_number}}</strong></a>
+                                    &nbsp
                                 {% else %}
                                     <a href="?search=&page={{page_number}}">{{page_number}}</a>
+                                    &nbsp
                                 {% endif %}
                             {% else %}
                                 {% if page_number == page_list.number %}
                                     <a href="?search={{keyword}}&page={{page_number}}" style="color: orange;"><strong>{{page_number}}</strong></a>
+                                    &nbsp
                                 {% else %}
                                     <a href="?search={{keyword}}&page={{page_number}}">{{page_number}}</a>
+                                    &nbsp
                                 {% endif %}
                             {% endif %}
                         {% endif %}

@@ -48,13 +48,6 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-class Comment(models.Model):
-    post=models.ForeignKey(Post, on_delete=models.CASCADE)
-    content=models.TextField("댓글 내용")
-
-    def __str__(self):
-        return f"{self.post.title}의 댓글 (ID: {self.id})"
-
 # login 모델 (10_21)
 class Blog_User(models.Model):
     name=models.CharField("이름,name",max_length=100,null=True,default='')
@@ -103,3 +96,29 @@ class IT_Diary(models.Model):
 
 
 # Create your models here.
+
+# 포스트 댓글
+class Comment(models.Model):
+    # 댓글의 경우 사용자 삭제 시 댓글 삭제
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    content = models.TextField("댓글 내용")
+    # 기존에 존재하던 댓글 떄문에 null=True를 설정안할시 오류 발생
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.author}::{self.post.title}의 댓글 {self.content}"
+
+# it_diary 댓글
+class itdiary_Comment(models.Model):
+    # 댓글의 경우 사용자 삭제 시 댓글 삭제
+    diary = models.ForeignKey(IT_Diary, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    content = models.TextField("댓글 내용",max_length=300)
+    # 기존에 존재하던 댓글 떄문에 null=True를 설정안할시 오류 발생
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.author}::{self.diary.title}의 댓글 {self.content}"

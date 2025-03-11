@@ -239,7 +239,63 @@ main > #post_content{
 
 
  /*----------------- 메인 구역 끝 --------------------*/
+/*--------------- 댓글 구역 -------------------------*/
+    /*
+    <div id="comment">
+        <div id="add_comment">
+            <!-- 로그인 여부 확인 후 보여주는 css 다름 -->
+            {% if login_check %}
+                <div id="login">
 
+                </div>
+            {% else %}
+                <div id="log_out">
+
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- 차후 본인 댓글의 경우 수정하는 버튼 또한 나오게 출력 -->
+        <div id="comment_contents">
+            <!-- 작성자 -->
+            {% for author,comment in comments %}
+                {{ author }}
+                {{ comment }}
+
+            {% endfor %}
+            <!-- 댓글 내용 -->
+
+        </div>
+    </div>
+    */
+#comment {
+    width:80vw;
+    margin-top:20px;
+    margin-left:10vw;
+    margin-right:10vw;
+    display:flex;
+    flex-wrap:wrap;
+    word-break:break-all;
+    color:black;
+
+    /* 플렉스 박스 방향성 설정 */
+    flex-direction:column;
+
+    background-color:white;
+
+}
+
+#comment >#comment_title{
+    font:bold 18px "Playball";
+}
+
+
+
+
+
+
+
+/*----------------- 댓글 구역 끝 ------------------*/
 
 
 /*--------------마크 다운 디자인 설정--------------------------------------*/

@@ -115,6 +115,41 @@
         </div>
 
     </main>
+
+    <!-- 댓글 기능 구현 -->
+
+    <div id="comment">
+        <div id="comment_title">
+            <p>Comments</p>
+        </div>
+        <div id="add_comment">
+            <!-- 로그인 여부 확인 후 보여주는 css 다름 -->
+            {% if login_check %}
+                <div id="login">
+
+                </div>
+            {% else %}
+                <div id="log_out">
+
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- 차후 본인 댓글의 경우 수정하는 버튼 또한 나오게 출력 -->
+        <div id="comment_contents">
+            <!-- 작성자 -->
+            {% for author,comment in comments %}
+                {{ author }}
+                {{ comment }}
+
+            {% endfor %}
+            <!-- 댓글 내용 -->
+
+        </div>
+    </div>
+
+
+
 </body>
 
 <body>
