@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from blog.models import Post,Comment,Update_note,IT_Diary,itdiary_Comment,Tag
+from blog.models import Post,Comment,Update_note,IT_Diary,Tag,itdiary_Comment
 from collections import defaultdict
 from blog.forms import LoginForm,MyForm
 from django.contrib.auth import authenticate,login,logout
@@ -102,6 +102,7 @@ def post_detail(request,post_id):
 def post_add(request):
     user=request.user
     login_check=user.is_authenticated
+
     """
     로그인 권한 설정 정리
     id
@@ -121,9 +122,6 @@ def post_add(request):
     last_name
     성
     """
-    print(user.is_superuser)
-
-    flag=False
 
     # 글 작성 여부 로그인 확인 최고 권한일 경우에만 접근 가능
     if user.is_superuser==False:
@@ -139,6 +137,11 @@ def post_add(request):
         else:
             return redirect("../../users/login")
 
+    """
+    # 글 작성 여부 로그인 확인
+    if login_check==False:
+        return redirect("../../users/login")
+    """
     if request.method=="POST":
         title=request.POST["title"]
         content=request.POST["content"]
@@ -313,7 +316,6 @@ def itdiary_list(request):
     login_check = user.is_authenticated
 
     new = []
-    # 검색 키워드가 존재할 떄
     if keyword is not None:
         for k in diary:
             if keyword in k.content or keyword in k.title:
@@ -334,7 +336,7 @@ def itdiary_list(request):
             "page_list": page_list,
             "keyword": keyword,
         }
-    # 검색 키워드가 없을때
+
     else:
         # 페이지 항목 추가
         paginator = Paginator(diary, 10)
@@ -374,26 +376,59 @@ def ITDiary_add(request):
     return render(request,"ITDiary_add.html",context)
 
 
+
 def ITDiary_detail(request,itdiary_id):
 
-    diary=IT_Diary.objects.get(id=itdiary_id)
+
+    diary = IT_Diary.objects.get(id=itdiary_id)
     print(diary.author)
     print(diary.updated_at)
-    print(diary.tags.all(),"tag")
-    tags=diary.tags.all()
+    print(diary.tags.all(), "tag")
+    tags = diary.tags.all()
 
-    #로그인 확인
-    user=request.user
-    login_check=user.is_authenticated
-    print(user.id,"id")
-    print(user.username,"이름")
+    # 로그인 확인
+    user = request.user
+    login_check = user.is_authenticated
+    print(user.id, "id")
+    print(user.username, "이름")
+
+    # 댓글 작성이 요청되었을때 댓글 달기
+    if request.method == "POST":
+        # 작성된 댓글
+        new_comment=request.POST["login_comment"]
+
+        # 댓글이 공백인데 누를 경우 패스
+        if len(new_comment)==0:
+            pass
+        else:
+            """
+            diary
+            author
+            content
+            """
+            check_title=diary
+            check_author=user.username
+            check_content=new_comment
+            """
+            diary=IT_Diary.objects.create(
+            title=title,
+            content=content,
+            """
+            print(diary,"다이어리")
+
+            # new_diary_comment=itdiary_Comment.objects.create(
+                # diary=check_title,
+                # author=check_author,
+                # content=check_content,
+            # )
+
     # 댓글 분류
-    diary_comment=itdiary_Comment.objects.all()
-    comment=[]
+    diary_comment = itdiary_Comment.objects.all()
+    comment = []
 
     for i in diary_comment:
-        if i.diary.title==diary.title:
-            comment.append([i.author,i.content])
+        if i.diary.title == diary.title:
+            comment.append([i.author, i.content])
 
     """
     if request.method=="POST":
@@ -403,12 +438,12 @@ def ITDiary_detail(request,itdiary_id):
             content=comment_content,
         )
     """
-    context={
-        "diary" : diary,
-        "tags" : tags,
-        "comments" : comment, # 저자, 댓글 확인
-        "login_check":login_check, #로그인 여부 확인
-        "user_name":user.username, # 현재 로그인 사용자
+    context = {
+        "diary": diary,
+        "tags": tags,
+        "comments": comment,  # 저자, 댓글 확인
+        "login_check": login_check,  # 로그인 여부 확인
+        "user_name": user.username,  # 현재 로그인 사용자
     }
 
     """
@@ -426,7 +461,8 @@ def ITDiary_detail(request,itdiary_id):
     }
     """
 
-    return render(request,"ITDiary_detail.html",context)
+    return render(request, "ITDiary_detail.html", context)
+
 
 #------------------------------------교체페이지 구성 부분--------------------------------------------------#
 # 임시 페이지

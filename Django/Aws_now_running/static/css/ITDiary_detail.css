@@ -239,6 +239,8 @@ main > #post_content{
 
 
  /*----------------- 메인 구역 끝 --------------------*/
+
+
 /*--------------- 댓글 구역 -------------------------*/
     /*
     <div id="comment">
@@ -280,15 +282,51 @@ main > #post_content{
 
     /* 플렉스 박스 방향성 설정 */
     flex-direction:column;
+}
+/* 로그인 후 댓글창 */
+#comment_text{
+    width:60vw;
+    height:50px;
+    letter-spacing:1px;
+    position:relative;
+    left:15px;
+}
+#comment_submit{
+    position:relative;
+    left:15px;
+    width:45px;
+    height:25px;
+}
 
-    background-color:white;
+/* 비로그인 댓글창 */
+#log_out_comment{
+/*    text-align:*/
+    width:60vw;
+    height:50px;
+    letter-spacing:1px;
+    position:relative;
+    left:15px;
+}
 
+#comment_login_buttion{
+    position:relative;
+    left:15px;
+    width:45px;
+    height:25px;
 }
 
 #comment >#comment_title{
-    font:bold 18px "Playball";
+    font:bold 22px "Playball";
+    >p {border-bottom: 1px solid black;
+
+    }
+
 }
 
+#comment_contents {
+    display:flex;
+    flex-direction:column;
+}
 
 
 
@@ -296,6 +334,7 @@ main > #post_content{
 
 
 /*----------------- 댓글 구역 끝 ------------------*/
+
 
 
 /*--------------마크 다운 디자인 설정--------------------------------------*/

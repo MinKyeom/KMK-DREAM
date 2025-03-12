@@ -122,33 +122,58 @@
         <div id="comment_title">
             <p>Comments</p>
         </div>
+        <br>
         <div id="add_comment">
             <!-- 로그인 여부 확인 후 보여주는 css 다름 -->
             {% if login_check %}
                 <div id="login">
+                    <li><strong>{{ user_name|upper }}</strong></li>
+                    <form method="post" enctype="multipart/form-data" >
+                        {% csrf_token %}
+                        <p>
+                            <input type="text" placeholder="원하시는 댓글을 남겨주세요" maxlength='300' id="comment_text" name="login_comment">
+                        </p>
+
+                        <div>
+                            <button type="submit" id="comment_submit">등록</button>
+                        </div>
+
+                    </form>
 
                 </div>
             {% else %}
                 <div id="log_out">
+                    <form>
+                        <p>
+                            <input type="text" placeholder="로그인 후 이용 가능한 서비스 입니다." maxlength='300' id="log_out_comment">
+                        </p>
+
+                        <div>
+                            <button type="submit" id="comment_login_buttion"><a href="https://mikysdailylife.com/users/login/">등록</a></button>
+                        </div>
+                    </form>
 
                 </div>
             {% endif %}
         </div>
-
+        <br>
         <!-- 차후 본인 댓글의 경우 수정하는 버튼 또한 나오게 출력 -->
         <div id="comment_contents">
             <!-- 작성자 -->
             {% for author,comment in comments %}
-                {{ author }}
-                {{ comment }}
+                <p>
+                    <li><strong>{{ author|upper }}</strong></li>
+                    &nbsp{{ comment }}
 
+                </p>
+
+                <br>
             {% endfor %}
             <!-- 댓글 내용 -->
 
         </div>
+
     </div>
-
-
 
 </body>
 

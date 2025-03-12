@@ -94,8 +94,7 @@ class IT_Diary(models.Model):
     def get_content_markdown(self): # 내용 띄우는 함수 추가
         return markdown(self.content)
 
-
-# Create your models here.
+# 댓글 영역
 
 # 포스트 댓글
 class Comment(models.Model):
@@ -122,3 +121,5 @@ class itdiary_Comment(models.Model):
 
     def __str__(self):
         return f"{self.author}::{self.diary.title}의 댓글 {self.content}"
+
+# Create your models here.

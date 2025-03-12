@@ -346,10 +346,10 @@ main > div > ul> li {
     /* >가 빠져서 적용안되는 문제*/
     > * {
 /*    font:bold 0.9rem "Kalam";*/
-        all: unset; /*모든 스타일 제거 후 재지정 */
+       all: unset; /*모든 스타일 제거 후 재지정 */
     }
 
-    a {
+    > a {
     all: unset;
     }
 
@@ -431,20 +431,20 @@ main > div > ul> li {
 
     font:bold 0.7rem "Kalam";
     /*font-size:0.9rem;*/
-    >#mark {
-    >* {
-    all: unset;
-    font:bold 0.7rem "Kalam"
-    }
+    > #mark {
+       > * {
+           all: unset;
+           font:bold 0.7rem "Kalam"
+           }
 
-    a {
+    >a {
     all: unset;
     }
 /*    display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
     -webkit-line-clamp: 3;*/
-        }
+      }
    }
 #author_tags {
     display:flex;
@@ -472,13 +472,13 @@ main > div > ul> li {
 }
 
 }
-
-@media all and (max-width: 700px){
+/*450보다 화면이 작을 떄 */
+@media all and (max-width: 450px) {
     #tags {
     display:none;
     }
-}
 
+}
 
 /*-----------------------------메인 구역 끝 ------------------------------------- */
 
@@ -498,6 +498,8 @@ main > div > ul> li {
 
 
 /*------------------페이지네이션 구역 끝----------------------------------*/
+
+
 
 
 /*post_add */
