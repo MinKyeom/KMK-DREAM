@@ -1,4 +1,8 @@
-# 내 풀이
+"""
+출처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/12985
+"""
+# 풀이 과정
 def solution(n, a, b):
     from collections import deque
     k = deque([a for a in range(1, n + 1)])

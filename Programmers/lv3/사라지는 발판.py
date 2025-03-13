@@ -2,7 +2,7 @@
 출처: 프로그래머스 코딩 테스트 연습,
 https://school.programmers.co.kr/learn/courses/30/lessons/92345
 """
-# 내 풀이
+# 풀이 과정
 
 # 조건
 # 발판 있는 곳 없는 곳 존재

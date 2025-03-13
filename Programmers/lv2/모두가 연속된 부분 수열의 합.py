@@ -1,4 +1,4 @@
-# 내 풀이
+# 풀이 과정
 def solution(sequence, k):
     a = 0
     b = 0

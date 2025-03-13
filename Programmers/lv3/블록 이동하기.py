@@ -2,7 +2,8 @@
 프로그래머스
 출처:https://school.programmers.co.kr/learn/courses/30/lessons/60063
 """
-# 내 풀이
+
+# 풀이 과정
 """
 bfs 
 """
