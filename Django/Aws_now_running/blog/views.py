@@ -378,8 +378,6 @@ def ITDiary_add(request):
 
 
 def ITDiary_detail(request,itdiary_id):
-
-
     diary = IT_Diary.objects.get(id=itdiary_id)
     print(diary.author)
     print(diary.updated_at)
@@ -416,11 +414,11 @@ def ITDiary_detail(request,itdiary_id):
             """
             print(diary,"다이어리")
 
-            # new_diary_comment=itdiary_Comment.objects.create(
-                # diary=check_title,
-                # author=check_author,
-                # content=check_content,
-            # )
+            new_diary_comment=itdiary_Comment.objects.create(
+                diary=check_title,
+                author=user,
+                content=check_content,
+            )
 
     # 댓글 분류
     diary_comment = itdiary_Comment.objects.all()
