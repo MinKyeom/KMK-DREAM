@@ -1,4 +1,8 @@
-# 내 풀이
+"""
+출처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/181188
+"""
+# 풀이 과정
 def solution(targets):
     targets.sort(key=lambda x: x[1])
     target = 0

@@ -2,7 +2,7 @@
 출처:프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/42861
 """
-# 내 풀이
+# 풀이 과정
 # 삼각형 변의 길이 조건 생각 크루스칼 알고리즘
 
 from collections import defaultdict
