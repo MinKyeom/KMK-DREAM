@@ -3,7 +3,7 @@
 https://school.programmers.co.kr/learn/courses/30/lessons/17678
 """
 
-# 내 풀이
+# 풀이 과정
 """
 셔틀 운행 횟수 n 
 셔틀 운행 간격 t 
