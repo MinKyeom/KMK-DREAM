@@ -1,4 +1,4 @@
-# 내 풀이
+# 풀이 과정
 # 선택하지 않는 경우의 수 추가 후 그걸 제외!!
 def solution(clothes):
     from itertools import combinations
