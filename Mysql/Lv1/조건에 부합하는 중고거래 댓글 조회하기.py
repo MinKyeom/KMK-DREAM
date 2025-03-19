@@ -2,6 +2,34 @@
 출처:프로그래머스,
 https://school.programmers.co.kr/learn/courses/30/lessons/164673
 """
+"""
+부족한 부분과 생각들
+두 가지 데이터 테이블을 가져오기 방법,
+select,from,where,group by, having, order by, limit 쓰임새와 의미 정확하게 파악하기
+"""
+# 풀이과정_개선 중
+"""
+# 원하는 정보:Select
+SELECT TITLE,USED_GOODS_BOARD.BOARD_ID,REPLY_ID,USED_GOODS_BOARD.WRITER_ID,USED_GOODS_BOARD.CONTENTS,USED_GOODS_BOARD.CREATED_DATE
+
+# 테이블 이름
+FROM USED_GOODS_BOARD,USED_GOODS_REPLY
+
+# 조건식
+WHERE USED_GOODS_BOARD.CREATED_DATE LIKE '2022-10%'
+
+# 열 이름
+# GROUP BY 
+
+# 조건식
+# HAVING
+
+# 열_이름 
+# ORDER BY
+
+# 숫자
+# LIMIT
+"""
 
 # 풀이과정_개선 중
 """
