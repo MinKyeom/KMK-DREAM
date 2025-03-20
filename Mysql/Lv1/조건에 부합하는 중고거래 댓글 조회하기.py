@@ -6,7 +6,10 @@ https://school.programmers.co.kr/learn/courses/30/lessons/164673
 부족한 부분과 생각들
 두 가지 데이터 테이블을 가져오기 방법,
 select,from,where,group by, having, order by, limit 쓰임새와 의미 정확하게 파악하기
+각각의 어법을 단순하게 응용하기 위해 세부적으로 쓰이는 것에 대한 이해와 함께
+여럭 가지 방향성에서의 풀이를 검토하기
 """
+
 # 풀이과정_개선 중
 """
 # 원하는 정보:Select
@@ -57,4 +60,16 @@ FROM USED_GOODS_BOARD UGB
 JOIN USED_GOODS_REPLY UGR ON UGB.BOARD_ID = UGR.BOARD_ID
 WHERE YEAR(UGB.CREATED_DATE) = '2022' AND MONTH(UGB.CREATED_DATE)='10'
 ORDER BY UGR.CREATED_DATE ASC, UGB.TITLE ASC;
+"""
+
+#3
+"""
+-- 코드를 입력하세요
+SELECT B.TITLE, B.BOARD_ID, R.REPLY_ID, R.WRITER_ID, R.CONTENTS, 
+DATE_FORMAT(R.CREATED_DATE,"%Y-%m-%d") AS CREATED_DATE
+FROM USED_GOODS_BOARD AS B  
+INNER JOIN USED_GOODS_REPLY AS R 
+ON B.BOARD_ID = R.BOARD_ID 
+WHERE MONTH(B.CREATED_DATE) = 10
+ORDER BY R.CREATED_DATE ASC,  B.TITLE ASC;
 """
