@@ -1,4 +1,8 @@
-# 내 풀이
+"""
+출처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/86971
+"""
+# 풀이 과정
 # 네트워크 2개로 분활 (나누어진 송전탑 개수 거의 비슷하게!)
 # 목표 나누어진 송전탑들의 차이를  return
 
