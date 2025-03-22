@@ -3,7 +3,7 @@
 https://school.programmers.co.kr/learn/courses/30/lessons/70130
 """
 
-# 내 풀이
+# 풀이 과정
 """
 생각방향
 # 부분수열의 모든 경우의 수를 비트마스크로 나타낸 후 스타수열 거르기
