@@ -1,0 +1,193 @@
+{% load markdown_deux_tags %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="{% static 'css/codereview_detail.css' %}">
+    <link rel="icon" href="{% static 'img/favicon.ico' %}"  type="image/x-icon">
+    <!-- 플랙서블 박스 아래 2줄 추가 후 작동되었다 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playball&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap');
+    </style>
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
+</head>
+<body>
+    <!-- 내가 제작한 헤더 -->
+    <header>
+        <!-- 메뉴 드롭 다운 -->
+        <label>
+            <input id="check" type="checkbox" style="display:none;">
+            <!-- 드롭 다운 메뉴 시작 포인트 제작 시작 -->
+            <div id="menu">
+                <!--드롭 다운 메뉴 닫는 버튼-->
+                <div id="menu_close">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                    </svg>
+                </div>
+
+                <!-- 드롭 다운 메뉴 여는 버튼 -->
+                <div id="menu_open">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                    </svg>
+                </div>
+
+                <!--드롭 다운 메뉴판 -->
+                <div id="menu_board">
+                    <ul>
+                        <div id="in_menu">
+                            <div id="menu_list"><strong>MENU</strong></div>
+                        </div>
+
+                        <li>
+                            <a href="http://mikysdailylife.com/">Home</a>
+                        </li>
+
+                        <li>
+                            <a href="http://mikysdailylife.com/posts">Code_Ps</a>
+                        </li>
+
+                        <li>
+                            <a href="http://mikysdailylife.com/itdiary/">IT_Diary</a>
+                        </li>
+
+                        <li>
+                            <a href="http://mikysdailylife.com/update/">Update_note</a>
+                        </li>
+
+                        <li>
+                            <a href="http://mikysdailylife.com/minkyeom">GitHub</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </label>
+        <div id="title_box">
+            <div id="post_title">
+                <p id="playball-regular">{{ diary.title }}</p>
+            </div>
+        </div>
+        <!-- 검색 하는 부분 제거 -->
+        <!-- login 메뉴판 제작 가려지기 편하게-->
+        <div id="login_check">
+            <a  href="http://mikysdailylife.com/users/login/">
+                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                </svg>
+            </a>
+        </div>
+    </header>
+    <!-- --------------------------------헤더 부분 끝----------------------------------------------------------->
+
+    <video src="{% static 'video/dailylife.mp4' %}" muted autoplay loop>
+    </video>
+
+    <!-- main 영영 시작 -->
+    <main>
+        <div id="post_author">
+            <strong>Posted by {{ diary.author|upper }}</strong>
+            &nbsp {{ diary.created_at|date:'Y-m-d'  }}
+        </div>
+
+        <br>
+
+        <div id="post_tags">
+            {% for tag in tags %}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
+                    <path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/>
+                    <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1z"/>
+                </svg>
+                {{ tag }}
+                &nbsp
+            {% endfor %}
+        </div>
+
+        <div id="post_content">
+            <pre><strong>{{ diary.get_content_markdown|safe}}</strong></pre>
+        </div>
+
+    </main>
+
+    <!-- 댓글 기능 구현 -->
+
+    <div id="comment">
+        <div id="comment_title">
+            <p>Comments</p>
+        </div>
+        <br>
+        <div id="add_comment">
+            <!-- 로그인 여부 확인 후 보여주는 css 다름 -->
+            {% if login_check %}
+                <div id="login">
+                    <li><strong>{{ user_name|upper }}</strong></li>
+<!--                    <form method="post" action="{{diary.get_absolute_url}}new_comment/" >-->
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <p>
+                            <input type="text" placeholder="원하시는 댓글을 남겨주세요" maxlength='300' id="comment_text" name="login_comment">
+                        </p>
+
+                        <div>
+                            <button type="submit" id="comment_submit">등록</button>
+                        </div>
+
+                    </form>
+
+                </div>
+            {% else %}
+                <div id="log_out">
+                    <form>
+                        <p>
+                            <input type="text" placeholder="로그인 후 이용 가능한 서비스 입니다." maxlength='300' id="log_out_comment">
+                        </p>
+
+                        <div>
+                            <button type="submit" id="comment_login_buttion"><a href="https://mikysdailylife.com/users/login/">등록</a></button>
+                        </div>
+                    </form>
+
+                </div>
+            {% endif %}
+        </div>
+        <br>
+        <!-- 차후 본인 댓글의 경우 수정하는 버튼 또한 나오게 출력 -->
+        <div id="comment_contents">
+            <!-- 작성자 -->
+            {% for author,comment in comments %}
+                <p>
+                    <li><strong>{{ author|upper }}</strong></li>
+                    &nbsp{{ comment }}
+
+                </p>
+
+                <br>
+            {% endfor %}
+            <!-- 댓글 내용 -->
+
+        </div>
+
+    </div>
+
+</body>
+
+<body>
+
+    <!--
+    <main>
+        <div id="post_content">
+            <pre><strong>{{ diary.content | safe | markdown }}</strong></pre>
+        </div>
+    </main>
+    -->
+
+</body>
+
+</html>
