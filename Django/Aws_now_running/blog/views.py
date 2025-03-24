@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from blog.models import Post,Comment,Update_note,IT_Diary,Tag,itdiary_Comment
+from blog.models import Post,Comment,Update_note,IT_Diary,Tag,itdiary_Comment,code_review,code_review_comment
 from collections import defaultdict
 from blog.forms import LoginForm,MyForm
 from django.contrib.auth import authenticate,login,logout
@@ -461,6 +461,96 @@ def ITDiary_detail(request,itdiary_id):
 
     return render(request, "ITDiary_detail.html", context)
 
+# 알고리즘 및 여러 언어 코드 리뷰 페이지 만들기
+def code_review_page(request,code_review_id):
+    code = code_review.objects.get(id=code_review_id)
+    tags = code.tags.all()
+
+    # 로그인 확인
+    user = request.user
+    login_check = user.is_authenticated
+
+    # 댓글 작성이 요청되었을때 댓글 달기
+    if request.method == "POST":
+        # 작성된 댓글
+        new_comment=request.POST["login_comment"]
+
+        # 댓글이 공백인데 누를 경우 패스
+        if len(new_comment)==0:
+            pass
+        else:
+            check_title=code
+            check_author=user.username
+            check_content=new_comment
+
+            new_diary_comment=code_review_comment.objects.create(
+                code_title=check_title,
+                author=user,
+                content=check_content,
+            )
+
+    # 댓글 분류
+    code_comment = code_review_comment.objects.all()
+    comment = []
+
+    for i in code_comment:
+        if i.code_title.title == code.title:
+            comment.append([i.author, i.content])
+
+    context = {
+        "diary": code,
+        "tags": tags,
+        "comments": comment,  # 저자, 댓글 확인
+        "login_check": login_check,  # 로그인 여부 확인
+        "user_name": user.username,  # 현재 로그인 사용자
+    }
+
+    return render(request,"code_review_detail.html",context)
+
+def codereview_list(request):
+
+    keyword = request.GET.get("search")
+    diary = code_review.objects.all().order_by("-id")
+    user = request.user
+    login_check = user.is_authenticated
+
+    new = []
+    if keyword is not None:
+        for k in diary:
+            if keyword in k.content or keyword in k.title:
+                new.append(k)
+
+        # 페이지 항목 추가
+        # 페이지당 보여줄 목록 개수
+        paginator = Paginator(new, 10)
+        now_page_number = request.GET.get("page", 1)
+        page_list = paginator.get_page(now_page_number)
+        tags=new.tags.all()
+
+
+        context = {
+            "page": paginator,
+            "diary": new,
+            "user": login_check,
+            "page_list": page_list,
+            "keyword": keyword,
+        }
+
+    else:
+        # 페이지 항목 추가
+        paginator = Paginator(diary, 10)
+        now_page_number = request.GET.get("page", 1)
+        page_list = paginator.get_page(now_page_number)
+
+        context = {
+            "page": paginator,
+            "posts": diary,
+            "user": login_check,
+            "page_list": page_list,
+            "keyword": keyword,
+        }
+
+    return render(request, "codereview_list.html", context)
 
 #------------------------------------교체페이지 구성 부분--------------------------------------------------#
 # 임시 페이지

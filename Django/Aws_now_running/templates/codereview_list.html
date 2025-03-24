@@ -4,7 +4,7 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="{% static 'css/update_list.css' %}">
+    <link rel="stylesheet" href="{% static 'css/codereview_list.css' %}">
     <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}"  type="image/x-icon">
     <link rel="icon" href="{% static 'img/favicon.ico' %}"  type="image/x-icon">
     <!-- 플랙서블 박스 아래 2줄 추가 후 작동되었다 -->
@@ -16,6 +16,8 @@
         @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap');
     </style>
     <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
+    <title>Miky's ITDaily_list</title>
+
 </head>
 
 <body>
@@ -51,7 +53,7 @@
                         </li>
 
                         <li>
-                            <a href="http://mikysdailylife.com/posts/">Simple_Problem Solving</a>
+                            <a href="http://mikysdailylife.com/posts">Simple_Problem Solving</a>
                         </li>
 
                         <li>
@@ -76,7 +78,7 @@
         </label>
 
         <div id="logo">
-            <p id="playball-regular">Update_note</p>
+            <p id="playball-regular">PS</p>
         </div>
 
         <!-- search 메뉴판 제작-->
@@ -141,34 +143,68 @@
         </div>
     </header>
 
-    <video src="{% static 'video/coffee.mp4' %}" muted autoplay loop>
+    <!-- 바탕화면 배경 -->
+    <video src="{% static 'video/sun.mp4' %}" muted autoplay loop>
     </video>
 
     <main>
         <div id="posts">
             <ul id="posts_list">
-                {% for update in lists %}
+                {% for diary in page_list %}
                     <li>
                         <!-- 전체 포스트를 묶음 -->
                         <div id="all_post">
 
                             <div id="all_content">
-                                <div id="post_title"> <a href="/update/{{ update.id }}"> <strong>{{ update.title }}</strong> </a> </div>
+                                <div id="post_title"> <a href="/codereview/{{ diary.id }}"> <strong>{{ diary.title }}</strong> </a> </div>
                                 <div id="post_content">
                                     <div id="post_contents">
-                                        {{ update.content }}
+                                        <div id="mark">{{ diary.get_content_markdown|safe}}</div>
+                                    </div>
+                                    <br>
+                                    <div id="author_tags">
+                                        &nbsp
+                                        {{ diary.created_at|date:'Y-m-d'  }}
+                                        Posted by
+                                        {{ diary.author|upper }}
+                                        &nbsp
+
+                                        <div id="tags">
+                                            {% if diary.tags.all.count > 3 %}
+                                                {% for tag in diary.tags.all|slice:"0:3" %}
+                                                    &nbsp
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
+                                                        <path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/>
+                                                        <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1z"/>
+                                                    </svg>
+                                                    {{tag}}
+                                                {% endfor %}
+                                                ...
+                                            {% else %}
+                                                {% for tag in diary.tags.all|slice:"0:3" %}
+                                                    &nbsp
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
+                                                        <path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/>
+                                                        <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1z"/>
+                                                    </svg>
+                                                    {{tag}}
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
-                            <!-- 차후 썸네일 추가 시 post 부분 update로 변경 !!-->
+
                             <div id="post_img">
-                                {% if post.thumbnail %}
-                                    <img src="{{ post.thumbnail.url }}" alt="">
+                                {% if diary.thumbnail %}
+                                    <img src="{{ diary.thumbnail.url }}" alt="">
                                 {% else %}
                                     <div id="no-img"></div>
                                 {% endif %}
                             </div>
                         </div>
+                        <!-- 저자 및 작성일자, 태그 ,댓글 개수 추가 여부-->
                         <!--
                         <div id="post_comments">
                             <ul>
@@ -181,6 +217,7 @@
                         </div>
                         -->
                     </li>
+                    <br>
                 {% empty %}
                     <li><strong>검색결과가 없습니다</strong></li>
                 {% endfor %}

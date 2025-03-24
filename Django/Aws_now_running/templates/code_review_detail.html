@@ -1,14 +1,16 @@
+{% load markdown_deux_tags %}
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="{% static 'css/update_detail.css' %}">
-    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}"  type="image/x-icon">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="{% static 'css/codereview_detail.css' %}">
     <link rel="icon" href="{% static 'img/favicon.ico' %}"  type="image/x-icon">
     <!-- 플랙서블 박스 아래 2줄 추가 후 작동되었다 -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1,maximum-scale=1,user-scalable=no">
-
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playball&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap');
@@ -49,7 +51,7 @@
                         </li>
 
                         <li>
-                            <a href="http://mikysdailylife.com/posts/">Simple_Problem Solving</a>
+                            <a href="http://mikysdailylife.com/posts">Simple_Problem Solving</a>
                         </li>
 
                         <li>
@@ -65,7 +67,7 @@
                         </li>
 
                         <li>
-                            <a href="https://github.com/minkyeom">GitHub</a>
+                            <a href="http://mikysdailylife.com/minkyeom">GitHub</a>
                         </li>
                     </ul>
                 </div>
@@ -74,7 +76,7 @@
         </label>
         <div id="title_box">
             <div id="post_title">
-                <p id="playball-regular">{{ lists.title }}</p>
+                <p id="playball-regular">{{ diary.title }}</p>
             </div>
         </div>
         <!-- 검색 하는 부분 제거 -->
@@ -87,51 +89,109 @@
             </a>
         </div>
     </header>
-    <!-- ----------------------------헤더 부분 끝------------------------ -->
+    <!-- --------------------------------헤더 부분 끝----------------------------------------------------------->
 
-    <video src="{% static 'video/river.mp4' %}" muted autoplay loop>
+    <video src="{% static 'video/dailylife.mp4' %}" muted autoplay loop>
     </video>
 
     <!-- main 영영 시작 -->
     <main>
+        <div id="post_author">
+            <strong>Posted by {{ diary.author|upper }}</strong>
+            &nbsp {{ diary.created_at|date:'Y-m-d'  }}
+        </div>
+
+        <br>
+
+        <div id="post_tags">
+            {% for tag in tags %}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
+                    <path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/>
+                    <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1z"/>
+                </svg>
+                {{ tag }}
+                &nbsp
+            {% endfor %}
+        </div>
+
         <div id="post_content">
-            <pre><strong>{{ lists.content|linebreaksbr}}</strong></pre>
+            <pre><strong>{{ diary.get_content_markdown|safe}}</strong></pre>
         </div>
 
     </main>
 
-    <!-- 메인 영역 끝 -->
+    <!-- 댓글 기능 구현 -->
 
+    <div id="comment">
+        <div id="comment_title">
+            <p>Comments</p>
+        </div>
+        <br>
+        <div id="add_comment">
+            <!-- 로그인 여부 확인 후 보여주는 css 다름 -->
+            {% if login_check %}
+                <div id="login">
+                    <li><strong>{{ user_name|upper }}</strong></li>
+<!--                    <form method="post" action="{{diary.get_absolute_url}}new_comment/" >-->
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <p>
+                            <input type="text" placeholder="원하시는 댓글을 남겨주세요" maxlength='300' id="comment_text" name="login_comment">
+                        </p>
 
+                        <div>
+                            <button type="submit" id="comment_submit">등록</button>
+                        </div>
 
-    <!--
-    <div id="post-detail">
-        <p id="kalam-regular" style="font-size:16px;"><strong>{{ post.content|linebreaksbr}}</strong></p>
-        <ul class="comments">
-            {% for comment in post.comment_set.all %}
-                <li class="comment">{{ comment.content }}</li>
-            {% empty %}
-                <li class="comment-empty" 아직 댓글이 없습니다</li>
+                    </form>
+
+                </div>
+            {% else %}
+                <div id="log_out">
+                    <form>
+                        <p>
+                            <input type="text" placeholder="로그인 후 이용 가능한 서비스 입니다." maxlength='300' id="log_out_comment">
+                        </p>
+
+                        <div>
+                            <button type="submit" id="comment_login_buttion"><a href="https://mikysdailylife.com/users/login/">등록</a></button>
+                        </div>
+                    </form>
+
+                </div>
+            {% endif %}
+        </div>
+        <br>
+        <!-- 차후 본인 댓글의 경우 수정하는 버튼 또한 나오게 출력 -->
+        <div id="comment_contents">
+            <!-- 작성자 -->
+            {% for author,comment in comments %}
+                <p>
+                    <li><strong>{{ author|upper }}</strong></li>
+                    &nbsp{{ comment }}
+
+                </p>
+
+                <br>
             {% endfor %}
-        </ul>
-        <form method="POST">
-            {% csrf_token %}
-            <textarea placeholder="If you have any questions or comments, please feel free to let me know." name="comment"></textarea>
-            <button type="submit" class="btn btn-primary">댓글 작성</button>
-        </form>
-    </div>
-    -->
-    <!-- 글 수정 및 삭제 구성 10_23-->
+            <!-- 댓글 내용 -->
 
-    <!--
-    클릭시 데이터 전달 후 해당 페이지 삭제 및 수정 작업을 admin을 거치지 않고 바로 할 수 있게 하는 방법 생각해보기
-    -->
+        </div>
 
-    <!--
-    <div style="float: right;">
-        <a href="../../users/login" ><button class="btn btn-primary" >수정</button> </a>
-        <a href="../../users/login" ><button class="btn btn-primary" >삭제</button> </a>
     </div>
-    -->
+
 </body>
+
+<body>
+
+    <!--
+    <main>
+        <div id="post_content">
+            <pre><strong>{{ diary.content | safe | markdown }}</strong></pre>
+        </div>
+    </main>
+    -->
+
+</body>
+
 </html>

@@ -83,7 +83,7 @@ class IT_Diary(models.Model):
     thumbnail = models.ImageField("썸네일 이미지", upload_to="Diary", blank=True)
 
     #작성 시간,최종 수정 시간 저장
-    created_at=models.DateTimeField(auto_now=True)
+    created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
 
     # 작성자 모델 추가
@@ -121,5 +121,44 @@ class itdiary_Comment(models.Model):
 
     def __str__(self):
         return f"{self.author}::{self.diary.title}의 댓글 {self.content}"
+
+# 코드 리뷰 모델 만들기
+class code_review(models.Model):
+    title=models.CharField("제목",max_length=100)
+    content=MarkdownxField("내용")
+
+    """
+    on_delete=models.CSASCADE:작성자 삭제 시 이 포스트 삭제
+    on_delete=models.SET_NULL:작성자가 삭제 시 null로 변경
+    """
+
+    author =models.ForeignKey(User,null=True ,on_delete=models.SET_NULL)
+    category=models.ForeignKey(Category, null=True,blank=True ,on_delete=models.SET_NULL)
+    tags = models.ManyToManyField(Tag, blank=True)
+    thumbnail = models.ImageField("썸네일 이미지", upload_to="Diary", blank=True)
+
+    #작성 시간,최종 수정 시간 저장
+    created_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now=True)
+
+    # 작성자 모델 추가
+    def __str__(self):
+        return f'[{self.pk}]{self.title}::{self.author}'
+
+    def get_content_markdown(self): # 내용 띄우는 함수 추가
+        return markdown(self.content)
+
+# 코드 리뷰 페이지 댓글
+class code_review_comment(models.Model):
+    # 댓글의 경우 사용자 삭제 시 댓글 삭제
+    code_title = models.ForeignKey(code_review, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    content = models.TextField("댓글 내용",max_length=300)
+    # 기존에 존재하던 댓글 떄문에 null=True를 설정안할시 오류 발생
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.author}::{self.code_title.title}의 댓글 {self.content}"
 
 # Create your models here.
