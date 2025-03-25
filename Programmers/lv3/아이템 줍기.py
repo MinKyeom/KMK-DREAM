@@ -2,7 +2,7 @@
 출처: 프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/87694
 """
-# 내 풀이
+# 풀이 과정
 """
 사각형들의 모든 점들을 알아낸 후 주어진 점을 이동시키는 것을 실행
 

@@ -1,4 +1,9 @@
-# 내 풀이
+"""
+출처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/42860
+"""
+
+# 풀이 과정
 # 틀린 이유 pop을 해버리면 도중에 다른 곳으로 이동할 때 A로 변한 부분을 거쳐갈 때 거리 커서 계산이 안됨
 # 좌우 이동을 dfs로 풀이
 # dfs

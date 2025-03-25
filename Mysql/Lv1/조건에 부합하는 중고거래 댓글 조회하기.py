@@ -2,6 +2,36 @@
 출처:프로그래머스,
 https://school.programmers.co.kr/learn/courses/30/lessons/164673
 """
+# 내 풀이 과정
+"""
+# 원하는 정보:Select 필요한 정보: 게시글 제목, 게시글 ID, 댓글 ID, 댓글 작성자 ID, 댓글 내용, 댓글 작성일
+SELECT TITLE,USED_GOODS_BOARD.BOARD_ID,REPLY_ID,USED_GOODS_REPLY.WRITER_ID,USED_GOODS_REPLY.CONTENTS,DATE_FORMAT(USED_GOODS_REPLY.CREATED_DATE, '%Y-%m-%d') CREATED_DATE 
+
+# 테이블 이름 내부 조인으로 두 개의 테이블 합치기 board_id를 기준으로 합치기
+FROM USED_GOODS_BOARD
+    Inner join USED_GOODS_REPLY
+    On USED_GOODS_BOARD.BOARD_ID=USED_GOODS_REPLY.BOARD_ID
+    
+# 조건식
+# % 이후는 아무거나 와도 상관없다는 의미
+WHERE USED_GOODS_BOARD.CREATED_DATE LIKE '2022-10%'
+
+# 댓글 작성일 기준으로 한 후 > 게시물 제목 기준으로 
+order by USED_GOODS_REPLY.CREATED_DATE, TITLE 
+
+# 열 이름
+# GROUP BY 
+
+# 조건식
+# HAVING
+
+# 열_이름 
+# ORDER BY
+
+# 숫자
+# LIMIT
+"""
+
 """
 부족한 부분과 생각들
 두 가지 데이터 테이블을 가져오기 방법,
