@@ -3,7 +3,7 @@
 https://school.programmers.co.kr/learn/courses/30/lessons/12927
 """
 
-# 내 풀이
+# 풀이 과정
 import heapq
 
 
