@@ -1,4 +1,9 @@
-# 내 풀이
+"""
+출처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/138475
+"""
+
+# 풀이 과정
 # point:약수의 개수를 효율적으로 구하는 방식에 대하여 고민해서 풀기
 
 # 약수의 개수로 구할 수 있다

@@ -1,4 +1,8 @@
-# 내 풀이
+"""
+출처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/92341
+"""
+# 풀이 과정
 def solution(fees, records):
     # records:시각 차량 번호 내역
     # fees:주차 요금
