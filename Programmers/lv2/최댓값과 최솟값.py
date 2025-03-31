@@ -1,4 +1,9 @@
-# 내 풀이
+"""
+출처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/12939
+
+"""
+# 풀이 과정
 def solution(s):
     k=s.split(" ")
     k=list(map(int,k))
