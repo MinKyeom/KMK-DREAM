@@ -3,7 +3,7 @@
 https://school.programmers.co.kr/learn/courses/30/lessons/43164
 """
 
-# 내 풀이
+# 풀이 과정
 from collections import deque
 
 
