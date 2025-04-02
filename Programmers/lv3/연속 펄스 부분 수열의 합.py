@@ -1,4 +1,9 @@
-# 내 풀이
+"""
+출처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/161988
+"""
+
+# 풀이 과정
 # 이분탐색 접근 생각(오름차순이 아니라 활용x)
 # 두 개의 펄스를 만든 후 차례대로 각각 더해가다 만약 -를 간다면 0으로 초기화 후 매 순간 최댓값이 바뀌는지 체크하는 구조로 확인
 def solution(sequence):
