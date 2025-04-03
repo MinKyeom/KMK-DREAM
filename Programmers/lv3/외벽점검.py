@@ -2,7 +2,8 @@
 출처:프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/60062
 """
-# 내 풀이
+
+# 풀이 과정
 """
 1시간 
 보내야 할 친구 수
