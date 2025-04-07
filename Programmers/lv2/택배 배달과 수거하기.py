@@ -1,4 +1,8 @@
-# 내 풀이
+"""
+출처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/150369
+"""
+# 풀이 과정
 def solution(cap, n, deliveries, pickups):
     # 택배 배달 후 빈 택배 상자 수거
     # cap:담을 수 있는 최대 상자 개수

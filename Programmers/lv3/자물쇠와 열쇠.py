@@ -4,7 +4,7 @@ https://school.programmers.co.kr/learn/courses/30/lessons/60059
 """
 # 포인트 사고: 자물쇠의 위치를 바꿈과 동시에 열쇠를 이동시키는 아이디어!
 
-# 내 풀이
+# 풀이 과정
 board = []
 import copy
 
