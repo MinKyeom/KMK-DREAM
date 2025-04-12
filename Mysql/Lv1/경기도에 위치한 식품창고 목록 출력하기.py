@@ -4,15 +4,17 @@ https://school.programmers.co.kr/learn/courses/30/lessons/131114
 """
 
 """
-SELECT
-    WAREHOUSE_ID, WAREHOUSE_NAME, ADDRESS,
-        CASE
-            when FREEZER_YN is not null then FREEZER_YN
-
+SELECT WAREHOUSE_ID,WAREHOUSE_NAME,ADDRESS,
+    CASE 
+        when FREEZER_YN is not null then FREEZER_YN
+        
         else "N"
-
-        END
-        "FREEZER_YN"
+        
+    END "FREEZER_YN"
 
 from FOOD_WAREHOUSE
+
+where WAREHOUSE_NAME like "창고_경기%"
+
+order by WAREHOUSE_ID asc
 """
