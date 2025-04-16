@@ -1,4 +1,8 @@
-# 내 풀이
+"""
+출처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/17679
+"""
+# 풀이 과정
 # idea: 첫번쨰로 지워지는 블록 제거 후 재배열 후 다시 블록 제거 반복!
 def solution(m, n, board):
     from collections import deque
