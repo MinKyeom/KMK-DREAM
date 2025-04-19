@@ -2,7 +2,7 @@
 출처 프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/12942
 """
-# 내 풀이
+# 풀이 과정
 def solution(matrix_sizes):
     m = matrix_sizes
 

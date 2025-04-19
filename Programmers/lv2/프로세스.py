@@ -1,4 +1,8 @@
-# 내 풀이
+"""
+출처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/42587
+"""
+# 풀이 과정
 # 숫자가 클수록 우선순위가 높다!
 from collections import deque
 
