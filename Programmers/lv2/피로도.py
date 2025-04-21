@@ -1,4 +1,8 @@
-# 내 풀이
+"""
+출처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/87946
+"""
+# 플이 과정
 def solution(k, dungeons):
     # 목표: 최대 던전 수
     """
