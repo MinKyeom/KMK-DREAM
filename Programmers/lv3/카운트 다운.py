@@ -2,7 +2,7 @@
 출처: 프로그래머스 코딩 테스트 연습,
 https://school.programmers.co.kr/learn/courses/30/lessons/131129
 """
-#
+# 풀이 과정
 # 점수를 깎아서 0점으로 만듬 단, 남은 점수보다 큰 점수로 득점하면 버스트 후 실격
 
 # 조건:

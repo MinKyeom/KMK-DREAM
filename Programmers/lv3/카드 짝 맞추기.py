@@ -2,6 +2,7 @@
 출처: 프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/72415
 """
+
 # 풀이 과정
 """
 조작횟수: enter+방향키
