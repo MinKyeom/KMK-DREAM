@@ -1,4 +1,10 @@
-# 내 풀이
+
+"""
+출처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/155651
+"""
+
+# 풀이 과정
 def solution(book_time):
     import heapq
     book_time.sort(key=lambda x: (x[0].split(":")))
