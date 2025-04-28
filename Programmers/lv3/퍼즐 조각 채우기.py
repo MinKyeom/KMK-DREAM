@@ -2,7 +2,7 @@
 출처:프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/84021
 """
-# 내 풀이
+# 풀이 과정
 """
 조건:
 1회에 1번
