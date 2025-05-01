@@ -3,7 +3,7 @@
 https://school.programmers.co.kr/learn/courses/30/lessons/81303
 """
 
-# 내 풀이
+# 풀이 과정
 """
 # 비슷한 문제 존재 연관짓기 think
 # 조건
