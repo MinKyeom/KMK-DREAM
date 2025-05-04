@@ -2,7 +2,7 @@
 출처: 프로그래머스
 https://school.programmers.co.kr/learn/courses/30/lessons/68646
 """
-# 내 풀이
+# 풀이 과정
 """
 맨 끝에 두 개는 항상 살아남음 
 """

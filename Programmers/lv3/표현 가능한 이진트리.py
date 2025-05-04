@@ -1,4 +1,8 @@
-# 내 풀이
+"""
+출처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/150367
+"""
+# 풀이 과정
 # 왼쪽 자식 노드가 1일때 오른쪽 노드는 반드시 1이고,부모노드 또한 1이어야한다 이걸 바탕으로 확인해야한다
 from collections import deque
 
