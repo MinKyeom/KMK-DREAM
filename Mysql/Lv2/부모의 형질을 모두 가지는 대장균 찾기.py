@@ -2,6 +2,15 @@
   출처:프로그래머스,
   https://school.programmers.co.kr/learn/courses/30/lessons/301647
   """
+  # 풀이 과정_개선 중
+  """
+  -- bin(): 이진법 변환 -- 
+  select A.ID,A.GENOTYPE,A.PARENT_ID "PARENT_GENOTYPE"
+  from ECOLI_DATA A, ECOLI_DATA B
+  where A.PARENT_ID = B.ID
+  and A.GENOTYPE & B.GENOTYPE = B.GENOTYPE
+  order by A.ID
+  """
   #풀이 과정_개선 중
   """
   -- bin(): 이진법 변환 -- 
