@@ -1,0 +1,43 @@
+  """
+  출처:프로그래머스,
+  https://school.programmers.co.kr/learn/courses/30/lessons/389480
+  """
+  
+# 풀이과정_개선 중
+  """
+info A도둑이 훔치면 인덱스 0이 흔적이 남는다
+info B도둑이 훔치면 인덱스 1이 흔적이 남는다
+
+목표:A도둑이 경찰에 붙잡히는 최소 흔적 개수의 최솟값
+
+> 매 순간 둘 중 하나가 훔치면서 목적이 달성되는 순간의 A의 값을 내면 된다
+> bfs로 각 두 가지 경우를 q에 넣고 매 q마다 둘 중 하나를 잡히는 경우를 제외하면서 진행하면 된다
+> heapq로 a가 항상 최소가 되는 값부터 뽑아서 쓰는 방법도 존재한다
+
+물건 모두 가져가는 상황 자체가 불가능한 경우는 -1 리턴
+"""
+from collections import deque
+
+def solution(info, n, m):
+    q=deque([ [0,0] ])    
+    check=deque([info])
+    
+    result=[]
+    
+    while check:
+        # 감당해야할 리스크
+        da,db=check.popleft()
+        
+        # 리스크를 감당했을 때의 위험도 담는 곳
+        new_q=[]
+        print(da,db)
+        break
+        while q:
+            a,b=q.popleft()
+            
+            if a>=n or b>=m:
+                continue
+            else:
+                continue
+    
+    return -1 if len(result) = 0 else min(result)
