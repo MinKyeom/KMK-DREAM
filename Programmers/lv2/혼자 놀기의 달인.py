@@ -1,4 +1,9 @@
-# 내 풀이
+"""
+출처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/131130
+"""
+
+# 풀이 과정
 def solution(cards):
     result = []
     for k in range(len(cards)):  # k는 처음 박스 번호

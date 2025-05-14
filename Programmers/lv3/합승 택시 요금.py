@@ -3,7 +3,7 @@
 https://school.programmers.co.kr/learn/courses/30/lessons/72413
 """
 
-# 내 풀이
+# 풀이 과정
 """
 생각방향: 다익스트라 알고리즘 
 각각으로 구하는것과 개별로 구하는 것 중 최소값으로 구하기
