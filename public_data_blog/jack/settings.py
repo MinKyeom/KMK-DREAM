@@ -37,7 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # rest_framework 모듈 추가
     'rest_framework',
+    # 회원 가입 관련 앱 추가
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -119,3 +122,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# 추가 된 영역 시작점
+
+# rest_frame_work 회원가입 토큰 생성 
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [ 
+#         'rest_framework.authentication.TokenAuthentication',]
+# }
+
+# LANGUAGE_CODE='en-us'
