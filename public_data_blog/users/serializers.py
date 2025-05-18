@@ -16,7 +16,7 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
 #이메일 중복 방지 검증 도구 
-from rest_framework.validators import UniqueForDateValidator
+from rest_framework.validators import UniqueValidator
 
 
 # 회원가입 시리얼라이저
@@ -27,7 +27,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     #  cf) django는 기본적으로 회원 서비스를 제공하고 있기 때문에 따로 모델링을 해줄 필요가 없다! 
     #  cf) User.objects.all(): User 모델 즉 데이터베이스를 가져온다라는 의미
     # 이메일 중복 방지를 위한 검증
-    validators=[UniqueValidater(queryset=User.objects.all())]
+    validators=[UniqueValidator(queryset=User.objects.all())]
     
   )
   
@@ -40,6 +40,33 @@ class RegisterSerializer(serializers.ModelSerializer):
   # 비밀번호 재확인을 위한 필드
   password2 = serializers.CharField(write_only=True, required=True) 
   
+  """ 
+  메타데이터라는 의미에서 클래스 이름 구현
+  >cf) 단, 장고 rest_framework에서는 자동으로 데이터안의 데이터라는 의미인 metadata를 찾
+  """
   class Meta:
     model = User
     fields = ('username','password','password2','email')
+
+  # 비밀번호 일치 여부 확인
+  def validate(self,data):
+    if data['password'] != data['password2']:
+      raise serializers.ValidationError(
+        {"password": "Password fields didn't match"} )
+    
+    return data
+  
+  def create(self,validated_data):
+    # create 요청에 대해 create 메소드를 오버라이딩, 유저를 생성하고 토큰을 생성함
+    user = User.objects.create_user(
+      username = validated_data['username'],
+      email=validated_data['email'],
+    )
+    
+    user.set_password(validated_data['password'])
+    user.save()
+    token = Token.objects.create(user=user)
+    
+    return user
+  
+  

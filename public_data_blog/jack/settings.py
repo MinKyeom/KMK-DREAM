@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'rest_framework',
     # 회원 가입 관련 앱 추가
     'users',
+    # 회원 가입 관련 토큰 추가
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -126,9 +128,9 @@ STATIC_URL = '/static/'
 # 추가 된 영역 시작점
 
 # rest_frame_work 회원가입 토큰 생성 
-# REST_FRAMEWORK = {
-#     'DEFAULT_AUTHENTICATION_CLASSES': [ 
-#         'rest_framework.authentication.TokenAuthentication',]
-# }
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [ 
+        'rest_framework.authentication.TokenAuthentication',]
+}
 
-# LANGUAGE_CODE='en-us'
+LANGUAGE_CODE='en-us'
