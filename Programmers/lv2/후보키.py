@@ -1,4 +1,9 @@
-# 내 풀이
+"""
+출처:프로그래머스,
+https://school.programmers.co.kr/learn/courses/30/lessons/42890
+"""
+
+# 풀이 과정
 """
 틀린 이유:
 0 1번이 최소성을 유지해도
