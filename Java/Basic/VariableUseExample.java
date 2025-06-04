@@ -9,8 +9,10 @@ public class VariableUseExample {
     int temp =x;
     x = y;
     y = temp;
+    
     System.out.println(x+" "+y);
 
+    // 재정의는 가능
     x = 15;
 
     System.out.println(x);
