@@ -47,19 +47,26 @@ class DemoApplicationTests {
 		// 	Question q = oq.get();
 		// 	assertEquals("sbb가 무엇인가요?",q.getSubject());
 		
-	/* 
-	DELETE FROM question
-	WHERE id IN (
-    SELECT q1.id
-    FROM question q1
-    JOIN question q2
-      ON q1.content = q2.content
-     AND q1.id > q2.id
-	);
-	*/
-	
-		Question q = this.questionRepository.findBySubject("sbb가 무엇인가요?");
-		assertEquals(1,q.getId());
+		/* 
+		DELETE FROM question
+		WHERE id IN (
+    	SELECT q1.id
+    	FROM question q1
+    	JOIN question q2
+      	ON q1.content = q2.content
+     	AND q1.id > q2.id
+		);
+		*/
+
+		// findBySubject 메서드
+
+		// Question q = this.questionRepository.findBySubject("sbb가 무엇인가요?");
+		// assertEquals(1,q.getId());
+
+		//findBySubjectAndContent
+			Question q = this.questionRepository.findBySubjectAndContent("sbb가 무엇인가요?","sbb에 대해서 알고 싶습니다	");
+			assertEquals(1,q.getId());
+
 		}
 	}
 
