@@ -11,5 +11,13 @@ public class MainController {
 
   public String index() {
     return "스프링부트를 시작해봅시다";
+
+  }
+
+
+  @GetMapping("/")
+  public String root(){
+    return "redirect:/question/list";
+
   }
 }
