@@ -15,6 +15,32 @@
     <title>Spring Boot</title>
   </head>
   <body>
+    <nav class="navar navar-expand-lg navbar-light bg-light border-bottom">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">Spring</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggle-icon"></span>
+        </button>
+        <!-- 로그인 버튼 안나옴 오류 해결하기 -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="#">로그인</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!--기본 템플릿안에 삽입될 내용 시작-->
     <th:block layout:fragment="content"></th:block>
+    <!-- 삽입될 내용 끝-->
   </body>
 </html>

@@ -52,13 +52,17 @@
       method="post"
       class="my-3"
     >
+      <!--
       <div
         class="alert alert-danger"
         role="alert"
         th:if="${#fields.hasAnyErrors()}"
       >
-        <div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
-      </div>
+      -->
+      <!-- 3줄을 한 번에 줄이기 -->
+      <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+      <div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
+
       <textarea th:field="*{content}" rows="10" class="form-control"></textarea>
       <input type="submit" value="답변 등록" clss="btn-primary my-2" />
     </form>
