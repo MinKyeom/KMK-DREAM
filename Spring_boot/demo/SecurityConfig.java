@@ -58,12 +58,12 @@ public class SecurityConfig {
 //         .ignoringRequestMatchers(new AntPathMatcher("/h2-console/**")));
         .headers((headers) -> headers
           .addHeaderWriter(new XFrameOptionsHeaderWriter(
-            XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
+            XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
           
         .formLogin( (formLogin) -> formLogin
           .loginPage("/user/login")
-          .defaultSuccessUrl("/") 
-          );
+          .defaultSuccessUrl("/")) 
+          ;
     return http.build();
   }
 
