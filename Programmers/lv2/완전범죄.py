@@ -2,6 +2,58 @@
 출처:프로그래머스,
 https://school.programmers.co.kr/learn/courses/30/lessons/389480
 """
+# 풀이 과정
+
+from collections import deque
+
+def solution(info, n, m):
+    q=deque( [ [0,0] ] )    
+    
+    check=deque(info)
+    visited = set([(0,0)])
+    
+    result=[]
+    
+    while check:
+        # 감당해야할 리스크
+        da,db=check.popleft()
+        
+        # 리스크를 감당했을 때의 위험도 담는 곳
+        new_q=deque([])
+        
+        while q:
+            a,b=q.popleft()
+            
+            if a>=n or b>=m:
+                continue
+            
+            elif a<n and b>=m: 
+                new_q.append((a+da,b))
+            
+            elif a>=n and b<m:
+                new_q.append((a,b+db))
+
+            else:
+                new_q.append((a+da,b))
+                new_q.append((a,b+db))
+                
+        
+        if len(new_q)==0:
+            return -1
+        
+        if len(check)==0:
+            result=deque(set(new_q))
+        
+        else:
+            q=q+deque(set(new_q))
+    final=[]
+    
+    for last_a,last_b in result:
+        if last_a < n and last_b <m:
+            final.append(last_a)
+    
+    return -1 if len(final) == 0 else min(final) 
+
 # 풀이 과정_개선 중
 # """
 # info A도둑이 훔치면 인덱스 0이 흔적이 남는다
