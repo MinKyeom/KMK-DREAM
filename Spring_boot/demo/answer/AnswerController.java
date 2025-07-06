@@ -20,6 +20,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import java.security.Principal;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @RequestMapping("/answer")
 @RequiredArgsConstructor
@@ -47,5 +49,22 @@ public class AnswerController {
   //   this.answerService.create(question,content);
     return String.format("redirect:/question/detail/%s",id);
   }
+
+  // public SomeData getMethodName(@RequestParam String param) {
+  //     return new SomeData();
+  // }
+
+  @PreAuthorize("isAuthenticated()")
+  @GetMapping("/modify/{id}")
+  public String answerModify(Answer answerForm, @PathVariable("id") Integer id, Principal principal){
+    Answer answer =this.answerService.getAnswer(id);
+    if (!answer.getAuthor().getUsername().equals(principal.getName())){
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
+    }
+    answerForm.setContent(answer.getContent());
+    return "answer_form";
+
+  }
+  
 }
 
