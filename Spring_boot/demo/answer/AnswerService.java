@@ -43,4 +43,8 @@ public void modify(Answer answer,String content){
   this.answerRepository.save(answer);
 }
 
+public void delete(Answer answer) {
+  this.answerRepository.delete(answer);
+}
+
 }
