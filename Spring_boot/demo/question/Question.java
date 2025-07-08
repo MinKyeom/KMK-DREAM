@@ -2,10 +2,12 @@ package com.example.demo.question;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import com.example.demo.answer.Answer;
 import com.example.demo.user.SiteUser;
 
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -45,4 +47,7 @@ public class Question {
   private SiteUser author;
 
   private LocalDateTime modifyDate;
+
+  @ManyToMany
+  Set<SiteUser> voter;
 }
