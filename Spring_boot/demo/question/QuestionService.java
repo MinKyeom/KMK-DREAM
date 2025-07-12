@@ -16,11 +16,43 @@ import org.springframework.data.domain.Sort;
 
 import lombok.RequiredArgsConstructor;
 
+// 검색 관련 모듈 모음
+import com.example.demo.answer.Answer;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import org.springframework.data.jpa.domain.Specification;
+
+
 @RequiredArgsConstructor
 @Service
 public class QuestionService {
   private final QuestionRepository questionRepository;
+  //검색 부분 구현 시작
+  
+  // private Specification <Question> search(String kw){
+  //   return new Specification<>(){
+  //     private static final long serialVersionUID = 1L;
+  //     @Override
+  //     public Predicate toPredicate(Root<Question> q, CtiterQuery<?>)
+  //     query.CriteriaBuilder cb{
+  //       query.distinct(true); // 중복을 제거
+  //       Join<Question, SiteUser> u1 =q.join("author",JoinType.LEFT);
+  //       Join<Question, Answer> a =q.join("answerList", JoinType.LEFT);
+  //       Join<Answer,SiteUser> u2 = a.join("author", JoinType.LEFT);
+  //       return cb.or(cb.like(q.get("subject"), "%" +kw +"%"),
+  //       cb.like(q.get("content"),"%"+kw+"%"),
+  //       cb.like(u1.get("username"),"%"+kw+"%"),
+  //       cb.like(a.get("content"), "%"+kw+"%"),
+  //       cb.like(u2.get("username"),"%"+kw+"%"));
+  //     }
+  //   };
+  // }
 
+  //검색 부분 구현 끝
   public Page<Question> getList(int page) { 
     List<Sort.Order> sorts = new ArrayList<>();
     sorts.add(Sort.Order.desc("createDate"));
