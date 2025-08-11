@@ -1,0 +1,88 @@
+my-microservice-platform/                  # 최상위 프로젝트 디렉토리
+├── services/                              # 마이크로서비스들이 위치하는 폴더
+│   ├── user-service/                      # 사용자 서비스 (Spring Boot로 구현)
+│   │   ├── src/                           # Spring Boot 애플리케이션 소스
+│   │   │   ├── main/                      # Spring Boot 메인 코드
+│   │   │   │   ├── java/                  # Java 소스 코드
+│   │   │   │   │   └── com/
+│   │   │   │   │       └── example/
+│   │   │   │   │           └── userservice/  # 사용자 서비스 관련 패키지
+│   │   │   │   │               ├── UserController.java  # 사용자 API 컨트롤러
+│   │   │   │   │               ├── UserService.java     # 사용자 서비스 로직
+│   │   │   │   │               ├── UserRepository.java  # 사용자 리포지토리 (JPA)
+│   │   │   │   │               └── User.java            # 사용자 엔티티 (JPA)
+│   │   │   │   ├── resources/              # 리소스 파일들 (예: 설정파일, 템플릿)
+│   │   │   │   │   ├── application.properties   # Spring Boot 설정 파일
+│   │   │   │   │   └── static/                  # 정적 파일들
+│   │   │   ├── Dockerfile                     # Docker 이미지 빌드를 위한 파일
+│   │   │   ├── pom.xml                        # Spring Boot 의존성 파일 (Maven)
+│   │   │   └── tests/                         # 테스트 파일
+│   │   │       ├── UserControllerTest.java    # 사용자 API 테스트
+│   │   │       └── UserServiceTest.java       # 서비스 로직 테스트
+│   ├── order-service/                     # 주문 서비스 (Node.js로 구현)
+│   │   ├── src/                           # Node.js 애플리케이션 소스
+│   │   │   ├── controllers/               # API 컨트롤러
+│   │   │   │   └── orderController.js     # 주문 관련 컨트롤러
+│   │   │   ├── models/                    # 데이터 모델 (예: MongoDB Schema)
+│   │   │   │   └── orderModel.js          # 주문 모델
+│   │   │   ├── services/                  # 서비스 계층 (비즈니스 로직)
+│   │   │   │   └── orderService.js        # 주문 서비스 로직
+│   │   │   ├── routes/                    # API 라우트
+│   │   │   │   └── orderRoutes.js         # 주문 API 라우팅
+│   │   │   ├── config/                    # 설정 파일
+│   │   │   │   └── config.js              # 서버 및 DB 설정
+│   │   │   ├── app.js                     # Express 앱 초기화
+│   │   │   └── server.js                  # 서버 실행 파일
+│   │   ├── Dockerfile                     # Docker 이미지 빌드를 위한 파일
+│   │   ├── package.json                   # 의존성 관리 파일 (npm/yarn)
+│   │   └── tests/                         # 테스트 파일
+│   │       ├── orderController.test.js    # 주문 컨트롤러 테스트
+│   │       └── orderService.test.js       # 주문 서비스 테스트
+│   ├── user-service-fastapi/               # 사용자 서비스 (FastAPI로 구현)
+│   │   ├── app/                           # FastAPI 애플리케이션 디렉토리
+│   │   │   ├── __init__.py                # FastAPI 애플리케이션 초기화
+│   │   │   ├── api/                       # API 라우터
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── user_router.py         # 사용자 관련 API (CRUD 등)
+│   │   │   │   └── auth_router.py         # 인증 관련 API
+│   │   │   ├── models/                    # 데이터 모델 (Pydantic DTOs, ORM)
+│   │   │   │   └── user.py                # 사용자 모델
+│   │   │   ├── services/                  # 서비스 계층 (비즈니스 로직)
+│   │   │   │   └── user_service.py        # 사용자 관련 서비스 로직
+│   │   │   ├── db/                        # 데이터베이스 관련 설정
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── database.py            # DB 연결 (SQLAlchemy, MongoDB 등)
+│   │   │   ├── config.py                  # FastAPI 설정 (예: 환경 변수, JWT 등)
+│   │   │   └── main.py                    # FastAPI 애플리케이션 시작점
+│   │   ├── Dockerfile                     # Docker 이미지 빌드를 위한 파일
+│   │   ├── requirements.txt              # FastAPI 의존성 파일
+│   │   ├── .env                           # 환경 설정 파일
+│   │   └── tests/                         # 테스트 파일
+│   │       ├── test_user.py               # 사용자 서비스 테스트
+│   │       └── test_auth.py               # 인증 서비스 테스트
+│   └── common-library/                    # 공통 라이브러리 (예: 공통 DTO, 유틸리티)
+│       ├── src/                           # 공통 라이브러리 소스
+│       │   ├── dto/                       # 공통 DTO
+│       │   │   └── userDTO.js             # 사용자 관련 DTO
+│       │   ├── utils/                     # 공통 유틸리티 함수들
+│       │   │   └── validation.js          # 유효성 검사 함수
+│       ├── Dockerfile                     # Docker 이미지 빌드를 위한 파일
+│       └── package.json                   # 의존성 관리 파일 (npm/yarn)
+├── infrastructure/                        # 인프라 관련 파일들 (Docker, Kubernetes, CI/CD)
+│   ├── docker/                            # Docker 관련 파일
+│   │   ├── user-service/                  # user-service의 Dockerfile, 설정
+│   │   ├── order-service/                 # order-service의 Dockerfile, 설정
+│   │   ├── user-service-fastapi/          # user-service-fastapi의 Dockerfile, 설정
+│   │   └── common-library/                # 공통 라이브러리 Docker 설정
+│   ├── kubernetes/                        # Kubernetes 설정 파일
+│   │   ├── user-service-deployment.yaml   # user-service의 Kubernetes 설정
+│   │   ├── order-service-deployment.yaml  # order-service의 Kubernetes 설정
+│   │   ├── user-service-fastapi-deployment.yaml # FastAPI 서비스의 Kubernetes 설정
+│   │   └── ingress.yaml                   # 인그레스 설정
+│   └── ci-cd/                             # CI/CD 관련 파일들
+│       ├── github-actions/                # GitHub Actions 설정 파일들
+│       │   └── deploy.yml                 # CI/CD 워크플로우 정의
+│       ├── jenkins/                       # Jenkins 설정 파일들
+│       └── circleci/                      # CircleCI 설정 파일들
+├── README.md                              # 프로젝트 설명 파일
+└── .gitignore                             # Git에서 제외할 파일들

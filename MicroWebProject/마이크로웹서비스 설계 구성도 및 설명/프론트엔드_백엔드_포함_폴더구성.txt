@@ -1,0 +1,53 @@
+microservice-project/
+├── frontend/                         # React 프론트엔드
+│   ├── public/                       # 정적 파일 (index.html 등)
+│   ├── src/                          # React 소스 코드
+│   │   ├── components/               # 컴포넌트들
+│   │   ├── services/                 # API 요청 서비스
+│   │   ├── App.js                    # 메인 앱 파일
+│   │   └── index.js                  # React DOM 렌더링
+│   ├── package.json                  # React 프로젝트 의존성 및 스크립트
+│   └── .env                          # 환경 설정 (환경변수)
+│
+├── backend/                          # 백엔드 서비스들
+│   ├── user-service-springboot/       # Spring Boot로 구현된 사용자 서비스
+│   │   ├── src/                      # Spring Boot 소스 코드
+│   │   ├── pom.xml                   # Maven 의존성 및 빌드 파일
+│   │   └── Dockerfile                # Docker 파일
+│   │
+│   ├── user-service-fastapi/         # FastAPI로 구현된 사용자 서비스
+│   │   ├── app/                      # FastAPI 소스 코드
+│   │   ├── requirements.txt          # 의존성 파일
+│   │   └── Dockerfile                # Docker 파일
+│   │
+│   ├── order-service/                # 주문 서비스 (Spring Boot 또는 FastAPI)
+│   │   ├── src/                      # 서비스 소스 코드
+│   │   ├── pom.xml / requirements.txt # Maven / FastAPI 의존성
+│   │   └── Dockerfile                # Docker 파일
+│   │
+│   └── common-library/               # 공통 라이브러리 (DTO, 유틸리티 등)
+│       ├── src/                      # 공통 소스 코드
+│       ├── pom.xml                   # Maven 의존성 파일
+│       └── Dockerfile                # Docker 파일 (공유 라이브러리)
+│
+├── infrastructure/                   # 인프라 관련 파일들 (Docker, Kubernetes, CI/CD)
+│   ├── docker/                       # Docker 관련 파일
+│   │   ├── docker-compose.yml        # Docker Compose 파일
+│   │   ├── nginx/                    # Nginx 설정 파일 (리버스 프록시 등)
+│   │   └── Dockerfile                # 각 서비스의 Dockerfile 설정
+│   │
+│   ├── kubernetes/                   # Kubernetes 관련 파일들
+│   │   ├── deployments/              # 각 서비스의 Deployment 설정 파일들
+│   │   ├── services/                 # 서비스별 Kubernetes 서비스 파일들
+│   │   └── configmaps/               # Kubernetes ConfigMap 설정 파일들
+│   │
+│   └── ci-cd/                        # CI/CD 관련 설정 (Jenkins, GitLab CI 등)
+│       ├── jenkins/                  # Jenkins 파이프라인 파일
+│       └── gitlab-ci.yml             # GitLab CI 파이프라인 파일
+│
+├── shared-config/                    # 환경 설정 파일들 (DB 연결, 외부 API 키 등)
+│   ├── application.yml               # 공통 환경 설정 (Spring Boot)
+│   ├── .env                          # React, FastAPI 환경 설정
+│   └── config.json                   # 기타 설정 파일들
+│
+└── README.md                         # 프로젝트 설명 파일

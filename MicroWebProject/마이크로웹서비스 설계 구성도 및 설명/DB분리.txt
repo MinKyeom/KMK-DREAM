@@ -1,0 +1,90 @@
+1. Spring Boot
+Spring Boot는 자바 기반의 프레임워크로, 강력한 데이터베이스 통합 지원을 제공합니다. 다양한 DB와 쉽게 통합할 수 있지만, 주로 관계형 데이터베이스와 잘 맞습니다.
+
+추천 DB 종류:
+관계형 DB (RDBMS):
+
+PostgreSQL: ACID 준수를 제공하며, 복잡한 쿼리와 트랜잭션 처리에 강력합니다. Spring Data JPA와 잘 통합됩니다.
+
+MySQL: 가볍고 빠르며, Spring Boot와 쉽게 통합됩니다. 특히, 읽기 중심의 서비스에서 자주 사용됩니다.
+
+MariaDB: MySQL과 호환성이 높고, 성능이 뛰어나며, 오픈 소스로 사용하기 좋습니다.
+
+NoSQL:
+
+MongoDB: 비정형 데이터나 대규모 데이터를 처리할 때 유용하며, Spring Data MongoDB를 통해 쉽게 통합할 수 있습니다.
+
+Cassandra: 대규모 분산 시스템에서 높은 확장성을 제공하는 NoSQL DB입니다. 특히 event-sourcing이나 대규모 로그 처리에 유리합니다.
+
+적합한 상황:
+트랜잭션 관리와 복잡한 관계형 쿼리가 필요한 경우
+
+데이터의 일관성이 중요하고, 정형 데이터를 많이 다루는 서비스에 적합합니다.
+
+2. FastAPI
+FastAPI는 Python 기반의 비동기 프레임워크로, 성능에 최적화된 특성을 갖고 있습니다. FastAPI는 다양한 DB와 통합이 가능하지만, 비동기 처리를 지원하는 DB를 활용하면 성능을 극대화할 수 있습니다.
+
+추천 DB 종류:
+관계형 DB (RDBMS):
+
+PostgreSQL: FastAPI는 비동기 처리를 잘 지원하는 데이터베이스인 PostgreSQL과 잘 통합됩니다. asyncpg 라이브러리를 사용하면 비동기 쿼리 처리 성능을 극대화할 수 있습니다.
+
+SQLite: 개발 초기 단계나 소형 애플리케이션에서 사용 가능합니다. 간단한 설정으로 SQLite와 FastAPI를 쉽게 연결할 수 있습니다.
+
+NoSQL:
+
+MongoDB: FastAPI와 Motor를 사용하여 비동기 MongoDB 작업을 처리할 수 있습니다. 비정형 데이터와 대규모 로그 처리에 유리합니다.
+
+CouchDB: 분산형 NoSQL 데이터베이스로, FastAPI에서 asynchronous 방식으로 연결하여 사용할 수 있습니다.
+
+적합한 상황:
+비동기 처리가 중요한 경우, 특히 고성능 API 서버가 필요한 상황에 적합합니다.
+
+유연한 데이터 구조와 빠른 응답 시간이 중요한 서비스에서 적합합니다.
+
+3. Node.js (Express)
+Node.js는 JavaScript/TypeScript 기반의 서버 사이드 개발 환경으로, 비동기 처리와 I/O 작업에 최적화되어 있습니다. 따라서 비동기 DB 연결이 매우 중요하며, NoSQL DB를 자주 사용합니다.
+
+추천 DB 종류:
+NoSQL:
+
+MongoDB: Node.js와 MongoDB는 Mongoose를 통해 매우 잘 통합됩니다. 비정형 데이터와 문서 기반 저장소에 매우 적합합니다. 또한 빠른 데이터 읽기/쓰기를 지원하여 IoT, 로그 데이터 처리 등에서 유용합니다.
+
+Redis: 캐시, 세션 관리, 메시지 큐 시스템에서 많이 사용됩니다. 특히 비동기식 데이터베이스로, 빠른 데이터를 처리하는 데 적합합니다.
+
+관계형 DB (RDBMS):
+
+PostgreSQL: 비록 NoSQL을 선호하는 경우가 많지만, Node.js에서도 PostgreSQL을 사용할 수 있습니다. pg 패키지를 통해 비동기 쿼리도 지원합니다.
+
+MySQL: Node.js에서는 mysql2 또는 sequelize ORM을 사용하여 MySQL과 연동할 수 있습니다.
+
+적합한 상황:
+빠른 I/O 작업과 비동기 처리가 중요한 서비스
+
+비정형 데이터를 많이 다루는 서비스
+
+메시지 큐 또는 캐시 시스템이 필요한 서비스
+
+4. 마이크로서비스에서의 DB 나누기
+마이크로서비스 아키텍처에서는 각 서비스가 독립적인 데이터베이스를 가질 수 있습니다. 즉, 각 마이크로서비스가 자기만의 DB를 가지며, 서비스 간의 의존성을 줄이고 독립성을 보장하는 것이 핵심입니다.
+
+추천 DB 분리 전략:
+데이터베이스 선택 기준:
+
+각 서비스의 도메인 특성에 맞는 DB를 선택합니다. 예를 들어, 사용자 관리 서비스는 관계형 DB인 PostgreSQL이나 MySQL을 사용하고, 로그 관리 서비스는 MongoDB나 Elasticsearch를 사용할 수 있습니다.
+
+트랜잭션 처리가 중요한 서비스는 RDBMS를, 분산 처리나 고성능이 중요한 서비스는 NoSQL을 사용하는 방식으로 분리할 수 있습니다.
+
+서비스 간 데이터 통합:
+
+마이크로서비스 간 데이터 통합은 API 호출을 통해 이루어지며, Event-Driven Architecture나 CQRS 패턴을 통해 데이터를 처리합니다. Kafka나 RabbitMQ 같은 메시지 큐를 사용하여 서비스 간 데이터 동기화를 할 수 있습니다.
+
+정리
+Spring Boot: PostgreSQL, MySQL, MariaDB (관계형 DB) / MongoDB (NoSQL)
+
+FastAPI: PostgreSQL, SQLite, MongoDB, CouchDB
+
+Node.js (Express): MongoDB, Redis, PostgreSQL, MySQL
+
+각 마이크로서비스가 독립적인 DB를 사용하면서, 필요에 따라 서비스 간의 데이터 통합을 API, 이벤트 기반 시스템, 메시지 큐 등을 활용하여 처리합니다.
+
