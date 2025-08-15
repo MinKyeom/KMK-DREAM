@@ -1,0 +1,55 @@
+📦 DTO란?
+DTO는 Data Transfer Object의 줄임말로,
+
+계층 간에 데이터를 전달하기 위해 사용하는 객체입니다.
+
+예를 들어:
+
+Controller ↔ Service
+
+Service ↔ DB
+
+Client ↔ API 서버 간에 데이터를 주고받을 때 사용합니다.
+
+🔁 왜 DTO를 써?
+계층 간 데이터 전달을 명확하게 하기 위해
+
+예: 클라이언트에서 온 JSON을 DTO에 바인딩해서 받음
+
+불필요한 데이터 노출 방지
+
+DB의 User 엔티티에는 password가 있는데, 클라이언트에 보내면 안 되잖아요?
+→ DTO는 노출할 데이터만 포함
+
+유연성 확보
+
+DB 구조가 바뀌어도, DTO 구조는 유지할 수 있음 (API 깨지지 않음)
+
+📘 예시: 회원가입 DTO
+java
+복사
+편집
+public class UserSignupRequest {
+    private String username;
+    private String email;
+    private String password;
+}
+클라이언트가 보낸 JSON이 이 DTO에 매핑됨
+
+json
+복사
+편집
+{
+  "username": "hello",
+  "email": "hello@example.com",
+  "password": "1234"
+}
+이걸 @RequestBody UserSignupRequest request로 받으면,
+request.getUsername() 등으로 각 값을 꺼낼 수 있음.
+
+📊 정리
+구분	설명
+DTO 뜻	Data Transfer Object
+주 용도	계층 간 데이터 전달 (특히 Controller ↔ Service)
+장점	명확성, 보안성, 유연성
+안 쓰면 생기는 문제	비즈니스 로직, 보안 처리 흐트러짐
