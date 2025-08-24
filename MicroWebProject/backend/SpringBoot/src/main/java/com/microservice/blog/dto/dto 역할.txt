@@ -1,0 +1,82 @@
+네, 맞습니다! DTO는 **직렬화(Serialization)**와 역직렬화(Deserialization) 역할을 수행합니다. 즉, 클라이언트와 서버 간에 데이터를 전송 가능한 형식으로 변환하는 역할을 합니다.
+
+DTO의 직렬화와 역직렬화 역할
+
+직렬화(Serialization): 객체를 바이트 스트림 또는 JSON, XML 같은 전송 가능한 형식으로 변환하는 과정입니다.
+
+역직렬화(Deserialization): 전송된 데이터를 다시 객체 형태로 변환하는 과정입니다.
+
+DTO는 보통 클라이언트가 보내는 데이터를 객체로 변환하고, 서버가 보내는 데이터를 객체로 변환하는 역할을 합니다.
+
+직렬화와 역직렬화 과정
+1. 클라이언트 → 서버 (직렬화)
+
+클라이언트가 HTTP 요청을 보낼 때, 보통 JSON 형식으로 데이터를 전송합니다. 서버는 이 JSON 데이터를 DTO 객체로 역직렬화하여 받아옵니다.
+
+예를 들어, 클라이언트가 POST /users/signup 요청을 보낼 때, 보낸 JSON 데이터는 UserSignupRequest DTO 객체로 변환됩니다.
+
+2. 서버 → 클라이언트 (직렬화)
+
+서버가 응답을 보낼 때, DTO 객체를 다시 JSON 같은 포맷으로 직렬화하여 클라이언트에게 전송합니다.
+
+예를 들어, 서비스에서 처리한 결과를 DTO로 포장하여, 이를 JSON 형식으로 직렬화해서 클라이언트에게 반환합니다.
+
+직렬화와 역직렬화 예시
+1. DTO 클래스 예시
+public class UserSignupRequest {
+    private String username;
+    private String email;
+    private String password;
+
+    // Getter, Setter
+}
+
+2. 클라이언트 → 서버 (역직렬화)
+
+클라이언트가 보내는 JSON 예시:
+
+{
+  "username": "john_doe",
+  "email": "john.doe@example.com",
+  "password": "password123"
+}
+
+
+서버는 이 JSON을 받아서 UserSignupRequest DTO 객체로 역직렬화합니다. Spring에서는 @RequestBody를 사용해 이를 자동으로 변환할 수 있습니다.
+
+@PostMapping("/signup")
+public ResponseEntity<String> signup(@RequestBody UserSignupRequest request) {
+    // request는 이제 UserSignupRequest 객체로 변환됨
+    boolean usernameExists = userService.checkUsernameExists(request.getUsername());
+    ...
+}
+
+3. 서버 → 클라이언트 (직렬화)
+
+서버에서 결과를 UserSignupResponse라는 DTO로 만들었다고 가정했을 때, 이 객체를 클라이언트에게 JSON 형식으로 직렬화하여 응답할 수 있습니다.
+
+public class UserSignupResponse {
+    private String message;
+    private boolean success;
+
+    // Getter, Setter
+}
+
+
+서버에서 이 DTO를 직렬화하여 클라이언트로 보냅니다. Spring은 이 객체를 자동으로 JSON으로 변환합니다.
+
+@PostMapping("/signup")
+public ResponseEntity<UserSignupResponse> signup(@RequestBody UserSignupRequest request) {
+    UserSignupResponse response = new UserSignupResponse("User signed up successfully", true);
+    return ResponseEntity.ok(response);
+}
+
+DTO는 직렬화와 역직렬화 외에도 데이터 전송 역할
+
+DTO의 주요 역할은 직렬화와 역직렬화뿐만 아니라, 데이터 전송을 위한 객체 구조를 정의하는 것입니다. 실제로는 API 간의 데이터 포맷을 일관되게 유지하고, 클라이언트와 서버 간의 데이터 흐름을 관리하는 중요한 역할을 합니다.
+
+요약
+
+DTO는 직렬화와 역직렬화 역할을 하며, 클라이언트 → 서버와 서버 → 클라이언트 간의 데이터 전송 형식으로 객체 → JSON 형태로 변환을 처리합니다.
+
+DTO는 데이터를 전달할 때 필요한 구조화된 데이터 모델을 정의하고, 이를 통해 클라이언트와 서버 간의 통신을 효율적으로 관리합니다.
