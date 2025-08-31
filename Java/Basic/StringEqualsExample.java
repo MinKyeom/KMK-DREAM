@@ -31,6 +31,6 @@ public class StringEqualsExample {
     if(strVar3.equals(strVar4)){
       System.out.println("equals는 같아");
     }
-
+    
   }
 }
