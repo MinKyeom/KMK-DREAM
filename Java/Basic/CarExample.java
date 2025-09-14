@@ -3,7 +3,7 @@ import src.Java_Basic.Car;
 
 public class CarExample {
   public static void main(String[] args){
-  Car myCar = new Car(); // 객체 생성
+  Car myCar = new Car("검정", 3000); // 객체 생성
 
   System.out.println("제작회사"+ myCar.company);
   System.out.println(myCar.model);
