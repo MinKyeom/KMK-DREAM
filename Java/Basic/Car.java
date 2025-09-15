@@ -7,8 +7,18 @@ public class Car {
   int maxSpedd = 350;
   int speed;   
 
-  Car(String color, int cc){
+  Car(){
     
+  }
+  Car(String model){
+    this.model = model;
+  }
+  
+  Car(String model, String color, int ){
+
+  }
+  Car(String color, int cc){
+
   }
 }
 
