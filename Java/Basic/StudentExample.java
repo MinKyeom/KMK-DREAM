@@ -8,5 +8,8 @@ public class StudentExample {
 
     Student s2 = new Student();
     System.out.println("s2 변수가 또 다른 Stuent 객체를 참조합니다.");
+
   }
 }
+
+

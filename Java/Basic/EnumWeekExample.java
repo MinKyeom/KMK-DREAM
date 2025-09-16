@@ -12,5 +12,5 @@ public class EnumWeekExample {
 
     System.out.println(Week.SUNDAY);
   }
-
 }
+
