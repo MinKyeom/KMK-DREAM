@@ -2,6 +2,52 @@
 출처: 프로그래머스,
 https://school.programmers.co.kr/learn/courses/30/lessons/389481
 """
+# 풀이과정 _ 개선 중 
+from collections import defaultdict, deque
+
+def solution(n, bans):
+    alpha = "abcdefghijklmnopqrstuvwxyz"
+    alpha_num = list(alpha)
+    alpha_num_dic = {ch: i for i, ch in enumerate(alpha)}
+
+    # 각 길이별로 가능한 조합 수 (1자리 ~ 11자리)
+    power_26 = [26**i for i in range(12)]  # 0~11자리
+    len_offset = [0] * 12
+    for i in range(1, 12):
+        len_offset[i] = len_offset[i-1] + power_26[i]
+
+    def str_to_index(s):
+        idx = len_offset[len(s) - 1]  # 짧은 길이 문자열들 개수 더하기
+        for i, c in enumerate(s):
+            idx += alpha_num_dic[c] * (26 ** (len(s) - i - 1))
+        return idx
+
+    def index_to_str(idx):
+        length = 1
+        while idx >= len_offset[length]:
+            length += 1
+        idx -= len_offset[length - 1]  # 해당 길이 범위 내 인덱스
+
+        result = ""
+        for _ in range(length):
+            idx, r = divmod(idx, 26)
+            result = alpha[r] + result
+        return result
+
+    # ban 문자열들을 숫자로 변환 (사전 순 인덱스)
+    ban_nums = set(str_to_index(b) for b in bans)
+
+    count = 0
+    idx = 0
+    while True:
+        if idx not in ban_nums:
+            count += 1
+            if count == n:
+                return index_to_str(idx)
+        idx += 1
+
+
+
 # 풀이과정 _개선 중
 """
 조건
