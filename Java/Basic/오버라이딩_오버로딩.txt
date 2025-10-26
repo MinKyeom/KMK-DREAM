@@ -1,0 +1,79 @@
+콘텐츠로 건너뛰기
+나의 말:
+자바에서 상속 받은 객체가 있고 부모 객체가 있어 근데 타입은 부모 생성은 자식 객체로 생성했을 때 메서드 호출시 둘다 매개변수가 같은 메서드를 호출하면 자식과 부모 중 어느 메서드부터 불러와?
+ChatGPT의 말:
+좋은 질문이에요 😊
+자바에서 상속 관계가 있고, 부모 타입으로 자식 객체를 생성했을 때 메서드 호출 시 어떤 메서드가 실행되는지는 오버라이딩(Overriding) 규칙에 의해 결정됩니다.
+
+📘 상황 정리
+예를 들어 다음과 같은 코드가 있다고 해봅시다:
+
+class Parent {
+    void hello() {
+        System.out.println("Parent hello");
+    }
+}
+
+class Child extends Parent {
+    @Override
+    void hello() {
+        System.out.println("Child hello");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Parent obj = new Child(); // 부모 타입, 자식 객체
+        obj.hello();
+    }
+}
+⚙️ 실행 결과
+Child hello
+💡 이유 설명
+obj의 타입(type) 은 Parent이지만, 실제 인스턴스(instance) 는 Child입니다.
+
+자바는 "컴파일 시점에는 타입 기준으로, 실행 시점에는 객체 기준으로" 동작합니다.
+
+컴파일 시점: Parent 클래스에 hello() 메서드가 있는지 확인.
+
+실행 시점: 실제 객체(Child)의 hello() 메서드를 호출.
+
+따라서 Child에서 오버라이딩된 메서드가 있으면, 자식 메서드가 먼저 호출됩니다.
+
+⚠️ 만약 오버로딩(Overloading)인 경우는 다름
+오버로딩(overloading, 즉 매개변수가 다른 메서드 여러 개가 있는 경우)이라면,
+컴파일 시점에 참조 변수의 타입(Parent) 기준으로 호출할 메서드가 정해집니다.
+
+예를 들어:
+
+class Parent {
+    void say(String msg) { System.out.println("Parent: " + msg); }
+}
+
+class Child extends Parent {
+    void say(int num) { System.out.println("Child: " + num); }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Parent obj = new Child();
+        obj.say("Hello"); // ✅ Parent의 say(String) 호출됨
+        // obj.say(10); // ❌ 컴파일 오류: Parent 타입에 say(int)가 없음
+    }
+}
+✅ 정리
+구분	설명	호출 대상
+오버라이딩 (Overriding)	부모와 자식이 같은 메서드 시그니처	실행 시점에 자식 메서드 호출
+오버로딩 (Overloading)	매개변수가 다른 여러 메서드	컴파일 시점에 참조 타입(부모) 기준으로 결정
+원하신다면 오버라이딩 + 오버로딩이 섞인 예제도 보여드릴까요?
+
+
+첨부
+
+검색
+
+학습하기
+
+음성
+선택된 파일 없음선택된 파일 없음
+ChatGPT는 실수를 할 수 있습니다. 중요한 정보는 재차 확인하세요.
