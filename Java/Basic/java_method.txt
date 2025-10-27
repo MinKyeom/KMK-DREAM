@@ -1,0 +1,100 @@
+콘텐츠로 건너뛰기
+나의 말:
+자바에서 public void 처럼 메서드 만드는 방식들에 대해 알려주고 특징들을 같이 설명해줘
+ChatGPT의 말:
+좋아요 😊
+자바(Java)에서 메서드(method) 는 객체의 동작(기능)을 정의하는 부분입니다.
+public void 같은 키워드는 접근 제어자, 반환형, 메서드 이름, 매개변수 등으로 구성된 메서드 선언 방식 중 일부예요.
+
+🔹 자바 메서드의 기본 구조
+[접근 제어자] [반환형] [메서드 이름]([매개변수]) {
+    // 실행할 코드
+    [return 반환값;]  // (반환형이 void가 아닐 때만)
+}
+예시:
+
+public int add(int a, int b) {
+    return a + b;
+}
+🔸 1. 접근 제어자 (Access Modifier)
+제어자	설명	접근 가능 범위
+public	어디서나 접근 가능	모든 클래스
+protected	같은 패키지 + 상속받은 하위 클래스	제한적 외부 접근 가능
+(default)	접근 제어자 생략 시	같은 패키지 내에서만 접근 가능
+private	해당 클래스 내부에서만 접근 가능	외부에서 접근 불가
+예시:
+
+private void printMessage() {
+    System.out.println("Hello!");
+}
+🔸 2. 반환형 (Return Type)
+메서드가 리턴(return) 하는 값의 자료형을 지정합니다.
+
+반환형	의미	예시
+void	반환값 없음	public void printInfo()
+기본형	int, double, boolean 등	public int getAge()
+참조형	클래스, 배열, 인터페이스 등	public String getName()
+예시:
+
+public double getAverage(double a, double b) {
+    return (a + b) / 2;
+}
+🔸 3. 메서드 이름 (Method Name)
+개발자가 정하는 이름이며, 소문자로 시작하는 동사형으로 작성하는 것이 관례입니다.
+예: getName(), calculateTotal(), printMessage()
+
+🔸 4. 매개변수 (Parameter)
+메서드가 외부에서 받을 값.
+
+타입과 변수명을 함께 지정합니다.
+
+여러 개일 경우 , 로 구분합니다.
+
+예시:
+
+public void greet(String name, int age) {
+    System.out.println("Hello, " + name + "! You are " + age + " years old.");
+}
+🔸 5. 반환(return) 문
+void 가 아닌 경우, 반드시 return으로 값을 반환해야 합니다.
+
+예시:
+
+public int multiply(int x, int y) {
+    return x * y; // int형 값 반환
+}
+🔹 메서드 선언 방식의 예시 모음
+선언 방식	예시	설명
+public void	public void printHello()	외부에서 호출 가능, 반환값 없음
+private int	private int getScore()	내부 전용, 정수 반환
+protected String	protected String getName()	상속 관계에서 사용 가능
+static void	public static void main(String[] args)	인스턴스 생성 없이 클래스 단위로 호출 가능
+final void	public final void cannotOverride()	하위 클래스에서 오버라이드 불가
+🔹 추가 개념
+✅ 오버로딩 (Overloading)
+같은 이름의 메서드를 매개변수만 다르게 여러 번 정의하는 것.
+
+public void print(String s) { ... }
+public void print(int i) { ... }
+public void print(String s, int i) { ... }
+✅ 오버라이딩 (Overriding)
+상속받은 메서드를 자식 클래스에서 재정의하는 것.
+
+@Override
+public void printInfo() {
+    System.out.println("Child Info");
+}
+🔸 정리
+요소	역할	예시
+접근 제어자	외부 접근 허용 범위	public, private
+반환형	리턴되는 값의 자료형	void, int, String
+메서드 이름	메서드 호출 시 사용할 이름	print, getName
+매개변수	외부에서 받을 값	(int x, int y)
+반환문	결과를 반환하는 코드	return x + y;
+원하신다면,
+💡 “public void와 public static void의 차이”나
+💡 “메서드 오버로딩/오버라이딩의 실습 예제”
+같은 부분을 예시 코드로 더 자세히 보여드릴 수도 있습니다.
+
+원하시는 방향이 있을까요?
+
