@@ -1,26 +1,26 @@
 package com.mk.demo.controller;
 
 import org.springframework.web.bind.annotation.*;
-// import com.example.demo.entity.User;
-// import com.example.demo.repository.UserRepository;
+import com.mk.demo.entity.User;
+import com.mk.demo.repository.UserRepository;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
   
   // 아직 안만듬
-  // private final UserRepository repo;
+  private final UserRepository repo;
 
   // 생성자 초기화
-  // public UserController(UserRepository repo){
-    // this.repo = repo;
-  //}
+  public UserController(UserRepository repo){
+    this.repo = repo;
+  }
   
   // 회원가입 API
-  // @PostMapping("/signup")
-  // public User signup(@RequestBody User user){
-      // return repo.save(user);
-  //}
+  @PostMapping("/signup")
+  public User signup(@RequestBody User user){
+      return repo.save(user);
+  }
 }
 
 
