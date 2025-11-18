@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Table(name = "users") // USER 대신 다른 이름 사용
 @Getter @Setter
 public class User {
 
