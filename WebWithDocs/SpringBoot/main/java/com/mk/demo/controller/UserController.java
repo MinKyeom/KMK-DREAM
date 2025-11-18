@@ -21,6 +21,12 @@ public class UserController {
   public User signup(@RequestBody User user){
       return repo.save(user);
   }
+
+  @GetMapping("/{id}")
+  public User getUserById(@PathVariable Long id) {
+      return repo.findById(id).orElse(null); // 없으면 null 반환
+}
+
 }
 
 
