@@ -4,9 +4,25 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.mk.demo.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-  User findByUsername(String username);
+  // User findByUsername(String username);
+
+  // 이메일 중복 확인!
+  boolean existsByEmail(String email); 
 }
 
+
+/*
+package com.example.member.repository;
+
+import com.example.member.entity.Member;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface MemberRepository extends JpaRepository<Member, Long> {
+
+    boolean existsByEmail(String email);
+}
+
+*/
 
 
 /*
