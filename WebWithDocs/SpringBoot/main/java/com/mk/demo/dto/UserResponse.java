@@ -1,6 +1,6 @@
 package com.mk.demo.dto;
 
-public record MemberResponse (
+public record UserResponse (
         Long id,
         String email,
         String name

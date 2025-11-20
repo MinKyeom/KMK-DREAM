@@ -4,24 +4,45 @@ import org.springframework.web.bind.annotation.*;
 import com.mk.demo.entity.User;
 import com.mk.demo.repository.UserRepository;
 
+import com.mk.demo.dto.UserResponse;
+import com.mk.demo.dto.SignupRequest;
+import com.mk.demo.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
   
   // 아직 안만듬
   private final UserRepository repo;
 
-  // 생성자 초기화
-  public UserController(UserRepository repo){
-    this.repo = repo;
-  }
+  private final UserService userService;
   
-  // 회원가입 API
+  // 생성자 초기화
+  // public UserController(UserRepository repo){
+  //   this.repo = repo;
+  // }
+  
   @PostMapping("/signup")
-  public User signup(@RequestBody User user){
-      return repo.save(user);
-  }
+    public ResponseEntity<UserResponse> signup(@RequestBody SignupRequest request) {
+        UserResponse response = userService.register(request);
+        return ResponseEntity.ok(response);
+    }
 
+  // // 회원가입 API
+  // @PostMapping("/signup")
+  // public User signup(@RequestBody User user){
+  //     return repo.save(user);
+  // }
+
+  
+  
+  
+  
   @GetMapping("/{id}")
   public User getUserById(@PathVariable Long id) {
       return repo.findById(id).orElse(null); // 없으면 null 반환
