@@ -1,0 +1,123 @@
+콘텐츠로 건너뛰기
+나의 말:
+SQL join 종류 및 예시를 모두 알려줘
+ChatGPT의 말:
+아래는 모든 주요 SQL JOIN 종류와 함께 **개념 + 예시(SQL 쿼리 + 결과 예시)**까지 정리한 완전한 가이드입니다.
+
+✅ 1. INNER JOIN
+두 테이블 모두에서 조건을 만족하는 행만 반환
+
+📌 문법
+SELECT *
+FROM A
+INNER JOIN B ON A.id = B.id;
+📌 예시
+테이블 A
+
+id	name
+1	Kim
+2	Lee
+3	Park
+테이블 B
+
+id	score
+2	90
+3	85
+4	95
+결과
+id	name	score
+2	Lee	90
+3	Park	85
+✅ 2. LEFT OUTER JOIN (LEFT JOIN)
+왼쪽 테이블(A)의 모든 행 + 오른쪽(B)에서 일치하는 행
+
+SELECT *
+FROM A
+LEFT JOIN B ON A.id = B.id;
+결과
+id	name	score
+1	Kim	NULL
+2	Lee	90
+3	Park	85
+✅ 3. RIGHT OUTER JOIN (RIGHT JOIN)
+오른쪽 테이블(B)의 모든 행 + 왼쪽(A)에서 일치하는 행
+
+SELECT *
+FROM A
+RIGHT JOIN B ON A.id = B.id;
+결과
+id	name	score
+2	Lee	90
+3	Park	85
+4	NULL	95
+✅ 4. FULL OUTER JOIN
+양쪽 테이블의 모든 데이터 + 일치하지 않는 경우 NULL
+
+MySQL은 FULL OUTER JOIN을 직접 지원하지 않음 → UNION으로 해결 가능
+
+SELECT *
+FROM A
+FULL OUTER JOIN B ON A.id = B.id;
+MySQL 대안:
+
+SELECT * FROM A LEFT JOIN B ON A.id = B.id
+UNION
+SELECT * FROM A RIGHT JOIN B ON A.id = B.id;
+결과
+id	name	score
+1	Kim	NULL
+2	Lee	90
+3	Park	85
+4	NULL	95
+✅ 5. CROSS JOIN
+모든 행을 곱집합(Cartesian Product)으로 반환
+
+SELECT *
+FROM A
+CROSS JOIN B;
+A(3 rows) × B(3 rows) = 9 rows
+
+✅ 6. SELF JOIN
+같은 테이블을 조인
+
+SELECT a.name AS employee, b.name AS manager
+FROM Employee a
+JOIN Employee b ON a.manager_id = b.id;
+✅ 7. NATURAL JOIN
+동일한 컬럼명을 기준으로 자동 조인
+
+SELECT *
+FROM A
+NATURAL JOIN B;
+사용 시 예상치 못한 결과가 발생할 수 있어 실무에서는 비추천.
+
+✅ 8. USING 절 JOIN
+동일한 컬럼명 1개로만 조인할 때 간단한 문법
+
+SELECT *
+FROM A
+JOIN B USING (id);
+요약 표
+JOIN 종류	설명
+INNER JOIN	양쪽 모두 일치하는 행
+LEFT JOIN	왼쪽(A) 모두 + 오른쪽(B) 매칭
+RIGHT JOIN	오른쪽(B) 모두 + 왼쪽(A) 매칭
+FULL JOIN	양쪽 테이블의 모든 행
+CROSS JOIN	모든 조합(곱집합)
+SELF JOIN	같은 테이블끼리 조인
+NATURAL JOIN	같은 컬럼명을 자동으로 기준
+USING	동일 컬럼명 기준 간단 조인
+필요하시면 ERD 다이어그램, 실무에서 가장 많이 쓰는 JOIN 패턴, **JOIN 성능 최적화(INDEX 전략)**까지 설명도 해드릴까요?
+
+
+
+첨부
+
+검색
+
+학습하기
+
+음성
+선택된 파일 없음선택된 파일 없음
+ChatGPT는 실수를 할 수 있습니다. 중요한 정보는 재차 확인하세요. 쿠키 기본 설정을 참고하세요.
+
