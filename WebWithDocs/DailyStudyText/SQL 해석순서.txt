@@ -1,0 +1,80 @@
+콘텐츠로 건너뛰기
+나의 말:
+SQL 해석 순서에 대해 알려줘
+ChatGPT의 말:
+SQL은 키워드가 작성된 순서와 실제 실행(해석)되는 순서가 다릅니다.
+아래는 일반적인 SQL SELECT 문이 실제로 해석되는(논리적 실행) 순서입니다.
+
+✅ SQL 논리적 실행(해석) 순서
+논리적 실행 순서	실제 작성 순서	설명
+1. FROM	1	어떤 테이블에서 데이터를 가져올지 결정. JOIN이 있다면 JOIN도 여기서 처리.
+2. ON	2	JOIN 조건 평가.
+3. JOIN	2	테이블 결합 실행.
+4. WHERE	3	조건을 적용하여 행(Row) 필터링.
+5. GROUP BY	4	행들을 그룹으로 묶음.
+6. HAVING	5	그룹에 대한 조건 필터링.
+7. SELECT	6	최종적으로 출력할 컬럼 선택. (이 시점에 SELECT alias가 만들어짐)
+8. DISTINCT	6	SELECT한 결과에서 중복 제거.
+9. ORDER BY	7	결과 정렬 (이 시점에서 SELECT alias 사용 가능).
+10. LIMIT / OFFSET	8	결과 개수 제한.
+📌 정리한 버전
+1. FROM
+2. ON
+3. JOIN
+4. WHERE
+5. GROUP BY
+6. HAVING
+7. SELECT
+8. DISTINCT
+9. ORDER BY
+10. LIMIT
+🔍 예시로 확인해보기
+다음 쿼리는:
+
+SELECT dept, COUNT(*) as cnt
+FROM employees
+WHERE salary > 3000
+GROUP BY dept
+HAVING COUNT(*) > 5
+ORDER BY cnt DESC
+LIMIT 10;
+실제 SQL이 해석되는 순서:
+FROM employees
+
+WHERE salary > 3000
+
+GROUP BY dept
+
+HAVING COUNT(*) > 5
+
+SELECT dept, COUNT(*) as cnt
+
+ORDER BY cnt DESC
+
+LIMIT 10
+
+🔥 자주 하는 실수 & 팁
+✔ WHERE에서 집계함수(AVG, COUNT 등)를 사용할 수 없는 이유
+집계는 GROUP BY 이후에 수행되므로, GROUP BY보다 먼저 실행되는 WHERE에서는 사용할 수 없음.
+→ 대신 HAVING에서 사용해야 함.
+
+✔ ORDER BY에서는 SELECT 별칭(alias) 사용 가능
+ORDER BY는 SELECT 이후 실행되기 때문.
+
+✔ SELECT에서는 GROUP BY 이전에 계산된 컬럼만 사용 가능
+GROUP BY 이후에 만들어지는 집계 결과는 SELECT에서만 나타남.
+
+필요하다면 각 단계별로 내부적으로 무슨 일이 벌어지는지 또는 JOIN 포함한 해석 순서도 더 자세히 설명해줄게!
+
+
+
+첨부
+
+검색
+
+학습하기
+
+음성
+선택된 파일 없음선택된 파일 없음
+ChatGPT는 실수를 할 수 있습니다. 중요한 정보는 재차 확인하세요. 쿠키 기본 설정을 참고하세요.
+
