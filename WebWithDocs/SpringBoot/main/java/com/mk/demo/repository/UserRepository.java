@@ -6,7 +6,8 @@ import com.mk.demo.entity.User;
 public interface UserRepository extends JpaRepository<User, Long> {
   // User findByUsername(String username);
 
-  // 이메일 중복 확인!
+
+  // 이메일 중복 확인! >> id 중복 확인으로 변경
   boolean existsByEmail(String email); 
 }
 
