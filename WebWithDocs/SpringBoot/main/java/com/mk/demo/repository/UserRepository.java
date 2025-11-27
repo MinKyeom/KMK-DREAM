@@ -2,13 +2,20 @@ package com.mk.demo.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.mk.demo.entity.User;
+import java.util.List;
+
 
 public interface UserRepository extends JpaRepository<User, Long> {
   // User findByUsername(String username);
 
 
-  // 이메일 중복 확인! >> id 중복 확인으로 변경
-  boolean existsByEmail(String email); 
+  // // 이메일 중복 확인! >> id 중복 확인으로 변경
+  // boolean existsByEmail(String email); 
+
+  // 11.28 entity 변경에 따른 코드 수정
+  User findByUsername(String username);
+  Boolean existsByUsername(String username);
+  User findByUsernameAndPassword(String username,String password);
 }
 
 
