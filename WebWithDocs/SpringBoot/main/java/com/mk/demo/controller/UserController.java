@@ -11,7 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://127.0.0.1:5173") // React dev 서버 허용
@@ -21,7 +24,8 @@ public class UserController {
   // 아직 안만듬
   private final UserRepository repo;
 
-  private final UserService userService;
+  @Autowired
+  private UserService userService;
   
   // 생성자 초기화
   // public UserController(UserRepository repo){
@@ -29,10 +33,33 @@ public class UserController {
   // }
   
   @PostMapping("/signup")
-    public ResponseEntity<UserResponse> signup(@RequestBody SignupRequest request) {
-        UserResponse response = userService.register(request);
-        return ResponseEntity.ok(response);
-    }
+  public ResponseEntity<?> registerUser(@RequestBody SignupRequest userDTO){
+    try{
+        // record로 수정해서 password 부분 가져오는 방식 변경함
+        if(userDTO == null || userDTO.password()==null){  
+            throw new RuntimeException("Invalid Password value.");
+        }
+    
+    // 요청을 이용해 저장할 유저 만들기
+    User user = User.builder()
+    .username(userDTO.username())
+    .password(userDTO.password())
+    .build();
+    
+    // 서비스를 이용해 리포지터리에 유저 저장
+    User registeredUser = userService.create(user);
+    UserDTO responseUserDTO =UserDTO.builder();
+        .id(registeredUser.getId())
+        .username(registeredUser.getUsername())
+        .build();
+}
+
+}
+
+    // public ResponseEntity<UserResponse> signup(@RequestBody SignupRequest request) {
+    //     UserResponse response = userService.register(request);
+    //     return ResponseEntity.ok(response);
+    // }
 
   // // 회원가입 API
   // @PostMapping("/signup")
@@ -40,9 +67,6 @@ public class UserController {
   //     return repo.save(user);
   // }
 
-  
-  
-  
   
   @GetMapping("/{id}")
   public User getUserById(@PathVariable Long id) {
