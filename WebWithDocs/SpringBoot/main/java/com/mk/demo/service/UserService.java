@@ -8,33 +8,60 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+//11.30
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Slf4j
 @Service
-@RequiredArgsConstructor
+// @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private final UserRepository userRepository;
 
-    public UserResponse register(SignupRequest dto) {
-
-        if (memberRepository.existsByEmail(dto.email())) {
-            throw new IllegalArgumentException("이미 존재하는 아이디 입니다.");
+    public User create(final User user) {
+        if(user == null || user.getUsername()== null ){
+            throw new RuntimeException("Invalid arguments");
         }
+        final String username = user.getUsername();
+        if(userRepository.existsByUsername(username)){
+            log.warn( "Username already exists{}",username);
+            throw new RuntimeException("Username already exists");
+        }
+        return userRepository.save(user);
+    }
 
-        User user = User.builder()
-                .email(dto.email())
-                .password(passwordEncoder.encode(dto.password()))
-                .name(dto.name())
-                .build();
-
-        User saved = memberRepository.save(user);
-
-        return new UserResponse(
-                saved.getId(),
-                saved.getEmail(),
-                saved.getName()
-        );
+    public User getByCredentials(final String username,final String password){
+        return userRepository.findByUsernameAndPassword(username,password);
     }
 }
+
+
+
+//     private final PasswordEncoder passwordEncoder;
+
+//     public UserResponse register(SignupRequest dto) {
+
+//         if (memberRepository.existsByEmail(dto.email())) {
+//             throw new IllegalArgumentException("이미 존재하는 아이디 입니다.");
+//         }
+
+//         User user = User.builder()
+//                 .email(dto.email())
+//                 .password(passwordEncoder.encode(dto.password()))
+//                 .name(dto.name())
+//                 .build();
+
+//         User saved = memberRepository.save(user);
+
+//         return new UserResponse(
+//                 saved.getId(),
+//                 saved.getEmail(),
+//                 saved.getName()
+//         );
+//     }
+// }
 
 
