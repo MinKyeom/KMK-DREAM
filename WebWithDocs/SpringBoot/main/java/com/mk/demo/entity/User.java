@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -15,8 +16,10 @@ public class User {
 
   // id를 기본키로 설정 어노테이션, PK 값을 어떻게 생성할지 지정 어노테이션
   // 유저에게 고유하게 부여되는 id
-  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id; // 어노테이션 바로 아래에 있는 id 변수에만 어노테이션 적용 
+  @Id 
+  @GeneratedValue(generator = "system-uuid")
+  @GenericGenerator(name ="system-uuid", strategy ="uuid")
+  private String id; // 어노테이션 바로 아래에 있는 id 변수에만 어노테이션 적용 
   
   // 회원 가입에 필요한 정보
   @Column(nullable = false, unique = true)

@@ -16,13 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
 @RestController
-@RequiredArgsConstructor
+// @RequiredArgsConstructor
 @CrossOrigin(origins = "http://127.0.0.1:5173") // React dev 서버 허용
 @RequestMapping("/user")
 public class UserController {
   
   // 아직 안만듬
-  private final UserRepository repo;
+//   private final UserRepository repo;
 
   @Autowired
   private UserService userService;
@@ -48,13 +48,48 @@ public class UserController {
     
     // 서비스를 이용해 리포지터리에 유저 저장
     User registeredUser = userService.create(user);
-    UserDTO responseUserDTO =UserDTO.builder();
+    SignupRequest responseUserDTO =SignupRequest.builder()
         .id(registeredUser.getId())
         .username(registeredUser.getUsername())
         .build();
-}
+        
+        return ResponseEntity.ok().body(responseUserDTO);
+    } catch (Exception e){
+        // 유저 정보는 항상 하나이므로 리스트로 만들어야 하는 ResponseDTO를 사용하지 않고 그냥 UserDTO리턴.
+
+        UserResponse responseDTO = UserResponse.builder().error(e.getLocalizedMessage()).build();
+        return ResponseEntity
+        .badRequest()
+        .body(responseDTO);
+    }
+
+    }
+
+    @PostMapping("/signin")
+    public ResponseEntity<?> authenticate(@RequestBody UserResponse userDTO){
+        User user = userService.getByCredentials(
+        userDTO.username(),
+        userDTO.password());
+    
+    if(user != null){
+        final UserResponse responseUserDTO = UserResponse.builder()
+        .username(user.getUsername())
+        .id(user.getId())
+        .build();
+        return ResponseEntity.ok().body(responseUserDTO); 
+    }
+    else{
+        UserResponse responseDTO = UserResponse.builder()
+        .error("Login failed.")
+        .build();
+    return ResponseEntity
+        .badRequest()
+        .body(responseDTO);
+    }
+ } 
 
 }
+
 
     // public ResponseEntity<UserResponse> signup(@RequestBody SignupRequest request) {
     //     UserResponse response = userService.register(request);
@@ -66,14 +101,12 @@ public class UserController {
   // public User signup(@RequestBody User user){
   //     return repo.save(user);
   // }
-
   
-  @GetMapping("/{id}")
-  public User getUserById(@PathVariable Long id) {
-      return repo.findById(id).orElse(null); // 없으면 null 반환
-}
+//   @GetMapping("/{id}")
+//   public User getUserById(@PathVariable Long id) {
+//       return repo.findById(id).orElse(null); // 없으면 null 반환
+// }
 
-}
 
 
 // ex 예시

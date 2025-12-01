@@ -1,7 +1,12 @@
 package com.mk.demo.dto;
 
+import lombok.Builder;
+
+@Builder
 public record UserResponse (
-        Long id,
-        String email,
-        String name
+    String token,
+    String username,
+    String password,
+    String id,
+    String error
 ) {}

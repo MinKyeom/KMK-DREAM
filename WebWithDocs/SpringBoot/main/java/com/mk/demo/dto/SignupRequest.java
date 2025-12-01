@@ -1,9 +1,12 @@
 package com.mk.demo.dto;
 
+import lombok.Builder;
+
 // import lombok.AllArgsConstructor;
 // import lombok.Data;
 // import lombok.NoArgsConstructor;
 
+@Builder
 public record SignupRequest (
     String token,
     String username,
