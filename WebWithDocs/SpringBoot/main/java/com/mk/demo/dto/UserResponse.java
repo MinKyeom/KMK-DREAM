@@ -4,9 +4,8 @@ import lombok.Builder;
 
 @Builder
 public record UserResponse (
-    String token,
-    String username,
-    String password,
     String id,
+    String username,
+    String token,
     String error
 ) {}

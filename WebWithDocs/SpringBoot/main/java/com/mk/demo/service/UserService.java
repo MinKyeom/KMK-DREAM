@@ -1,67 +1,49 @@
 package com.mk.demo.service;
 
-import com.mk.demo.dto.UserResponse;
-import com.mk.demo.dto.SignupRequest;
 import com.mk.demo.entity.User;
+import com.mk.demo.entity.User.Role;
 import com.mk.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-//11.30
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-@Slf4j
 @Service
-// @RequiredArgsConstructor
+@RequiredArgsConstructor
+@Transactional
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder; 
 
+    // 회원가입
     public User create(final User user) {
-        if(user == null || user.getUsername()== null ){
+        if(user == null || user.getUsername() == null) {
             throw new RuntimeException("Invalid arguments");
         }
-        final String username = user.getUsername();
-        if(userRepository.existsByUsername(username)){
-            log.warn( "Username already exists{}",username);
+        if(userRepository.existsByUsername(user.getUsername())) {
             throw new RuntimeException("Username already exists");
         }
+
+        // 비밀번호 암호화 및 기본 역할 설정
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.ROLE_USER); 
+        user.setAuthProvider("LOCAL");
+        
         return userRepository.save(user);
     }
+    
+    // ID로 사용자 찾기 (Controller에서 인증 후 토큰 생성을 위해 사용)
+    @Transactional(readOnly = true)
+    public User loadUserById(String userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found: " + userId));
+    }
 
-    public User getByCredentials(final String username,final String password){
-        return userRepository.findByUsernameAndPassword(username,password);
+    // 12_05 추가
+    @Transactional(readOnly = true)
+    public User loadUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found: " + username));
     }
 }
-
-
-
-//     private final PasswordEncoder passwordEncoder;
-
-//     public UserResponse register(SignupRequest dto) {
-
-//         if (memberRepository.existsByEmail(dto.email())) {
-//             throw new IllegalArgumentException("이미 존재하는 아이디 입니다.");
-//         }
-
-//         User user = User.builder()
-//                 .email(dto.email())
-//                 .password(passwordEncoder.encode(dto.password()))
-//                 .name(dto.name())
-//                 .build();
-
-//         User saved = memberRepository.save(user);
-
-//         return new UserResponse(
-//                 saved.getId(),
-//                 saved.getEmail(),
-//                 saved.getName()
-//         );
-//     }
-// }
-
-

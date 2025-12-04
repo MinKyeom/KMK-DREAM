@@ -2,28 +2,8 @@ package com.mk.demo.dto;
 
 import lombok.Builder;
 
-// import lombok.AllArgsConstructor;
-// import lombok.Data;
-// import lombok.NoArgsConstructor;
-
 @Builder
 public record SignupRequest (
-    String token,
     String username,
-    String password,
-    String id
+    String password
 ) {}
-
-
-
-// 가변성이 뛰어난 버전
-// @Data
-// @Builder
-// @NoArgsConstructor
-// @AllArgsConstructor
-// public class SignupRequest{
-//     private String token;
-//     private String username;
-//     private String password;
-//     private String id;
-// }
