@@ -1,11 +1,18 @@
 // src/main.jsx
+
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
-import "./index.css"; // 필요하면 스타일링
+// ✨ 확장자 변경: App.js -> App.jsx
+import App from "./pages/App.jsx";
+// ✨ 확장자 변경: ThemeContext.js -> ThemeContext.jsx
+import { ThemeProvider } from "./context/ThemeContext.jsx";
+import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <App />
+    {/* 테마 컨텍스트로 앱 전체를 감싸줍니다. */}
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>
 );
