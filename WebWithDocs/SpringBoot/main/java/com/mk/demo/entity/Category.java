@@ -1,5 +1,8 @@
+// src/main/java/com/mk/demo/entity/Category.java
+
 package com.mk.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore; // ⭐ 추가: 순환 참조 방지
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +18,8 @@ public class Category {
 
     private String name;
 
+    // PostList에서 Category를 불러올 때 posts 필드는 무시합니다.
+    @JsonIgnore 
     @OneToMany(mappedBy = "category")
     private List<Post> posts = new ArrayList<>();
 }

@@ -25,7 +25,6 @@ public class UserService {
             throw new RuntimeException("Username already exists");
         }
 
-        // 비밀번호 암호화 및 기본 역할 설정
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.ROLE_USER); 
         user.setAuthProvider("LOCAL");
@@ -33,16 +32,15 @@ public class UserService {
         return userRepository.save(user);
     }
     
-    // ID로 사용자 찾기 (Controller에서 인증 후 토큰 생성을 위해 사용)
     @Transactional(readOnly = true)
     public User loadUserById(String userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found: " + userId));
     }
 
-    // 12_05 추가
+    // ⭐ 4. 메서드 이름을 findUserByUsername으로 변경 (UserDetailsService와 역할 분리)
     @Transactional(readOnly = true)
-    public User loadUserByUsername(String username) {
+    public User findUserByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found: " + username));
     }

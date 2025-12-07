@@ -21,7 +21,7 @@ public class UserController {
 
     private final UserService userService;
     private final TokenProvider tokenProvider;
-    private final AuthenticationManager authenticationManager; // ⭐ 주입
+    private final AuthenticationManager authenticationManager; 
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest request) {
@@ -54,16 +54,12 @@ public class UserController {
             new UsernamePasswordAuthenticationToken(request.username(), request.password());
 
         try {
-            // ⭐ AuthenticationManager로 인증 처리 (CustomUserDetailsService 호출)
             Authentication authentication = authenticationManager.authenticate(authToken);
             
-            // String authenticatedUserId = (String) authentication.getPrincipal(); // ID 추출
-            // User user = userService.loadUserById(authenticatedUserId); 
-
-            // String token = tokenProvider.create(user);
-            // principal을 UserDetails로 안전하게 사용
-            String username = authentication.getName(); // ✅ username 추출
-            User user = userService.loadUserByUsername(username); // ID 대신 username으로 조회
+            String username = authentication.getName(); // username 추출
+            
+            // ⭐ 5. 변경된 메서드 이름 findUserByUsername 호출
+            User user = userService.findUserByUsername(username); 
 
             String token = tokenProvider.create(user);
             

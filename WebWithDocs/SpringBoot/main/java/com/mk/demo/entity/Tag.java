@@ -1,5 +1,8 @@
+// src/main/java/com/mk/demo/entity/Tag.java
+
 package com.mk.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore; // ⭐ 추가: 순환 참조 방지
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +18,8 @@ public class Tag {
 
     private String name;
 
+    // PostList에서 Tag를 불러올 때 posts 필드는 무시합니다.
+    @JsonIgnore
     @ManyToMany(mappedBy = "tags")
     private Set<Post> posts = new HashSet<>();
 }
