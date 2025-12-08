@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://127.0.0.1:5173")
+// SecurityConfig에서 CORS를 전역으로 설정했으므로 @CrossOrigin은 선택적입니다.
+@CrossOrigin(origins = "http://127.0.0.1:5173") 
 public class UserController {
 
     private final UserService userService;
@@ -54,13 +55,15 @@ public class UserController {
             new UsernamePasswordAuthenticationToken(request.username(), request.password());
 
         try {
+            // Spring Security가 CustomUserDetailsService를 통해 인증을 수행합니다.
             Authentication authentication = authenticationManager.authenticate(authToken);
             
-            String username = authentication.getName(); // username 추출
+            String username = authentication.getName(); // 인증된 username 추출
             
-            // ⭐ 5. 변경된 메서드 이름 findUserByUsername 호출
+            // ⭐ 변경된 메서드 이름 findUserByUsername 호출
             User user = userService.findUserByUsername(username); 
-
+            
+            // 토큰 생성
             String token = tokenProvider.create(user);
             
             UserResponse response = UserResponse.builder()
