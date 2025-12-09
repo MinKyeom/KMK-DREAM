@@ -1,159 +1,85 @@
-/* src/components/Signup.css */
+/* src/components/Signup.css (수정) */
 
 /* ===== 전체 페이지 ===== */
-.signup-page {
-  width: 100vw;
-  height: 100vh;
-  display: grid;
-  place-items: center;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(135deg, #f8f8f8, #e3e3e3);
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  transition: background 0.3s;
+.auth-page { /* signup-page -> auth-page로 변경 */
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 0;
+  background: var(--color-background); /* ⭐ CSS 변수 사용 */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  transition: background 0.3s;
 }
 
 /* ===== 중앙 카드 ===== */
-.signup-container {
-  width: 380px;
-  padding: 2.5rem;
-  border-radius: 14px;
-  background: #fff;
-  border: 1px solid #ddd;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: center;
-  transition: background 0.3s, border 0.3s, color 0.3s;
+.auth-container { /* signup-container -> auth-container로 변경 */
+  width: 380px;
+  padding: 2.5rem;
+  border-radius: 14px;
+  background: var(--color-primary); /* ⭐ CSS 변수 사용 */
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 20px var(--color-shadow); /* ⭐ CSS 변수 사용 */
+  transition: all 0.3s ease;
 }
 
 /* ===== 제목 ===== */
-.signup-title {
-  text-align: center;
-  font-size: 1.9rem;
-  font-weight: 700;
-  margin-bottom: 2rem;
-  color: #111;
+.auth-title { /* signup-title -> auth-title로 변경 */
+  text-align: center;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--color-text-main); /* ⭐ CSS 변수 사용 */
+  margin-bottom: 2rem;
 }
 
-/* ===== 폼 ===== */
-.signup-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.4rem;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
+/* ===== 폼 및 입력 필드 (auth-form으로 통일) ===== */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .form-group label {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #333;
+  color: var(--color-text-sub); /* ⭐ CSS 변수 사용 */
 }
 
-.signup-form input {
-  padding: 0.85rem 1rem;
-  font-size: 1rem;
-  border: 1px solid #999;
-  border-radius: 8px;
-  background: #f3f3f3;
-  transition: all 0.2s ease;
-  color: #111;
+.auth-container input {
+  /* ⭐ CSS 변수 사용 */
+  border: 1px solid var(--color-border);
+  background: var(--color-background); 
+  color: var(--color-text-main);
+  border-radius: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.signup-form input:focus {
-  outline: none;
-  border-color: #000;
-  background: #fff;
-  box-shadow: 0 0 0 2px rgba(50, 50, 50, 0.2);
+.auth-container input:focus {
+  border-color: var(--color-accent); /* ⭐ CSS 변수 사용 */
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-accent-translucent); /* ⭐ 새 변수 사용 */
 }
 
 /* ===== 버튼 ===== */
-.signup-button {
-  padding: 0.85rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background: #111;
-  color: #fff;
-  transition: 0.25s ease;
+.auth-button { /* signup-button -> auth-button으로 변경 */
+  background: var(--color-accent); /* ⭐ CSS 변수 사용 */
+  color: white; 
+  transition: 0.25s ease;
 }
 
-.signup-button:hover {
-  background: #222;
+.auth-button:hover {
+  background: var(--color-accent-hover); /* ⭐ 새 변수 사용 */
 }
 
-/* ===== 모드 토글 버튼 ===== */
+/* ===== 모드 토글 버튼 (SignUp.jsx 전용) ===== */
 .mode-toggle {
-  margin-top: 1.5rem;
-  padding: 0.6rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  border-radius: 8px;
-  border: 1px solid #999;
-  cursor: pointer;
-  background: #eee;
-  color: #111;
-  transition: all 0.25s ease;
+  /* ⭐ CSS 변수 사용 */
+  border: 1px solid var(--color-border); 
+  background: var(--color-background);
+  color: var(--color-text-main);
 }
 
 .mode-toggle:hover {
-  background: #ddd;
+  background: var(--color-primary); 
 }
 
-/* ===== 다크 모드 클래스 ===== */
-.signup-page.dark {
-  background: linear-gradient(135deg, #111, #333);
-}
-
-.signup-page.dark .signup-container {
-  background: #1e1e1e;
-  border: 1px solid #555;
-  color: #f5f5f5;
-}
-
-.signup-page.dark .signup-title {
-  color: #fff;
-}
-
-.signup-page.dark .form-group label {
-  color: #ddd;
-}
-
-.signup-page.dark .signup-form input {
-  background: #2a2a2a;
-  border: 1px solid #555;
-  color: #fff;
-}
-
-.signup-page.dark .signup-form input:focus {
-  background: #333;
-  border-color: #fff;
-  box-shadow: 0 0 0 2px rgba(200, 200, 200, 0.15);
-}
-
-.signup-page.dark .signup-button {
-  background: #fafafa;
-  color: #111;
-}
-
-.signup-page.dark .signup-button:hover {
-  background: #e2e2e2;
-}
-
-.signup-page.dark .mode-toggle {
-  background: #333;
-  color: #fff;
-  border: 1px solid #555;
-}
-
-.signup-page.dark .mode-toggle:hover {
-  background: #444;
-}
+/* 다크 모드 오버라이드 제거 */

@@ -1,26 +1,27 @@
-// src/pages/App.jsx (수정)
-
-import React from "react";
+import React, { useState } from "react"; 
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { getAuthUser, logoutUser } from "../api/auth";
-// ✨ ThemeContext.jsx로 경로 수정
 import { useTheme } from "../context/ThemeContext.jsx";
 
-// 페이지 컴포넌트 임포트 (이 파일들에도 JSX가 있다면 .jsx로 변경해야 합니다)
-import PostList from "./Post/PostList";
-import PostDetail from "./Post/PostDetail";
-import WritePost from "./Post/WritePost";
-import SignUp from "./Auth/SignUp";
-import SignIn from "./Auth/SignIn";
+// ⭐ 1. 새로 추가된 메인 페이지 컴포넌트 임포트
+import HomePage from "./HomePage.jsx"; 
+import Chatbot from "../components/Chatbot.jsx"; 
 
-// 간단한 헤더 컴포넌트
-const Header = () => {
+// 기존 컴포넌트 임포트
+import PostList from "./Post/PostList.jsx";
+import PostDetail from "./Post/PostDetail.jsx";
+import WritePost from "./Post/WritePost.jsx";
+import SignUp from "./Auth/SignUp.jsx";
+import SignIn from "./Auth/SignIn.jsx";
+
+// 간단한 헤더 컴포넌트 (상단바 URL 및 글로벌 토글)
+const Header = () => { 
   const auth = getAuthUser();
-  const { isDarkMode, toggleTheme } = useTheme(); // ✨ 테마 훅 사용
+  const { isDarkMode, toggleTheme } = useTheme();
 
   const handleLogout = () => {
     logoutUser();
-    window.location.href = "/";
+    window.location.href = "/"; // 로그아웃 후 홈으로 이동
   };
 
   return (
@@ -29,33 +30,36 @@ const Header = () => {
         <Link to="/">React Blog</Link>
       </h1>
       <nav style={{ display: "flex", alignItems: "center" }}>
-        {auth.isAuthenticated && (
-          <Link to="/write" style={{ marginRight: "20px", fontWeight: "bold" }}>
-            글쓰기
-          </Link>
-        )}
-
+        {/* ⭐ 상단바에 블로그 정보 찾아가기 링크 추가 */}
+        <Link to="/post" className="btn-secondary">
+          블로그 정보 찾아가기
+        </Link>
+        
         {auth.isAuthenticated ? (
           <>
-            <span style={{ marginRight: "15px" }}>
-              환영합니다. (ID: {auth.id})
+            <span style={{ margin: "0 10px", color: "var(--color-text-sub)" }}>
+              {auth.id} 님
             </span>
+            <Link to="/write">
+              <button className="btn-primary">새 글 작성</button>
+            </Link>
             <button onClick={handleLogout} className="btn-secondary">
               로그아웃
             </button>
           </>
         ) : (
           <>
-            <Link to="/signin" style={{ marginRight: "15px" }}>
-              로그인
+            <Link to="/signup">
+              <button className="btn-secondary">회원가입</button>
             </Link>
-            <Link to="/signup">회원가입</Link>
+            <Link to="/signin">
+              <button className="btn-primary">로그인</button>
+            </Link>
           </>
         )}
-
-        {/* ✨ 테마 토글 버튼 추가 */}
-        <button onClick={toggleTheme} className="theme-toggle-button">
-          {isDarkMode ? "🌞 라이트 모드 전환" : "🌙 다크 모드 전환"}
+        {/* 글로벌 테마 토글 버튼 */}
+        <button onClick={toggleTheme} className="btn-secondary">
+          {isDarkMode ? "🌞" : "🌙"}
         </button>
       </nav>
     </header>
@@ -63,20 +67,44 @@ const Header = () => {
 };
 
 export default function App() {
+  // ⭐ 챗봇 상태 관리
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
+  const toggleChat = () => {
+    setIsChatOpen(prev => !prev);
+  };
+
   return (
     <Router>
       <div className="App">
-        <Header />
+        <Header /> 
+        
         <main>
           <Routes>
-            <Route path="/" element={<PostList />} />
+            {/* ⭐ 메인 페이지 (/)는 새로운 HomePage로 */}
+            <Route path="/" element={<HomePage />} /> 
+            {/* ⭐ 기존 PostList는 /post 경로로 변경 */}
+            <Route path="/post" element={<PostList />} /> 
+
+            {/* 나머지 경로는 유지 */}
             <Route path="/post/:id" element={<PostDetail />} />
-            <Route path="/write" element={<WritePost />} />
-            <Route path="/edit/:id" element={<WritePost isEdit={true} />} />
+            <Route path="/write" element={<WritePost />} /> 
+            <Route path="/post/edit/:id" element={<WritePost isEdit={true} />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
           </Routes>
         </main>
+
+        {/* 챗봇 플로팅 버튼 및 팝업 (모든 페이지의 우측 하단에 고정) */}
+        {/* Chatbot.css의 .chatbot-float-btn 스타일을 사용하여 우측 하단에 고정 */}
+        {!isChatOpen && (
+          <button className="chatbot-float-btn" onClick={toggleChat} title="챗봇 열기">
+            💬
+          </button>
+        )}
+        {isChatOpen && (
+          <Chatbot isChatOpen={isChatOpen} setIsChatOpen={setIsChatOpen} />
+        )}
       </div>
     </Router>
   );

@@ -82,13 +82,10 @@ export default function SignIn() {
           로그인
         </button>
       </form>
-      <div
-        style={{ marginTop: "20px", textAlign: "center", fontSize: "0.9em" }}
-      >
-        <Link to="/signup" style={{ color: "var(--color-accent)" }}>
-          회원가입
-        </Link>
-      </div>
+
+      <p style={{ marginTop: "20px", color: "var(--color-text-sub)" }}>
+        계정이 없으신가요? <Link to="/signup">회원가입</Link>
+      </p>
     </div>
   );
 }

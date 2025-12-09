@@ -13,10 +13,12 @@ export default function WritePost({ isEdit = false }) {
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("");
   const [tags, setTags] = useState(""); // 쉼표로 구분된 문자열
+  const [loading, setLoading] = useState(false);
 
   // 수정 모드일 때 기존 글 불러오기
   useEffect(() => {
     if (isEdit && id) {
+      setLoading(true);
       fetchPostById(id)
         .then((post) => {
           // 작성자 확인은 백엔드에서 수행하므로 여기서는 데이터 로딩만
@@ -29,62 +31,64 @@ export default function WritePost({ isEdit = false }) {
         .catch((error) => {
           alert("수정할 글을 불러오지 못했습니다. 권한을 확인하세요.");
           navigate("/");
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   }, [isEdit, id, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
-    // 쉼표로 구분된 태그 문자열을 배열로 변환
+    // 태그 문자열을 쉼표, 공백 등을 기준으로 배열로 분리
     const tagsArray = tags
-      .split(",")
+      .split(/,\s*|,\s*|\s+/)
       .map((tag) => tag.trim())
       .filter((tag) => tag.length > 0);
 
-    // PostRequest DTO에 맞춘 데이터 구성
     const postData = {
       title,
       content,
-      category,
+      category: category.trim(),
       tags: tagsArray,
-      // authorId는 백엔드에서 JWT 토큰을 통해 추출되므로 프론트에서 전송하지 않음
     };
 
     try {
       if (isEdit) {
-        // 글 수정 API 호출
         await updatePost(id, postData);
         alert("글이 성공적으로 수정되었습니다.");
-        navigate(`/post/${id}`);
       } else {
-        // 새 글 작성 API 호출
-        const newPost = await createPost(postData);
-        alert("글이 성공적으로 작성되었습니다.");
-        navigate(`/post/${newPost.id}`);
+        await createPost(postData);
+        alert("새 글이 성공적으로 작성되었습니다.");
       }
+      navigate("/"); // 작성/수정 후 목록 페이지로 이동
     } catch (error) {
-      // 백엔드에서 권한이 없으면 403 Forbidden 에러 발생
-      const errorMessage =
+      const message =
         error.response?.data?.error ||
-        "작성/수정 실패: 로그인이 필요하거나 권한이 없습니다.";
-      alert(errorMessage);
+        "처리 실패: 로그인이 필요하거나 권한이 없습니다.";
+      alert(message);
       console.error("Post operation error:", error);
-      if (error.message.includes("로그인이 필요")) {
-        navigate("/signin"); // 로그인 페이지로 리다이렉트
-      }
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (loading && isEdit) {
+    return <div style={{ textAlign: "center", padding: "50px" }}>글 불러오는 중...</div>;
+  }
 
   return (
     <div
       style={{
-        maxWidth: "600px",
-        margin: "50px auto",
+        maxWidth: "800px",
+        margin: "20px auto",
         padding: "30px",
         backgroundColor: "var(--color-primary)",
-        border: "1px solid var(--color-border)",
         borderRadius: "8px",
+        boxShadow: "0 2px 10px var(--color-shadow)",
+        textAlign: "left",
       }}
     >
       <h2 style={{ color: "var(--color-text-main)", marginBottom: "20px" }}>
@@ -125,12 +129,8 @@ export default function WritePost({ isEdit = false }) {
           onChange={(e) => setTags(e.target.value)}
           style={{ padding: "8px", marginBottom: "10px" }}
         />
-        <button
-          type="submit"
-          className="btn-primary"
-          style={{ padding: "12px", marginTop: "10px", fontSize: "1.1em" }}
-        >
-          {isEdit ? "수정 완료" : "작성하기"}
+        <button type="submit" className="btn-primary" disabled={loading}>
+          {loading ? "처리 중..." : isEdit ? "수정 완료" : "작성 완료"}
         </button>
       </form>
     </div>

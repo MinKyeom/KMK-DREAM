@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+// posts.js에서 fetchPostById, deletePost를 가져옴
 import { fetchPostById, deletePost } from "../../api/posts";
 import { getAuthUser } from "../../api/auth";
 
@@ -18,7 +19,6 @@ export default function PostDetail() {
     const loadPost = async () => {
       setLoading(true);
       try {
-        // Post ID는 URL 파라미터로 문자열 형태이므로 그대로 전달
         const data = await fetchPostById(id);
         setPost(data);
       } catch (error) {
@@ -39,59 +39,68 @@ export default function PostDetail() {
         alert("글이 성공적으로 삭제되었습니다.");
         navigate("/");
       } catch (error) {
-        // 백엔드에서 권한이 없으면 403 Forbidden 에러 발생
-        alert(
-          `삭제 실패: ${
-            error.message || "로그인이 필요하거나 권한이 없습니다."
-          }`
-        );
-        console.error("Delete error:", error);
+        const message =
+          error.response?.data?.error ||
+          "삭제 권한이 없거나 서버 오류가 발생했습니다.";
+        alert(message);
+        console.error("Error deleting post:", error);
       }
     }
   };
 
-  if (loading) return <div>게시글 상세 로딩 중...</div>;
-  if (!post) return <div>게시글을 찾을 수 없습니다.</div>;
+  if (loading) {
+    return <div style={{ textAlign: "center", padding: "50px" }}>로딩 중...</div>;
+  }
 
-  // 로그인된 사용자가 글 작성자인지 확인
-  const isAuthor = currentUserId && post.authorId === currentUserId;
+  if (!post) {
+    return (
+      <div style={{ textAlign: "center", padding: "50px" }}>
+        게시글을 찾을 수 없습니다.
+      </div>
+    );
+  }
+
+  // 로그인된 사용자가 게시글 작성자와 일치하는지 확인
+  const isAuthor = post.author === currentUserId;
 
   return (
     <div
-      className="post-detail-page"
       style={{
         maxWidth: "800px",
-        margin: "50px auto",
+        margin: "20px auto",
         padding: "30px",
         backgroundColor: "var(--color-primary)",
-        border: "1px solid var(--color-border)",
         borderRadius: "8px",
+        boxShadow: "0 2px 10px var(--color-shadow)",
+        textAlign: "left",
       }}
     >
       <h1
         style={{
           color: "var(--color-text-main)",
-          borderBottom: "1px solid var(--color-border)",
+          borderBottom: "2px solid var(--color-accent)",
           paddingBottom: "10px",
           marginBottom: "15px",
         }}
       >
         {post.title}
       </h1>
-      <p style={{ color: "var(--color-text-sub)", fontSize: "0.9em" }}>
-        작성자 ID: {post.author} | 작성일:{" "}
-        {new Date(post.createdAt).toLocaleDateString()}
+      <p className="post-meta-info">
+        작성자 ID:{" "}
+        <span style={{ fontWeight: "bold" }}>
+          {post.author || "알 수 없음"}
+        </span>{" "}
+        | 작성일: {new Date(post.createdAt).toLocaleDateString()}
       </p>
-      <p style={{ marginTop: "10px" }}>
+      <p style={{ marginBottom: "5px" }}>
         카테고리:{" "}
-        <span style={{ fontWeight: "bold", color: "var(--color-accent)" }}>
+        <span style={{ color: "var(--color-accent)" }}>
           {post.category?.name || "미분류"}
         </span>
       </p>
       <p style={{ marginBottom: "20px" }}>
         태그:{" "}
         {post.tags?.map((tag) => (
-          // ✨ 이전 오류 수정: 불필요한 주석/문자 없이 순수 JSX 요소만 반환
           <span key={tag.id} className="tag-badge">
             {tag.name}
           </span>
@@ -117,26 +126,17 @@ export default function PostDetail() {
 
       {isAuthor && (
         <div style={{ marginTop: "30px", textAlign: "right" }}>
-          <Link to={`/edit/${post.id}`}>
-            <button className="btn-secondary" style={{ marginRight: "10px" }}>
-              수정
-            </button>
+          <Link to={`/post/edit/${post.id}`}>
+            <button className="btn-secondary">수정</button>
           </Link>
           <button onClick={handleDelete} className="btn-delete">
             삭제
           </button>
         </div>
       )}
-
-      <div
-        style={{
-          marginTop: "30px",
-          borderTop: "1px solid var(--color-border)",
-          paddingTop: "20px",
-        }}
-      >
+      <div style={{ marginTop: "20px", textAlign: "left" }}>
         <Link to="/">
-          <button className="btn-primary">목록으로</button>
+          <button className="btn-secondary">목록으로</button>
         </Link>
       </div>
     </div>

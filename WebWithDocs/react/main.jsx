@@ -2,9 +2,7 @@
 
 import React from "react";
 import ReactDOM from "react-dom/client";
-// ✨ 확장자 변경: App.js -> App.jsx
 import App from "./pages/App.jsx";
-// ✨ 확장자 변경: ThemeContext.js -> ThemeContext.jsx
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import "./index.css";
 
