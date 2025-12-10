@@ -1,22 +1,22 @@
 // src/components/Chatbot.jsx
 
 import React, { useState, useEffect, useRef } from "react";
-import { sendChatMessage } from "../api/chat"; // 1번에서 작성한 API 함수
-import { getAuthUser } from "../api/auth"; // 기존 인증 유틸리티
-import "./Chatbot.css"; // 3번에서 작성할 스타일시트
+import { sendChatMessage } from "../api/chat"; 
+import { useAuth } from "../context/AuthContext.jsx"; 
+import "./Chatbot.css"; 
 
-export default function Chatbot({ isChatOpen, setIsChatOpen }) {
+export default function Chatbot({ setIsChatOpen }) { 
   // 채팅 메시지 상태: [{ role: 'user'/'assistant', text: 'message' }]
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   
-  // 로그인된 사용자 ID를 가져와 챗봇 세션 ID로 사용
-  const { id: currentUserId } = getAuthUser();
+  // useAuth 훅을 사용하여 상태 변화에 반응
+  const { id: currentUserId, nickname: currentUserNickname } = useAuth();
   const sessionId = currentUserId || "guest_user"; // 비로그인 시 'guest_user' 사용
 
   const messagesEndRef = useRef(null);
-
+  
   // 메시지가 추가될 때마다 스크롤을 맨 아래로 이동
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -28,43 +28,51 @@ export default function Chatbot({ isChatOpen, setIsChatOpen }) {
     if (inputMessage.trim() === "" || isLoading) return;
 
     const userMessage = inputMessage.trim();
-    // 1. 사용자 메시지 추가 및 입력 필드 초기화
+    
+    // 1. 사용자 메시지 목록에 추가
     setMessages((prev) => [...prev, { role: "user", text: userMessage }]);
-    setInputMessage("");
-    setIsLoading(true);
+    setInputMessage(""); // 입력 필드 초기화
+    setIsLoading(true); // 로딩 시작
 
     try {
       // 2. 챗봇 API 호출
-      const botResponse = await sendChatMessage(sessionId, userMessage);
-
-      // 3. 챗봇 응답 메시지 추가
-      setMessages((prev) => [...prev, { role: "assistant", text: botResponse }]);
-    } catch (error) {
-      // API 통신 오류 발생 시 오류 메시지 표시
+      const botResponseText = await sendChatMessage(sessionId, userMessage);
+      
+      // 3. 챗봇 응답 목록에 추가
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", text: "오류: 챗봇과 통신 중 문제가 발생했습니다." },
+        { role: "assistant", text: botResponseText },
       ]);
-      console.error("Chatbot response error:", error);
+    } catch (error) {
+      console.error("Chatbot send error:", error);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          text: "메시지를 처리하는 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.",
+        },
+      ]);
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); // 로딩 종료
     }
   };
-
-  // isChatOpen 상태가 false이면 아무것도 렌더링하지 않음 (App.jsx에서 처리)
-  if (!isChatOpen) return null;
+  
+  // 챗봇 닫기 핸들러
+  const handleClose = () => {
+    setIsChatOpen(false);
+  };
+  
 
   return (
     <div className="chatbot-container">
       <div className="chatbot-header">
-        <span>
-          <span role="img" aria-label="robot">🤖</span> Blog Assistant
-        </span>
-        <button className="chatbot-close-btn" onClick={() => setIsChatOpen(false)}>
+        <span>AI 개발 챗봇</span>
+        <button className="close-btn" onClick={handleClose}>
           &times;
         </button>
       </div>
 
+      {/* 메시지 목록 */}
       <div className="chatbot-messages">
         {messages.length === 0 && (
           <div className="chatbot-welcome">
@@ -72,7 +80,7 @@ export default function Chatbot({ isChatOpen, setIsChatOpen }) {
             궁금한 점을 물어보거나, 관심사/공부 내용을 저장해 보세요.
             <br/><br/>
             {currentUserId 
-              ? `👤 ${currentUserId} 님으로 세션이 시작됩니다.`
+              ? `👤 **${currentUserNickname || currentUserId}** 님으로 세션이 시작됩니다.` 
               : `**비회원** 세션입니다. 로그인 시 기록이 유지됩니다.`
             }
           </div>
@@ -87,9 +95,11 @@ export default function Chatbot({ isChatOpen, setIsChatOpen }) {
             <span className="dot">.</span><span className="dot">.</span><span className="dot">.</span>
           </div>
         )}
+        {/* 스크롤 위치를 잡아주는 Ref */}
         <div ref={messagesEndRef} />
       </div>
 
+      {/* 입력 폼 */}
       <form className="chatbot-input-form" onSubmit={handleSend}>
         <input
           type="text"
@@ -98,7 +108,7 @@ export default function Chatbot({ isChatOpen, setIsChatOpen }) {
           placeholder="메시지를 입력하세요..."
           disabled={isLoading}
         />
-        <button type="submit" disabled={isLoading} className="btn-primary">
+        <button type="submit" className="btn-primary" disabled={isLoading}>
           전송
         </button>
       </form>

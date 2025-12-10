@@ -2,71 +2,95 @@
 
 import { useState } from "react";
 import { registerUser } from "../api/auth";
-import { useNavigate } from "react-router-dom";
-import "./Signup.css";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext.jsx"; 
+import "./Signup.css"; 
 
 export default function SignupForm() {
-  const [email, setEmail] = useState(""); // Backend: username
+  const [username, setUsername] = useState(""); 
   const [password, setPassword] = useState("");
-  const [name, setName] = useState(""); // UI 전용 (현재 백엔드에서 사용하지 않음)
+  // 닉네임 상태
+  const [nickname, setNickname] = useState(""); 
+  const [confirmPassword, setConfirmPassword] = useState(""); 
 
   const navigate = useNavigate();
+  const { refreshAuth } = useAuth(); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (password !== confirmPassword) {
+        alert("비밀번호가 일치하지 않습니다.");
+        return;
+    }
+
     try {
-      // email을 username으로 매핑하여 API 호출
-      await registerUser({ email, password });
+      // 닉네임을 포함하여 API 호출
+      await registerUser({ username, password, nickname });
 
       alert("회원가입 성공! 자동 로그인되었습니다.");
       navigate("/");
-      window.location.reload();
+      refreshAuth(); 
     } catch (error) {
-      const message = error.response?.data?.error || "회원가입 실패!";
+      // 서버에서 닉네임 중복 오류 등을 반환할 수 있도록 수정
+      const message = error.response?.data?.error || "회원가입 실패: 서버 오류";
       alert(message);
       console.error(error);
     }
   };
 
   return (
-    <form className="signup-form" onSubmit={handleSubmit}>
-      {" "}
+    <form className="auth-form" onSubmit={handleSubmit}> 
       <div className="form-group">
-        {" "}
-        <label>이메일 (아이디)</label>{" "}
+        <label>아이디</label>
         <input
-          type="email"
-          placeholder="이메일을 입력하세요"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="text"
+          placeholder="로그인에 사용할 ID를 입력해주세요"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           required
-        />{" "}
-      </div>{" "}
+        />
+      </div>
+      
       <div className="form-group">
-        {" "}
-        <label>비밀번호</label>{" "}
+        <label>닉네임</label>
+        <input
+          type="text"
+          placeholder="블로그에 표시될 닉네임을 입력해주세요"
+          value={nickname}
+          onChange={(e) => setNickname(e.target.value)}
+          required
+        />
+      </div>
+      
+      <div className="form-group">
+        <label>비밀번호</label>
         <input
           type="password"
-          placeholder="비밀번호를 입력하세요"
+          placeholder="비밀번호를 입력해주세요"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-        />{" "}
-      </div>{" "}
-      {/* 닉네임/이름 필드는 현재 백엔드 DTO(SignupRequest)에서 사용하지 않으므로, 백엔드 변경이 필요 없는 한 숨기거나 제거하는 것이 좋습니다. */}
-      {/* <div className="form-group">
-        <label>이름/닉네임</label>
+        />
+      </div>
+
+      <div className="form-group">
+        <label>비밀번호 확인</label>
         <input
-          type="text"
-          placeholder="이름을 입력하세요"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          type="password"
+          placeholder="비밀번호를 다시 한번 입력해주세요"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
           required
         />
-      </div> */}
-      <button type="submit" className="signup-button">
-        가입하기
+      </div>
+      
+      <button 
+        type="submit" 
+        className="btn-primary" 
+        style={{ width: "100%", marginTop: "1rem" }}
+      >
+        회원가입
       </button>
     </form>
   );

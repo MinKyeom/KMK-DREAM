@@ -1,73 +1,94 @@
+// src/pages/App.jsx
+
 import React, { useState } from "react"; 
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { getAuthUser, logoutUser } from "../api/auth";
+import { logoutUser } from "../api/auth"; 
 import { useTheme } from "../context/ThemeContext.jsx";
-
-// ⭐ 1. 새로 추가된 메인 페이지 컴포넌트 임포트
-import HomePage from "./HomePage.jsx"; 
-import Chatbot from "../components/Chatbot.jsx"; 
-
-// 기존 컴포넌트 임포트
+import { useAuth } from "../context/AuthContext.jsx"; 
 import PostList from "./Post/PostList.jsx";
 import PostDetail from "./Post/PostDetail.jsx";
 import WritePost from "./Post/WritePost.jsx";
 import SignUp from "./Auth/SignUp.jsx";
 import SignIn from "./Auth/SignIn.jsx";
+import HomePage from "./HomePage.jsx";
+import Chatbot from "../components/Chatbot.jsx";
+import "../App.css"; 
+import "../components/Chatbot.css"; 
 
-// 간단한 헤더 컴포넌트 (상단바 URL 및 글로벌 토글)
-const Header = () => { 
-  const auth = getAuthUser();
+// ⭐ 전역 테마 토글 컴포넌트
+const HeaderThemeToggle = () => {
   const { isDarkMode, toggleTheme } = useTheme();
+  
+  return (
+    <button 
+      onClick={toggleTheme} 
+      className="global-theme-toggle"
+      title={isDarkMode ? "라이트 모드 전환" : "다크 모드 전환"}
+    >
+      {/* 감성적인 아이콘 사용 */}
+      {isDarkMode ? "☀️" : "🌙"}
+    </button>
+  );
+};
 
-  const handleLogout = () => {
-    logoutUser();
-    window.location.href = "/"; // 로그아웃 후 홈으로 이동
+// 간단한 헤더 컴포넌트: 버튼 위치 및 아이콘 통일
+const Header = () => { 
+  const { isAuthenticated, nickname, refreshAuth } = useAuth();
+  
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      alert("로그아웃 되었습니다.");
+      refreshAuth(); 
+    } catch (error) {
+      console.error("로그아웃 오류:", error);
+      alert("로그아웃 중 오류가 발생했습니다.");
+    }
   };
 
   return (
     <header>
-      <h1 style={{ margin: 0 }}>
-        <Link to="/">React Blog</Link>
-      </h1>
-      <nav style={{ display: "flex", alignItems: "center" }}>
-        {/* ⭐ 상단바에 블로그 정보 찾아가기 링크 추가 */}
-        <Link to="/post" className="btn-secondary">
-          블로그 정보 찾아가기
-        </Link>
+      <div>
+        {/* 블로그 로고 */}
+        <h1>
+          <Link to="/">DevBlog</Link>
+        </h1>
         
-        {auth.isAuthenticated ? (
-          <>
-            <span style={{ margin: "0 10px", color: "var(--color-text-sub)" }}>
-              {auth.id} 님
-            </span>
-            <Link to="/write">
-              <button className="btn-primary">새 글 작성</button>
-            </Link>
-            <button onClick={handleLogout} className="btn-secondary">
-              로그아웃
-            </button>
-          </>
-        ) : (
-          <>
-            <Link to="/signup">
-              <button className="btn-secondary">회원가입</button>
-            </Link>
-            <Link to="/signin">
-              <button className="btn-primary">로그인</button>
-            </Link>
-          </>
-        )}
-        {/* 글로벌 테마 토글 버튼 */}
-        <button onClick={toggleTheme} className="btn-secondary">
-          {isDarkMode ? "🌞" : "🌙"}
-        </button>
-      </nav>
+        {/* 네비게이션 및 인증/테마 토글 */}
+        <nav>
+          <Link to="/">홈</Link>
+          <Link to="/post">포스트</Link>
+          
+          {isAuthenticated ? (
+            <>
+              <span style={{color: 'var(--color-accent)', fontWeight: 600}}>
+                 {nickname}님
+              </span>
+              <button onClick={handleLogout} className="btn-secondary btn-sm" style={{ padding: '8px 15px'}}>
+                <span role="img" aria-label="logout">🚪</span> 로그아웃
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/signin" className="btn-secondary btn-sm" style={{ padding: '8px 15px'}}>
+              <span role="img" aria-label="signin">🔑</span> 로그인
+              </Link>
+              <Link to="/signup" className="btn-primary btn-sm" style={{ padding: '8px 15px'}}>
+              <span role="img" aria-label="signup">👤</span> 회원가입
+              </Link>
+            </>
+          )}
+
+          {/* 전역 테마 토글 버튼 (우측 끝에 배치) */}
+          <HeaderThemeToggle /> 
+        </nav>
+      </div>
     </header>
   );
 };
 
 export default function App() {
-  // ⭐ 챗봇 상태 관리
+  // 챗봇 상태 관리
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   const toggleChat = () => {
@@ -77,16 +98,13 @@ export default function App() {
   return (
     <Router>
       <div className="App">
+        {/* Header는 AuthContext에 접근하여 상태를 업데이트합니다. */}
         <Header /> 
         
         <main>
           <Routes>
-            {/* ⭐ 메인 페이지 (/)는 새로운 HomePage로 */}
             <Route path="/" element={<HomePage />} /> 
-            {/* ⭐ 기존 PostList는 /post 경로로 변경 */}
             <Route path="/post" element={<PostList />} /> 
-
-            {/* 나머지 경로는 유지 */}
             <Route path="/post/:id" element={<PostDetail />} />
             <Route path="/write" element={<WritePost />} /> 
             <Route path="/post/edit/:id" element={<WritePost isEdit={true} />} />
@@ -95,16 +113,20 @@ export default function App() {
           </Routes>
         </main>
 
-        {/* 챗봇 플로팅 버튼 및 팝업 (모든 페이지의 우측 하단에 고정) */}
-        {/* Chatbot.css의 .chatbot-float-btn 스타일을 사용하여 우측 하단에 고정 */}
-        {!isChatOpen && (
-          <button className="chatbot-float-btn" onClick={toggleChat} title="챗봇 열기">
-            💬
-          </button>
-        )}
+        {/* 챗봇 플로팅 버튼 및 팝업 (우측 하단 고정) */}
         {isChatOpen && (
-          <Chatbot isChatOpen={isChatOpen} setIsChatOpen={setIsChatOpen} />
+            // isChatOpen 상태가 true일 때만 팝업 표시
+            <Chatbot setIsChatOpen={setIsChatOpen} />
         )}
+        
+        <button 
+            className="chatbot-float-btn"
+            onClick={toggleChat}
+            title={isChatOpen ? "챗봇 닫기" : "챗봇 열기"}
+        >
+          {isChatOpen ? <span role="img" aria-label="close">✖️</span> : <span role="img" aria-label="chat">🤖</span>}
+        </button>
+        
       </div>
     </Router>
   );

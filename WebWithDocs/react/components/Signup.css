@@ -1,85 +1,81 @@
-/* src/components/Signup.css (수정) */
+/* src/components/Signup.css (인증 페이지 디자인 통일 및 버튼 수정) */
 
-/* ===== 전체 페이지 ===== */
-.auth-page { /* signup-page -> auth-page로 변경 */
+/* ===== 전체 페이지 (로그인/회원가입) - 테마 적용 문제 해결 ===== */
+.auth-page { 
   width: 100vw;
-  height: 100vh;
+  min-height: calc(100vh - 80px); /* 헤더 높이 제외 */
   display: grid;
   place-items: center;
   margin: 0;
-  padding: 0;
-  background: var(--color-background); /* ⭐ CSS 변수 사용 */
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 40px 20px;
+  background: var(--color-background); /* 테마 배경색 사용 */
+  font-family: 'Pretendard', sans-serif;
   transition: background 0.3s;
 }
 
 /* ===== 중앙 카드 ===== */
-.auth-container { /* signup-container -> auth-container로 변경 */
-  width: 380px;
+.auth-container { 
+  width: 100%;
+  max-width: 400px; /* 약간 더 넓게 */
   padding: 2.5rem;
-  border-radius: 14px;
-  background: var(--color-primary); /* ⭐ CSS 변수 사용 */
+  border-radius: 16px;
+  background: var(--color-primary); /* 카드 배경색 사용 */
   border: 1px solid var(--color-border);
-  box-shadow: 0 4px 20px var(--color-shadow); /* ⭐ CSS 변수 사용 */
+  box-shadow: 0 8px 30px var(--color-shadow); 
   transition: all 0.3s ease;
 }
 
 /* ===== 제목 ===== */
-.auth-title { /* signup-title -> auth-title로 변경 */
+.auth-title { 
   text-align: center;
-  font-size: 1.9rem;
-  font-weight: 700;
-  color: var(--color-text-main); /* ⭐ CSS 변수 사용 */
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--color-accent); /* 강조 색상으로 제목 */
   margin-bottom: 2rem;
 }
 
-/* ===== 폼 및 입력 필드 (auth-form으로 통일) ===== */
+/* ===== 폼 및 입력 필드 ===== */
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.2rem;
 }
 
 .form-group label {
-  color: var(--color-text-sub); /* ⭐ CSS 변수 사용 */
+  color: var(--color-text-sub); 
+  margin-bottom: 0.5rem;
+  display: block;
+  font-weight: 600;
+  text-align: left;
+  font-size: 0.9em;
 }
 
 .auth-container input {
-  /* ⭐ CSS 변수 사용 */
+  width: 100%;
+  padding: 12px;
   border: 1px solid var(--color-border);
   background: var(--color-background); 
   color: var(--color-text-main);
   border-radius: 8px;
   transition: border-color 0.2s, box-shadow 0.2s;
+  font-size: 1em;
 }
 
 .auth-container input:focus {
-  border-color: var(--color-accent); /* ⭐ CSS 변수 사용 */
+  border-color: var(--color-accent); 
   outline: none;
-  box-shadow: 0 0 0 2px var(--color-accent-translucent); /* ⭐ 새 변수 사용 */
+  box-shadow: 0 0 0 2px var(--color-accent-translucent);
 }
 
-/* ===== 버튼 ===== */
-.auth-button { /* signup-button -> auth-button으로 변경 */
-  background: var(--color-accent); /* ⭐ CSS 변수 사용 */
-  color: white; 
-  transition: 0.25s ease;
+/* ===== 링크 영역 ===== */
+.auth-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.95em;
+    color: var(--color-text-sub);
 }
 
-.auth-button:hover {
-  background: var(--color-accent-hover); /* ⭐ 새 변수 사용 */
+.auth-link a {
+    color: var(--color-accent);
+    font-weight: 600;
 }
-
-/* ===== 모드 토글 버튼 (SignUp.jsx 전용) ===== */
-.mode-toggle {
-  /* ⭐ CSS 변수 사용 */
-  border: 1px solid var(--color-border); 
-  background: var(--color-background);
-  color: var(--color-text-main);
-}
-
-.mode-toggle:hover {
-  background: var(--color-primary); 
-}
-
-/* 다크 모드 오버라이드 제거 */

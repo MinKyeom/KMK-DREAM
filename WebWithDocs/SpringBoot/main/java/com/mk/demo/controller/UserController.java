@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
-// SecurityConfig에서 CORS를 전역으로 설정했으므로 @CrossOrigin은 선택적입니다.
 @CrossOrigin(origins = "http://127.0.0.1:5173") 
 public class UserController {
 
@@ -26,9 +25,11 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest request) {
+        // ⭐ 수정: 닉네임 필드를 포함하여 User 엔티티 생성
         User user = User.builder()
                 .username(request.username())
                 .password(request.password()) 
+                .nickname(request.nickname()) // ⭐ 추가
                 .build();
 
         try {
@@ -39,6 +40,7 @@ public class UserController {
                 UserResponse.builder()
                     .id(savedUser.getId())
                     .username(savedUser.getUsername())
+                    .nickname(savedUser.getNickname()) // ⭐ 추가
                     .token(token)
                     .build()
             );
@@ -55,20 +57,19 @@ public class UserController {
             new UsernamePasswordAuthenticationToken(request.username(), request.password());
 
         try {
-            // Spring Security가 CustomUserDetailsService를 통해 인증을 수행합니다.
             Authentication authentication = authenticationManager.authenticate(authToken);
             
-            String username = authentication.getName(); // 인증된 username 추출
+            String username = authentication.getName(); 
             
-            // ⭐ 변경된 메서드 이름 findUserByUsername 호출
             User user = userService.findUserByUsername(username); 
             
-            // 토큰 생성
             String token = tokenProvider.create(user);
             
+            // ⭐ 수정: 닉네임 필드를 포함하여 응답 DTO 생성
             UserResponse response = UserResponse.builder()
                     .id(user.getId())
                     .username(user.getUsername())
+                    .nickname(user.getNickname()) // ⭐ 추가
                     .token(token)
                     .build();
             return ResponseEntity.ok(response);

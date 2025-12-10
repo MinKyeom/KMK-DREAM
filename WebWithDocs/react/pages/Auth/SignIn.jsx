@@ -3,20 +3,22 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { loginUser } from "../../api/auth";
+import { useAuth } from "../../context/AuthContext.jsx"; 
+import "../../components/Signup.css"; // Auth Page 스타일 임포트
 
 export default function SignIn() {
-  const [username, setUsername] = useState(""); // 백엔드는 username을 사용 (프론트에서는 이메일로 사용)
+  const [username, setUsername] = useState(""); 
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { refreshAuth } = useAuth(); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // API 호출: username과 password 전달
       await loginUser({ username, password });
       alert(`로그인 성공!`);
-      navigate("/"); // 홈으로 이동
-      window.location.reload(); // 헤더 상태 업데이트를 위해 페이지 새로고침
+      navigate("/"); 
+      refreshAuth(); 
     } catch (error) {
       const message =
         error.response?.data?.error ||
@@ -26,66 +28,47 @@ export default function SignIn() {
   };
 
   return (
-    <div
-      style={{
-        maxWidth: "400px",
-        margin: "50px auto",
-        padding: "30px",
-        backgroundColor: "var(--color-primary)",
-        border: "1px solid var(--color-border)",
-        borderRadius: "8px",
-      }}
-    >
-      <h2
-        style={{
-          color: "var(--color-text-main)",
-          marginBottom: "20px",
-          borderBottom: "1px solid var(--color-border)",
-          paddingBottom: "10px",
-        }}
-      >
-        로그인
-      </h2>
-      <form
-        onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column", gap: "15px" }}
-      >
-        <input
-          type="text"
-          placeholder="아이디(이메일)"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-          style={{
-            padding: "10px",
-            border: "1px solid var(--color-border)",
-            borderRadius: "4px",
-          }}
-        />
-        <input
-          type="password"
-          placeholder="비밀번호"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          style={{
-            padding: "10px",
-            border: "1px solid var(--color-border)",
-            borderRadius: "4px",
-          }}
-        />
-        <button
-          type="submit"
-          className="btn-primary"
-          style={{ marginTop: "15px" }}
+    <div className="auth-page"> 
+      <div className="auth-container"> 
+        <h2 className="auth-title">로그인</h2> 
+        <form
+          onSubmit={handleSubmit}
+          className="auth-form" 
         >
-          로그인
-        </button>
-      </form>
-
-      <p style={{ marginTop: "20px", color: "var(--color-text-sub)" }}>
-        계정이 없으신가요? <Link to="/signup">회원가입</Link>
-      </p>
+          <div className="form-group">
+            <label>아이디</label>
+            <input
+              type="text"
+              placeholder="아이디를 입력하세요"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>비밀번호</label>
+            <input
+              type="password"
+              placeholder="비밀번호를 입력하세요"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          
+          <button
+            type="submit"
+            className="btn-primary"
+            style={{ width: "100%", marginTop: "1rem" }}
+          >
+            로그인
+          </button>
+        </form>
+        
+        <div className="auth-link">
+          계정이 없으신가요? <Link to="/signup">회원가입</Link>
+        </div>
+      </div>
     </div>
   );
 }

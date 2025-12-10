@@ -1,42 +1,239 @@
+/* src/App.css (수정 및 추가) */
+
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  max-width: 100%; /* 전체 너비 사용 */
+  margin: 0;
+  padding: 0; 
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+main {
+    padding: 20px 2rem;
+    max-width: 1280px; /* 메인 콘텐츠 최대 너비 */
+    margin: 0 auto;
+    min-height: calc(100vh - 80px); /* 헤더 높이를 제외한 최소 높이 */
+    padding-bottom: 80px; /* 챗봇 플로팅 버튼과 겹치지 않게 패딩 추가 */
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* --- 1. 헤더 공통 스타일 (전역 테마 적용) --- */
+header {
+  width: 100%; 
+  background-color: var(--color-primary); 
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  box-shadow: 0 1px 5px var(--color-shadow); /* 부드러운 그림자 추가 */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+header > div { /* 헤더 내부 컨텐츠: 로고(왼쪽), 네비(오른쪽) 분리 */
+    max-width: 1280px; 
+    margin: 0 auto;
+    padding: 15px 2rem; 
+    display: flex;
+    justify-content: space-between; /* 양쪽 끝으로 분리 */
+    align-items: center;
 }
 
-.card {
-  padding: 2em;
+header h1 a {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-size: 1.5em;
+    font-weight: 800;
 }
 
-.read-the-docs {
-  color: #888;
+nav {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* 네비게이션 항목 간 간격 */
+}
+
+nav a {
+    color: var(--color-text-main);
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+nav a:hover {
+    background-color: var(--color-border);
+    text-decoration: none;
+}
+
+/* --- 2. 전역 테마 토글 버튼 (우측 상단 고정) 스타일 --- */
+.global-theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.4em;
+    margin-left: 10px;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+.global-theme-toggle:hover {
+    background-color: var(--color-border);
+}
+
+
+/* --- 3. 버튼 스타일 통일 --- */
+.btn-primary, .btn-secondary, .btn-danger {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s, opacity 0.2s;
+    text-decoration: none !important; /* Link에서 텍스트 밑줄 제거 */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* Primary Button (강조 색상) */
+.btn-primary {
+    background-color: var(--color-accent);
+    color: #ffffff; 
+    border: 1px solid var(--color-accent);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-accent-hover);
+    border-color: var(--color-accent-hover);
+    box-shadow: 0 2px 8px var(--color-accent-translucent);
+}
+
+/* Secondary Button (일반 색상) */
+.btn-secondary {
+    background-color: var(--color-primary);
+    color: var(--color-text-main);
+    border: 1px solid var(--color-border);
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-border);
+}
+
+/* Danger Button (삭제/경고 색상) */
+.btn-danger {
+    background-color: var(--color-danger);
+    color: #ffffff;
+    border: 1px solid var(--color-danger);
+}
+
+.btn-danger:hover {
+    background-color: #d32f2f; /* 좀 더 어둡게 */
+    border-color: #d32f2f;
+}
+
+/* 비활성화 상태 */
+.btn-primary:disabled, .btn-secondary:disabled, .btn-danger:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* --- 4. 태그 뱃지 스타일 통일 --- */
+.tag-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    margin-right: 5px;
+    margin-top: 5px;
+    font-size: 0.8em;
+    background-color: var(--color-accent-translucent);
+    color: var(--color-accent);
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+/* --- 5. 글 작성/수정 폼 스타일 통일 --- */
+.post-write-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: var(--color-primary);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px var(--color-shadow);
+    border: 1px solid var(--color-border);
+    text-align: left;
+}
+
+.post-form-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: var(--color-text-main);
+    text-align: center;
+}
+
+.post-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.post-form-input, 
+.post-form-textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid var(--color-border);
+    background: var(--color-background); /* 폼 배경색 */
+    color: var(--color-text-main);
+    border-radius: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-size: 1em;
+}
+
+.post-form-input:focus, 
+.post-form-textarea:focus {
+    border-color: var(--color-accent);
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-accent-translucent);
+}
+
+.post-form-textarea {
+    resize: vertical;
+    min-height: 200px;
+}
+
+/* --- 6. 게시글 상세 및 목록 공통 요소 --- */
+.post-detail-container, .post-list-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding-top: 40px;
+}
+
+/* 리스트 카드 스타일 */
+.post-list-card {
+    display: block;
+    padding: 20px;
+    margin-bottom: 15px;
+    background-color: var(--color-primary);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    color: var(--color-text-main);
+    text-align: left;
+    box-shadow: 0 2px 5px var(--color-shadow);
+}
+
+.post-list-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px var(--color-shadow);
+    border-color: var(--color-accent);
+}
+
+.post-list-meta {
+    font-size: 0.9em;
+    color: var(--color-text-sub);
+    margin-top: 5px;
+}
+
+/* PostDetail 버튼 그룹 */
+.post-action-buttons {
+    margin-top: 30px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
 }

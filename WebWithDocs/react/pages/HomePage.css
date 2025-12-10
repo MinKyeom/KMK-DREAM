@@ -1,8 +1,8 @@
-/* src/pages/HomePage.css (새 파일) */
+/* src/pages/HomePage.css (수정: 세련된 디자인 적용) */
 
 /* --- 메인 컨테이너 --- */
 .homepage-container {
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
     text-align: center;
@@ -10,159 +10,144 @@
 
 /* --- 히어로 섹션 --- */
 .hero-section {
-    padding: 80px 20px;
-    margin-bottom: 50px;
+    padding: 100px 30px;
+    margin-bottom: 60px;
     background-color: var(--color-primary); 
-    border-radius: 12px;
-    box-shadow: 0 4px 10px var(--color-shadow);
+    border-radius: 16px; /* 둥근 모서리 */
+    box-shadow: 0 8px 30px var(--color-shadow);
+    border: 1px solid var(--color-border);
+    transition: all 0.3s;
 }
 
 .hero-title {
-    font-size: 3rem;
+    font-size: 3.5rem;
     font-weight: 800;
     color: var(--color-text-main);
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .hero-subtitle {
-    font-size: 1.25em;
+    font-size: 1.4em;
     color: var(--color-text-sub);
     line-height: 1.6;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
-/* --- 섹션 타이틀 --- */
+/* 시작하기 버튼 (App.css의 .btn-primary 사용) */
+.start-button {
+    font-size: 1.15em; 
+    padding: 15px 35px; 
+    margin-top: 30px;
+    display: inline-block;
+}
+
+/* --- 섹션 제목 --- */
 .section-title {
-    font-size: 2.2em;
+    font-size: 2rem;
     font-weight: 700;
+    margin-bottom: 30px;
     color: var(--color-text-main);
-    margin-bottom: 35px;
-    display: block;
-    text-align: center;
+    border-bottom: 2px solid var(--color-accent-translucent);
+    padding-bottom: 10px;
+    display: inline-block;
 }
 
-/* --- 최근 포스트 그리드 --- */
+
+/* --- 포스트 카드 목록 (그리드) --- */
+.featured-posts-section {
+    margin-bottom: 60px;
+}
+
 .post-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
-    margin-bottom: 40px;
-    text-align: left;
+    margin-top: 30px;
 }
 
 .post-card {
-    display: block; /* Link 컴포넌트를 블록 요소로 만듭니다. */
-    background-color: var(--color-background);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px var(--color-shadow);
-    transition: transform 0.2s, box-shadow 0.2s;
-    text-decoration: none; /* Link의 기본 밑줄 제거 */
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 25px;
+    background-color: var(--color-primary);
     border: 1px solid var(--color-border);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px var(--color-shadow);
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    text-decoration: none;
+    height: 100%; /* 그리드 내 높이 통일 */
 }
 
 .post-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px var(--color-shadow);
+    border-color: var(--color-accent);
 }
 
 .post-card h3 {
-    font-size: 1.1em;
-    font-weight: 700;
-    color: var(--color-accent);
+    font-size: 1.3em;
     margin-top: 0;
     margin-bottom: 10px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    color: var(--color-text-main);
 }
 
 .post-card p {
+    /* 내용 요약 부분 */
+    flex-grow: 1; /* 내용을 채우도록 설정 */
     font-size: 0.9em;
     color: var(--color-text-sub);
-    line-height: 1.4;
     margin-bottom: 15px;
-    /* 3줄로 제한 */
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
     overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* 최대 3줄 표시 */
+    -webkit-box-orient: vertical;
 }
 
 .post-meta {
     display: flex;
     justify-content: space-between;
-    font-size: 0.85em;
+    align-items: center;
+    font-size: 0.8em;
     color: var(--color-text-sub);
+    border-top: 1px solid var(--color-border);
     padding-top: 10px;
-    border-top: 1px dashed var(--color-border);
+    margin-top: auto; /* 하단에 붙도록 설정 */
 }
 
 .category-tag {
-    font-weight: 600;
-    color: var(--color-accent);
-    background-color: var(--color-border);
-    padding: 2px 8px;
-    border-radius: 4px;
+    /* App.css의 .tag-badge 스타일 상속 */
 }
 
-
 /* --- 카테고리 링크 섹션 --- */
+.category-section {
+    margin-top: 60px;
+    padding: 40px 0;
+    border-top: 1px solid var(--color-border);
+}
+
 .category-links {
     display: flex;
-    justify-content: center;
-    gap: 20px;
     flex-wrap: wrap;
-    margin-top: 20px;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
 }
 
 .category-link {
+    background-color: var(--color-primary);
+    color: var(--color-accent);
     padding: 10px 20px;
     border: 2px solid var(--color-accent);
-    border-radius: 25px;
-    color: var(--color-accent);
+    border-radius: 50px; /* 둥근 알약 모양 */
     font-weight: 600;
-    transition: background-color 0.2s, color 0.2s;
-    text-decoration: none;
+    transition: background-color 0.2s, transform 0.2s;
 }
 
 .category-link:hover {
     background-color: var(--color-accent);
     color: white;
-}
-
-/* --- 테마 토글 버튼 (메인 페이지 전용) --- */
-.theme-toggle-button {
-    background-color: var(--color-background);
-    color: var(--color-text-main);
-    border: 1px solid var(--color-border);
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.2s, border-color 0.2s;
-}
-
-.theme-toggle-button:hover {
-    border-color: var(--color-accent);
-}
-
-/* --- 다크 모드 오버라이드 --- */
-body.dark-mode .post-card {
-    background-color: var(--color-primary);
-    border-color: #555;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-}
-
-body.dark-mode .post-card:hover {
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
-}
-
-body.dark-mode .category-tag {
-    background-color: #444;
-    color: var(--color-accent-darker); /* index.css에서 정의된 색상 */
-}
-
-body.dark-mode .theme-toggle-button {
-    background-color: var(--color-primary);
-    color: var(--color-text-main);
-    border-color: #555;
+    transform: translateY(-3px);
+    text-decoration: none;
 }

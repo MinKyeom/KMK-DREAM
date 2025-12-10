@@ -4,33 +4,32 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.UUID;
+
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
-@Table(name = "users")
 @Getter @Setter
+// Lombok Builder, NoArgsConstructor, AllArgsConstructor 추가 (UserController 사용 방식에 맞춤)
+@Builder 
+@NoArgsConstructor 
+@AllArgsConstructor
 public class User {
-
-    @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name ="system-uuid", strategy ="uuid")
-    private String id;
-
+    // String ID 사용 (UserRepository에 맞춤)
+    @Id 
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    private String id; 
+    
     @Column(nullable = false, unique = true)
-    private String username;
-
+    private String username; 
+    
     private String password;
-
+    
+    // ⭐ 닉네임 추가 및 UNIQUE 설정 (요청 사항)
+    @Column(nullable = false, unique = true) 
     private String nickname; 
 
-    private String authProvider;
-
     @Enumerated(EnumType.STRING)
-    @Column(nullable = true)
-    private Role role; // ⭐ JWT를 위한 역할(Role) 필드 추가
+    private Role role;
 
-    public enum Role {
-        ROLE_USER, ROLE_ADMIN
-    }
+    public enum Role { ROLE_USER, ROLE_ADMIN }
 }

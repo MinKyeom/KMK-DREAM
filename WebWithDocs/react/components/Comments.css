@@ -1,0 +1,172 @@
+/* src/components/Comments.css (수정 완료 코드) */
+
+/* ---------------------------------------------------------------- */
+/* 1. 댓글 섹션 전체 컨테이너 */
+/* ---------------------------------------------------------------- */
+.comments-section {
+    margin-top: 40px;
+    padding: 20px 0;
+    /* PostDetail.jsx에서 이미 컨테이너에 배경색이 적용되므로 border-top 제거 */
+}
+
+.comments-section .section-title {
+    font-size: 1.5rem;
+    color: var(--color-text-main);
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--color-border);
+    font-weight: 700;
+}
+
+.no-comments {
+    text-align: center;
+    color: var(--color-text-sub);
+    padding: 30px 0;
+}
+
+/* ---------------------------------------------------------------- */
+/* 2. 댓글 작성 폼 */
+/* ---------------------------------------------------------------- */
+.comment-form {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: var(--color-background); /* 메인 배경보다 약간 밝거나 어둡게 */
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px var(--color-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    resize: vertical;
+    font-size: 1em;
+    min-height: 100px;
+    background-color: var(--color-background-soft);
+    color: var(--color-text-main);
+}
+
+.comment-form .form-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comment-form .char-count {
+    font-size: 0.8em;
+    color: var(--color-text-sub);
+}
+
+.comment-form button {
+    /* App.css의 .btn-primary 스타일 사용 */
+    min-width: 100px;
+}
+
+.login-prompt {
+    padding: 20px;
+    text-align: center;
+    color: var(--color-text-sub);
+    background-color: var(--color-background);
+    border: 1px dashed var(--color-border);
+    border-radius: 8px;
+    font-size: 1.1em;
+}
+
+/* ---------------------------------------------------------------- */
+/* 3. 댓글 목록 */
+/* ---------------------------------------------------------------- */
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.comment-item {
+    padding: 15px 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+/* ⭐ [FIXED] SASS/LESS 문법 (&:last-child)을 순수 CSS 문법으로 수정 */
+.comment-item:last-child {
+    border-bottom: none; 
+}
+
+.comment-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9em;
+    color: var(--color-text-sub);
+    margin-bottom: 10px;
+}
+
+.comment-author {
+    font-weight: 700;
+    color: var(--color-accent); /* 작성자 닉네임 강조 */
+    margin-right: 10px;
+}
+
+.comment-date {
+    font-size: 0.8em;
+}
+
+.comment-content {
+    color: var(--color-text-main);
+    line-height: 1.6;
+    margin-bottom: 15px;
+    word-break: break-word; /* 긴 텍스트 줄바꿈 */
+}
+
+/* 댓글 수정 폼 */
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.edit-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color-accent); /* 수정 중 강조 */
+    border-radius: 4px;
+    resize: vertical;
+    font-size: 0.95em;
+    background-color: var(--color-background-soft);
+    color: var(--color-text-main);
+}
+
+.comment-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.comment-actions .btn-link {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-sub);
+    font-size: 0.9em;
+    padding: 0;
+}
+
+.comment-actions .btn-link:hover {
+    color: var(--color-accent);
+}
+
+.comment-actions .btn-danger {
+    color: var(--color-error);
+}
+
+/* 버튼 사이즈 조정 */
+.comment-actions .btn-sm {
+    padding: 5px 12px;
+    font-size: 0.85em;
+    line-height: 1;
+}
