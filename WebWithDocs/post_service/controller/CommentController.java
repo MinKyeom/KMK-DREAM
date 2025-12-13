@@ -13,17 +13,17 @@ import java.util.List;
 @RequestMapping("/api/posts") // 게시글 하위 경로로 맵핑
 @RequiredArgsConstructor
 public class CommentController {
-    
+
     private final CommentService commentService;
 
     // 1. 댓글 작성 (POST /api/posts/{postId}/comments)
     @PostMapping("/{postId}/comments")
     public CommentResponse createComment(
-            @PathVariable Long postId, 
+            @PathVariable Long postId,
             @RequestBody CommentRequest request
     ) {
         // ⭐ 수정: 유틸리티 클래스 사용
-        String authenticatedUserId = SecurityUtils.getAuthenticatedUserId(); 
+        String authenticatedUserId = SecurityUtils.getAuthenticatedUserId();
         return commentService.createComment(postId, request, authenticatedUserId);
     }
 
@@ -36,7 +36,7 @@ public class CommentController {
     // 3. 댓글 수정 (PUT /api/posts/comments/{commentId})
     @PutMapping("/comments/{commentId}")
     public CommentResponse updateComment(
-            @PathVariable Long commentId, 
+            @PathVariable Long commentId,
             @RequestBody CommentRequest request
     ) {
         // ⭐ 수정: 유틸리티 클래스 사용

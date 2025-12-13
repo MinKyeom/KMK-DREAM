@@ -6,7 +6,6 @@ import lombok.Builder;
 public record UserResponse (
     String id,
     String username,
-    String nickname, // ⭐ 추가: 닉네임 필드
-    String token,
-    String error
+    String nickname, 
+    String error // token 필드 제거
 ) {}
