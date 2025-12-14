@@ -1,0 +1,98 @@
+/* src/components/Auth/Signup.css (전면 개편: 깔끔하고 모던한 인증 페이지) */
+
+/* ===== 전체 페이지 (로그인/회원가입) ===== */
+.auth-page { 
+  width: 100vw;
+  /* Next.js layout.jsx에서 헤더를 처리하므로, min-height를 100vh로 설정합니다. */
+  min-height: 100vh; 
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 60px 20px; 
+  background: var(--color-background); 
+  font-family: var(--font-family-main);
+  transition: background 0.3s;
+}
+
+/* ===== 중앙 카드 ===== */
+.auth-container { 
+  width: 100%;
+  max-width: 450px; 
+  padding: 3rem; 
+  border-radius: 16px;
+  background: var(--color-primary); 
+  border: 1px solid var(--color-border);
+  box-shadow: 0 10px 30px var(--color-shadow); 
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+/* ===== 제목 ===== */
+.auth-title { 
+  text-align: center;
+  font-size: 2.5rem; 
+  font-weight: 800;
+  color: var(--color-accent); 
+  margin-bottom: 2.5rem;
+}
+
+/* ===== 폼 및 입력 필드 ===== */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; 
+}
+
+.form-group {
+    text-align: left;
+}
+
+.form-group label {
+  color: var(--color-text-main); 
+  margin-bottom: 0.5rem;
+  display: block;
+  font-weight: 600;
+  font-size: 1em;
+}
+
+.auth-form input[type="text"],
+.auth-form input[type="password"] {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 1em;
+  background-color: var(--color-secondary);
+  color: var(--color-text-main);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.auth-form input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-translucent);
+  outline: none;
+}
+
+.auth-form input::placeholder {
+    color: var(--color-text-sub);
+    opacity: 0.7;
+}
+
+/* ===== 링크 영역 ===== */
+.auth-link {
+    margin-top: 2rem;
+    font-size: 1em;
+    color: var(--color-text-sub);
+    text-align: center;
+}
+
+.auth-link a {
+    color: var(--color-accent);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.auth-link a:hover {
+    color: var(--color-accent-hover);
+}

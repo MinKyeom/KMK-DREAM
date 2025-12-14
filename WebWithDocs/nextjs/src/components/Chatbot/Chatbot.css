@@ -1,0 +1,167 @@
+/* src/components/Chatbot/Chatbot.css (새 디자인 팔레트 적용 및 위치 고정 유지) */
+
+/* ---------------------------------------------------------------- */
+/* 1. 챗봇 컨테이너 및 위치 고정 (요청 사항 유지) */
+/* ---------------------------------------------------------------- */
+.chatbot-container {
+    position: fixed; 
+    bottom: 90px; 
+    right: 30px;
+    width: 350px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px var(--color-shadow-strong, rgba(0, 0, 0, 0.4)); 
+    overflow: hidden;
+    z-index: 1000; 
+    
+    /* 테마 적용 */
+    background-color: var(--color-primary); 
+    border: 1px solid var(--color-border);
+    transition: all 0.3s ease;
+}
+
+/* ---------------------------------------------------------------- */
+/* 2. 헤더 */
+/* ---------------------------------------------------------------- */
+.chatbot-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: var(--color-accent); 
+    color: white; 
+}
+
+.chatbot-header h3 {
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.chatbot-header .close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 10px;
+}
+
+/* ---------------------------------------------------------------- */
+/* 3. 메시지 영역 */
+/* ---------------------------------------------------------------- */
+.chatbot-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 15px;
+    background-color: var(--color-background); /* 메시지 배경은 약간 다른 색상 */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 환영 메시지 */
+.chatbot-welcome {
+    background-color: var(--color-secondary);
+    padding: 15px;
+    border-radius: 8px;
+    color: var(--color-text-main);
+    font-size: 0.9em;
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* 메시지 버블 */
+.message-bubble {
+    max-width: 85%;
+    padding: 10px 15px;
+    border-radius: 18px;
+    line-height: 1.5;
+    font-size: 0.95em;
+    word-break: break-word;
+    white-space: pre-wrap;
+    box-shadow: 0 1px 3px var(--color-shadow);
+}
+
+/* 사용자 메시지 */
+.message-bubble.user {
+    align-self: flex-end; /* 오른쪽 정렬 */
+    background-color: var(--color-accent); 
+    color: white;
+    border-bottom-right-radius: 2px; /* 꼬리처럼 */
+}
+
+/* 챗봇(어시스턴트) 메시지 */
+.message-bubble.assistant {
+    align-self: flex-start; /* 왼쪽 정렬 */
+    background-color: var(--color-primary); 
+    color: var(--color-text-main);
+    border: 1px solid var(--color-border);
+    border-bottom-left-radius: 2px; /* 꼬리처럼 */
+}
+
+/* 로딩 애니메이션 */
+.message-bubble.assistant.loading {
+    opacity: 0.8;
+}
+
+/* ---------------------------------------------------------------- */
+/* 4. 입력 폼 */
+/* ---------------------------------------------------------------- */
+.chatbot-input-form {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid var(--color-border);
+    background-color: var(--color-primary); 
+}
+
+.chatbot-input-form input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    margin-right: 10px;
+    font-size: 0.95em;
+    background-color: var(--color-background);
+    color: var(--color-text-main);
+}
+
+.chatbot-input-form input:focus {
+    border-color: var(--color-accent);
+    outline: none;
+}
+
+.chatbot-input-form button {
+    min-width: 70px;
+}
+
+/* ---------------------------------------------------------------- */
+/* 5. ⭐ 플로팅 버튼 스타일 (layout.jsx에서 사용) - 위치 고정 유지 */
+/* ---------------------------------------------------------------- */
+.chatbot-float-btn {
+    position: fixed;
+    bottom: 30px; 
+    right: 30px; 
+    width: 60px; 
+    height: 60px; 
+    border-radius: 50%; 
+    background-color: var(--color-accent); 
+    color: white;
+    border: none;
+    font-size: 1.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px var(--color-shadow-strong);
+    transition: transform 0.2s, background-color 0.2s;
+    z-index: 1010; 
+}
+
+.chatbot-float-btn:hover {
+    transform: scale(1.05);
+    background-color: var(--color-accent-hover);
+}
