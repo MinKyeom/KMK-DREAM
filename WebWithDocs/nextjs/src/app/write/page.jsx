@@ -1,36 +1,38 @@
 // app/write/page.jsx
 "use client"; // ⭐ 클라이언트 컴포넌트 선언
 
-import React, { useState, useEffect, useMemo } from "react"; 
-import { useRouter, useSearchParams } from "next/navigation"; 
+import React, { useState, useEffect, useMemo } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { createPost, fetchPostById, updatePost } from "../../src/services/api/posts"; 
-import { useAuth } from "../../src/providers/AuthProvider"; 
-import { useToast } from "../../src/hooks/useToast"; // ⭐ 추가
-import '../../src/styles/globals.css';
-import '../../src/styles/PostForm.css'; // 포스트 폼 스타일 추가 (가정)
-
+import {
+  createPost,
+  fetchPostById,
+  updatePost,
+} from "../../services/api/posts";
+import { useAuth } from "../../providers/AuthProvider";
+import { useToast } from "../../hooks/useToast"; // ⭐ 추가
+import "../../styles/globals.css";
+// import "../../styles/PostForm.css"; // 포스트 폼 스타일 추가 (가정)
 
 // Marked.js & DOMPurify 임포트 (Next.js 환경에서 별도 설치 필요)
-import { marked } from 'marked';
-import DOMPurify from 'dompurify';
+import { marked } from "marked";
+import DOMPurify from "dompurify";
 
 // Marked.js 옵션 설정 (줄바꿈 자동 인식 활성화)
 marked.setOptions({
-    breaks: true,
+  breaks: true,
 });
 
 // Markdown을 안전한 HTML로 변환하는 헬퍼 함수
 const renderMarkdown = (markdown) => {
-    if (!markdown) return "";
-    const rawMarkup = marked.parse(markdown);
-    // DOMPurify는 window 객체가 있어야 하므로 클라이언트 컴포넌트에서만 사용 가능
-    if (typeof window !== 'undefined') {
-        return DOMPurify.sanitize(rawMarkup);
-    }
-    return rawMarkup; // 서버 렌더링 시에는 임시로 raw 반환 (주의: 클라이언트에서 hydration 시 다시 정제됨)
+  if (!markdown) return "";
+  const rawMarkup = marked.parse(markdown);
+  // DOMPurify는 window 객체가 있어야 하므로 클라이언트 컴포넌트에서만 사용 가능
+  if (typeof window !== "undefined") {
+    return DOMPurify.sanitize(rawMarkup);
+  }
+  return rawMarkup; // 서버 렌더링 시에는 임시로 raw 반환 (주의: 클라이언트에서 hydration 시 다시 정제됨)
 };
-
 
 export default function WritePostPage() {
   const router = useRouter();
@@ -39,7 +41,7 @@ export default function WritePostPage() {
   const { showToast } = useToast(); // ⭐ 추가
 
   // 쿼리 파라미터에서 'edit' ID 가져오기
-  const editId = searchParams.get('edit');
+  const editId = searchParams.get("edit");
   const isEdit = !!editId;
 
   // 상태 관리
@@ -69,31 +71,36 @@ export default function WritePostPage() {
           setTitle(post.title);
           setContent(post.content);
           setCategory(post.categoryName || "");
-          setTags(post.tagNames ? post.tagNames.join(', ') : "");
+          setTags(post.tagNames ? post.tagNames.join(", ") : "");
         } catch (error) {
           showToast({ message: "포스트 로드 실패.", type: "error" }); // ⭐ alert 대체
           console.error("Failed to load post for editing:", error);
-          router.push('/write'); // 로드 실패 시 새 글쓰기 모드로 전환
+          router.push("/write"); // 로드 실패 시 새 글쓰기 모드로 전환
         } finally {
           setInitialLoading(false);
         }
       };
       loadPost();
     } else if (isEdit && !isAuthenticated) {
-        // 비로그인 상태에서 수정 페이지 접근 시
-        showToast({ message: "로그인 후 포스트를 수정할 수 있습니다.", type: "warning" });
-        router.push(`/signin?redirect=/write?edit=${editId}`);
+      // 비로그인 상태에서 수정 페이지 접근 시
+      showToast({
+        message: "로그인 후 포스트를 수정할 수 있습니다.",
+        type: "warning",
+      });
+      router.push(`/signin?redirect=/write?edit=${editId}`);
     } else {
-        setInitialLoading(false);
+      setInitialLoading(false);
     }
   }, [isEdit, editId, isAuthenticated, currentUserId, router, showToast]);
 
-
   // 비인증 사용자 리디렉션 (CSR에서)
   useEffect(() => {
-    if (typeof window !== 'undefined' && !isAuthenticated && !isEdit) {
-      showToast({ message: "로그인 후 글쓰기를 할 수 있습니다.", type: "warning" });
-      router.push('/signin?redirect=/write');
+    if (typeof window !== "undefined" && !isAuthenticated && !isEdit) {
+      showToast({
+        message: "로그인 후 글쓰기를 할 수 있습니다.",
+        type: "warning",
+      });
+      router.push("/signin?redirect=/write");
     }
   }, [isAuthenticated, isEdit, router, showToast]);
 
@@ -105,7 +112,10 @@ export default function WritePostPage() {
     setSubmitLoading(true);
 
     // 태그 문자열을 배열로 변환
-    const tagList = tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+    const tagList = tags
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter((tag) => tag.length > 0);
 
     const postData = {
       title,
@@ -119,17 +129,26 @@ export default function WritePostPage() {
       if (isEdit) {
         // 수정 요청
         resultPost = await updatePost(editId, postData);
-        showToast({ message: "포스트가 성공적으로 수정되었습니다.", type: "success" }); // ⭐ alert 대체
+        showToast({
+          message: "포스트가 성공적으로 수정되었습니다.",
+          type: "success",
+        }); // ⭐ alert 대체
       } else {
         // 생성 요청
         resultPost = await createPost(postData);
-        showToast({ message: "새 포스트가 성공적으로 작성되었습니다.", type: "success" }); // ⭐ alert 대체
+        showToast({
+          message: "새 포스트가 성공적으로 작성되었습니다.",
+          type: "success",
+        }); // ⭐ alert 대체
       }
-      
+
       // 작성/수정 후 상세 페이지로 이동
       router.push(`/post/${resultPost.id}`);
     } catch (error) {
-      showToast({ message: error.message || "포스트 작성/수정 실패: 권한 또는 서버 오류", type: "error" }); // ⭐ alert 대체
+      showToast({
+        message: error.message || "포스트 작성/수정 실패: 권한 또는 서버 오류",
+        type: "error",
+      }); // ⭐ alert 대체
       console.error(error);
     } finally {
       setSubmitLoading(false);
@@ -138,20 +157,27 @@ export default function WritePostPage() {
 
   if (initialLoading) {
     return (
-      <div className="container" style={{ textAlign: 'center', padding: '50px' }}>
-        <h1 className="page-title">{isEdit ? "포스트 로딩 중..." : "글 작성"}</h1>
+      <div
+        className="container"
+        style={{ textAlign: "center", padding: "50px" }}
+      >
+        <h1 className="page-title">
+          {isEdit ? "포스트 로딩 중..." : "글 작성"}
+        </h1>
       </div>
     );
   }
 
   // 비인증 상태에서 isEdit이 false일 때도 폼을 보여주지 않습니다 (useEffect에서 리디렉션 처리)
   if (!isAuthenticated && !isEdit) {
-    return null; 
+    return null;
   }
 
   return (
     <div className="container">
-      <h1 className="page-title">{isEdit ? "포스트 수정" : "새 포스트 작성"}</h1>
+      <h1 className="page-title">
+        {isEdit ? "포스트 수정" : "새 포스트 작성"}
+      </h1>
       <form onSubmit={handleSubmit} className="post-form">
         <input
           type="text"
@@ -203,19 +229,33 @@ export default function WritePostPage() {
           onChange={(e) => setTags(e.target.value)}
           className="post-form-input"
         />
-        
-        <div style={{ marginTop: "20px", textAlign: "right", display: 'flex', gap: '15px', justifyContent: 'flex-end' }}>
+
+        <div
+          style={{
+            marginTop: "20px",
+            textAlign: "right",
+            display: "flex",
+            gap: "15px",
+            justifyContent: "flex-end",
+          }}
+        >
           {isEdit && (
-              <Link href={`/post/${editId}`} className="btn-secondary">
-                  취소
-              </Link>
+            <Link href={`/post/${editId}`} className="btn-secondary">
+              취소
+            </Link>
           )}
           <button
             type="submit"
             className="btn-primary"
             disabled={submitLoading || !title || !content || !category}
           >
-            {submitLoading ? (isEdit ? "수정 중..." : "작성 중...") : (isEdit ? "포스트 수정" : "포스트 작성")}
+            {submitLoading
+              ? isEdit
+                ? "수정 중..."
+                : "작성 중..."
+              : isEdit
+              ? "포스트 수정"
+              : "포스트 작성"}
           </button>
         </div>
       </form>
