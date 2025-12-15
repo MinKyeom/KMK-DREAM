@@ -49,6 +49,7 @@ public class CommentController {
     public void deleteComment(@PathVariable Long commentId) {
         // ⭐ 수정: 유틸리티 클래스 사용
         String authenticatedUserId = SecurityUtils.getAuthenticatedUserId();
+        // ✅ 수정: authenticatedUserId를 서비스 메서드에 전달하여 권한 확인을 수행합니다.
         commentService.deleteComment(commentId, authenticatedUserId);
     }
 }

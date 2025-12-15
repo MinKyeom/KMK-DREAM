@@ -22,14 +22,24 @@ public class CommentResponse {
         return CommentResponse.builder()
                 .id(comment.getId())
                 .content(comment.getContent())
-                // ⭐ 수정: 닉네임 설정 로직 제거 (Service Layer에서 설정)
                 // .authorNickname(comment.getUser().getNickname()) 
-                // ⭐ 수정: Comment Entity의 authorId로 변경
                 .authorId(comment.getAuthorId()) 
                 .createdAt(comment.getCreatedAt())
                 .build();
     }
     
+    // ⬅️ 추가: CommentService에서 닉네임을 주입받는 호출을 처리하기 위한 오버로딩 메서드
+    public static CommentResponse fromEntity(Comment comment, String authorNickname) {
+        return CommentResponse.builder()
+                .id(comment.getId())
+                .content(comment.getContent())
+                .authorNickname(authorNickname) // 닉네임 설정
+                .authorId(comment.getAuthorId()) 
+                .createdAt(comment.getCreatedAt())
+                .build();
+    }
+    
+    // 이 메서드는 CommentResponse::fromEntity (인수 1개)를 사용하므로 Service에서 닉네임 설정이 필요함
     public static List<CommentResponse> fromEntityList(List<Comment> comments) {
         return comments.stream()
                 .map(CommentResponse::fromEntity)

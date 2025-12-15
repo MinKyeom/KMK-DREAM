@@ -15,7 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.Authentication; // ⭐ 추가
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -105,9 +105,9 @@ public class UserController {
     }
 
     /**
-     * 3. 로그아웃 (GET /user/logout)
+     * 3. 로그아웃 (POST /user/logout)
      */
-    @GetMapping("/logout")
+    @PostMapping("/logout") // ⭐ 수정됨: @GetMapping에서 @PostMapping으로 변경
     public ResponseEntity<?> logout(HttpServletResponse response) {
         // 토큰 쿠키 만료 (Max-Age를 0으로 설정하여 즉시 삭제)
         setTokenCookie(response, "", 0);
@@ -118,19 +118,26 @@ public class UserController {
 
     /**
      * 4. 현재 로그인된 사용자 정보 조회 (GET /user/me)
+     * ⭐ 수정됨: HttpOnly 쿠키 전략에 맞게 Authorization 헤더 대신 Spring Security의 Authentication 객체를 사용합니다.
      */
     @GetMapping("/me")
-    public ResponseEntity<UserResponse> getAuthUser(@RequestHeader(value = "Authorization", required = false) String token) {
+    public ResponseEntity<UserResponse> getAuthUser(Authentication authentication) {
+        // 이 엔드포인트에 도달한 요청은 Security Filter Chain을 통과하여 유효한 인증 정보를 가집니다.
+        if (authentication == null || authentication.getName() == null) {
+            // 인증되지 않은 사용자는 401로 미리 차단되지만, 혹시 모를 경우 처리
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
         try {
-            // 토큰에서 사용자 ID 추출 로직 (실제로는 SecurityContext에서 가져옴)
-            String userId = tokenProvider.validateAndGetUserId(token.replace("Bearer ", ""));
+            // Spring Security Principal(getName())에 사용자 ID가 설정되어 있다고 가정
+            String userId = authentication.getName();
             
             // 서비스에서 사용자 정보 조회
             User user = userService.findUserById(userId);
             
             return ResponseEntity.ok(UserResponse.fromEntity(user));
         } catch (RuntimeException e) {
-            // 인증되지 않은 사용자 또는 토큰 만료
+            // DB에서 사용자 정보 불일치 등 내부 오류
             return ResponseEntity.notFound().build();
         }
     }

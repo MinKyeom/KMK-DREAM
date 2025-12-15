@@ -2,16 +2,23 @@
 
 package com.mk.post_service.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore; // ⭐ 추가: 순환 참조 방지
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.Builder; // ⭐ 추가
+import lombok.NoArgsConstructor; // ⭐ 추가
+import lombok.AllArgsConstructor; // ⭐ 추가
+import lombok.AccessLevel; // ⭐ 추가
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter @Setter
+@Builder // ⭐ 추가: 빌더 패턴 활성화
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // ⭐ 추가: JPA 요구 사항 (기본 생성자)
+@AllArgsConstructor // ⭐ 추가: 빌더를 위한 전체 필드 생성자
 public class Category {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
