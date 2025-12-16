@@ -1,200 +1,122 @@
-/* src/styles/globals.css (index.css + App.css 통합) */
+/* src/styles/globals.css (전역 스타일 및 테마 정의) */
 
 /* ---------------------------------------------------------------- */
 /* --- 1. 라이트 모드 (기본 스타일) --- */
 /* ---------------------------------------------------------------- */
 :root {
     /* 폰트 설정 */
-    --font-family-main: 'Spoqa Han Sans Neo', 'Nanum Gothic', sans-serif;
+    /* 🌟 한국어 우선 폰트 설정 */
+    --font-family-main: 'Spoqa Han Sans Neo', 'Inter', sans-serif;
+    /* 🌟 감성적 디자인을 위한 필기체 폰트 변수 */
+    --font-family-cursive: 'Sacramento', cursive;
     
-    /* 라이트 모드 색상 */
+    /* 라이트 모드 색상 (세련된 톤) */
     --color-background: #fcfcfc;  /* 화면 배경 전체 (미묘한 오프 화이트) */
-    --color-primary: #ffffff;     /* UI 카드, 헤더 배경 */
+    --color-primary: #ffffff;     /* UI 카드, 헤더, 사이드바 배경 */
     --color-secondary: #f0f0f0;   /* 보조 배경 (폼 배경, 태그 배경) */
     --color-text-main: #212121;   /* 기본 텍스트 (진한 회색) */
     --color-text-sub: #757575;    /* 서브 텍스트 (중간 회색) */
-    --color-accent: #007bff;      /* 강조 색상 (브랜드 블루) */
-    --color-border: #e0e0e0;      /* 경계선 (매우 밝은 회색) */
-    --color-shadow: rgba(0, 0, 0, 0.08); /* 부드러운 그림자 */
-    --color-shadow-strong: rgba(0, 0, 0, 0.15); /* 강한 그림자 */
     
-    --color-accent-translucent: rgba(0, 123, 255, 0.15); 
-    --color-accent-hover: #0056b3; 
-    --color-danger: #e74c3c; 
-    --color-danger-hover: #c0392b; 
+    /* 🌟 로고/강조색 변경 (파란색 -> 세련된 회색/검정) */
+    --color-accent: #546E7A;      /* 강조 색상 (소프트한 청회색) */
+    --color-link: #37474F;        /* 링크 색상 */
+    --color-logo: #333333;        /* 🌟 로고 색상 (다크 모드 대비) */
+
+    --color-border: rgba(0, 0, 0, 0.1); /* 테두리 (라이트) */
+    --color-shadow: rgba(0, 0, 0, 0.05); /* 얕은 그림자 (라이트) */
+    --color-shadow-strong: rgba(0, 0, 0, 0.15); /* 강한 그림자 (라이트) */
 }
 
 /* ---------------------------------------------------------------- */
-/* --- 2. 다크 모드 (body.dark-mode 클래스에 적용) --- */
+/* --- 2. 다크 모드 --- */
 /* ---------------------------------------------------------------- */
 body.dark-mode {
-    --color-background: #1e1e1e;  /* 화면 배경 전체 (매우 어두운 회색) */
-    --color-primary: #2d2d2d;     /* UI 카드, 헤더 배경 */
-    --color-secondary: #333333;   /* 보조 배경 */
-    --color-text-main: #f0f0f0;   /* 기본 텍스트 (밝은 회색) */
-    --color-text-sub: #b0b0b0;    /* 서브 텍스트 (중간 밝은 회색) */
-    --color-accent: #54a0ff;      /* 강조 색상 (밝은 블루) */
-    --color-border: #3a3a3a;      /* 경계선 (어두운 회색) */
-    --color-shadow: rgba(0, 0, 0, 0.5); /* 강한 그림자 */
-    --color-shadow-strong: rgba(0, 0, 0, 0.7); /* 더 강한 그림자 */
+    --color-background: #121212;
+    --color-primary: #1e1e1e;
+    --color-secondary: #2c2c2c;
+    --color-text-main: #e0e0e0;
+    --color-text-sub: #9e9e9e;
     
-    --color-accent-translucent: rgba(84, 160, 255, 0.2); 
-    --color-accent-hover: #80bfff; 
-    --color-danger: #ff7f7f;
-    --color-danger-hover: #ff5e5e;
+    /* 🌟 로고/강조색 변경 (다크 모드 버전) */
+    --color-accent: #B0BEC5;      /* 강조 색상 (밝은 청회색) */
+    --color-link: #CFD8DC;        /* 링크 색상 */
+    --color-logo: #e0e0e0;        /* 🌟 로고 색상 (라이트 모드 대비) */
+
+    --color-border: rgba(255, 255, 255, 0.1); /* 테두리 (다크) */
+    --color-shadow: rgba(0, 0, 0, 0.3); /* 얕은 그림자 (다크) */
+    --color-shadow-strong: rgba(0, 0, 0, 0.6); /* 강한 그림자 (다크) */
 }
 
-
 /* ---------------------------------------------------------------- */
-/* --- 3. 글로벌 기본 스타일 (폰트 및 배경) --- */
+/* --- 3. 기본 및 리셋 스타일 --- */
 /* ---------------------------------------------------------------- */
-* {
+html {
     box-sizing: border-box;
 }
 
-html {
-    scroll-behavior: smooth;
+*, *::before, *::after {
+    box-sizing: inherit;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
 body {
     margin: 0;
+    padding: 0;
     font-family: var(--font-family-main);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    /* 테마 전환 시 부드러운 효과 */
-    background-color: var(--color-background); 
+    background-color: var(--color-background);
     color: var(--color-text-main);
-    transition: background-color 0.3s, color 0.3s; 
+    line-height: 1.6;
 }
 
 a {
-    color: inherit;
+    color: var(--color-link);
     text-decoration: none;
 }
 
-/* ---------------------------------------------------------------- */
-/* --- A. 레이아웃 (Layout) --- */
-/* ---------------------------------------------------------------- */
-/* Next.js App Router에서는 main 태그가 layout.jsx에 의해 감싸집니다. */
-main {
-    /* 콘텐츠 영역 확장 및 좌우 패딩 증가로 여백 확보 */
-    max-width: 1100px; 
-    margin: 0 auto;
-    padding: 30px 4rem; 
-    min-height: calc(100vh - 80px); /* 헤더 높이 80px 가정 */
-    padding-bottom: 100px; 
-    text-align: left; 
+a:hover {
+    color: var(--color-accent);
 }
 
 /* ---------------------------------------------------------------- */
-/* --- B. 헤더 (Header) - Brunch/Leedo 스타일 적용 --- */
+/* --- 4. 앱 레이아웃 컨테이너 --- */
 /* ---------------------------------------------------------------- */
-header {
-  width: 100%; 
-  background-color: var(--color-primary); 
-  border-bottom: 1px solid var(--color-border);
-  position: sticky;
-  top: 0;
-  z-index: 500;
-  box-shadow: 0 1px 5px var(--color-shadow); 
-}
-
-header > div { 
-    max-width: 1100px; 
-    margin: 0 auto;
-    padding: 18px 4rem; 
+.App {
     display: flex;
-    justify-content: space-between; 
-    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-.header-left .logo-text {
-    font-size: 1.8rem; 
-    font-weight: 900; 
-    color: var(--color-accent); 
-    transition: color 0.2s;
+.main-content-container {
+    flex-grow: 1;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-.header-left .logo-text:hover {
-    color: var(--color-accent-hover); 
-}
-
-.header-nav {
-    display: flex;
-    align-items: center;
-    gap: 20px; 
-    font-size: 0.95em;
-}
-
-.header-nav .nav-link {
-    color: var(--color-text-sub);
-    font-weight: 600;
-    transition: color 0.2s;
-    padding: 5px 0;
-}
-
-.header-nav .nav-link:hover {
-    color: var(--color-text-main);
-}
-
-.header-nav .user-nickname {
-    font-weight: 600;
-    color: var(--color-accent); 
-}
-
-/* 전역 테마 토글 버튼 */
-.global-theme-toggle {
-    background: var(--color-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 1.2em;
+/* ---------------------------------------------------------------- */
+/* --- 5. 공통 버튼 스타일 --- */
+/* ---------------------------------------------------------------- */
+.btn-primary, .btn-secondary, .btn-link-primary {
     cursor: pointer;
-    transition: all 0.2s;
-    padding: 0;
-}
-
-.global-theme-toggle:hover {
-    background: var(--color-accent-translucent);
-    border-color: var(--color-accent);
-}
-
-/* ---------------------------------------------------------------- */
-/* --- C. 버튼 및 링크 스타일 --- */
-/* ---------------------------------------------------------------- */
-
-/* 기본 버튼 스타일 */
-button, .btn-primary, .btn-secondary, .btn-danger {
-    padding: 10px 20px;
+    padding: 12px 20px;
     border-radius: 8px;
     font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 1em;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+    border: none;
 }
 
-/* 1. Primary Button (강조) */
 .btn-primary {
     background-color: var(--color-accent);
     color: white;
-    border: 2px solid var(--color-accent);
 }
 
 .btn-primary:hover {
-    background-color: var(--color-accent-hover);
-    border-color: var(--color-accent-hover);
-    box-shadow: 0 4px 10px var(--color-accent-translucent);
+    background-color: #455A64; /* Accent color dark variant */
+    box-shadow: 0 4px 10px var(--color-shadow-strong);
 }
 
-.btn-primary:disabled {
-    background-color: var(--color-text-sub);
-    border-color: var(--color-text-sub);
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-
-/* 2. Secondary Button (보조) */
 .btn-secondary {
     background-color: var(--color-secondary);
     color: var(--color-text-main);
@@ -202,113 +124,90 @@ button, .btn-primary, .btn-secondary, .btn-danger {
 }
 
 .btn-secondary:hover {
-    background-color: var(--color-accent-translucent);
-    border-color: var(--color-accent);
-    color: var(--color-accent);
+    background-color: var(--color-border);
 }
 
-/* 3. Danger Button (삭제 등 위험 버튼) */
-.btn-danger {
-    background-color: var(--color-danger);
-    color: white;
-    border: 2px solid var(--color-danger);
-}
-
-.btn-danger:hover {
-    background-color: var(--color-danger-hover);
-    border-color: var(--color-danger-hover);
-}
-
-/* 4. Small Button (헤더 등) */
-.btn-primary-small {
-    padding: 6px 12px;
-    font-size: 0.9em;
+/* Small Buttons */
+.btn-primary-small, .btn-secondary-small {
+    padding: 8px 15px;
     border-radius: 6px;
+    font-size: 0.9em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border: none;
+}
+.btn-primary-small {
     background-color: var(--color-accent);
     color: white;
-    border: 1px solid var(--color-accent);
+}
+.btn-primary-small:hover {
+    background-color: #455A64;
 }
 .btn-secondary-small {
-    padding: 6px 12px;
-    font-size: 0.9em;
-    border-radius: 6px;
     background-color: var(--color-secondary);
     color: var(--color-text-main);
     border: 1px solid var(--color-border);
 }
-
-.btn-link-primary {
-    color: var(--color-accent);
-    font-weight: 700;
-    text-decoration: underline;
-    transition: color 0.2s;
-}
-.btn-link-primary:hover {
-    color: var(--color-accent-hover);
+.btn-secondary-small:hover {
+    background-color: var(--color-border);
 }
 
-
 /* ---------------------------------------------------------------- */
-/* --- D. 공통 UI 요소 --- */
+/* --- 6. 태그 및 카테고리 배지 --- */
 /* ---------------------------------------------------------------- */
-
-/* 태그/카테고리 뱃지 */
 .tag-badge {
     display: inline-block;
-    padding: 4px 10px;
+    padding: 6px 12px;
     margin-right: 8px;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     background-color: var(--color-secondary);
-    color: var(--color-text-sub);
-    border-radius: 12px;
-    font-size: 0.85em;
-    font-weight: 500;
-    white-space: nowrap; /* 줄바꿈 방지 */
     border: 1px solid var(--color-border);
+    border-radius: 20px;
+    font-size: 0.9em;
+    color: var(--color-text-main);
+    font-weight: 500;
+    transition: all 0.3s;
 }
 
-/* 로딩/오류 메시지 */
-.loading-message, .error-message {
-    text-align: center;
-    padding: 40px 0;
-    color: var(--color-text-sub);
-    font-style: italic;
+.category-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--color-primary);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    font-weight: 600;
+    color: var(--color-text-main);
+    transition: all 0.3s;
+}
+.category-link:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 12px var(--color-shadow);
+    text-decoration: none;
+    transform: translateY(-2px);
 }
 
 /* ---------------------------------------------------------------- */
-/* --- E. Markdown Renderer 기본 스타일 (Post Detail / Write Post) --- */
+/* --- 7. 마크다운 스타일 (MarkdownRenderer에서 사용) --- */
 /* ---------------------------------------------------------------- */
+
 .markdown-body {
+    /* 마크다운 컨테이너 기본 스타일 */
     line-height: 1.8;
     color: var(--color-text-main);
-    font-size: 1.1em;
 }
 
-.markdown-body p {
-    margin-bottom: 20px;
-}
-
-.markdown-body h1, .markdown-body h2, .markdown-body h3 {
-    font-weight: 800;
+.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4 {
     color: var(--color-text-main);
-    margin-top: 50px;
-    margin-bottom: 25px;
-    padding-bottom: 5px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    font-weight: 700;
 }
-
-.markdown-body h1 {
-    font-size: 2.5rem;
-    border-bottom: 3px solid var(--color-accent);
-}
-
-.markdown-body h2 {
-    font-size: 2rem;
-    border-bottom: 2px solid var(--color-border);
-}
-
-.markdown-body h3 {
-    font-size: 1.6rem;
-    color: var(--color-accent);
+.markdown-body h1 { font-size: 2.2em; border-bottom: 2px solid var(--color-border); padding-bottom: 8px; }
+.markdown-body h2 { font-size: 1.8em; border-bottom: 1px dashed var(--color-border); padding-bottom: 6px; }
+.markdown-body h3 { font-size: 1.5em; }
+.markdown-body p {
+    margin-bottom: 1em;
 }
 
 .markdown-body a {
@@ -316,133 +215,49 @@ button, .btn-primary, .btn-secondary, .btn-danger {
     text-decoration: underline;
 }
 
-/* 목록 */
-.markdown-body ul, .markdown-body ol {
-    margin-left: 25px;
-    margin-bottom: 20px;
-}
-
-/* 인용구 */
-.markdown-body blockquote {
-    margin: 30px 0;
-    padding: 20px 25px;
+/* 인용구 스타일 */
+.markdown-blockquote {
+    margin: 20px 0;
+    padding: 15px 20px;
     border-left: 5px solid var(--color-accent);
     background-color: var(--color-secondary);
-    color: var(--color-text-sub);
+    border-radius: 4px;
+    color: var(--color-text-main);
     font-style: italic;
-    border-radius: 5px;
 }
 
+/* 코드 스타일 */
 /* 인라인 코드 */
 .markdown-inline-code {
     background-color: var(--color-secondary);
     color: var(--color-accent);
-    padding: 2px 6px;
+    padding: 3px 6px;
     border-radius: 4px;
-    font-family: 'D2 Coding', monospace;
-    font-size: 0.95em;
-}
-
-/* 코드 블록 */
-.markdown-code-block {
-    margin: 30px 0;
-    padding: 20px;
-    border-radius: 8px;
-    overflow-x: auto;
+    font-family: monospace;
     font-size: 0.9em;
-    line-height: 1.5;
-    background-color: #272727; /* 다크 테마 고정 */
-    color: #f0f0f0; /* 밝은 텍스트 고정 */
-    font-family: 'D2 Coding', monospace;
 }
+
+/* 코드 블록 (react-syntax-highlighter에 의해 스타일링됩니다. */
+/* 추가적인 전역 CSS는 필요하지 않습니다.) */
 
 /* ---------------------------------------------------------------- */
-/* --- F. WritePost.jsx 전용 스타일 --- */
+/* --- 8. 유틸리티 및 폼 공통 스타일 (글쓰기 페이지 포함) --- */
 /* ---------------------------------------------------------------- */
-.post-form-group {
-    margin-bottom: 30px;
-}
 
-.post-form-input {
+/* 폼 입력 필드 */
+.post-form-input, .post-form-textarea {
     width: 100%;
-    padding: 15px 20px;
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    font-size: 1.1em;
-    background-color: var(--color-primary);
-    color: var(--color-text-main);
-    transition: border-color 0.2s, box-shadow 0.2s;
-    margin-bottom: 15px; /* 제목, 카테고리, 태그 필드 간격 */
-}
-
-.post-form-input:focus {
-    border-color: var(--color-accent);
-    box-shadow: 0 0 0 3px var(--color-accent-translucent);
-    outline: none;
-}
-
-.markdown-editor-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* 에디터와 미리보기 1:1 */
-    gap: 20px;
-    margin-bottom: 30px;
-}
-
-/* 에디터/미리보기 레이블 */
-.editor-label {
-    display: block;
-    font-weight: 700;
-    font-size: 1.1em;
-    color: var(--color-accent);
-    margin-bottom: 10px;
-}
-
-/* 텍스트 영역 (에디터) */
-.post-form-textarea {
-    width: 100%;
-    min-height: 500px;
     padding: 15px;
     border: 1px solid var(--color-border);
     border-radius: 8px;
-    resize: vertical; /* 수직으로만 크기 조정 허용 */
-    font-size: 1em;
-    line-height: 1.6;
+    font-size: 1.1em;
     background-color: var(--color-secondary);
     color: var(--color-text-main);
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-/* 미리보기 영역 패널 */
-.preview-pane {
-    background-color: var(--color-secondary); /* 보조 배경 색상 사용 */
-    border: 1px solid var(--color-border);
-    border-radius: 10px;
-    overflow-y: auto; /* 내용이 길면 스크롤 가능 */
-}
-
-.post-form-preview {
-    /* 미리보기 패딩은 에디터와 동일하게 설정 */
-    padding: 15px;
-    min-height: 500px; /* 에디터와 동일 높이 */
-    line-height: 1.7;
-    font-size: 1em;
-    color: var(--color-text-main);
-    word-break: break-word; /* 긴 단어 줄 바꿈 */
-}
-
-/* --- 미리보기 영역 내 마크다운 요소 스타일링 (가독성 향상) --- */
-.post-form-preview h1, .post-form-preview h2, .post-form-preview h3 {
-    margin-top: 25px;
-    margin-bottom: 15px;
-    color: var(--color-accent); /* 제목 강조 */
-}
-
-.post-form-preview h1 {
-    font-size: 1.8em;
-    border-bottom: 2px solid var(--color-border);
-    padding-bottom: 5px;
-}
-
-.post-form-preview strong {
-    font-weight: 700;
-    color: var(--color-text-main);
+.post-form-input:focus, .post-form-textarea:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 2px var(--color-accent);
+    outline: none;
 }

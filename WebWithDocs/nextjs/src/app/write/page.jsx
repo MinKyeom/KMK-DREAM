@@ -1,5 +1,5 @@
 // app/write/page.jsx
-"use client"; // ⭐ 클라이언트 컴포넌트 선언
+"use client"; 
 
 import React, { useState, useEffect, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -10,9 +10,8 @@ import {
   updatePost,
 } from "../../services/api/posts";
 import { useAuth } from "../../providers/AuthProvider";
-import { useToast } from "../../hooks/useToast"; // ⭐ 추가
+import { useToast } from "../../hooks/useToast"; 
 import "../../styles/globals.css";
-// import "../../styles/PostForm.css"; // 포스트 폼 스타일 추가 (가정)
 
 // Marked.js & DOMPurify 임포트 (Next.js 환경에서 별도 설치 필요)
 import { marked } from "marked";
@@ -29,95 +28,85 @@ const renderMarkdown = (markdown) => {
   const rawMarkup = marked.parse(markdown);
   // DOMPurify는 window 객체가 있어야 하므로 클라이언트 컴포넌트에서만 사용 가능
   if (typeof window !== "undefined") {
+    // HTML Sanitization 적용
     return DOMPurify.sanitize(rawMarkup);
   }
-  return rawMarkup; // 서버 렌더링 시에는 임시로 raw 반환 (주의: 클라이언트에서 hydration 시 다시 정제됨)
+  // 서버 렌더링 환경을 위해 임시로 rawMarkup 반환
+  return rawMarkup; 
 };
 
-export default function WritePostPage() {
+
+export default function WritePage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { isAuthenticated, id: currentUserId } = useAuth();
-  const { showToast } = useToast(); // ⭐ 추가
+  const { showToast } = useToast();
 
-  // 쿼리 파라미터에서 'edit' ID 가져오기
-  const editId = searchParams.get("edit");
-  const isEdit = !!editId;
+  // 수정 모드 ID
+  const editId = searchParams.get("id");
+  const isEdit = useMemo(() => !!editId, [editId]);
 
-  // 상태 관리
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
   const [category, setCategory] = useState("");
-  const [tags, setTags] = useState(""); // 쉼표로 구분된 문자열
+  const [tags, setTags] = useState("");
+  const [content, setContent] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const [submitLoading, setSubmitLoading] = useState(false);
-  const [initialLoading, setInitialLoading] = useState(isEdit);
 
-  // Markdown 프리뷰 (성능 최적화를 위해 useMemo 사용)
-  const previewHtml = useMemo(() => renderMarkdown(content), [content]);
-
-  // 수정 모드일 때 기존 데이터 로드
+  // 수정 모드일 때 포스트 데이터 불러오기
   useEffect(() => {
-    if (isEdit && isAuthenticated) {
+    if (!isAuthenticated) {
+        // 🌟 UI 텍스트 한국어 우선: 로그인이 필요합니다.
+        showToast({ message: "로그인이 필요합니다.", type: "warning" });
+        router.replace("/signin");
+        return;
+    }
+
+    if (isEdit) {
       const loadPost = async () => {
         try {
           const post = await fetchPostById(editId);
-          // 작성자 권한 확인 (클라이언트 측)
-          if (post.authorId !== currentUserId) {
-            showToast({ message: "수정 권한이 없습니다.", type: "error" }); // ⭐ alert 대체
-            router.push(`/post/${editId}`);
+          // 작성자 불일치 시 처리
+          if (post.authorId.toString() !== currentUserId.toString()) {
+            // 🌟 UI 텍스트 한국어 우선: 수정 권한이 없습니다.
+            showToast({ message: "수정 권한이 없습니다.", type: "error" });
+            router.replace(`/post/${editId}`);
             return;
           }
 
           setTitle(post.title);
-          setContent(post.content);
           setCategory(post.categoryName || "");
           setTags(post.tagNames ? post.tagNames.join(", ") : "");
+          setContent(post.content);
         } catch (error) {
-          showToast({ message: "포스트 로드 실패.", type: "error" }); // ⭐ alert 대체
-          console.error("Failed to load post for editing:", error);
-          router.push("/write"); // 로드 실패 시 새 글쓰기 모드로 전환
+          // 🌟 UI 텍스트 한국어 우선: 포스트를 불러오는 데 실패했습니다.
+          showToast({ message: "포스트를 불러오는 데 실패했습니다.", type: "error" });
+          router.replace("/post");
         } finally {
-          setInitialLoading(false);
+          setIsLoading(false);
         }
       };
       loadPost();
-    } else if (isEdit && !isAuthenticated) {
-      // 비로그인 상태에서 수정 페이지 접근 시
-      showToast({
-        message: "로그인 후 포스트를 수정할 수 있습니다.",
-        type: "warning",
-      });
-      router.push(`/signin?redirect=/write?edit=${editId}`);
     } else {
-      setInitialLoading(false);
+      setIsLoading(false);
     }
   }, [isEdit, editId, isAuthenticated, currentUserId, router, showToast]);
 
-  // 비인증 사용자 리디렉션 (CSR에서)
-  useEffect(() => {
-    if (typeof window !== "undefined" && !isAuthenticated && !isEdit) {
-      showToast({
-        message: "로그인 후 글쓰기를 할 수 있습니다.",
-        type: "warning",
-      });
-      router.push("/signin?redirect=/write");
-    }
-  }, [isAuthenticated, isEdit, router, showToast]);
 
-  // 제출 핸들러
+  // 폼 제출 핸들러 (작성/수정 공통)
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (submitLoading) return;
-
+    if (!title || !content || !category) {
+        // 🌟 UI 텍스트 한국어 우선: 필수 입력 필드를 모두 채워주세요.
+        showToast({ message: "필수 입력 필드를 모두 채워주세요.", type: "warning" });
+        return;
+    }
+    
     setSubmitLoading(true);
 
-    // 태그 문자열을 배열로 변환
-    const tagList = tags
-      .split(",")
-      .map((tag) => tag.trim())
-      .filter((tag) => tag.length > 0);
+    const tagList = tags.split(",").map(tag => tag.trim()).filter(tag => tag.length > 0);
 
-    const postData = {
+    const postRequestData = {
       title,
       content,
       categoryName: category,
@@ -125,140 +114,155 @@ export default function WritePostPage() {
     };
 
     try {
-      let resultPost;
+      let result;
       if (isEdit) {
-        // 수정 요청
-        resultPost = await updatePost(editId, postData);
-        showToast({
-          message: "포스트가 성공적으로 수정되었습니다.",
-          type: "success",
-        }); // ⭐ alert 대체
+        // 수정 모드
+        result = await updatePost(editId, postRequestData);
+        // 🌟 UI 텍스트 한국어 우선: 포스트가 성공적으로 수정되었습니다.
+        showToast({ message: "포스트가 성공적으로 수정되었습니다.", type: "success" });
       } else {
-        // 생성 요청
-        resultPost = await createPost(postData);
-        showToast({
-          message: "새 포스트가 성공적으로 작성되었습니다.",
-          type: "success",
-        }); // ⭐ alert 대체
+        // 작성 모드
+        result = await createPost(postRequestData);
+        // 🌟 UI 텍스트 한국어 우선: 포스트가 성공적으로 작성되었습니다.
+        showToast({ message: "포스트가 성공적으로 작성되었습니다.", type: "success" });
       }
+      
+      router.push(`/post/${result.id}`);
 
-      // 작성/수정 후 상세 페이지로 이동
-      router.push(`/post/${resultPost.id}`);
     } catch (error) {
-      showToast({
-        message: error.message || "포스트 작성/수정 실패: 권한 또는 서버 오류",
-        type: "error",
-      }); // ⭐ alert 대체
+      const action = isEdit ? "수정" : "작성";
+      // 🌟 UI 텍스트 한국어 우선: 포스트 {action} 실패: 권한 또는 서버 오류
+      showToast({ message: `포스트 ${action} 실패: 권한 또는 서버 오류.`, type: "error" });
       console.error(error);
     } finally {
       setSubmitLoading(false);
     }
   };
 
-  if (initialLoading) {
-    return (
-      <div
-        className="container"
-        style={{ textAlign: "center", padding: "50px" }}
-      >
-        <h1 className="page-title">
-          {isEdit ? "포스트 로딩 중..." : "글 작성"}
-        </h1>
-      </div>
-    );
-  }
-
-  // 비인증 상태에서 isEdit이 false일 때도 폼을 보여주지 않습니다 (useEffect에서 리디렉션 처리)
-  if (!isAuthenticated && !isEdit) {
-    return null;
+  if (isLoading) {
+    // 🌟 UI 텍스트 한국어 우선: 불러오는 중...
+    return <div style={{ textAlign: 'center', padding: '100px 0' }}>불러오는 중...</div>;
   }
 
   return (
-    <div className="container">
-      <h1 className="page-title">
-        {isEdit ? "포스트 수정" : "새 포스트 작성"}
-      </h1>
-      <form onSubmit={handleSubmit} className="post-form">
-        <input
-          type="text"
-          placeholder="제목을 입력해주세요"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-          className="post-form-title"
-        />
-
-        {/* 마크다운 에디터 및 미리보기 컨테이너 */}
-        <div className="markdown-editor-container">
-          {/* 에디터 영역 */}
-          <div className="editor-pane">
-            <label className="editor-label">Markdown Editor</label>
-            <textarea
-              placeholder="내용을 마크다운 문법으로 작성해주세요"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              required
-              className="post-form-textarea"
-            />
-          </div>
-
-          {/* 미리보기 */}
-          <div className="preview-pane">
-            <label className="editor-label">Preview</label>
-            <div
-              className="post-form-preview"
-              // ⭐ 중요: 파싱된 HTML을 삽입 (dangerouslySetInnerHTML 사용)
-              dangerouslySetInnerHTML={{ __html: previewHtml }}
-            />
-          </div>
-        </div>
-        {/* End of markdown-editor-container */}
-
-        <input
-          type="text"
-          placeholder="카테고리 (예: React, JS, AI)"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          required
-          className="post-form-input"
-        />
-        <input
-          type="text"
-          placeholder="태그 (쉼표로 구분하여 입력: 예. tag1, tag2)"
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
-          className="post-form-input"
-        />
-
-        <div
-          style={{
-            marginTop: "20px",
-            textAlign: "right",
-            display: "flex",
-            gap: "15px",
-            justifyContent: "flex-end",
-          }}
+    <div style={{ maxWidth: "1000px", margin: "0 auto", padding: "40px 0" }}>
+        <h1 
+            style={{ 
+                fontSize: "2.5rem", 
+                fontWeight: 700, 
+                marginBottom: "40px", 
+                color: "var(--color-text-main)",
+                textAlign: "center"
+            }}
         >
-          {isEdit && (
-            <Link href={`/post/${editId}`} className="btn-secondary">
-              취소
-            </Link>
-          )}
-          <button
-            type="submit"
-            className="btn-primary"
-            disabled={submitLoading || !title || !content || !category}
-          >
-            {submitLoading
-              ? isEdit
-                ? "수정 중..."
-                : "작성 중..."
-              : isEdit
-              ? "포스트 수정"
-              : "포스트 작성"}
-          </button>
-        </div>
-      </form>
+            {/* 🌟 UI 텍스트 한국어 우선: 글 수정 / 새 글 작성 */}
+            {isEdit ? "글 수정 ✏️" : "새 글 작성 📝"}
+        </h1>
+        
+        <form onSubmit={handleSubmit} className="post-form">
+            {/* 제목 입력 */}
+            <input
+                type="text"
+                // 🌟 UI 텍스트 한국어 우선: 제목을 입력해주세요
+                placeholder="제목을 입력해주세요"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+                className="post-form-input"
+                style={{ marginBottom: "20px", fontSize: "1.5em", fontWeight: 700 }}
+            />
+            
+            {/* 카테고리/태그 입력 */}
+            <input
+                type="text"
+                // 🌟 UI 텍스트 한국어 우선: 카테고리 (예. Frontend, Backend)
+                placeholder="카테고리 (예. Frontend, Backend)"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                required
+                className="post-form-input"
+                style={{ marginBottom: "15px" }}
+            />
+            <input
+                type="text"
+                // 🌟 UI 텍스트 한국어 우선: 태그 (쉼표로 구분하여 입력: 예. tag1, tag2)
+                placeholder="태그 (쉼표로 구분하여 입력: 예. tag1, tag2)"
+                value={tags}
+                onChange={(e) => setTags(e.target.value)}
+                className="post-form-input"
+                style={{ marginBottom: "15px" }}
+            />
+
+            <div style={{ display: "flex", gap: "20px", marginBottom: "20px" }}>
+                {/* 마크다운 입력 영역 */}
+                <div style={{ flex: 1 }}>
+                    <h3 style={{ marginTop: 0, marginBottom: "10px", color: "var(--color-text-sub)" }}>
+                        {/* 🌟 UI 텍스트 한국어 우선: 마크다운 입력 */}
+                        마크다운 입력
+                    </h3>
+                    <textarea
+                        // 🌟 UI 텍스트 한국어 우선: 내용을 마크다운으로 작성해주세요
+                        placeholder="내용을 마크다운으로 작성해주세요"
+                        value={content}
+                        onChange={(e) => setContent(e.target.value)}
+                        required
+                        className="post-form-textarea"
+                        style={{ minHeight: "500px", fontFamily: "monospace", fontSize: "1em" }}
+                    />
+                </div>
+
+                {/* 미리보기 영역 */}
+                <div style={{ flex: 1 }}>
+                    <h3 style={{ marginTop: 0, marginBottom: "10px", color: "var(--color-text-sub)" }}>
+                        {/* 🌟 UI 텍스트 한국어 우선: 미리보기 */}
+                        미리보기
+                    </h3>
+                    <div 
+                        className="markdown-body" // globals.css의 마크다운 스타일 적용
+                        dangerouslySetInnerHTML={{ __html: renderMarkdown(content) }}
+                        style={{
+                            minHeight: "500px",
+                            padding: "15px",
+                            border: "1px solid var(--color-border)",
+                            borderRadius: "8px",
+                            backgroundColor: "var(--color-primary)",
+                            overflowY: "auto"
+                        }}
+                    >
+                    </div>
+                </div>
+            </div>
+
+
+            {/* 버튼 영역 */}
+            <div
+                style={{
+                    marginTop: "20px",
+                    textAlign: "right",
+                    display: "flex",
+                    gap: "15px",
+                    justifyContent: "flex-end",
+                }}
+            >
+                {isEdit && (
+                    <Link href={`/post/${editId}`} className="btn-secondary">
+                        {/* 🌟 UI 텍스트 한국어 우선: 취소 */}
+                        취소
+                    </Link>
+                )}
+                <button
+                    type="submit"
+                    className="btn-primary"
+                    disabled={submitLoading || !title || !content || !category}
+                >
+                    {/* 🌟 UI 텍스트 한국어 우선: 수정 중.../작성 중.../수정/작성 */}
+                    {submitLoading
+                        ? (isEdit ? "수정 중..." : "작성 중...")
+                        : (isEdit ? "글 수정" : "글 작성")
+                    }
+                </button>
+            </div>
+        </form>
     </div>
   );
 }

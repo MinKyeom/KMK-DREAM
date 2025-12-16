@@ -2,8 +2,9 @@
 
 import axios from "axios";
 
-// 챗봇 FastAPI 서버 URL (FastAPI 서버가 8000번 포트에서 실행된다고 가정)
-const CHAT_API_URL = "http://localhost:8000/chat";
+// ⭐ 수정: 환경 변수에서 챗봇 서버 URL을 가져오도록 변경
+// .env.local 파일에 NEXT_PUBLIC_CHATBOT_API_URL=http://localhost:5000/chat 와 같이 정의해야 함
+const CHAT_API_URL = process.env.NEXT_PUBLIC_CHATBOT_API_URL || "http://localhost:5000/chat";
 
 /**
  * 챗봇과 대화 요청을 전송하는 함수

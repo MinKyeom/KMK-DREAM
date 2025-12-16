@@ -1,17 +1,17 @@
 // app/page.jsx (Server Component)
 
-import { fetchPosts } from "../services/api/posts"; // API 경로 수정
-import PostCard from "../components/Post/PostCard"; // PostCard 재사용 (Server Component)
-import "../styles/globals.css"; // 공통 스타일 사용
-import "../styles/HomePage.css"; // 홈 페이지 스타일 임포트
-import Link from "next/link"; // Next.js Link 컴포넌트
+import { fetchPosts } from "../services/api/posts"; 
+import PostCard from "../components/Post/PostCard"; 
+import "../styles/globals.css"; 
+import "../styles/HomePage.css"; 
+import Link from "next/link"; 
 
-// SEO 메타데이터 개선
+// 🌟 수정: 한국어 우선 SEO 메타데이터 개선
 export const metadata = {
-  title: "홈", // layout.jsx의 템플릿에 따라 '홈 | Dev Blog'로 표시됨
+  title: "홈", // layout.jsx의 템플릿에 따라 '홈 | MinKowski'로 표시됨
   description:
-    "Dev Blog에 오신 것을 환영합니다! 최신 개발 트렌드와 기술 스택에 대한 깊이 있는 글을 만나보세요.",
-  keywords: ["최신 트렌드", "기술 스택", "IT", "개발 블로그"],
+    "MinKowski에 오신 것을 환영합니다! 최신 개발 트렌드와 기술 스택에 대한 깊이 있는 글들을 만나보세요.",
+  keywords: ["최신 트렌드", "기술 스택", "IT", "개발 블로그", "홈"],
   alternates: {
     canonical: "https://your-blog-url.com/",
   },
@@ -19,6 +19,7 @@ export const metadata = {
 
 // 날짜 포맷팅 헬퍼 함수
 const formatDate = (dateString) => {
+  // 🌟 수정: 한국어 포맷으로 변경
   return new Date(dateString).toLocaleDateString("ko-KR", {
     year: "numeric",
     month: "long",
@@ -28,17 +29,16 @@ const formatDate = (dateString) => {
 
 // 포스트 목록 데이터를 서버에서 미리 가져옵니다. (최신 6개만)
 async function getRecentPosts() {
+  // 페이지는 0 (첫 페이지), 사이즈는 6
   try {
-    // 홈에서는 최신 글 6개만 가져오도록 page=0, size=6으로 설정
     const data = await fetchPosts(0, 6);
     return data.content || [];
   } catch (error) {
-    console.error("Failed to fetch posts on server for homepage:", error);
+    console.error("홈 페이지에서 포스트를 가져오는 데 실패했습니다.", error);
     return [];
   }
 }
 
-// HomePage Component
 export default async function HomePage() {
   const recentPosts = await getRecentPosts();
 
@@ -46,21 +46,20 @@ export default async function HomePage() {
     <div className="homepage-container">
       {/* 1. 히어로 섹션 */}
       <section className="hero-section">
-        <h1 className="hero-title">Dev Blog</h1>
+        <h1 className="hero-title">MinKowski</h1>
+        {/* 🌟 UI 텍스트 한국어 우선 */}
         <p className="hero-subtitle">
-          개발자를 위한 깊이 있는 지식과 인사이트를 공유합니다.
+          구조적으로 사고하고, 시간을 초월하여 살다. <br />
+          끊임없이 변화하는 기술 세계에서 당신의 지적 항해를 돕겠습니다.
         </p>
-        <Link
-          href="/post"
-          className="btn-primary"
-          style={{ marginTop: "20px", fontSize: "1.1em" }}
-        >
-          전체 포스트 보기 &rarr;
+        <Link href="/post" className="btn-primary" style={{ marginTop: '20px' }}>
+          모든 포스트 보기 &rarr;
         </Link>
       </section>
 
       {/* 2. 최신 포스트 섹션 */}
       <section className="latest-posts-section">
+        {/* 🌟 UI 텍스트 한국어 우선 */}
         <h2 className="section-title">✨ 최신 포스트</h2>
 
         {recentPosts.length > 0 ? (
@@ -70,31 +69,32 @@ export default async function HomePage() {
             ))}
           </div>
         ) : (
+          /* 🌟 UI 텍스트 한국어 우선 */
           <p className="no-posts">아직 작성된 포스트가 없습니다.</p>
         )}
       </section>
 
-      {/* 3. 카테고리/태그 섹션 (예시) */}
+      {/* 3. 카테고리/태그 섹션 (예시: 사이드바와 연동되어야 함) */}
       <section className="category-section">
+        {/* 🌟 UI 텍스트 한국어 우선 */}
         <h2 className="section-title">📚 주요 카테고리</h2>
         <div className="category-links">
-          {/* 실제 데이터 기반으로 변경 필요 */}
-          <Link href="/post/category/frontend" className="category-link">
-            Frontend (12)
+          {/* 주석: 실제 데이터 기반으로 변경 필요 */}
+          {/* 🌟 UI 텍스트 한국어 우선 */}
+          <Link href="/post?category=frontend" className="category-link">
+            프론트엔드
           </Link>
-          <Link href="/post/category/backend" className="category-link">
-            Backend (25)
+          <Link href="/post?category=backend" className="category-link">
+            백엔드
           </Link>
-          <Link href="/post/category/devops" className="category-link">
-            DevOps (5)
+          <Link href="/post?category=ai-ml" className="category-link">
+            AI/ML
           </Link>
-          <Link href="/post/category/ai" className="category-link">
-            AI/ML (8)
+          <Link href="/post?category=talk" className="category-link">
+            잡담
           </Link>
         </div>
       </section>
-
-      <div style={{ height: "50px" }}>{/* 공간 확보 */}</div>
     </div>
   );
 }

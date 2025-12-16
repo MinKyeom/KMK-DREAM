@@ -32,12 +32,11 @@ export const getAuthUser = () => {
   const id = localStorage.getItem("currentUserId");
   const nickname = localStorage.getItem("currentUserNickname");
 
-  // 쿠키의 유효성 검사는 백엔드의 JWT 필터가 담당합니다.
-  // 프론트에서는 localStorage에 정보가 있으면 로그인된 것으로 간주합니다.
-  return id && nickname
-    ? { isAuthenticated: true, id, nickname }
-    : { isAuthenticated: false, id: null, nickname: null };
+  // 쿠키의 유효성은 서버의 응답을 통해 간접적으로 확인됩니다. 
+  // 여기서는 localStorage에 값이 있는 경우 유효하다고 간주합니다.
+  return { isAuthenticated: !!id, id, nickname };
 };
+
 
 /**
  * 회원가입 요청 (POST /user/signup)
@@ -53,8 +52,9 @@ export const registerUser = async ({ username, password, nickname }) => {
     // 백엔드가 HttpOnly 쿠키에 토큰을 설정
     const { id, nickname: userNickname } = response.data;
     if (id && userNickname) {
-      localStorage.setItem("currentUserId", id);
-      localStorage.setItem("currentUserNickname", userNickname);
+      // 회원가입 후 자동 로그인 처리 (선택 사항)
+      // localStorage.setItem("currentUserId", id);
+      // localStorage.setItem("currentUserNickname", userNickname);
     }
     return response.data;
   } catch (error) {
@@ -91,12 +91,14 @@ export const loginUser = async ({ username, password }) => {
  */
 export const logoutUser = async () => {
   try {
-    // 1. 백엔드에 로그아웃 요청을 보내 쿠키(authToken)를 삭제합니다.
+    // 백엔드에 로그아웃 요청을 보내 HttpOnly 쿠키를 삭제하도록 합니다.
     await authAxios.post(`${BASE_URL}/user/logout`);
 
-    // 2. 로컬에 저장된 사용자 정보(ID, 닉네임)를 삭제합니다.
+    // 로컬 스토리지에 저장된 사용자 정보도 삭제
     localStorage.removeItem("currentUserId");
     localStorage.removeItem("currentUserNickname");
+
+    return true;
   } catch (error) {
     console.error("로그아웃 오류:", error);
     throw error;

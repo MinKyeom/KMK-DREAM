@@ -1,10 +1,10 @@
 // src/components/Chatbot/Chatbot.jsx
-"use client"; // ⭐ 클라이언트 컴포넌트 선언
+"use client"; 
 
 import React, { useState, useEffect, useRef } from "react";
-import { sendChatMessage } from "../../services/api/chat"; // API 경로 수정
-import { useAuth } from "../../providers/AuthProvider"; // Provider 경로 수정
-import "./Chatbot.css"; // CSS 경로 수정
+import { sendChatMessage } from "../../services/api/chat"; 
+import { useAuth } from "../../providers/AuthProvider"; 
+import "./Chatbot.css"; 
 
 export default function Chatbot({ setIsChatOpen }) { 
   // 채팅 메시지 상태: [{ role: 'user'/'assistant', text: 'message' }]
@@ -12,7 +12,6 @@ export default function Chatbot({ setIsChatOpen }) {
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   
-  // useAuth 훅을 사용하여 상태 변화에 반응
   const { id: currentUserId, nickname: currentUserNickname } = useAuth();
   // 비로그인 시 'guest_user' 사용을 원칙으로 유지
   const sessionId = currentUserId || "guest_user"; 
@@ -29,52 +28,57 @@ export default function Chatbot({ setIsChatOpen }) {
     setIsChatOpen(false);
   };
 
-  // 채팅 메시지 전송 핸들러
+  // 채팅 메시지 전송
   const handleSend = async (e) => {
     e.preventDefault();
-    if (inputMessage.trim() === "" || isLoading) return;
+    if (!inputMessage.trim() || isLoading) return;
 
     const userMessage = inputMessage.trim();
-    
-    // 1. 사용자 메시지 목록에 추가
+    // 사용자 메시지를 목록에 추가
     setMessages((prev) => [...prev, { role: "user", text: userMessage }]);
-    setInputMessage(""); // 입력창 초기화
+    setInputMessage("");
     setIsLoading(true);
 
     try {
-      // 2. 챗봇 API 호출
-      const botResponse = await sendChatMessage(sessionId, userMessage); // chat.js 함수 사용
-      
-      // 3. 챗봇 응답 메시지 목록에 추가
+      // API 호출
+      const botResponse = await sendChatMessage(sessionId, userMessage);
+
+      // 챗봇 응답을 목록에 추가
       setMessages((prev) => [...prev, { role: "assistant", text: botResponse }]);
     } catch (error) {
-      // API 오류 발생 시
-      setMessages((prev) => [...prev, { role: "assistant", text: "오류: 메시지를 처리할 수 없습니다." }]);
+      console.error("챗봇 통신 중 오류 발생:", error);
+      // 🌟 UI 텍스트 한국어 우선: 오류 메시지
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", text: "⚠️ 챗봇 서버와의 통신 중 오류가 발생했습니다." },
+      ]);
     } finally {
       setIsLoading(false);
     }
   };
 
+  // 챗봇 UI 렌더링
   return (
     <div className="chatbot-container">
       {/* 헤더 */}
       <div className="chatbot-header">
-        <h3>Dev Blog 챗봇</h3>
-        <button className="close-btn" onClick={handleClose}>
-          &times;
+        {/* 🌟 UI 텍스트 한국어 우선: 민코프스키 챗봇 */}
+        <h3>민코프스키 챗봇 🤖</h3> 
+        <button className="chatbot-close-btn" onClick={handleClose}>
+          ×
         </button>
       </div>
 
-      {/* 메시지 목록 */}
+      {/* 메시지 영역 */}
       <div className="chatbot-messages">
         {messages.length === 0 && (
-          <div className="chatbot-welcome">
-            안녕하세요! 블로그 챗봇입니다.<br/>
-            궁금한 점을 물어보거나, 관심사/공부 내용을 저장해 보세요.
-            <br/><br/>
+          <div className="message-bubble assistant welcome">
+            {/* 🌟 UI 텍스트 한국어 우선: 환영 메시지 */}
+            저는 민코프스키 블로그 챗봇입니다.<br/>
+            궁금한 점을 물어보거나 관심사/학습 노트를 저장하세요.<br/><br/>
             {currentUserId 
-              ? `👤 **${currentUserNickname || currentUserId}** 님으로 세션이 시작됩니다.` 
-              : `**비회원** 세션입니다. 로그인 시 기록이 유지됩니다.`
+              ? `👤 **${currentUserNickname || currentUserId}**님 세션 시작.` // 🌟 한국어 우선
+              : `**비회원** 세션입니다. 로그인하여 기록을 유지하세요.` // 🌟 한국어 우선
             }
           </div>
         )}
@@ -99,10 +103,12 @@ export default function Chatbot({ setIsChatOpen }) {
           type="text"
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
-          placeholder={isLoading ? "응답을 기다리는 중..." : "메시지를 입력하세요..."}
+          // 🌟 UI 텍스트 한국어 우선: 메시지 입력...
+          placeholder="메시지 입력..."
           disabled={isLoading}
         />
         <button type="submit" className="btn-primary" disabled={isLoading}>
+          {/* 🌟 UI 텍스트 한국어 우선: 전송 */}
           전송
         </button>
       </form>

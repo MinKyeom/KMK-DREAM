@@ -1,7 +1,7 @@
 // src/components/common/HeaderThemeToggle.jsx
-"use client"; // ⭐ 클라이언트 컴포넌트 선언
+"use client"; 
 
-import { useTheme } from "../../providers/ThemeProvider"; // 경로 수정
+import { useTheme } from "../../providers/ThemeProvider"; 
 
 // ⭐ 전역 테마 토글 컴포넌트
 export default function HeaderThemeToggle() {
@@ -11,7 +11,8 @@ export default function HeaderThemeToggle() {
     <button 
       onClick={toggleTheme} 
       className="global-theme-toggle"
-      title={isDarkMode ? "라이트 모드 전환" : "다크 모드 전환"}
+      // 🌟 UI 텍스트 한국어 우선: 라이트/다크 모드 전환
+      title={isDarkMode ? "라이트 모드로 전환" : "다크 모드로 전환"} 
     >
       {/* 감성적인 아이콘 사용 */}
       {isDarkMode ? "☀️" : "🌙"}

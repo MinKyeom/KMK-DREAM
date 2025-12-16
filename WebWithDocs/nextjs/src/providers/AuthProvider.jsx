@@ -2,7 +2,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { getAuthUser, logoutUser } from '../services/api/auth'; // logoutUser 임포트 추가
+import { getAuthUser, logoutUser } from '../services/api/auth'; 
 
 // 1. Context 생성
 const AuthContext = createContext();
@@ -18,7 +18,8 @@ export const AuthProvider = ({ children }) => {
     id: null, 
     nickname: null 
   });
-  const [isAuthInitialized, setIsAuthInitialized] = useState(false); // 초기화 상태 추가
+  // 초기화 상태 추가: 클라이언트에서 인증 상태를 로드했는지 확인
+  const [isAuthInitialized, setIsAuthInitialized] = useState(false); 
 
   // ⭐ [수정] 컴포넌트가 클라이언트에서 마운트된 후 (Hydration 후) 상태를 초기화
   useEffect(() => {
@@ -33,17 +34,31 @@ export const AuthProvider = ({ children }) => {
     setAuthState(getAuthUser());
   };
 
-  // Context 값
-  const contextValue = {
-    ...authState, // isAuthenticated, id, nickname 포함
+  // 로그아웃을 API 호출 없이 강제로 처리하는 경우를 대비
+  const manualLogout = () => {
+    // 로컬 스토리지에 저장된 사용자 정보 삭제
+    if (typeof window !== 'undefined') {
+        localStorage.removeItem("currentUserId");
+        localStorage.removeItem("currentUserNickname");
+    }
+    setAuthState({ isAuthenticated: false, id: null, nickname: null });
+  };
+  
+  const value = {
+    ...authState,
     refreshAuth,
-    isAuthInitialized // ⭐ [추가] 인증 상태 초기화 여부 제공
+    isAuthInitialized,
+    manualLogout,
   };
 
-  // isAuthInitialized를 확인하여 초기화가 완료되기 전까지는 로딩 상태를 보여줄 수 있음
-  // (여기서는 간단하게, 초기화가 안 되어도 자식 컴포넌트 렌더링을 허용)
+  // 주석: 인증 상태가 초기화될 때까지 children 렌더링을 지연시킬 수 있지만, 
+  // Next.js 환경에서는 초기 상태로 렌더링한 후 useEffect에서 업데이트하는 것이 일반적입니다.
+  // if (!isAuthInitialized) {
+  //   return null; 
+  // }
+
   return (
-    <AuthContext.Provider value={contextValue}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );

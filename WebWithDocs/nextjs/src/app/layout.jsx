@@ -1,85 +1,85 @@
 // app/layout.jsx (Server Component)
 
-import { ThemeProvider } from "../providers/ThemeProvider"; // Client Provider 임포트
-import { AuthProvider } from "../providers/AuthProvider"; // Client Provider 임포트
-import { ToastProvider } from "../providers/ToastProvider"; // ⭐ 추가: Toast Provider 임포트
-import Header from "../components/common/Header"; // Client Component 임포트
+import { ThemeProvider } from "../providers/ThemeProvider"; 
+import { AuthProvider } from "../providers/AuthProvider"; 
+import { ToastProvider } from "../providers/ToastProvider"; 
+import Header from "../components/common/Header"; 
 
-// ✅ 수정: ChatbotWrapper를 별도 파일에서 임포트합니다.
 import ChatbotWrapper from "../components/Chatbot/ChatbotWrapper";
 
-// 전역 스타일 임포트 (Next.js 권장)
+// 전역 스타일 임포트
 import "../styles/globals.css";
-// ✅ 오류 해결: '../src/components/Chatbot/Chatbot.css' -> '../components/Chatbot/Chatbot.css'로 경로 수정
-import "../components/Chatbot/Chatbot.css"; // 챗봇 스타일 추가
-import "../styles/Toast.css"; // ⭐ 추가: Toast 스타일 임포트
+import "../styles/Header.css"; // 🌟 추가: Header.css 임포트
+import "../components/Chatbot/Chatbot.css"; 
+import "../styles/Toast.css"; 
 
-// SEO 최상위 메타데이터
+// 🌟 수정: 한국어 우선 SEO 메타데이터 업데이트
 export const metadata = {
+  // 🌟 한국어 기본 타이틀
   title: {
-    default: "Dev Blog | 최신 개발 트렌드와 기술 스택 공유", // 기본 타이틀 개선
-    template: "%s | Dev Blog", // 개별 페이지 제목을 감싸는 템플릿
+    default: "MinKowski | 구조적으로 사고하고, 시간을 초월하여 살다.", 
+    template: "%s | MinKowski", 
   },
+  // 🌟 한국어 상세 설명
   description:
-    "최신 개발 트렌드, 기술 스택, 팁을 공유하는 개발자 블로그입니다. 백엔드, 프론트엔드, AI/ML 등 다양한 주제를 다룹니다.", // 설명 상세화
+    "백엔드, 프론트엔드, AI/ML을 아우르는 소프트웨어 개발 트렌드와 인사이트를 공유하는 개인 개발 블로그입니다.", 
   keywords: [
-    "Next.js",
-    "Spring Boot",
-    "개발 블로그",
-    "프론트엔드",
-    "백엔드",
-    "IT 기술",
-    "코딩",
-    "DevBlog",
-  ], // 키워드 추가
-  authors: [{ name: "Your Name or Team Name" }], // 작성자 정보 추가
+    "Next.js", "React", "Spring Boot", "개발 블로그", "MinKowski", "기술 아카이브"
+  ],
   alternates: {
-    canonical: "https://your-blog-url.com", // 정규 URL
+    canonical: "https://your-blog-url.com",
+    // 🌟 영문 대체 URL (선택적)
+    languages: {
+      'ko-KR': 'https://your-blog-url.com',
+      'en-US': 'https://your-blog-url.com/en', // 영문 버전 URL이 있다면
+    }
   },
-  // Open Graph/Twitter 카드 설정 (개선)
   openGraph: {
-    title: "Dev Blog | 최신 개발 트렌드와 기술 스택 공유",
+    title: "MinKowski | 구조적으로 사고하고, 시간을 초월하여 살다.",
     description:
-      "최신 개발 트렌드, 기술 스택, 팁을 공유하는 개발자 블로그입니다.",
+      "백엔드, 프론트엔드, AI/ML을 아우르는 소프트웨어 개발 트렌드와 인사이트를 공유하는 개인 개발 블로그입니다.",
     url: "https://your-blog-url.com",
-    siteName: "Dev Blog",
+    siteName: "MinKowski",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dev Blog",
+    title: "MinKowski",
     description:
-      "최신 개발 트렌드, 기술 스택, 팁을 공유하는 개발자 블로그입니다.",
+      "백엔드, 프론트엔드, AI/ML을 아우르는 소프트웨어 개발 트렌드와 인사이트를 공유하는 개인 개발 블로그입니다.",
   },
 };
 
+// 프로바이더를 모아서 렌더링하는 헬퍼 컴포넌트 (Client Component만 포함)
+const ProvidersWrapper = ({ children }) => (
+  <ThemeProvider>
+    <ToastProvider>
+      <AuthProvider>{children}</AuthProvider>
+    </ToastProvider>
+  </ThemeProvider>
+);
+
 export default function RootLayout({ children }) {
   return (
+    // 🌟 수정: HTML 언어 코드를 'ko' (한국어)로 변경
     <html lang="ko">
       <body>
-        {/* 모든 페이지를 Provider로 감싸 전역 상태 사용 가능하도록 함 */}
         <ProvidersWrapper>
           <div className="App">
-            <Header /> {/* Client Component */}
-            <main>
-              {children} {/* Page Content */}
+            <Header /> 
+            <main className="main-content-container">
+              {children}
             </main>
-            <ChatbotWrapper /> {/* 챗봇 플로팅 버튼 및 팝업 */}
+            <ChatbotWrapper /> {/* 챗봇 플로팅 버튼/팝업 */}
+            <footer>
+                {/* 🌟 한국어 우선 푸터 텍스트 */}
+                <p style={{ textAlign: 'center', color: 'var(--color-text-sub)', padding: '20px 0', borderTop: '1px solid var(--color-border)', fontSize: '0.9em' }}>
+                    &copy; {new Date().getFullYear()} MinKowski. All rights reserved.
+                </p>
+            </footer>
           </div>
         </ProvidersWrapper>
       </body>
     </html>
   );
 }
-
-// Client Side Wrapper for Providers
-const ProvidersWrapper = ({ children }) => (
-  // ⭐ ToastProvider를 최상위에 추가
-  <ToastProvider>
-    <ThemeProvider>
-      <AuthProvider>{children}</AuthProvider>
-    </ThemeProvider>
-  </ToastProvider>
-);
-
-// ❌ 기존 layout.jsx에 있던 ChatbotWrapper 함수는 제거하고 별도 파일로 이동합니다.

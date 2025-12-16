@@ -1,5 +1,5 @@
 // src/components/MarkdownRenderer.jsx
-"use client"; // ⭐ 클라이언트 컴포넌트 선언
+"use client"; 
 
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
@@ -52,12 +52,12 @@ const MarkdownRenderer = ({ content }) => {
                 {String(children).replace(/\n$/, '')}
               </SyntaxHighlighter>
             ) : (
-              // 언어가 지정되지 않은 코드 블록이거나 오류 시 일반 pre 태그 사용
-              <pre className="markdown-code-block" {...props}>
-                <code {...props}>{children}</code>
-              </pre>
+              // 언어가 지정되지 않은 코드 블록이거나 Prism 지원 외의 경우
+              <code className={className} {...props}>
+                {children}
+              </code>
             );
-          }
+          },
         }}
       />
     </div>

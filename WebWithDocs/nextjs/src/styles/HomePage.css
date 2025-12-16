@@ -8,75 +8,87 @@
     text-align: left;
 }
 
-/* --- 1. 히어로 섹션 (Brunch 스타일의 큰 타이포그래피) --- */
+/* ---------------------------------------------------------------- */
+/* --- 1. 히어로 섹션 (감성적인 큰 타이포그래피) --- */
+/* ---------------------------------------------------------------- */
 .hero-section {
     padding: 120px 40px; 
     margin-bottom: 60px;
     background-color: var(--color-primary); 
-    border-radius: 12px; 
-    box-shadow: 0 10px 30px var(--color-shadow); 
+    /* 🌟 디자인 개선: 그림자 강조 및 부드러운 테두리 */
+    border-radius: 16px; /* 더 둥글게 */
+    box-shadow: 0 15px 35px var(--color-shadow-strong); /* 더 강한 그림자 */
     border: 1px solid var(--color-border);
     transition: all 0.3s;
     text-align: center; 
 }
 
+/* 🌟 수정: 블로그 이름에 필기체 폰트 적용 (MinKowski) */
 .hero-title {
-    font-size: 4rem; 
-    font-weight: 900; 
-    color: var(--color-text-main);
+    font-family: var(--font-family-cursive); /* 필기체 폰트 적용 */
+    font-size: 5rem; /* 더 크게 */
+    font-weight: 400; /* 필기체에 맞게 */
+    color: var(--color-logo); /* 로고 색상 변수 사용 */
     margin-bottom: 25px;
     line-height: 1.1;
+    transition: color 0.3s;
 }
 
 .hero-subtitle {
-    font-size: 1.6em;
+    font-size: 1.3em; /* 한국어 가독성을 위해 살짝 줄임 */
     font-weight: 300; 
     color: var(--color-text-sub);
-    line-height: 1.7;
+    line-height: 1.8; /* 줄 간격 확대 */
     margin-bottom: 30px; 
 }
 
+/* ---------------------------------------------------------------- */
 /* --- 2. 최신 포스트 섹션 --- */
-.featured-posts-section {
+/* ---------------------------------------------------------------- */
+
+.latest-posts-section .section-title, .category-section .section-title {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: var(--color-text-main);
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--color-border);
+}
+
+.latest-posts-section {
     margin-bottom: 60px;
 }
 
-.section-title {
-    font-size: 2rem;
-    font-weight: 800;
-    color: var(--color-text-main);
-    margin-bottom: 30px;
-    border-left: 5px solid var(--color-accent);
-    padding-left: 15px;
-    line-height: 1.2;
-}
-
-.post-grid {
+.post-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 반응형 300px 이상 */
     gap: 30px;
 }
 
-/* 포스트 카드 스타일 */
+/* ---------------------------------------------------------------- */
+/* --- 3. 포스트 카드 (PostCard) 스타일 개선 --- */
+/* ---------------------------------------------------------------- */
+
 .post-card {
     display: flex;
     flex-direction: column;
-    padding: 25px;
-    background-color: var(--color-primary);
-    border-radius: 10px;
-    box-shadow: 0 4px 12px var(--color-shadow);
+    padding: 30px;
+    background-color: var(--color-primary); 
     border: 1px solid var(--color-border);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    text-align: left;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px var(--color-shadow);
+    transition: all 0.3s;
 }
 
 .post-card:hover {
+    box-shadow: 0 10px 20px var(--color-shadow-strong);
     transform: translateY(-5px);
-    box-shadow: 0 8px 20px var(--color-shadow);
+    border-color: var(--color-accent);
+    text-decoration: none;
 }
 
 .post-card h3 {
-    font-size: 1.4rem;
+    font-size: 1.4em; 
     font-weight: 700;
     color: var(--color-text-main);
     margin-bottom: 10px;
@@ -121,24 +133,17 @@
 .category-links {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+    gap: 15px;
 }
 
-.category-link {
-    padding: 12px 25px;
-    border: 2px solid var(--color-border);
-    border-radius: 50px; 
-    color: var(--color-text-sub);
-    font-weight: 600;
-    transition: all 0.2s ease;
-    background-color: var(--color-primary);
-    text-align: center;
-}
-
-.category-link:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-    background-color: var(--color-accent-translucent);
-    box-shadow: 0 2px 10px var(--color-shadow);
+@media (max-width: 600px) {
+    .hero-section {
+        padding: 80px 20px; 
+    }
+    .hero-title {
+        font-size: 3.5rem; 
+    }
+    .post-list {
+        grid-template-columns: 1fr;
+    }
 }

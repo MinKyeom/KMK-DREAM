@@ -8,7 +8,8 @@
     top: 20px;
     right: 20px;
     z-index: 9999;
-    pointer-events: none; /* 클릭 이벤트가 아래 요소로 통과되도록 설정 */
+    /* 클릭 이벤트가 아래 요소로 통과되도록 설정 */
+    pointer-events: none; 
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -24,32 +25,45 @@
     border-radius: 8px;
     color: white;
     font-weight: 600;
-    box-shadow: 0 4px 12px var(--color-shadow-strong);
+    /* 강한 그림자 변수 사용 */
+    box-shadow: 0 4px 12px var(--color-shadow-strong); 
     opacity: 0;
     transform: translateX(100%);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* 부드러운 애니메이션 */
-    pointer-events: auto; /* 알림 자체는 클릭 가능하도록 복원 */
-    cursor: pointer; /* 클릭 가능한 요소임을 표시 */
+    /* 부드러운 애니메이션 */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+    /* 알림 자체는 클릭 가능하도록 복원 */
+    pointer-events: auto; 
+    /* 클릭 가능한 요소임을 표시 */
+    cursor: pointer; 
+    
+    display: flex;
+    align-items: center;
 }
 
-/* 토스트 등장 애니메이션 (react-transition-group의 classNames="toast-item"을 따름) */
-.toast-item-enter {
+/* ---------------------------------------------------------------- */
+/* 3. 토스트 등장 애니메이션 (react-transition-group 사용) */
+/* ---------------------------------------------------------------- */
+
+/* 등장 전 (Initial) */
+.toast-transition-enter {
     opacity: 0;
     transform: translateX(100%);
-}
-.toast-item-enter-active {
-    opacity: 1;
-    transform: translateX(0);
-    transition: opacity 300ms, transform 300ms;
 }
 
-/* 토스트 사라짐 애니메이션 */
-.toast-item-exit {
+/* 등장 중 (Active) */
+.toast-transition-enter-active {
     opacity: 1;
     transform: translateX(0);
 }
-.toast-item-exit-active {
+
+/* 퇴장 전 (Initial) */
+.toast-transition-exit {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* 퇴장 중 (Active) */
+.toast-transition-exit-active {
     opacity: 0;
     transform: translateX(100%);
-    transition: opacity 300ms, transform 300ms;
 }

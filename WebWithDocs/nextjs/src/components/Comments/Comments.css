@@ -1,7 +1,7 @@
 /* src/components/Comments/Comments.css (전면 개편: 깔끔하고 가독성 좋은 댓글 디자인) */
 
 /* ---------------------------------------------------------------- */
-/* 1. 댓글 섹션 전체 컨테이너 */
+/* --- 1. 댓글 섹션 전체 컨테이너 --- */
 /* ---------------------------------------------------------------- */
 .comments-section {
     margin-top: 40px;
@@ -17,7 +17,7 @@
     font-weight: 700;
 }
 
-.no-comments {
+.no-comments, .login-prompt {
     text-align: center;
     color: var(--color-text-sub);
     padding: 30px 0;
@@ -25,7 +25,7 @@
 }
 
 /* ---------------------------------------------------------------- */
-/* 2. 댓글 작성 폼 */
+/* --- 2. 댓글 작성 폼 --- */
 /* ---------------------------------------------------------------- */
 .comment-form {
     margin-bottom: 40px;
@@ -35,63 +35,53 @@
     border-radius: 10px;
     box-shadow: 0 2px 8px var(--color-shadow);
     transition: all 0.3s;
-}
-
-.comment-form:focus-within {
-    box-shadow: 0 4px 15px var(--color-shadow-strong);
+    
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .comment-form textarea {
     width: 100%;
-    min-height: 100px;
-    padding: 15px;
-    margin-bottom: 15px;
+    padding: 12px;
     border: 1px solid var(--color-border);
     border-radius: 6px;
     font-size: 1em;
-    resize: vertical;
     background-color: var(--color-secondary);
     color: var(--color-text-main);
-    transition: border-color 0.2s;
+    resize: vertical;
 }
 
 .comment-form textarea:focus {
     border-color: var(--color-accent);
     outline: none;
+    box-shadow: 0 0 0 1px var(--color-accent);
 }
 
 .comment-form button {
-    float: right;
-}
-
-.login-prompt {
-    text-align: center;
-    color: var(--color-text-sub);
-    padding: 20px;
-    border: 1px dashed var(--color-border);
-    border-radius: 8px;
+    align-self: flex-end; /* 버튼을 오른쪽으로 배치 */
+    max-width: 100px;
 }
 
 /* ---------------------------------------------------------------- */
-/* 3. 댓글 목록 */
+/* --- 3. 댓글 목록 및 아이템 --- */
 /* ---------------------------------------------------------------- */
 .comments-list {
     display: flex;
     flex-direction: column;
-    gap: 1px; /* 댓글 사이 간격 */
-    border: 1px solid var(--color-border);
-    border-radius: 10px;
-    overflow: hidden; /* 댓글 경계선 깔끔하게 처리 */
-}
-
-.comments-list .comment-item {
-    padding: 20px 25px;
+    gap: 0; /* 개별 댓글 아이템 내에서 경계선으로 구분 */
+    border-top: 1px solid var(--color-border); /* 목록의 시작점 */
     background-color: var(--color-primary);
-    border-bottom: 1px solid var(--color-border); 
-    transition: background-color 0.2s;
+    border-radius: 10px;
+    padding: 0 20px;
 }
 
-/* 마지막 댓글의 하단 경계선 제거 */
+.comment-item {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--color-border); 
+}
+
+/* 마지막 댓글 아이템의 하단 경계선 제거 */
 .comments-list .comment-item:last-child {
     border-bottom: none; 
 }
@@ -118,51 +108,19 @@
 }
 
 .comment-content {
-    color: var(--color-text-main);
-    line-height: 1.7;
-    margin-bottom: 15px;
-    word-break: break-word; 
-    white-space: pre-wrap; 
-}
-
-/* 댓글 관리 버튼 */
-.comment-actions {
-    display: flex;
-    gap: 10px;
-    font-size: 0.85em;
-    justify-content: flex-end;
-}
-.comment-actions button {
-    background: none;
-    border: none;
-    color: var(--color-text-sub);
-    cursor: pointer;
-    padding: 0;
-    transition: color 0.2s;
-}
-
-.comment-actions button:hover {
-    color: var(--color-accent);
-}
-
-/* 수정 중 폼 스타일 */
-.edit-textarea {
-    width: 100%;
-    min-height: 100px;
-    padding: 15px;
-    margin: 10px 0;
-    border: 1px solid var(--color-accent);
-    border-radius: 6px;
+    white-space: pre-wrap; /* 줄바꿈 유지 */
+    word-break: break-word;
+    margin: 0;
     font-size: 1em;
-    resize: vertical;
-    background-color: var(--color-secondary);
-    color: var(--color-text-main);
-    transition: border-color 0.2s;
 }
 
-.edit-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 10px;
+.comment-badge {
+    display: inline-block;
+    background-color: var(--color-accent);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.7em;
+    font-weight: 600;
+    margin-left: 5px;
 }

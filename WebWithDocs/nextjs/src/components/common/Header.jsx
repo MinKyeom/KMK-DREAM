@@ -1,75 +1,98 @@
 // src/components/common/Header.jsx
-"use client"; // ⭐ 클라이언트 컴포넌트 선언
+"use client"; 
 
-import Link from "next/link"; // react-router-dom Link 대신 next/link 사용
-import { logoutUser } from "../../services/api/auth"; // API 경로 수정
-import { useAuth } from "../../providers/AuthProvider"; // Provider 경로 수정
-import { useToast } from "../../hooks/useToast"; // ⭐ 추가
-import HeaderThemeToggle from "./HeaderThemeToggle";
+import Link from "next/link";
+import { useState } from "react"; // 🌟 햄버거 토글 상태 추가
+import { logoutUser } from "../../services/api/auth";
+import { useAuth } from "../../providers/AuthProvider";
+import { useToast } from "../../hooks/useToast"; 
+import Sidebar from "./Sidebar"; // 🌟 Sidebar 컴포넌트 임포트
+import HeaderThemeToggle from "./HeaderThemeToggle"; 
+import "../../styles/Header.css"; // 🌟 Header.css 임포트
 
-// 간단한 헤더 컴포넌트
 export default function Header() {
   const { isAuthenticated, nickname, refreshAuth } = useAuth();
-  const { showToast } = useToast(); // ⭐ 추가
+  const { showToast } = useToast(); 
+  
+  // 🌟 햄버거 메뉴 상태 관리
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
       await logoutUser();
-      // ⭐ alert() 대신 showToast 사용
-      showToast({ message: "로그아웃되었습니다.", type: "success" }); 
+      showToast({ message: "로그아웃 성공.", type: "success" }); // 🌟 한국어 우선
       refreshAuth();
     } catch (error) {
-      // ⭐ alert() 대신 showToast 사용
-      showToast({ message: "로그아웃 처리 중 오류가 발생했습니다.", type: "error" }); 
+      showToast({ message: "로그아웃 실패: 서버 오류 발생.", type: "error" }); // 🌟 한국어 우선
       console.error(error);
-      refreshAuth(); // 혹시 모를 로컬 상태 강제 동기화
+      refreshAuth(); 
     }
   };
 
   return (
-    <header>
-      <div className="header-content">
-        <div className="header-left">
-          {/* 메인 로고/링크 */}
-          <Link href="/" className="logo-text">
-            DEV BLOG
-          </Link>
-          <HeaderThemeToggle /> {/* 테마 토글 컴포넌트 추가 */}
-        </div>
+    <>
+      {/* 🌟 햄버거 토글로 열리는 사이드바 */}
+      <Sidebar 
+          isSidebarOpen={isSidebarOpen} 
+          closeSidebar={() => setIsSidebarOpen(false)} 
+      />
 
-        <nav className="header-nav">
-          {/* 메인 내비게이션 링크 */}
-          <Link href="/post" className="nav-link">
-            POSTS
-          </Link>
-          {isAuthenticated && ( // 로그인 사용자에게만 글쓰기 버튼 표시
-            <Link href="/write" className="nav-link btn-secondary-small">
-              글쓰기 ✍️
-            </Link>
-          )}
-
-          {isAuthenticated ? (
-            <>
-              {/* 로그인 사용자 */}
-              <span className="user-nickname">{nickname} 님</span>
-              <button
-                onClick={handleLogout}
-                className="nav-link btn-primary-small"
-              >
-                Logout
-              </button>
-            </>
-          ) : (
-            // 비로그인 사용자
-            <Link
-              href="/signin"
-              className="nav-link btn-primary-small"
+      <header>
+        <div className="header-content">
+          <div className="header-left">
+            {/* 🌟 햄버거 버튼 (모바일에서만 표시) */}
+            <button 
+                className="hamburger-button"
+                onClick={() => setIsSidebarOpen(true)}
+                aria-label="메뉴 열기"
             >
-              로그인
+                ☰
+            </button>
+
+            {/* 🌟 로고 (회색/검정 테마 반응형) */}
+            <Link href="/" className="logo-text">
+              MinKowski
             </Link>
-          )}
-        </nav>
-      </div>
-    </header>
+
+            {/* 🌟 HeaderThemeToggle을 여기에 위치 (모바일에서 자동으로 햄버거 메뉴 옆으로 이동) */}
+            <HeaderThemeToggle />
+          </div>
+
+          {/* 데스크톱용 내비게이션 (모바일에서 숨김) */}
+          <nav className="header-nav">
+            <Link href="/post" className="nav-link">
+              포스트 목록
+            </Link>
+            {isAuthenticated && ( 
+              <Link href="/write" className="nav-link btn-secondary-small">
+                글쓰기 ✍️
+              </Link>
+            )}
+
+            {isAuthenticated ? (
+              <>
+                <span className="user-nickname">{nickname}님</span>
+                <button
+                  onClick={handleLogout}
+                  className="nav-link btn-primary-small"
+                >
+                  로그아웃
+                </button>
+              </>
+            ) : (
+              // 비로그인 사용자
+              <>
+                <Link href="/signin" className="nav-link btn-primary-small">
+                  로그인
+                </Link>
+                <Link href="/signup" className="nav-link btn-secondary-small">
+                  회원가입
+                </Link>
+              </>
+            )}
+          </nav>
+        </div>
+      </header>
+    </>
   );
 }

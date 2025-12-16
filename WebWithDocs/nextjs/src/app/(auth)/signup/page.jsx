@@ -2,15 +2,16 @@
 // Next.js Signup Page (Server Component)
 
 import Link from "next/link";
-import SignupForm from "../../../components/Auth/SignUpForm"; // Client Component
+import SignupForm from "../../../components/Auth/SignUpForm"; 
 import '../../../components/Auth/Signup.css'; 
 
-// SEO 메타데이터
+// 🌟 수정: 한국어 우선 SEO 메타데이터 (한국어 우선)
 export const metadata = {
-  title: '회원가입 | Dev Blog',
-  description: 'Dev Blog에 가입하여 글을 작성하고 챗봇 기능을 사용해보세요.',
+  // 🌟 UI 텍스트 한국어 우선: 회원가입
+  title: '회원가입 | MinKowski',
+  description: 'MinKowski에 가입하여 글을 작성하고 챗봇 기능을 사용해보세요.',
   alternates: {
-    canonical: '[https://your-blog-url.com/signup](https://your-blog-url.com/signup)',
+    canonical: 'https://your-blog-url.com/signup',
   },
 };
 
@@ -18,12 +19,14 @@ export default function SignUpPage() {
   return (
     <div className="auth-page"> 
       <div className="auth-container"> 
+        {/* 🌟 UI 텍스트 한국어 우선: 회원가입 */}
         <h1 className="auth-title">회원가입</h1>
-        {/* SignupForm은 Client Component이므로 문제없이 렌더링됩니다. */}
         <SignupForm />
         
         <div className="auth-link">
-          이미 계정이 있으신가요? <Link href="/signin">로그인</Link>
+          {/* 🌟 UI 텍스트 한국어 우선: 이미 계정이 있으신가요? 로그인 */}
+          이미 계정이 있으신가요? {" "}
+          <Link href="/signin">로그인</Link>
         </div>
       </div>
     </div>
