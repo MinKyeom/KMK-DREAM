@@ -1,94 +1,70 @@
-// src/components/common/Header.jsx
-"use client"; 
+"use client";
 
 import Link from "next/link";
-import { useState } from "react"; // 🌟 햄버거 토글 상태 추가
+import { useState } from "react";
 import { logoutUser } from "../../services/api/auth";
 import { useAuth } from "../../providers/AuthProvider";
-import { useToast } from "../../hooks/useToast"; 
-import Sidebar from "./Sidebar"; // 🌟 Sidebar 컴포넌트 임포트
-import HeaderThemeToggle from "./HeaderThemeToggle"; 
-import "../../styles/Header.css"; // 🌟 Header.css 임포트
+import { useToast } from "../../hooks/useToast";
+import Sidebar from "./Sidebar";
+import HeaderThemeToggle from "./HeaderThemeToggle";
+import "../../styles/Header.css";
 
 export default function Header() {
   const { isAuthenticated, nickname, refreshAuth } = useAuth();
-  const { showToast } = useToast(); 
-  
-  // 🌟 햄버거 메뉴 상태 관리
+  const { showToast } = useToast();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
       await logoutUser();
-      showToast({ message: "로그아웃 성공.", type: "success" }); // 🌟 한국어 우선
+      showToast({ message: "로그아웃 되었습니다.", type: "success" });
       refreshAuth();
     } catch (error) {
-      showToast({ message: "로그아웃 실패: 서버 오류 발생.", type: "error" }); // 🌟 한국어 우선
+      showToast({ message: "오류가 발생했습니다.", type: "error" });
       console.error(error);
-      refreshAuth(); 
+      refreshAuth();
     }
   };
 
   return (
     <>
-      {/* 🌟 햄버거 토글로 열리는 사이드바 */}
-      <Sidebar 
-          isSidebarOpen={isSidebarOpen} 
-          closeSidebar={() => setIsSidebarOpen(false)} 
+      <Sidebar
+        isSidebarOpen={isSidebarOpen}
+        closeSidebar={() => setIsSidebarOpen(false)}
       />
 
-      <header>
-        <div className="header-content">
-          <div className="header-left">
-            {/* 🌟 햄버거 버튼 (모바일에서만 표시) */}
-            <button 
-                className="hamburger-button"
-                onClick={() => setIsSidebarOpen(true)}
-                aria-label="메뉴 열기"
+      <header className="main-header">
+        <div className="header-content-fluid">
+          <div className="header-left-group">
+            <button
+              className="hamburger-button-fixed"
+              onClick={() => setIsSidebarOpen(true)}
+              aria-label="메뉴 열기"
             >
-                ☰
+              ☰
             </button>
 
-            {/* 🌟 로고 (회색/검정 테마 반응형) */}
-            <Link href="/" className="logo-text">
+            <Link href="/" className="logo-text-header">
               MinKowski
             </Link>
 
-            {/* 🌟 HeaderThemeToggle을 여기에 위치 (모바일에서 자동으로 햄버거 메뉴 옆으로 이동) */}
             <HeaderThemeToggle />
           </div>
 
-          {/* 데스크톱용 내비게이션 (모바일에서 숨김) */}
-          <nav className="header-nav">
-            <Link href="/post" className="nav-link">
-              포스트 목록
-            </Link>
-            {isAuthenticated && ( 
-              <Link href="/write" className="nav-link btn-secondary-small">
-                글쓰기 ✍️
-              </Link>
-            )}
-
+          <nav className="header-auth-nav">
             {isAuthenticated ? (
-              <>
-                <span className="user-nickname">{nickname}님</span>
-                <button
-                  onClick={handleLogout}
-                  className="nav-link btn-primary-small"
-                >
+              <div className="auth-user-info">
+                <span className="user-nickname-display">{nickname}님</span>
+                <button onClick={handleLogout} className="btn-primary-small">
                   로그아웃
                 </button>
-              </>
+              </div>
             ) : (
-              // 비로그인 사용자
-              <>
-                <Link href="/signin" className="nav-link btn-primary-small">
+              <div className="auth-links">
+                <Link href="/signin" className="btn-primary-small">
                   로그인
                 </Link>
-                <Link href="/signup" className="nav-link btn-secondary-small">
-                  회원가입
-                </Link>
-              </>
+              </div>
             )}
           </nav>
         </div>
