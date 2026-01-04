@@ -14,12 +14,13 @@ import java.time.LocalDateTime;
 @Builder // ⭐ 추가: 빌더 패턴 활성화
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // ⭐ 추가: JPA 요구 사항 (기본 생성자)
 @AllArgsConstructor // ⭐ 추가: 빌더를 위한 전체 필드 생성자
+@Table(name = "COMMENTS")
 public class Comment {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Lob
-    @Column(nullable = false)
+    // @Lob
+    @Column(nullable = false, columnDefinition = "TEXT") //PostgreSQL 수정
     private String content;
 
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -35,6 +36,6 @@ public class Comment {
     // private User user; // 삭제
 
     // ⭐ 추가: 댓글 작성자의 ID만 저장
-    @Column(name = "author_id", nullable = false)
+    @Column(name = "author_id", nullable = false, length = 50)
     private String authorId;
 }

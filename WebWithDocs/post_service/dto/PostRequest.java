@@ -6,13 +6,14 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Getter @Setter
+@Getter 
+@Setter
 public class PostRequest {
     private String title;
     private String content;
-    // private String author; // ⭐ 제거: 보안을 위해 요청에서 작성자 ID를 받지 않습니다.
-    private String category;
-    private List<String> tags;
+    // 프론트엔드 JSON 객체의 키값과 일치시킴
+    private String categoryName; 
+    private List<String> tagNames;
 
     public Post toEntity() {
         Post post = new Post();

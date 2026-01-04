@@ -12,13 +12,15 @@ import java.util.Set;
 
 @Entity
 @Getter @Setter
+@Table(name = "POSTS")
 public class Post {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
 
-    @Lob
+    // @Lob
+    @Column(columnDefinition = "TEXT") //PostgreSQL 오류 방지
     private String content; 
 
     // ⭐ 수정: User 엔티티와의 관계 제거
@@ -27,7 +29,7 @@ public class Post {
     // private User user; // 삭제
     
     // ⭐ 추가: 작성자의 ID만 저장
-    @Column(name = "author_id", nullable = false) 
+    @Column(name = "author_id", nullable = false, length = 50) 
     private String authorId; 
 
     private LocalDateTime createdAt = LocalDateTime.now();

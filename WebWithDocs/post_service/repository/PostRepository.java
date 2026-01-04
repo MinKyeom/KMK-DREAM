@@ -16,11 +16,15 @@ public interface PostRepository extends JpaRepository<Post, Long> {
            countQuery = "SELECT COUNT(p) FROM Post p")
     Page<Post> findAllWithDetails(Pageable pageable);
     
-    Page<Post> findByCategory_Name(String categoryName, Pageable pageable);
+    // 서비스의 getPostsByCategory와 일치하도록 수정
+    Page<Post> findByCategoryName(String categoryName, Pageable pageable);
     
-    Page<Post> findByTags_Name(String tagName, Pageable pageable);
+    // 서비스의 getPostsByTag와 일치하도록 수정
+    Page<Post> findByTagsName(String tagName, Pageable pageable);
 
-    // ⭐ PostService의 통계 기능을 위해 반드시 필요
+    // PostService의 통계 기능을 위해 이름 일치
     long countByCategory(Category category);
-    long countByTagsContaining(Tag tag);
+    
+    // 서비스의 getAllTagsWithCount 내 countByTags와 일치하도록 수정
+    long countByTags(Tag tag); 
 }

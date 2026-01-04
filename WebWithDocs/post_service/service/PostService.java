@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -25,7 +24,7 @@ public class PostService {
     private final TagRepository tagRepository;
     private final WebClient webClient;
 
-    @Value("${user-service.url:http://localhost:8081}")
+    @Value("${USER_SERVICE_URL:http://localhost:8081}")
     private String userServiceUrl;
 
     public PostService(
@@ -44,40 +43,27 @@ public class PostService {
         Post post = request.toEntity();
         post.setAuthorId(authenticatedUserId);
 
-        if (request.getCategory() != null && !request.getCategory().trim().isEmpty()) {
-            Category category = categoryRepository.findByName(request.getCategory())
-                    .orElseGet(() -> categoryRepository.save(Category.builder().name(request.getCategory()).build()));
+        if (request.getCategoryName() != null) {
+            Category category = categoryRepository.findByName(request.getCategoryName())
+                    .orElseGet(() -> categoryRepository.save(Category.builder().name(request.getCategoryName()).build()));
             post.setCategory(category);
         }
 
-        if (request.getTags() != null) {
-            Set<Tag> tags = request.getTags().stream()
-                    .map(tagName -> tagRepository.findByName(tagName)
-                            .orElseGet(() -> tagRepository.save(Tag.builder().name(tagName).build())))
+        if (request.getTagNames() != null) {
+            Set<Tag> tags = request.getTagNames().stream()
+                    .map(name -> tagRepository.findByName(name)
+                            .orElseGet(() -> tagRepository.save(Tag.builder().name(name).build())))
                     .collect(Collectors.toSet());
             post.setTags(tags);
         }
 
         Post savedPost = postRepository.save(post);
+        PostResponse res = PostResponse.fromEntity(savedPost);
+        
+        // 작성자 닉네임 설정
         Map<String, String> nicknameMap = getAuthorNicknamesMap(List.of(authenticatedUserId));
-        PostResponse response = PostResponse.fromEntity(savedPost);
-        response.setAuthorNickname(nicknameMap.getOrDefault(authenticatedUserId, "알 수 없음"));
-        return response;
-    }
-
-    @Transactional(readOnly = true)
-    public Page<PostResponse> getAllPosts(Pageable pageable) {
-        Page<Post> postPage = postRepository.findAll(pageable);
-        return mapPostPageToResponse(postPage);
-    }
-
-    @Transactional(readOnly = true)
-    public PostResponse getPostById(Long id) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글 없음"));
-        Map<String, String> nicknameMap = getAuthorNicknamesMap(List.of(post.getAuthorId()));
-        PostResponse response = PostResponse.fromEntity(post);
-        response.setAuthorNickname(nicknameMap.getOrDefault(post.getAuthorId(), "알 수 없음"));
-        return response;
+        res.setAuthorNickname(nicknameMap.getOrDefault(authenticatedUserId, "작성자 알 수 없음"));
+        return res;
     }
 
     public PostResponse updatePost(Long id, PostRequest request, String authenticatedUserId) {
@@ -87,16 +73,24 @@ public class PostService {
         post.setTitle(request.getTitle());
         post.setContent(request.getContent());
 
-        if (request.getCategory() != null) {
-            post.setCategory(categoryRepository.findByName(request.getCategory())
-                .orElseGet(() -> categoryRepository.save(Category.builder().name(request.getCategory()).build())));
+        if (request.getCategoryName() != null) {
+            Category category = categoryRepository.findByName(request.getCategoryName())
+                    .orElseGet(() -> categoryRepository.save(Category.builder().name(request.getCategoryName()).build()));
+            post.setCategory(category);
         }
 
-        Post savedPost = postRepository.save(post);
+        if (request.getTagNames() != null) {
+            Set<Tag> tags = request.getTagNames().stream()
+                    .map(name -> tagRepository.findByName(name)
+                            .orElseGet(() -> tagRepository.save(Tag.builder().name(name).build())))
+                    .collect(Collectors.toSet());
+            post.setTags(tags);
+        }
+
+        PostResponse res = PostResponse.fromEntity(post);
         Map<String, String> nicknameMap = getAuthorNicknamesMap(List.of(authenticatedUserId));
-        PostResponse response = PostResponse.fromEntity(savedPost);
-        response.setAuthorNickname(nicknameMap.getOrDefault(authenticatedUserId, "알 수 없음"));
-        return response;
+        res.setAuthorNickname(nicknameMap.getOrDefault(authenticatedUserId, "작성자 알 수 없음"));
+        return res;
     }
 
     public void deletePost(Long id, String authenticatedUserId) {
@@ -105,38 +99,64 @@ public class PostService {
         postRepository.delete(post);
     }
 
-    @Transactional(readOnly = true)
+    public PostResponse getPostById(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("게시글 없음"));
+        
+        PostResponse res = PostResponse.fromEntity(post);
+        
+        // ⭐ 수정 포인트: 상세 조회 시에도 외부 서비스와 통신하여 닉네임을 가져옴
+        Map<String, String> nicknameMap = getAuthorNicknamesMap(List.of(post.getAuthorId()));
+        res.setAuthorNickname(nicknameMap.getOrDefault(post.getAuthorId(), "작성자 알 수 없음"));
+        
+        return res;
+    }
+
+    public Page<PostResponse> getAllPosts(Pageable pageable) {
+        return mapPostPageToResponse(postRepository.findAll(pageable));
+    }
+
     public Page<PostResponse> getPostsByCategory(String categoryName, Pageable pageable) {
-        return mapPostPageToResponse(postRepository.findByCategory_Name(categoryName, pageable));
+        return mapPostPageToResponse(postRepository.findByCategoryName(categoryName, pageable));
     }
 
-    @Transactional(readOnly = true)
     public Page<PostResponse> getPostsByTag(String tagName, Pageable pageable) {
-        return mapPostPageToResponse(postRepository.findByTags_Name(tagName, pageable));
+        return mapPostPageToResponse(postRepository.findByTagsName(tagName, pageable));
     }
 
-    @Transactional(readOnly = true)
     public List<CategoryResponse> getAllCategoriesWithCount() {
         return categoryRepository.findAll().stream()
-                .map(cat -> CategoryResponse.fromEntity(cat, postRepository.countByCategory(cat)))
+                .map(category -> CategoryResponse.fromEntity(category, postRepository.countByCategory(category)))
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     public List<TagResponse> getAllTagsWithCount() {
         return tagRepository.findAll().stream()
                 .map(tag -> TagResponse.builder()
                         .name(tag.getName())
-                        .postCount(postRepository.countByTagsContaining(tag))
+                        .postCount(postRepository.countByTags(tag))
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    private Page<PostResponse> mapPostPageToResponse(Page<Post> postPage) {
+        List<String> authorIds = postPage.stream()
+                .map(Post::getAuthorId)
+                .distinct()
+                .collect(Collectors.toList());
+        Map<String, String> nicknameMap = getAuthorNicknamesMap(authorIds);
+        return postPage.map(post -> {
+            PostResponse res = PostResponse.fromEntity(post);
+            res.setAuthorNickname(nicknameMap.getOrDefault(post.getAuthorId(), "작성자 알 수 없음"));
+            return res;
+        });
     }
 
     private Map<String, String> getAuthorNicknamesMap(List<String> authorIds) {
         if (authorIds.isEmpty()) return Collections.emptyMap();
         try {
             return webClient.post()
-                    .uri(userServiceUrl + "/api/users/nicknames")
+                    .uri(userServiceUrl + "/user/api/users/nicknames")
                     .bodyValue(authorIds)
                     .retrieve()
                     .bodyToMono(new ParameterizedTypeReference<Map<String, String>>() {})
@@ -145,15 +165,5 @@ public class PostService {
             log.error("User Service 통신 실패: {}", e.getMessage());
             return Collections.emptyMap();
         }
-    }
-
-    private Page<PostResponse> mapPostPageToResponse(Page<Post> postPage) {
-        List<String> authorIds = postPage.stream().map(Post::getAuthorId).distinct().collect(Collectors.toList());
-        Map<String, String> nicknameMap = getAuthorNicknamesMap(authorIds);
-        return postPage.map(post -> {
-            PostResponse res = PostResponse.fromEntity(post);
-            res.setAuthorNickname(nicknameMap.getOrDefault(post.getAuthorId(), "알 수 없음"));
-            return res;
-        });
     }
 }
