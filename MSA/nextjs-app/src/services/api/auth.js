@@ -73,7 +73,8 @@ export const logoutUser = async () => {
   }
 };
 
-export const registerUser = async ({ username, password, nickname, email }) => { // email 추가
+export const registerUser = async ({ username, password, nickname, email }) => {
+  // email 추가
   try {
     const response = await authAxios.post("/user/signup", {
       username,
@@ -145,7 +146,7 @@ export const fetchMe = async () => {
  */
 export const sendVerificationCode = async (email) => {
   // UserService의 @PostMapping("/send-code") 호출
-  const response = await authAxios.post("/user/send-code", { email });
+  const response = await authAxios.post("/auth/send-code", { email });
   return response.data;
 };
 
@@ -154,6 +155,6 @@ export const sendVerificationCode = async (email) => {
  */
 export const verifyCode = async (email, code) => {
   // UserService의 @PostMapping("/verify-code") 호출
-  const response = await authAxios.post("/user/verify-code", { email, code });
+  const response = await authAxios.post("/auth/verify-code", { email, code });
   return response.data;
 };
