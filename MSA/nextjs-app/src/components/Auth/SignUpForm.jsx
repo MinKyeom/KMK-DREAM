@@ -3,12 +3,14 @@
 
 import { useState, useEffect } from "react";
 import {
-  registerUser,
-  checkUsernameDuplicate,
-  checkNicknameDuplicate,
+  registerAuth,
   sendVerificationCode,
   verifyCode,
 } from "../../services/api/auth";
+import {
+  checkUsernameDuplicate,
+  checkNicknameDuplicate,
+} from "../../services/api/user";
 import { useRouter } from "next/navigation";
 import { useToast } from "../../hooks/useToast";
 import "../../../src/components/Auth/Signup.css";
@@ -114,7 +116,7 @@ export default function SignupForm() {
     }
     setLoading(true);
     try {
-      await registerUser({ username, password, nickname, email });
+      await registerAuth({ username, password, nickname, email });
       showToast("가입을 환영합니다!", "success");
       router.push("/signin");
     } catch (error) {
@@ -266,11 +268,7 @@ export default function SignupForm() {
         type="submit"
         className="auth-button"
         disabled={
-        loading || 
-        !!usernameError || 
-        !!nicknameError || 
-        !isVerified || 
-        !email // 이메일 값이 비어있는지 추가 확인
+          loading || !!usernameError || !!nicknameError || !isVerified || !email // 이메일 값이 비어있는지 추가 확인
         }
         style={{ marginTop: "20px" }}
       >
