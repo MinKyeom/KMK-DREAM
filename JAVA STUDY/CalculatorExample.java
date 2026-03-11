@@ -3,5 +3,7 @@ public class CalculatorExample {
     Calculator myCalc = new Calculator();
 
     myCalc.execute();
+    
+    System.out.println(Calculator.pie);
   }
 }

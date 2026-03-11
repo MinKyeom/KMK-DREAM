@@ -1,8 +1,14 @@
 public class Calculator {
 
-  int plus(int x , int y){
-    int result = x+y;
-    return result;
+  static double pie = 3.14;
+  // int plus(int x , int y){
+  //   int result = x+y;
+  //   return result;
+  // }
+  
+
+  static int plus(int x, int y){
+    return x+y;
   }
 
   double avg(int x, int y){

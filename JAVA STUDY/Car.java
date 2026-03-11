@@ -29,11 +29,22 @@ void keyTurnOn(){
   System.out.println("키를 돌립니다");
 }
 
+void setSpeed(int speed){
+  this.speed = speed;
+}
+
 void run(){
-  for(int i = 0; i <= 50; i+=0){
-    speed = i;
+  for(int i = 0; i <= 1; i+=1){
+    this.setSpeed(i);
     System.out.println("달립니다."+speed);
   }
+}
+
+public static void main(String[] args){
+  Car myCar = new Car();
+  myCar.speed = 60;
+
+  myCar.run();
 }
 
 }
