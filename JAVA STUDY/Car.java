@@ -72,4 +72,10 @@ public void setStop(boolean stop){
   this.stop = stop;
   this.speed = 0 ;
 }
+
+public final void stop() {
+  System.out.println("차를 멈춤");
+  speed = 0;
+}
+
 }
