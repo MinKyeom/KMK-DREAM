@@ -5,10 +5,16 @@ public class B {
   
   // private이라 접근불가능
   // A a3 = new A("문자열"); 
-  public B() {
-  A a  = new A();
+  // public B() {
+  // A a  = new A();
 
-  a.field1 = 1;
+  // a.field1 = 1;
+  // }
+
+  public void method(){
+    A a = new A();
+    a.field ="value";
+    a.method();
   }
 
 }
