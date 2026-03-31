@@ -48,34 +48,38 @@ public class Car {
 // }
 
 
-private int speed;
-private boolean stop;
+// private int speed;
+// private boolean stop;
 
-public int getSpeed(){
-  return speed;
-}
+// public int getSpeed(){
+//   return speed;
+// }
 
-public void setSpeed(int speed){
-  if(speed < 0){
-    this.speed = 0;
-    return;
-  }
-  else{
-    this.speed = speed;
-  }
-}
+// public void setSpeed(int speed){
+//   if(speed < 0){
+//     this.speed = 0;
+//     return;
+//   }
+//   else{
+//     this.speed = speed;
+//   }
+// }
 
-public boolean isStop(){
-  return stop;
-}
-public void setStop(boolean stop){
-  this.stop = stop;
-  this.speed = 0 ;
-}
+// public boolean isStop(){
+//   return stop;
+// }
+// public void setStop(boolean stop){
+//   this.stop = stop;
+//   this.speed = 0 ;
+// }
 
-public final void stop() {
-  System.out.println("차를 멈춤");
-  speed = 0;
-}
+// public final void stop() {
+//   System.out.println("차를 멈춤");
+//   speed = 0;
+// }
+
+Tire frontLeftTire = new Tire("앞왼쪽",6);
+Tire frontRightTire = new Tire("앞오른쪽",2);
+Tire backLeftTire = new Tire("뒤왼쪽",3);
 
 }

@@ -10,10 +10,10 @@ public class CarExample {
   //   int speed =myCar.getSpeed();
   //   System.out.println("현재 속도"+ speed);
 
-  Car myCar = new Car();
+  // Car myCar = new Car();
 
-  myCar.setSpeed(-50);
-  System.out.println(myCar.getSpeed());
+  // myCar.setSpeed(-50);
+  // System.out.println(myCar.getSpeed());
   }
 
 
