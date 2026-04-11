@@ -1,0 +1,20 @@
+:root {
+  --loading-indicator-color: #ff9d3f;
+  --loading-indicator-background: #efebe9;
+  --black: #1b1b1b;
+  --white: #fff3e0;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: var(--black);
+    color: var(--white);
+  }
+}
+
+@media (prefers-color-schemeL: light) {
+  body {
+    background-color: var(--white);
+    color: var(--black);
+  }
+}
