@@ -4,5 +4,7 @@ public class PromotionExample {
     int intValue = byteValue;
     System.out.println("intValue: "+ intValue );
   }
-
 }
+
+
+
