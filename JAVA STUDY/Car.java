@@ -79,17 +79,24 @@ public class Car {
 // }
 
 // 필드
-Tire frontLeftTire = new Tire("앞왼쪽",6);
-Tire frontRightTire = new Tire("앞오른쪽",2);
-Tire backLeftTire = new Tire("뒤왼쪽",3);
+// Tire frontLeftTire = new Tire("앞왼쪽",6);
+// Tire frontRightTire = new Tire("앞오른쪽",2);
+// Tire backLeftTire = new Tire("뒤왼쪽",3);
 
-int run() {
-  System.out.println("달립니다");
-  if(frontLeftTire.roll()==false){stop(); return 1;}
-  return 0;
+// int run() {
+//   System.out.println("달립니다");
+//   if(frontLeftTire.roll()==false){stop(); return 1;}
+//   return 0;
+// }
+
+// void stop(){
+//   System.out.println("멈춤");
+// }
+
+Tire frontLeftTire = new HankookTire();
+
+void run(){
+  frontLeftTire.roll();
 }
 
-void stop(){
-  System.out.println("멈춤");
-}
 }

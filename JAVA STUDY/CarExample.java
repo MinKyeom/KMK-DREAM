@@ -18,18 +18,24 @@ public class CarExample {
   Car car = new Car();
   
 
-  for(int i =1; i<=6; i++){
-    int problemLocation = car.run();
+  // for(int i =1; i<=6; i++){
+  //   int problemLocation = car.run();
 
-    switch(problemLocation){
-      case 1:
-        System.out.println("교체");
-        car.frontLeftTire = new SonTire("앞",5);
-        break;
+  //   switch(problemLocation){
+  //     case 1:
+  //       System.out.println("교체");
+  //       car.frontLeftTire = new SonTire("앞",5);
+  //       break;
       
     
-      }
-    System.out.println("--------경계--------");
-  }
+  //     }
+  //   System.out.println("--------경계--------");
+  // }
+
+  car.run();
+
+  car.frontLeftTire = new HankookTire();
+  
+
   }
 }
