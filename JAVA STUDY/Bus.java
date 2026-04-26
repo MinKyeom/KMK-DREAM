@@ -1,8 +1,10 @@
-public class Bus extends Vehicle {
+// 구현클래스
+public class Bus implements Vehicle {
   
   @Override
   public void run(){
-    System.out.println("버스가 달림");
+    System.out.println("달림");
   }
+
 }
 
