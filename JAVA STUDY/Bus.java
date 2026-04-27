@@ -6,5 +6,8 @@ public class Bus implements Vehicle {
     System.out.println("달림");
   }
 
+  public void checkFare(){
+    System.out.println("요금 체크");
+  }
 }
 
