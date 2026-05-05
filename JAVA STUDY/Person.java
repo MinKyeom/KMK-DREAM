@@ -1,11 +1,17 @@
-public class Person {
-  final String nation = "Korea";
-  final String ssn;
+// public class Person {
+//   final String nation = "Korea";
+//   final String ssn;
 
-  String name;
+//   String name;
   
-  public Person(String ssn,String name){
-    this.ssn = ssn;
-    this.name= name;
+//   public Person(String ssn,String name){
+//     this.ssn = ssn;
+//     this.name= name;
+//   }
+// }
+
+public class Person{
+  void wake(){
+    System.out.println("7");
   }
-}
+} 
