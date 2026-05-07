@@ -27,4 +27,8 @@ public class Anonymous {
     }
   };
 
-}
+  void method2(RemoteControl rc){
+    rc.turnOn();
+    }
+  }
+
