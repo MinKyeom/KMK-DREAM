@@ -1,4 +1,4 @@
-public class Calculator {
+// public class Calculator {
 
   // static double pie = 3.14;
   // int plus(int x , int y){
@@ -26,11 +26,15 @@ public class Calculator {
   //   System.out.println(message);
   // }
 
-  double areaCircle(double r){
-    System.out.println("실행");
-    return 3.14;
-  }
+  // double areaCircle(double r){
+  //   System.out.println("실행");
+  //   return 3.14;
+  // }
 
+
+// }
+
+public interface Calculator{
+  public int sum();
 }
-
 
