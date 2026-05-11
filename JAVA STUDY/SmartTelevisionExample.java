@@ -5,4 +5,5 @@ public class SmartTelevisionExample {
     RemoteControl rc = tv;
     Searchable searchable = tv;
   }
+
 }

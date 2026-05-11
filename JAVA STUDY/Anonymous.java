@@ -41,11 +41,11 @@ public class Anonymous {
 
     field = 10;
 
-    arg1 = 20;
-    arg2 = 20;
+    // arg1 = 20;
+    // arg2 = 20;
     
-    val1 = 30;
-    val2 = 30;
+    // val1 = 30;
+    // val2 = 30;
 
   
   Calculator calc = new Calculator(){
@@ -56,5 +56,7 @@ public class Anonymous {
     }
 
   };
+
+  System.out.println(calc.sum());
   }
 }
