@@ -18,8 +18,6 @@ public class CatchByExeptionKindExample {
     }finally{
       System.out.println("error3");
     }
-
-  
   }
   
 }
