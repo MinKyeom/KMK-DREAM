@@ -1,79 +1,62 @@
 {% load static %}
-<!-- Test page -->
-<!-- page urls: http://3.37.248.157/check/ -->
-
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-    <link rel="stylesheet" href="{% static 'css/check.css' %}">
     <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/check.css' %}">
+
+    <!-- 플랙서블 박스 아래 2줄 추가 후 작동되었다 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1,maximum-scale=1,user-scalable=no">
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playball&display=swap');
     </style>
-    <title>MIR</title>
+
 </head>
 <body>
 
-<nav role="navigation">
-  <div id="menuToggle">
+    <div id="login">
+        <form method="POST">
+            <div id="login_logo">
+                <p>Miky</p>
+            </div>
 
-    <h1 id="playball-regular" style="position:absolute; left:50px; top:-25px"><i>Miky</i></h1>
-    <input type="checkbox" id="menuCheckbox" />
+            {% csrf_token %}
+            <div id="login_id_pw">
+                <p>
+                    <label for="id_username"></label>
+                    <input type="text" placeholder="Enter your id" name="username" minlength="4" required id="id_username">
+                </p>
 
-    <span></span>
-    <span></span>
-    <span></span>
+                <p>
+                    <label for="id_password"></label>
+                    <input type="password" placeholder="Enter your password" name="password" minlength="4" required id="id_password">
+                </p>
 
-    <ul id="menu">
-      <li id="playball-regular">
-        <a href="#">
-          <label for="menuCheckbox" onclick="this.parentNode.click();"><a href=""><i>Home</i></a></label>
-        </a>
-      </li>
-      <li id="playball-regular">
-        <a href="#about">
-          <label for="menuCheckbox" onclick="this.parentNode.click();"><a href="posts/"><i> Code_PS_Kr</i></a></label>
-        </a>
-      </li>
+            </div>
 
-      <li id="playball-regular"><label for="menuCheckbox"><a>FAQ</a></label></li>
-<!--      <li><label for="menuCheckbox"><a>Contact</a></label></li>-->
+            <div id="login_button">
+                <button type="submit">Login</button>
+            </div>
 
-      <li id="playball-regular">
-        <a href="https://github.com/minkyeom" target="_blank"><i>GitHub</i></a>
-      </li>
-    </ul>
-  </div>
-</nav>
-<main>
-    <h1 id="playball-regular" style="position:relative; left:250px;"><i>Miky</i></h1>
+        </form>
 
-    <form method="GET">
-        <input type="text" placeholder="Please enter your term" name="search" style=" width:550px; height:20px; letter-spacing: 1px">
-        <button type="submit" style="font-size:13px; position:relative; top:1px; right:70px; border-style:none; background-color:white"> Search </button>
-<!--        <button type="submit" style="font-size:27px; position:relative; top:-25px; right:30px; border-style:none;"> <img src="{% static 'img/search.png' %}" style="width:26px;"> </button>-->
-    </form>
-    <br>
-    {% if check is None %}
-    <p style="font-size:23px;"><strong>Recent Post</strong></p>
-        <h3>▶︎ Code_Ps_kr</h3>
-        {% for post in posts %}
-            <a href="posts/{{ post.id }}" style="color:white; text-decoration-line: none; position:relative; left:20px;">&nbsp;&nbsp;● {{ post.title }} </a>
-<!--            <p style="font-size:8px;">{{ post.content }}</p>-->
-        {% empty %}
-            검색 결과가 없습니다.
-        {% endfor %}
-    {% else %}
-        {% for post in posts %}
-            <br>
-            <br>
-            <a href="posts/{{ post.id }}" style="color:white; text-decoration-line: none; position:relative; left:20px;">&nbsp;&nbsp;● {{ post.title }} </a>
-        {% empty %}
-            검색 결과가 없습니다.
-        {% endfor %}
-    {% endif %}
-</main>
+        <br>
+        <div id="gohome">
+            <button class="btn btn-login" >
+                <a href="../../" style="color:white;">
 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
+                        <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z"/>
+                        <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z"/>
+                    </svg>
+
+                </a>
+            </button>
+        </div>
+    </div>
 
 </body>
 </html>
