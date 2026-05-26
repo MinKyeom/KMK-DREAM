@@ -22,5 +22,4 @@ public class SmartPhone {
     public String toString(){
       return company + "," + os;
     }
-
 }
