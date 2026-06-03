@@ -4,6 +4,6 @@ public class OuterExample {
         Outter outter = new Outter();
         Outter.Nested nested = outter.new Nested();
         nested.print();
-    }
-    
+    }    
 }
+
