@@ -9,7 +9,9 @@ public class Calculator {
   }
 
   
-  public void setMemory(int memory){
+  // public void setMemory(int memory){
+  // 동기화 메서드를 부여후 메소드 잠금 기능 추가
+  public synchronized void setMemory(int memory){
     this.memory = memory;
 
     try{
