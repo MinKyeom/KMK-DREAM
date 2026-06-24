@@ -1,0 +1,35 @@
+# DW/DM 개념부터 Snowflake 엔진 구조 및 코드 차이 정리
+
+## 1. 데이터 저장소 핵심 개념 (DW vs DM)
+* **DW (Data Warehouse, 데이터 웨어하우스):** 기업 전체의 분산된 데이터를 한곳에 정제하여 모아둔 **거대한 중앙 저장소 (대형 물류창고)**. 장기적이고 거시적인 전사 분석 및 전략 수립에 사용.
+* **DM (Data Mart, 데이터 마트):** DW에서 특정 부서(예: 마케팅팀, 재무팀)나 특정 목적에 맞는 데이터만 골라낸 **소규모 저장소 (특화 전문점)**. 빠르고 유연한 실무 분석에 사용.
+
+---
+
+## 2. Cosmos DB(NoSQL) vs DW(분석용 저장소)
+* **Cosmos DB:** 스키마가 유연한 JSON, Key-Value 형태를 사용하며, 실시간 서비스 운영을 위해 마이크로초(ms) 단위로 빠르게 읽고 쓰는 **OLTP(실시간 트랜잭션) 엔진**.
+* **DW:** 정형화된 테이블(스타 스키마 구조)을 사용하며, 대규모 통계 및 비즈니스 인텔리전스(BI) 조회를 위해 태어난 **OLAP(분석 처리) 엔진**.
+
+---
+
+## 3. 일반 RDB(MySQL/Oracle) vs Snowflake 엔진 차이
+
+| 비교 항목 | 일반 RDB 엔진 (MySQL, PostgreSQL, Oracle) | 분석용 DW 엔진 (Snowflake, BigQuery) |
+| :--- | :--- | :--- |
+| **주 역할 (Workload)** | **OLTP** (실시간 서비스 운영, 결제, 글쓰기 등) | **OLAP** (대용량 통계, 마케팅 분석, BI 대시보드) |
+| **저장 방식 (Storage)** | **행 기반 (Row-oriented)**<br>한 유저의 전체 정보(Row)를 한 번에 다룰 때 유리 | **열 기반 (Columnar)**<br>특정 열(예: 매출액)의 대량 집계/연산 시 유리 |
+| **조회 최적화 기법** | **B-Tree 인덱스** 중심의 정밀 타격 (Point Lookup) | **데이터 파티션 분산 및 병렬 연산 (MPP)** |
+| **시스템 격리** | 대량 분석 쿼리 직접 실행 시 서비스 마비 위험 존재 | 운영 DB 데이터를 복사해와 서비스 영향 없이 독립 분석 |
+
+---
+
+## 4. 코드로 보는 엔진 구분법 (SQL 패턴 차이)
+
+### ① JSON(반정형) 데이터 처리 패턴
+* **일반 RDB (MySQL 계열):** 함수를 거쳐야 하므로 코드가 복잡하고 대량 처리 시 대폭 느려짐.
+  ```sql
+  SELECT 
+      id,
+      JSON_EXTRACT(payload, '$.user.name') AS user_name,
+      CAST(JSON_EXTRACT(payload, '$.price') AS UNSIGNED) AS price
+  FROM operational_logs;
