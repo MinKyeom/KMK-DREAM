@@ -26,6 +26,6 @@ def read_item(item_id: int, q: Optional[str] = None):
 def create_item(item: Item):
     return {"message": "아이템이 성공적으로 생성되었습니다.", "data": item}
   
-@app.post("/health/")
+@app.get("/health/")
 def health_check():
   return {"message": "health"}
