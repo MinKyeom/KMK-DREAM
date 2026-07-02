@@ -1,0 +1,101 @@
+1. 전체 디렉토리 구조 (프로젝트 레이아웃)
+
+src/
+├── presentation/ (또는 interfaces - 표현 계층)
+│   └── ArticleController.java (요청을 받고 응답을 반환)
+├── application/ (애플리케이션 계층)
+│   └── ArticleService.java (유스케이스 흐름 제어, 트랜잭션 관리)
+├── domain/ (도메인 계층 - 핵심 비즈니스 로직, 외부 의존성 없음)
+│   ├── model/
+│   │   ├── Article.java (Aggregate Root / Entity)
+│   │   └── ContentType.java (Value Object - e.g., CS_STUDY, TIL)
+│   └── repository/
+│       └── ArticleRepository.java (인터페이스만 존재)
+└── infrastructure/ (인프라스트럭처 계층)
+    └── persistence/
+        ├── JpaArticleRepository.java (실제 DB 연동)
+        └── ArticleRepositoryImpl.java (도메인 인터페이스의 구현체)
+
+2. 계층별 코드 예시
+
+// domain/model/ContentType.java (Value Object)
+public enum ContentType {
+    CS_STUDY, TIL, PROJECT_LOG
+}
+
+// domain/model/Article.java (Entity / Aggregate Root)
+public class Article {
+    private Long id;
+    private String title;
+    private String content;
+    private ContentType contentType;
+    private boolean isPublished;
+
+    // 생성자 및 Getter 생략
+
+    // [핵심 비즈니스 로직] 글의 성격에 따라 제목을 검증하는 도메인 규칙
+    public void createCover(String title, String content, ContentType contentType) {
+        if (contentType == ContentType.CS_STUDY && title.length() < 5) {
+            throw new IllegalArgumentException("CS 관련 글은 제목이 5자 이상이어야 합니다.");
+        }
+        this.title = title;
+        this.content = content;
+        this.contentType = contentType;
+        this.isPublished = true;
+    }
+}
+
+// domain/repository/ArticleRepository.java (Interface)
+// 인프라(DB)에 의존하지 않기 위해 도메인 계층에 인터페이스만 정의합니다.
+public interface ArticleRepository {
+    Article save(Article article);
+    Optional<Article> findById(Long id);
+}
+
+③ Presentation Layer (표현 계층 / Interfaces)
+
+// presentation/ArticleController.java
+@RestController
+@RequestMapping("/api/articles")
+public class ArticleController {
+
+    private final ArticleService articleService;
+
+    public ArticleController(ArticleService articleService) {
+        this.articleService = articleService;
+    }
+
+    @PostMapping
+    public ResponseEntity<Long> create(@RequestBody CreateArticleRequest request) {
+        // 표현 계층의 DTO를 애플리케이션 커맨드로 변환
+        CreateArticleCommand command = request.toCommand();
+        
+        Long articleId = articleService.createArticle(command);
+        return ResponseEntity.ok(articleId);
+    }
+}
+
+④ Infrastructure Layer (인프라스트럭처 계층)
+
+// infrastructure/persistence/ArticleRepositoryImpl.java
+@Repository
+public class ArticleRepositoryImpl implements ArticleRepository {
+
+    // 실제 Spring Data JPA 나 EntityManager 등을 주입받음
+    private final SpringDataJpaArticleRepository jpaRepository;
+
+    public ArticleRepositoryImpl(SpringDataJpaArticleRepository jpaRepository) {
+        this.jpaRepository = jpaRepository;
+    }
+
+    @Override
+    public Article save(Article article) {
+        // 도메인 엔티티를 DB Entity로 변환하거나 직접 저장 로직 수행
+        return jpaRepository.save(article);
+    }
+
+    @Override
+    public Optional<Article> findById(Long id) {
+        return jpaRepository.findById(id);
+    }
+}
