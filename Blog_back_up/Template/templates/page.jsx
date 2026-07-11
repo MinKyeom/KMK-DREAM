@@ -1,0 +1,263 @@
+"use client";
+
+import React, { useState, useEffect, useMemo } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
+import {
+  createPost,
+  fetchPostById,
+  updatePost,
+} from "../../../services/api/posts"; // 경로가 다를 경우 프로젝트 구조에 맞게 수정하세요
+import { useAuth } from "../../../providers/AuthProvider";
+import { useToast } from "../../../hooks/useToast";
+import "../../../styles/globals.css";
+
+import { marked } from "marked";
+import DOMPurify from "dompurify";
+
+// 마크다운 줄바꿈 설정
+marked.setOptions({
+  breaks: true,
+});
+
+const renderMarkdown = (markdown) => {
+  if (!markdown) return "";
+  const rawMarkup = marked.parse(markdown);
+  // 브라우저 환경에서만 DOMPurify 실행 (Hydration 오류 방지)
+  if (typeof window !== "undefined") {
+    return DOMPurify.sanitize(rawMarkup);
+  }
+  return rawMarkup;
+};
+
+export default function WritePage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { isAuthenticated, id: currentUserId, isAdmin, isAuthInitialized } = useAuth();
+  const { showToast } = useToast();
+
+  // URL 파라미터에 id가 있으면 수정 모드, 없으면 새 글 작성 모드
+  const editId = searchParams.get("id");
+  const isEdit = useMemo(() => !!editId, [editId]);
+
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
+  const [tags, setTags] = useState("");
+  const [content, setContent] = useState("");
+  const [isLoading, setIsLoading] = useState(isEdit);
+  const [submitLoading, setSubmitLoading] = useState(false);
+
+  // 1. 보안 점검: 로그인하지 않았거나 관리자가 아니면 리다이렉트 (포스트 작성은 관리자만)
+  useEffect(() => {
+    if (!isAuthInitialized) return;
+    if (!isAuthenticated) {
+      showToast({ message: "Please log in to continue.", type: "error" });
+      router.push("/signin");
+      return;
+    }
+    if (!isAdmin) {
+      showToast({ message: "Only administrators can create posts.", type: "error" });
+      router.push("/post");
+    }
+  }, [isAuthInitialized, isAuthenticated, isAdmin, router, showToast]);
+
+  // 2. 수정 모드일 때 기존 데이터 로드 및 본인 확인
+  useEffect(() => {
+    if (isEdit && editId && isAuthInitialized && isAuthenticated) {
+      fetchPostById(editId)
+        .then((data) => {
+          // Spring Boot 백엔드에서 내려준 작성자 ID와 현재 로그인 유저 ID 비교
+          // PostResponse.java의 authorId 필드와 대조합니다.
+          if (String(data.authorId) !== String(currentUserId)) {
+            showToast({ message: "You do not have permission to edit this post.", type: "error" });
+            router.push("/post");
+            return;
+          }
+          setTitle(data.title);
+          setCategory(data.categoryName || "");
+          setTags(data.tagNames ? data.tagNames.join(", ") : "");
+          setContent(data.content);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          console.error("데이터 로드 실패:", err);
+          showToast({ message: "Failed to load the post.", type: "error" });
+          router.push("/post");
+        });
+    }
+  }, [isEdit, editId, isAuthInitialized, isAuthenticated, currentUserId, router, showToast]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // 최종 제출 전 인증 확인 (HttpOnly 쿠키 방식 대응)
+    if (!isAuthenticated) {
+      showToast({ message: "Your session has expired. Please sign in again.", type: "error" });
+      return;
+    }
+    
+    setSubmitLoading(true);
+
+    // Spring Boot PostRequest DTO 구조에 맞게 데이터 구성
+    const postRequestData = {
+      title,
+      content,
+      categoryName: category,
+      tagNames: tags
+        .split(",")
+        .map((t) => t.trim())
+        .filter((t) => t !== ""),
+    };
+
+    try {
+      if (isEdit) {
+        // PUT /api/posts/{id} 호출
+        await updatePost(editId, postRequestData);
+        showToast({ message: "Post updated successfully.", type: "success" });
+      } else {
+        // POST /api/posts 호출 (슬래시 없는 경로 사용)
+        await createPost(postRequestData);
+        showToast({ message: "Post published successfully.", type: "success" });
+      }
+      await router.push("/post");
+      router.refresh(); // 목록 페이지 캐시 무효화로 새 글이 바로 보이도록 함
+    } catch (error) {
+      console.error("저장 실패:", error);
+      // 403 Forbidden 에러 발생 시의 안내 메시지 강화
+      const errorMsg = error.response?.status === 403 
+        ? "Access denied or session expired (403)" 
+        : "A server error occurred.";
+      showToast({ message: errorMsg, type: "error" });
+    } finally {
+      setSubmitLoading(false);
+    }
+  };
+
+  // 인증 초기화 대기, 관리자 여부 확인, 및 데이터 로딩 처리
+  if (!isAuthInitialized || isLoading || (isAuthenticated && isAdmin === false)) {
+    return (
+      <div className="container" style={{ padding: "100px", textAlign: "center" }}>
+        <p style={{ color: "var(--color-text-main)" }}>Loading...</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container" style={{ padding: "40px 20px", maxWidth: "1200px", margin: "0 auto" }}>
+      <header style={{ marginBottom: "30px" }}>
+        <h1 style={{ color: "var(--color-text-main)", fontSize: "2rem" }}>
+          {isEdit ? "Edit post" : "New post"}
+        </h1>
+      </header>
+
+      <form onSubmit={handleSubmit}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          {/* 제목 입력 */}
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Enter title"
+            style={{
+              width: "100%",
+              padding: "15px",
+              fontSize: "1.2rem",
+              borderRadius: "8px",
+              border: "1px solid var(--color-border)",
+              backgroundColor: "var(--color-primary)",
+              color: "var(--color-text-main)",
+            }}
+            required
+          />
+
+          {/* 카테고리 및 태그 입력 */}
+          <div style={{ display: "flex", gap: "20px" }}>
+            <input
+              type="text"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              placeholder="Category"
+              style={{
+                flex: 1,
+                padding: "12px",
+                borderRadius: "8px",
+                border: "1px solid var(--color-border)",
+                backgroundColor: "var(--color-primary)",
+                color: "var(--color-text-main)",
+              }}
+            />
+            <input
+              type="text"
+              value={tags}
+              onChange={(e) => setTags(e.target.value)}
+              placeholder="Tags (comma-separated)"
+              style={{
+                flex: 2,
+                padding: "12px",
+                borderRadius: "8px",
+                border: "1px solid var(--color-border)",
+                backgroundColor: "var(--color-primary)",
+                color: "var(--color-text-main)",
+              }}
+            />
+          </div>
+
+          {/* 에디터 및 미리보기 영역 (반응형 대응 권장) */}
+          <div style={{ display: "flex", gap: "20px", minHeight: "600px" }}>
+            {/* 작성 영역 */}
+            <textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="Write your content in Markdown..."
+              style={{
+                flex: 1,
+                padding: "20px",
+                borderRadius: "8px",
+                border: "1px solid var(--color-border)",
+                backgroundColor: "var(--color-primary)",
+                color: "var(--color-text-main)",
+                resize: "none",
+                fontSize: "1rem",
+                lineHeight: "1.6",
+              }}
+              required
+            ></textarea>
+
+            {/* 미리보기 영역 */}
+            <div
+              className="markdown-body preview-area"
+              dangerouslySetInnerHTML={{ __html: renderMarkdown(content) }}
+              style={{
+                flex: 1,
+                padding: "20px",
+                border: "1px solid var(--color-border)",
+                borderRadius: "8px",
+                backgroundColor: "var(--color-bg-sub, #f9f9f9)", // 미리보기 배경 약간 다르게 설정 가능
+                overflowY: "auto",
+                color: "var(--color-text-main)",
+              }}
+            ></div>
+          </div>
+
+          {/* 하단 버튼 영역 — 일관된 정렬 */}
+          <div className="form-actions" style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "12px", marginTop: "24px", paddingTop: "16px", borderTop: "1px solid var(--color-border)" }}>
+            <Link
+              href={isEdit ? `/post/${editId}` : "/post"}
+              className="btn-secondary"
+              style={{ textDecoration: "none", display: "inline-flex", alignItems: "center" }}
+            >
+              Cancel
+            </Link>
+            <button
+              type="submit"
+              className="btn-primary"
+              disabled={submitLoading || !title || !content}
+            >
+              {submitLoading ? "Saving..." : isEdit ? "Update" : "Publish"}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  );
+}
