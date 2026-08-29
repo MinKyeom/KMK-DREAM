@@ -1,0 +1,421 @@
+/* System Architecture page — roadmap.sh style + data flow animation */
+
+.structure-page {
+  padding: 40px 20px 80px;
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.structure-page .structure-header {
+  width: 100%;
+}
+
+.structure-header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.structure-title {
+  font-size: 2rem;
+  color: var(--color-text-main);
+  margin-bottom: 8px;
+}
+
+.structure-description {
+  color: var(--color-text-sub);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* ----- Architecture diagram container: 중앙 배치, 상단 여유, overflow 방지 ----- */
+.arch-page .arch-diagram {
+  position: relative;
+  width: 100%;
+  max-width: 920px;
+  min-height: 720px;
+  margin: 0 auto 48px;
+  padding: 28px 24px 24px;
+  box-sizing: border-box;
+  overflow: hidden;
+  background: var(--color-primary);
+  border: 2px solid var(--color-border);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px var(--color-shadow);
+}
+
+/* SVG: 패딩 영역 안쪽, 전체 채움 */
+.arch-svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.arch-line {
+  stroke: var(--color-border);
+  stroke-width: 1;
+  fill: none;
+}
+
+.arch-line-extra {
+  stroke: var(--color-border);
+  stroke-width: 1;
+  stroke-dasharray: 3 6;
+  opacity: 0.85;
+}
+
+/* 데이터 흐름: 선을 따라 끊임없이 반복되는 스트로크 (얇은 선) */
+.arch-line-flow {
+  stroke: var(--color-accent);
+  stroke-width: 1;
+  fill: none;
+  stroke-dasharray: 6 18;
+  animation: archFlowDash 1.8s linear infinite;
+  opacity: 0.95;
+  animation-fill-mode: none;
+}
+
+.arch-line-flow-vert {
+  stroke-dasharray: 4 14;
+  animation: archFlowDashVert 1.6s linear infinite;
+  animation-fill-mode: none;
+}
+
+@keyframes archFlowDash {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -24; }
+}
+
+@keyframes archFlowDashVert {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -18; }
+}
+
+/* 레이어: SVG 그리드(0 0 100 100)와 동일한 % 위치에 노드 고정 배치 */
+.arch-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.arch-layer .arch-node {
+  pointer-events: auto;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+/* 레이어 0: HTTPS — 상단 여유 있게 (50, 9) */
+.arch-layer-0 .arch-node {
+  left: 50%;
+  top: 9%;
+}
+
+/* 레이어 1: Nginx — (50, 22) */
+.arch-layer-1 .arch-node {
+  left: 50%;
+  top: 22%;
+}
+
+/* 레이어 2: Next.js (22, 32) | Gateway (78, 32) */
+.arch-layer-2 .arch-node:first-child {
+  left: 22%;
+  top: 32%;
+}
+.arch-layer-2 .arch-node:last-child {
+  left: 78%;
+  top: 32%;
+}
+
+/* 레이어 3: 6 services — 균등 간격 10, 26, 42, 58, 74, 90 (16% 간격) */
+.arch-layer-3 .arch-node:nth-child(1) { left: 10%; top: 50%; }
+.arch-layer-3 .arch-node:nth-child(2) { left: 26%; top: 50%; }
+.arch-layer-3 .arch-node:nth-child(3) { left: 42%; top: 50%; }
+.arch-layer-3 .arch-node:nth-child(4) { left: 58%; top: 50%; }
+.arch-layer-3 .arch-node:nth-child(5) { left: 74%; top: 50%; }
+.arch-layer-3 .arch-node:nth-child(6) { left: 90%; top: 50%; }
+
+/* 레이어 4: 6 data stores — 동일 균등 간격 */
+.arch-layer-4 .arch-node:nth-child(1) { left: 10%; top: 76%; }
+.arch-layer-4 .arch-node:nth-child(2) { left: 26%; top: 76%; }
+.arch-layer-4 .arch-node:nth-child(3) { left: 42%; top: 76%; }
+.arch-layer-4 .arch-node:nth-child(4) { left: 58%; top: 76%; }
+.arch-layer-4 .arch-node:nth-child(5) { left: 74%; top: 76%; }
+.arch-layer-4 .arch-node:nth-child(6) { left: 90%; top: 76%; }
+
+/* 노드 카드 — roadmap.sh 스타일 */
+.arch-node {
+  padding: 12px 16px;
+  background: var(--color-primary);
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.3s;
+  text-align: center;
+  min-width: 100px;
+  max-width: 160px;
+  box-shadow: 0 2px 8px var(--color-shadow);
+}
+
+.arch-node:hover {
+  border-color: var(--color-accent);
+  box-shadow: 0 2px 12px var(--color-shadow);
+  transform: translate(-50%, -50%) translateY(-0.5px);
+}
+
+.arch-node.is-selected {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(84, 110, 122, 0.25);
+}
+
+/* 데이터 도달 시 반짝이는(sparkle) 효과 — 끊임없이 반복 */
+.arch-node {
+  animation: archNodeSparkle 7s ease-in-out infinite;
+  position: relative;
+  overflow: visible;
+}
+
+.arch-node.is-selected {
+  animation: none;
+}
+
+.arch-node::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 14px;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: 0 0 12px 2px rgba(84, 110, 122, 0.5);
+  animation: archNodeSparkleRing 7s ease-in-out infinite;
+}
+
+.arch-node.is-selected::after {
+  animation: none;
+  opacity: 0;
+}
+
+/* 데이터 도달 “순간”에만 밝아졌다가 원복 */
+@keyframes archNodeSparkle {
+  0%, 100% {
+    box-shadow: 0 2px 8px var(--color-shadow);
+    filter: brightness(1);
+  }
+  4% {
+    box-shadow: 0 0 0 2px rgba(84, 110, 122, 0.3), 0 2px 10px var(--color-shadow);
+    filter: brightness(1.12);
+  }
+  7% {
+    box-shadow: 0 0 0 1px rgba(84, 110, 122, 0.18), 0 2px 9px var(--color-shadow);
+    filter: brightness(1.04);
+  }
+  12%, 100% {
+    box-shadow: 0 2px 8px var(--color-shadow);
+    filter: brightness(1);
+  }
+}
+
+@keyframes archNodeSparkleRing {
+  0%, 100% { opacity: 0; transform: scale(0.98); }
+  4% { opacity: 0; transform: scale(1); }
+  5% { opacity: 0.4; transform: scale(1.03); }
+  7%, 100% { opacity: 0; transform: scale(1); }
+}
+
+/* 각 노드마다 다른 delay로 “데이터가 순차 도달” 느낌 */
+.arch-layer-0 .arch-node,
+.arch-layer-0 .arch-node::after { animation-delay: 0s; }
+.arch-layer-1 .arch-node,
+.arch-layer-1 .arch-node::after { animation-delay: 0.5s; }
+.arch-layer-2 .arch-node:first-child,
+.arch-layer-2 .arch-node:first-child::after { animation-delay: 1s; }
+.arch-layer-2 .arch-node:last-child,
+.arch-layer-2 .arch-node:last-child::after { animation-delay: 1.4s; }
+.arch-layer-3 .arch-node:nth-child(1),
+.arch-layer-3 .arch-node:nth-child(1)::after { animation-delay: 1.9s; }
+.arch-layer-3 .arch-node:nth-child(2),
+.arch-layer-3 .arch-node:nth-child(2)::after { animation-delay: 2.3s; }
+.arch-layer-3 .arch-node:nth-child(3),
+.arch-layer-3 .arch-node:nth-child(3)::after { animation-delay: 2.7s; }
+.arch-layer-3 .arch-node:nth-child(4),
+.arch-layer-3 .arch-node:nth-child(4)::after { animation-delay: 3.1s; }
+.arch-layer-3 .arch-node:nth-child(5),
+.arch-layer-3 .arch-node:nth-child(5)::after { animation-delay: 3.5s; }
+.arch-layer-3 .arch-node:nth-child(6),
+.arch-layer-3 .arch-node:nth-child(6)::after { animation-delay: 3.9s; }
+.arch-layer-4 .arch-node:nth-child(1),
+.arch-layer-4 .arch-node:nth-child(1)::after { animation-delay: 4.3s; }
+.arch-layer-4 .arch-node:nth-child(2),
+.arch-layer-4 .arch-node:nth-child(2)::after { animation-delay: 4.7s; }
+.arch-layer-4 .arch-node:nth-child(3),
+.arch-layer-4 .arch-node:nth-child(3)::after { animation-delay: 5.1s; }
+.arch-layer-4 .arch-node:nth-child(4),
+.arch-layer-4 .arch-node:nth-child(4)::after { animation-delay: 5.5s; }
+.arch-layer-4 .arch-node:nth-child(5),
+.arch-layer-4 .arch-node:nth-child(5)::after { animation-delay: 5.9s; }
+.arch-layer-4 .arch-node:nth-child(6),
+.arch-layer-4 .arch-node:nth-child(6)::after { animation-delay: 6.3s; }
+
+/* 노드 내부 텍스트 */
+.arch-node__label {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-text-main);
+  margin-bottom: 4px;
+}
+
+.arch-node__sub {
+  font-size: 0.7rem;
+  color: var(--color-text-sub);
+  line-height: 1.3;
+}
+
+/* 레이어 0, 1: 넓은 노드 (박스 안에 맞춤) */
+.arch-layer-0 .arch-node,
+.arch-layer-1 .arch-node {
+  min-width: 120px;
+  max-width: min(420px, 92%);
+}
+
+.arch-layer-2 .arch-node {
+  min-width: 100px;
+  max-width: min(220px, 45%);
+}
+
+/* ----- 결과 영역 (전체 너비 유지) ----- */
+.structure-results {
+  width: 100%;
+  margin-top: 32px;
+  padding: 28px 0;
+  border-top: 2px solid var(--color-border);
+}
+
+.structure-results__title {
+  font-size: 1.4rem;
+  color: var(--color-text-main);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.structure-results__loading,
+.structure-results__empty {
+  color: var(--color-text-sub);
+  margin: 20px 0;
+}
+
+.structure-results__link {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.structure-results__link:hover {
+  text-decoration: none;
+}
+
+.structure-results__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.structure-results__more {
+  margin-top: 16px;
+  font-size: 0.95rem;
+}
+
+/* 태블릿 */
+@media (max-width: 900px) {
+  .structure-page {
+    padding: 24px 16px 60px;
+  }
+
+  .arch-page .arch-diagram {
+    min-height: 520px;
+    padding: 16px;
+  }
+
+  .arch-node {
+    min-width: 72px;
+    max-width: 120px;
+    padding: 8px 10px;
+  }
+
+  .arch-node__label {
+    font-size: 0.85rem;
+  }
+
+  .arch-node__sub {
+    font-size: 0.65rem;
+  }
+}
+
+/* 모바일: 구조도 박스 안쪽 + 터치 친화 크기 */
+@media (max-width: 600px) {
+  .structure-page {
+    padding: 16px 12px 48px;
+    max-width: 100%;
+  }
+
+  .structure-header {
+    margin-bottom: 24px;
+  }
+
+  .structure-title {
+    font-size: 1.5rem;
+  }
+
+  .structure-description {
+    font-size: 0.9rem;
+  }
+
+  .arch-page .arch-diagram {
+    min-height: 480px;
+    padding: 12px;
+    margin-bottom: 32px;
+  }
+
+  .arch-node {
+    min-width: 56px;
+    max-width: 82px;
+    padding: 6px 8px;
+    border-radius: 10px;
+  }
+
+  .arch-node__label {
+    font-size: 0.75rem;
+    margin-bottom: 2px;
+  }
+
+  .arch-node__sub {
+    font-size: 0.58rem;
+    line-height: 1.2;
+  }
+
+  .arch-layer-0 .arch-node,
+  .arch-layer-1 .arch-node {
+    min-width: 80px;
+    max-width: min(260px, 88%);
+    padding: 8px 10px;
+  }
+
+  .arch-layer-2 .arch-node {
+    min-width: 70px;
+    max-width: min(140px, 42%);
+  }
+
+  .structure-results__grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
